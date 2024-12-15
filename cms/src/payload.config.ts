@@ -12,6 +12,7 @@ import { en } from '@payloadcms/translations/languages/en'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
+import Articles from './collections/Articles'
 import Customers from './collections/Customers'
 import { Media } from './collections/Media'
 import Page from './collections/Page'
@@ -61,7 +62,7 @@ export default buildConfig({
     translations: customTranslations,
   },
   globals: [Header, Footer],
-  collections: [Page, Project, Customers, Testimonials, Media, Redirects, Users],
+  collections: [Page, Project, Articles, Customers, Testimonials, Media, Redirects, Users],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
