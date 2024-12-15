@@ -1,24 +1,24 @@
 import { Block } from 'payload'
 
-export const TestimonialsBlock: Block = {
-  slug: 'testimonials',
-  interfaceName: 'TestimonialsBlock',
+export const ProjectsListBlock: Block = {
+  slug: 'projects-list',
+  interfaceName: 'ProjectsListBlock',
   labels: {
     singular: {
-      de: 'Testimonials Block',
-      en: 'Testimonials Block',
+      de: 'Projekte Liste',
+      en: 'Projects List',
     },
     plural: {
-      de: 'Testimonials Blöcke',
-      en: 'Testimonials Blocks',
+      de: 'Projekte Liste',
+      en: 'Projects List',
     },
   },
   fields: [
     {
       // This virtual field makes the data directly available to the frontend when a document with the block is requested
-      name: 'testimonials',
+      name: 'projects',
       type: 'relationship',
-      relationTo: 'testimonials',
+      relationTo: 'projects',
       hasMany: true,
       required: true,
       virtual: true,
@@ -28,8 +28,8 @@ export const TestimonialsBlock: Block = {
       hooks: {
         afterRead: [
           async ({ req: { payload } }) => {
-            const testimonials = await payload.find({
-              collection: 'testimonials',
+            const projects = await payload.find({
+              collection: 'projects',
               limit: 100,
               select: {
                 // only select the id
@@ -38,11 +38,13 @@ export const TestimonialsBlock: Block = {
                 _status: {
                   equals: 'published',
                 },
+                featured: {
+                  not_equals: true,
+                },
               },
-              draft: false,
             })
 
-            return testimonials.docs.map((testimonial) => testimonial.id)
+            return projects.docs.map((project) => project.id)
           },
         ],
       },

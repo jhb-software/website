@@ -1,11 +1,13 @@
-import { CollectionConfig } from 'payload'
+import { CustomerLogosBlock } from '@/blocks/CustomerLogosBlock'
+import { FeaturedProjectsListBlock } from '@/blocks/FeaturedProjectsList'
+import { ProjectsListBlock } from '@/blocks/ProjectsList'
 import { RichTextBlock } from '@/blocks/RichTextBlock'
 import { ServicesBlock } from '@/blocks/ServicesBlock'
 import { TestimonialsBlock } from '@/blocks/TestimonialsBlock'
-import { CustomerLogosBlock } from '@/blocks/CustomerLogosBlock'
 import { linkFields } from '@/fields/link'
 import { CollectionGroups } from '@/shared/CollectionGroups'
 import { createPageCollectionConfig } from '@jhb.software/payload-pages-plugin'
+import { CollectionConfig } from 'payload'
 
 const Page: CollectionConfig = createPageCollectionConfig({
   slug: 'pages',
@@ -124,7 +126,14 @@ const Page: CollectionConfig = createPageCollectionConfig({
         {
           name: 'blocks',
           type: 'blocks',
-          blocks: [RichTextBlock, ServicesBlock, TestimonialsBlock, CustomerLogosBlock],
+          blocks: [
+            RichTextBlock,
+            ServicesBlock,
+            TestimonialsBlock,
+            CustomerLogosBlock,
+            FeaturedProjectsListBlock,
+            ProjectsListBlock,
+          ],
           label: {
             de: 'Blöcke',
             en: 'Blocks',

@@ -15,6 +15,7 @@ export const CustomerLogosBlock: Block = {
   },
   fields: [
     {
+      // This virtual field makes the data directly available to the frontend when a document with the block is requested
       name: 'customers',
       type: 'relationship',
       relationTo: 'customers',

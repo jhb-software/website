@@ -113,7 +113,16 @@ export interface Page {
     | {
         title: string;
         subTitle?: string | null;
-        blocks?: (RichTextBlock | ServicesBlock | TestimonialsBlock | CustomerLogosBlock)[] | null;
+        blocks?:
+          | (
+              | RichTextBlock
+              | ServicesBlock
+              | TestimonialsBlock
+              | CustomerLogosBlock
+              | FeaturedProjectsListBlock
+              | ProjectsListBlock
+            )[]
+          | null;
         id?: string | null;
       }[]
     | null;
@@ -284,6 +293,26 @@ export interface CustomerLogosBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'customer-logos';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedProjectsListBlock".
+ */
+export interface FeaturedProjectsListBlock {
+  projects: (number | Project)[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featured-projects-list';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProjectsListBlock".
+ */
+export interface ProjectsListBlock {
+  projects: (number | Project)[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'projects-list';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -465,6 +494,20 @@ export interface PagesSelect<T extends boolean = true> {
                 | T
                 | {
                     customers?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              'featured-projects-list'?:
+                | T
+                | {
+                    projects?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              'projects-list'?:
+                | T
+                | {
+                    projects?: T;
                     id?: T;
                     blockName?: T;
                   };
