@@ -11,8 +11,8 @@ const { pathname } = Astro.url
 
 // handle url paths that are not files
 if (!pathname.includes('.')) {
-  // redirect / to /[lang]
-  if (pathname === '/') {
+  // redirect / to /[lang] or /preview to /preview/[lang]
+  if (pathname === '/' || pathname === '/preview') {
     const userLang = headers.get('accept-language')?.slice(0, 2) as Locale | undefined
     const langPath = userLang && locales.includes(userLang) ? `/${userLang}` : `/${defaultLocale}`
 

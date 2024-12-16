@@ -1,4 +1,5 @@
 import { CMS_URL } from 'astro:env/server'
+import type { PageProps } from 'cms/src/endpoints/pageProps'
 import type { StaticPageProps } from 'cms/src/endpoints/staticPages'
 
 export type StaticPagePropsFrontend = {
@@ -6,10 +7,7 @@ export type StaticPagePropsFrontend = {
     lang: string
     path: string
   }
-  props: {
-    id: number
-    collection: string
-  }
+  props: PageProps
 }
 
 export async function getStaticPaths(): Promise<StaticPagePropsFrontend[]> {
