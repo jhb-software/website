@@ -1,5 +1,5 @@
 import { useTranslation } from '@payloadcms/ui'
-import { CustomTranslationsObject, CustomTranslationsKeys } from './customTranslations'
+import { CustomTranslationsKeys, CustomTranslationsObject } from './customTranslations'
 
 export const useCustomTranslations = () =>
   useTranslation<CustomTranslationsObject, CustomTranslationsKeys>()

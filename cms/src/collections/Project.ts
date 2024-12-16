@@ -1,6 +1,6 @@
-import { CollectionConfig } from 'payload'
 import { CollectionGroups } from '@/shared/CollectionGroups'
 import { createPageCollectionConfig } from '@jhb.software/payload-pages-plugin'
+import { CollectionConfig } from 'payload'
 
 const Projects: CollectionConfig = createPageCollectionConfig({
   slug: 'projects',

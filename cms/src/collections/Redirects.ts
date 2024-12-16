@@ -1,5 +1,5 @@
-import { createRedirectsCollectionConfig } from '@jhb.software/payload-pages-plugin'
 import { CollectionGroups } from '@/shared/CollectionGroups'
+import { createRedirectsCollectionConfig } from '@jhb.software/payload-pages-plugin'
 
 export const Redirects = createRedirectsCollectionConfig({
   overrides: {

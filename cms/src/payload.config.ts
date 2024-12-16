@@ -33,13 +33,18 @@ const siteName = 'JHB Software'
 
 export const collections: CollectionConfig[] = [
   // Pages Collections
-  Page, Project, Articles, Customers,
+  Page,
+  Project,
+  Articles,
+  Customers,
 
   // Data Collections
-  Testimonials, Media,
+  Testimonials,
+  Media,
 
   // System Collections
-  Redirects, Users
+  Redirects,
+  Users,
 ]
 
 export const pageCollections: CollectionConfig[] = collections.filter(
@@ -48,9 +53,7 @@ export const pageCollections: CollectionConfig[] = collections.filter(
 export const pageCollectionsSlugs: CollectionSlug[] = pageCollections.map(
   (collection) => collection.slug as CollectionSlug,
 )
-export type PageCollectionSlugs = typeof pageCollectionsSlugs[number]
-
-
+export type PageCollectionSlugs = (typeof pageCollectionsSlugs)[number]
 
 export default buildConfig({
   localization: {
@@ -94,7 +97,7 @@ export default buildConfig({
     pool: {
       connectionString: process.env.POSTGRES_URL || '',
     },
-  }), 
+  }),
   endpoints: [
     {
       path: '/static-paths',

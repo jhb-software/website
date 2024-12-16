@@ -1,8 +1,6 @@
-
 import type { Config } from '@/payload-types'
 import { PageCollectionSlugs, pageCollectionsSlugs } from '@/payload.config'
 import { PayloadRequest } from 'payload'
-
 
 type StaticPageProps = {
   id: number
