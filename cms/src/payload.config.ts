@@ -20,6 +20,7 @@ import Project from './collections/Project'
 import { Redirects } from './collections/Redirects'
 import Testimonials from './collections/Testimonials'
 import { Users } from './collections/Users'
+import { getSitemap } from './endpoints/sitemap'
 import { getStatisPagesProps } from './endpoints/staticPages'
 import Footer from './globals/footer'
 import Header from './globals/header'
@@ -47,6 +48,8 @@ export const collections: CollectionConfig[] = [
   Users,
 ]
 
+export const locales = ['de', 'en']
+
 export const pageCollections: CollectionConfig[] = collections.filter(
   (collection) => typeof (collection as any).page === 'object',
 )
@@ -57,16 +60,13 @@ export type PageCollectionSlugs = (typeof pageCollectionsSlugs)[number]
 
 export default buildConfig({
   localization: {
-    locales: [
-      {
-        code: 'de',
-        label: 'Deutsch',
-      },
-      {
-        code: 'en',
-        label: 'Englisch',
-      },
-    ],
+    locales: locales.map((locale) => ({
+      code: locale,
+      label: {
+        de: 'Deutsch',
+        en: 'English',
+      }[locale]!,
+    })),
     defaultLocale: 'de',
   },
   admin: {
@@ -103,6 +103,11 @@ export default buildConfig({
       path: '/static-paths',
       method: 'get',
       handler: getStatisPagesProps,
+    },
+    {
+      path: '/sitemap',
+      method: 'get',
+      handler: getSitemap,
     },
   ],
   plugins: [
