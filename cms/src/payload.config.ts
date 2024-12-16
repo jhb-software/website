@@ -20,6 +20,7 @@ import Project from './collections/Project'
 import { Redirects } from './collections/Redirects'
 import Testimonials from './collections/Testimonials'
 import { Users } from './collections/Users'
+import { getPagePropsByPath } from './endpoints/pageProps'
 import { getSitemap } from './endpoints/sitemap'
 import { getStatisPagesProps } from './endpoints/staticPages'
 import Footer from './globals/footer'
@@ -108,6 +109,11 @@ export default buildConfig({
       path: '/sitemap',
       method: 'get',
       handler: getSitemap,
+    },
+    {
+      path: '/page-props',
+      method: 'get',
+      handler: getPagePropsByPath,
     },
   ],
   plugins: [
