@@ -4,10 +4,10 @@
   "printWidth": 100,
   "semi": false,
   "plugins": ["prettier-plugin-astro", "prettier-plugin-organize-imports", "prettier-plugin-tailwindcss"],
-  "tailwindConfig": "./web/tailwind.config.mjs",
+  "tailwindConfig": "./tailwind.config.mjs",
   "overrides": [
     {
-      "files": ["**/importMap.js", "**/payload-types.ts", "**/**.yaml"],
+      "files": ["**/**.yaml"],
       "options": {
         "requirePragma": true
       }

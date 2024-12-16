@@ -12,7 +12,8 @@
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
-    "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
+    "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@jhb.software/payload-cloudinary-plugin": "^0.1.2",
@@ -37,7 +38,9 @@
     "@types/react-dom": "19.0.2",
     "eslint": "^9.17.0",
     "eslint-config-next": "15.1.0",
-    "typescript": "5.7.2"
+    "typescript": "5.7.2",
+    "prettier": "^3.4.2",
+    "prettier-plugin-organize-imports": "^4.1.0"
   },
   "engines": {
     "node": "^18.20.2 || >=20.9.0"
