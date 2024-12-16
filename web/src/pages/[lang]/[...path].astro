@@ -1,6 +1,8 @@
 ---
 import { getPageData } from '../../cms/getPageData'
 import { getStaticPaths as getStaticPathsCms } from '../../cms/getStaticPaths'
+import { locales } from '../../cms/locales'
+import type { Locale } from '../../cms/types'
 import Layout from '../../layouts/Layout.astro'
 
 export async function getStaticPaths() {
@@ -10,7 +12,12 @@ export async function getStaticPaths() {
 const props = Astro.props
 const { lang } = Astro.params
 
-const pageData = await getPageData(props)
+if (!locales.includes(lang!)) {
+  return Astro.redirect(Astro.url.pathname, 404)
+}
+const locale = lang as Locale
+
+const pageData = await getPageData(props, locale)
 ---
 
 <Layout {...pageData} lang={lang}>

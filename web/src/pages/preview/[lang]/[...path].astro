@@ -2,6 +2,7 @@
 import { getPageData } from '../../../cms/getPageData'
 import { getPageProps } from '../../../cms/getPageProps'
 import { locales } from '../../../cms/locales'
+import type { Locale } from '../../../cms/types'
 import LivePreviewRefreshPageScript from '../../../components/LivePreviewRefreshPageScript.astro'
 import Layout from '../../../layouts/Layout.astro'
 
@@ -13,11 +14,12 @@ const { lang, path } = Astro.params
 if (!locales.includes(lang!)) {
   return Astro.redirect(Astro.url.pathname, 404)
 }
+const locale = lang as Locale
 
-const fullPath = `/${lang}${path ? '/' : ''}${path ?? ''}`
+const fullPath = `/${locale}${path ? '/' : ''}${path ?? ''}`
 
 const pageProps = await getPageProps(fullPath)
-const pageData = await getPageData(pageProps)
+const pageData = await getPageData(pageProps, locale, { preview: true })
 ---
 
 <Layout {...pageData} lang={lang!}>
