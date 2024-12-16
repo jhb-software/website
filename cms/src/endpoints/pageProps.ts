@@ -69,7 +69,7 @@ export async function getPagePropsByPath(req: PayloadRequest) {
       },
     })
 
-    for (const doc of data.docs as unknown as { path: string; id: number }[]) {
+    for (const doc of data.docs as unknown as { path: string; id: string }[]) {
       if (doc.path === path) {
         const pageProps: PageProps = {
           id: doc.id,

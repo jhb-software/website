@@ -49,7 +49,7 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: number;
+    defaultIDType: string;
   };
   globals: {
     header: Header;
@@ -91,9 +91,9 @@ export interface UserAuthOperations {
  * via the `definition` "pages".
  */
 export interface Page {
-  id: number;
+  id: string;
   slug: string;
-  parent?: (number | null) | Page;
+  parent?: (string | null) | Page;
   path: string;
   breadcrumbs: Breadcrumbs;
   title: string;
@@ -104,7 +104,7 @@ export interface Page {
       | {
           page: {
             relationTo: 'pages';
-            value: number | Page;
+            value: string | Page;
           };
           label: string;
           id?: string | null;
@@ -166,7 +166,7 @@ export interface ServicesBlock {
     | {
         title: string;
         description: string;
-        page: number | Page;
+        page: string | Page;
         id?: string | null;
       }[]
     | null;
@@ -179,7 +179,7 @@ export interface ServicesBlock {
  * via the `definition` "TestimonialsBlock".
  */
 export interface TestimonialsBlock {
-  testimonials: (number | Testimonial)[];
+  testimonials: (string | Testimonial)[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'testimonials';
@@ -189,12 +189,12 @@ export interface TestimonialsBlock {
  * via the `definition` "testimonials".
  */
 export interface Testimonial {
-  id: number;
-  project: number | Project;
+  id: string;
+  project: string | Project;
   title: string;
   author: {
     name: string;
-    image: number | Media;
+    image: string | Media;
   };
   text: string;
   updatedAt: string;
@@ -206,19 +206,19 @@ export interface Testimonial {
  * via the `definition` "projects".
  */
 export interface Project {
-  id: number;
+  id: string;
   slug: string;
-  parent: number | Page;
+  parent: string | Page;
   path: string;
   breadcrumbs: Breadcrumbs;
-  customer: number | Customer;
+  customer: string | Customer;
   startDate: string;
   endDate?: string | null;
   featured: boolean;
   title: string;
   excerpt: string;
   tags: ('web-app' | 'website' | 'app' | 'seo')[];
-  image: number | Media;
+  image: string | Media;
   body: {
     root: {
       type: string;
@@ -244,11 +244,11 @@ export interface Project {
  * via the `definition` "customers".
  */
 export interface Customer {
-  id: number;
+  id: string;
   websiteUrl: string;
   name: string;
   excerpt: string;
-  logo: number | Media;
+  logo: string | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -257,7 +257,7 @@ export interface Customer {
  * via the `definition` "media".
  */
 export interface Media {
-  id: number;
+  id: string;
   cloudinaryPublicId?: string | null;
   cloudinaryURL?: string | null;
   alt: string;
@@ -284,14 +284,14 @@ export interface SeoMetadata {
   }[];
   title?: string | null;
   description?: string | null;
-  image?: (number | null) | Media;
+  image?: (string | null) | Media;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CustomerLogosBlock".
  */
 export interface CustomerLogosBlock {
-  customers: (number | Customer)[];
+  customers: (string | Customer)[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'customer-logos';
@@ -301,7 +301,7 @@ export interface CustomerLogosBlock {
  * via the `definition` "FeaturedProjectsListBlock".
  */
 export interface FeaturedProjectsListBlock {
-  projects: (number | Project)[];
+  projects: (string | Project)[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'featured-projects-list';
@@ -311,7 +311,7 @@ export interface FeaturedProjectsListBlock {
  * via the `definition` "ProjectsListBlock".
  */
 export interface ProjectsListBlock {
-  projects: (number | Project)[];
+  projects: (string | Project)[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'projects-list';
@@ -321,9 +321,9 @@ export interface ProjectsListBlock {
  * via the `definition` "articles".
  */
 export interface Article {
-  id: number;
+  id: string;
   slug: string;
-  parent: number | Page;
+  parent: string | Page;
   path: string;
   breadcrumbs: Breadcrumbs;
   title: string;
@@ -352,7 +352,7 @@ export interface Article {
  * via the `definition` "redirects".
  */
 export interface Redirect {
-  id: number;
+  id: string;
   sourcePath: string;
   destinationPath: string;
   type: 'permanent' | 'temporary';
@@ -365,7 +365,7 @@ export interface Redirect {
  * via the `definition` "users".
  */
 export interface User {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   updatedAt: string;
@@ -384,44 +384,44 @@ export interface User {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: number;
+  id: string;
   document?:
     | ({
         relationTo: 'pages';
-        value: number | Page;
+        value: string | Page;
       } | null)
     | ({
         relationTo: 'projects';
-        value: number | Project;
+        value: string | Project;
       } | null)
     | ({
         relationTo: 'articles';
-        value: number | Article;
+        value: string | Article;
       } | null)
     | ({
         relationTo: 'customers';
-        value: number | Customer;
+        value: string | Customer;
       } | null)
     | ({
         relationTo: 'testimonials';
-        value: number | Testimonial;
+        value: string | Testimonial;
       } | null)
     | ({
         relationTo: 'media';
-        value: number | Media;
+        value: string | Media;
       } | null)
     | ({
         relationTo: 'redirects';
-        value: number | Redirect;
+        value: string | Redirect;
       } | null)
     | ({
         relationTo: 'users';
-        value: number | User;
+        value: string | User;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -431,10 +431,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: number;
+  id: string;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   key?: string | null;
   value?:
@@ -454,7 +454,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: number;
+  id: string;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -748,12 +748,12 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  * via the `definition` "header".
  */
 export interface Header {
-  id: number;
+  id: string;
   links?:
     | {
         page: {
           relationTo: 'pages';
-          value: number | Page;
+          value: string | Page;
         };
         label: string;
         id?: string | null;
@@ -767,12 +767,12 @@ export interface Header {
  * via the `definition` "footer".
  */
 export interface Footer {
-  id: number;
+  id: string;
   links?:
     | {
         page: {
           relationTo: 'pages';
-          value: number | Page;
+          value: string | Page;
         };
         label: string;
         id?: string | null;

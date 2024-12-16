@@ -46,7 +46,7 @@ export async function getSitemap(req: PayloadRequest) {
     })
 
     type Doc = {
-      id: number
+      id: string
       path: string
       updatedAt: string
     }

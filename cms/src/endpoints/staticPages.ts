@@ -3,7 +3,7 @@ import { PageCollectionSlugs, pageCollectionsSlugs } from '@/payload.config'
 import { PayloadRequest } from 'payload'
 
 export type StaticPageProps = {
-  id: number
+  id: string
   paths: Partial<Record<Config['locale'], string>>
   collection: string
 }
@@ -33,7 +33,7 @@ export async function getStatisPagesProps(req: PayloadRequest) {
     })
 
     type Doc = {
-      id: number
+      id: string
       path: Partial<Record<Config['locale'], string>>
       collection: PageCollectionSlugs
     }
