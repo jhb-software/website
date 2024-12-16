@@ -81,6 +81,10 @@ export default buildConfig({
     },
     avatar: 'default',
     dateFormat: "dd. MMM yyyy HH:mm 'Uhr'",
+    livePreview: {
+      collections: pageCollectionsSlugs,
+      url: ({ data }) => getPageUrl({ path: data.path, preview: true })!,
+    },
   },
   i18n: {
     fallbackLanguage: 'de',
