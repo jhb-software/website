@@ -3,7 +3,7 @@ import { getPageData } from '../../cms/getPageData'
 import { getStaticPaths as getStaticPathsCms } from '../../cms/getStaticPaths'
 import { locales } from '../../cms/locales'
 import type { Locale } from '../../cms/types'
-import Layout from '../../layouts/Layout.astro'
+import Layout from '../../layout/Layout.astro'
 
 export async function getStaticPaths() {
   return await getStaticPathsCms()
