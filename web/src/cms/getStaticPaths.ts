@@ -1,12 +1,7 @@
 import { CMS_URL } from 'astro:env/server'
+import type { StaticPageProps } from 'cms/src/endpoints/staticPages'
 
-type StaticPagePropsCMS = {
-  id: number
-  paths: Partial<Record<string, string>>
-  collection: string
-}
-
-export type StaticPageProps = {
+export type StaticPagePropsFrontend = {
   params: {
     lang: string
     path: string
@@ -17,13 +12,17 @@ export type StaticPageProps = {
   }
 }
 
-export async function getStaticPaths(): Promise<StaticPageProps[]> {
+export async function getStaticPaths(): Promise<StaticPagePropsFrontend[]> {
   const response = await fetch(`${CMS_URL}/api/static-paths`)
   const data = await response.json()
 
-  const paths: StaticPageProps[] = []
+  if (!response.ok) {
+    throw new Error('Failed to fetch static paths. ' + JSON.stringify({ data }))
+  }
 
-  for (const path of data as StaticPagePropsCMS[]) {
+  const paths: StaticPagePropsFrontend[] = []
+
+  for (const path of data as StaticPageProps[]) {
     for (const lang of Object.keys(path.paths)) {
       paths.push({
         params: {

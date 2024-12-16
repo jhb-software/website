@@ -1,6 +1,6 @@
 import { CMS_URL } from 'astro:env/server'
 import type { SeoMetadata } from 'cms/src/payload-types'
-import type { StaticPageProps } from './getStaticPaths'
+import type { StaticPagePropsFrontend } from './getStaticPaths'
 
 export type PageMetaData = {
   meta: SeoMetadata
@@ -11,7 +11,7 @@ export type PageData = PageMetaData & {
 }
 
 // TODO: use the payload SDK to get the page data
-export async function getPageData(props: StaticPageProps['props']): Promise<PageData> {
+export async function getPageData(props: StaticPagePropsFrontend['props']): Promise<PageData> {
   const response = await fetch(`${CMS_URL}/api/${props.collection}/${props.id}`)
   const data = await response.json()
 

@@ -2,7 +2,7 @@ import type { Config } from '@/payload-types'
 import { PageCollectionSlugs, pageCollectionsSlugs } from '@/payload.config'
 import { PayloadRequest } from 'payload'
 
-type StaticPageProps = {
+export type StaticPageProps = {
   id: number
   paths: Partial<Record<Config['locale'], string>>
   collection: string

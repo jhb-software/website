@@ -2,7 +2,7 @@ import type { Config } from '@/payload-types'
 import { locales, pageCollectionsSlugs } from '@/payload.config'
 import { PayloadRequest } from 'payload'
 
-type SitemapEntry = {
+export type SitemapEntry = {
   path: string
   updatedAt: string
 }
