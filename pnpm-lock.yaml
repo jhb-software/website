@@ -96,9 +96,18 @@ importers:
       cms:
         specifier: workspace:*
         version: link:../cms
+      payload:
+        specifier: ^3.7.0
+        version: 3.7.0(bufferutil@4.0.8)(graphql@16.10.0)(monaco-editor@0.52.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.2)(utf-8-validate@6.0.5)
+      qs-esm:
+        specifier: ^7.0.2
+        version: 7.0.2
       tailwindcss:
         specifier: ^3.4.16
         version: 3.4.16
+      ts-essentials:
+        specifier: ^10.0.3
+        version: 10.0.3(typescript@5.7.2)
     devDependencies:
       prettier:
         specifier: ^3.4.2

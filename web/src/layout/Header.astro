@@ -1,0 +1,9 @@
+---
+import { payloadSDK } from '../cms/sdk'
+
+const global = await payloadSDK.findGlobal({
+  slug: 'header',
+})
+---
+
+{JSON.stringify(global)}

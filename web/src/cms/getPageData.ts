@@ -1,6 +1,6 @@
-import { CMS_URL } from 'astro:env/server'
 import type { PageProps } from 'cms/src/endpoints/pageProps'
 import type { SeoMetadata } from 'cms/src/payload-types'
+import { payloadSDK } from './sdk'
 import type { Locale } from './types'
 
 export type PageMetaData = {
@@ -11,34 +11,28 @@ export type PageData = PageMetaData & {
   [key: string]: unknown
 }
 
-// TODO: use the payload SDK to get the page data
 export async function getPageData(
   props: PageProps,
   locale: Locale,
   options?: { preview?: boolean },
 ): Promise<PageData> {
-  const queryOptions = new URLSearchParams()
+  const document = await payloadSDK.find({
+    collection: props.collection as any,
+    locale,
+    draft: options?.preview ? true : false,
+    where: {
+      id: {
+        equals: props.id,
+      },
+      _status: options?.preview ? { in: ['draft', 'published'] } : { equals: 'published' },
+    },
+    limit: 1,
+    //pagination: false,
+  })
 
-  queryOptions.set('locale', locale)
-  queryOptions.set('limit', '1')
-  queryOptions.set('pagination', 'false')
-
-  if (options?.preview) {
-    queryOptions.set('draft', 'true')
-    queryOptions.set('where[_status][in]', 'published,draft')
-  } else {
-    queryOptions.set('draft', 'false')
-    queryOptions.set('where[_status][equals]', 'published')
+  if (document.totalDocs === 0) {
+    throw new Error('Page for props ' + JSON.stringify(props) + ' not found')
   }
 
-  const response = await fetch(
-    `${CMS_URL}/api/${props.collection}/${props.id}?${queryOptions.toString()}`,
-  )
-  const data = await response.json()
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch page data. ' + JSON.stringify({ props, data }))
-  }
-
-  return data
+  return document.docs.at(0) as unknown as PageData
 }
