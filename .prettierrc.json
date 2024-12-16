@@ -1,0 +1,22 @@
+{
+  "singleQuote": true,
+  "trailingComma": "all",
+  "printWidth": 100,
+  "semi": false,
+  "plugins": ["prettier-plugin-astro", "prettier-plugin-organize-imports", "prettier-plugin-tailwindcss"],
+  "tailwindConfig": "./web/tailwind.config.mjs",
+  "overrides": [
+    {
+      "files": ["**/importMap.js", "**/payload-types.ts", "**/**.yaml"],
+      "options": {
+        "requirePragma": true
+      }
+    },
+    {
+      "files": "*.astro",
+      "options": {
+        "parser": "astro"
+      }
+    }
+  ]
+}
