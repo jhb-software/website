@@ -1,0 +1,17 @@
+---
+import { getStaticPaths as getStaticPathsCms } from '../../cms/getStaticPaths'
+import Layout from '../../layouts/Layout.astro'
+
+export async function getStaticPaths() {
+  return await getStaticPathsCms()
+}
+
+const props = Astro.props
+---
+
+<Layout>
+  <h1>Hello World</h1>
+  <p>
+    {JSON.stringify(props)}
+  </p>
+</Layout>
