@@ -1,0 +1,27 @@
+---
+import type { SeoMetadata } from 'cms/src/payload-types'
+
+type Props = SeoMetadata
+
+const { title, description, alternatePaths } = Astro.props
+
+const { origin: domain, pathname } = Astro.url
+
+// TODO: add OG metadata
+// TODO: add meta image
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+
+<link rel="canonical" href={`${domain}${pathname}`} />
+
+{
+  alternatePaths.map((alternatePath) => (
+    <link
+      rel="alternate"
+      href={`${domain}${alternatePath.path}`}
+      hreflang={alternatePath.hreflang}
+    />
+  ))
+}

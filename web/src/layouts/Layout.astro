@@ -1,15 +1,23 @@
 ---
+import type { PageMetaData } from '../cms/getPageData'
 import '../styles.css'
+import SEOMetadata from './SEOMetadata.astro'
+
+type Props = PageMetaData & {
+  lang: string
+}
+
+const { meta, lang } = Astro.props
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <title>JHB Software</title>
+
+    <SEOMetadata {...meta} />
   </head>
   <body class="prose">
     <slot />

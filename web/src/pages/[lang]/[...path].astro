@@ -1,4 +1,5 @@
 ---
+import { getPageData } from '../../cms/getPageData'
 import { getStaticPaths as getStaticPathsCms } from '../../cms/getStaticPaths'
 import Layout from '../../layouts/Layout.astro'
 
@@ -7,11 +8,13 @@ export async function getStaticPaths() {
 }
 
 const props = Astro.props
+const { lang } = Astro.params
+
+const pageData = await getPageData(props)
 ---
 
-<Layout>
+<Layout {...pageData} lang={lang}>
   <h1>Hello World</h1>
-  <p>
-    {JSON.stringify(props)}
-  </p>
+
+  {JSON.stringify(pageData, null, 2)}
 </Layout>

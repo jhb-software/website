@@ -6,7 +6,7 @@ type StaticPagePropsCMS = {
   collection: string
 }
 
-type StaticPageProps = {
+export type StaticPageProps = {
   params: {
     lang: string
     path: string
