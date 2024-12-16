@@ -22,7 +22,9 @@ const Articles: CollectionConfig = createPageCollectionConfig({
     group: CollectionGroups.PagesCollections,
   },
   versions: {
-    drafts: true,
+    drafts: {
+      autosave: true,
+    },
   },
   page: {
     parentCollection: 'pages',

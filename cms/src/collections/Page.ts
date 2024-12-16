@@ -29,7 +29,9 @@ const Page: CollectionConfig = createPageCollectionConfig({
     group: CollectionGroups.PagesCollections,
   },
   versions: {
-    drafts: true,
+    drafts: {
+      autosave: true,
+    },
   },
   access: {
     read: anyone,

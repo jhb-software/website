@@ -1,5 +1,5 @@
-import { authenticated } from '@/shared/access/authenticated'
 import { anyone } from '@/shared/access/anyone'
+import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
 import { createPageCollectionConfig } from '@jhb.software/payload-pages-plugin'
 import { CollectionConfig } from 'payload'
@@ -22,7 +22,9 @@ const Projects: CollectionConfig = createPageCollectionConfig({
     group: CollectionGroups.PagesCollections,
   },
   versions: {
-    drafts: true,
+    drafts: {
+      autosave: true,
+    },
   },
   page: {
     parentCollection: 'pages',
