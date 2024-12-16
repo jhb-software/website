@@ -14,6 +14,7 @@ export type OperationArgs = {
   select?: SelectType
   sort?: Sort
   where?: Where
+  pagination?: boolean
 }
 
 export const buildSearchParams = (args: OperationArgs): string => {
@@ -62,6 +63,10 @@ export const buildSearchParams = (args: OperationArgs): string => {
 
   if (args.joins) {
     search.joins = args.joins
+  }
+
+  if (args.pagination === false) {
+    search.pagination = false
   }
 
   if (Object.keys(search).length > 0) {

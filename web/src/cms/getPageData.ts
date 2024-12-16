@@ -16,7 +16,7 @@ export async function getPageData(
   locale: Locale,
   options?: { preview?: boolean },
 ): Promise<PageData> {
-  const document = await payloadSDK.find({
+  const result = await payloadSDK.find({
     collection: props.collection as any,
     locale,
     draft: options?.preview ? true : false,
@@ -27,12 +27,12 @@ export async function getPageData(
       _status: options?.preview ? { in: ['draft', 'published'] } : { equals: 'published' },
     },
     limit: 1,
-    //pagination: false,
+    pagination: false,
   })
 
-  if (document.totalDocs === 0) {
+  if (result.totalDocs === 0) {
     throw new Error('Page for props ' + JSON.stringify(props) + ' not found')
   }
 
-  return document.docs.at(0) as unknown as PageData
+  return result.docs.at(0) as unknown as PageData
 }

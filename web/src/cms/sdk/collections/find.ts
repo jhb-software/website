@@ -27,6 +27,7 @@ export type FindOptions<
   select?: TSelect
   sort?: Sort
   where?: Where
+  pagination?: boolean
 }
 
 export async function find<
