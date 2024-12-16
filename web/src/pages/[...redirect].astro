@@ -1,0 +1,25 @@
+---
+import { defaultLocale, locales } from '../cms/locales'
+import type { Locale } from '../cms/types'
+
+export const prerender = false
+
+const { headers } = Astro.request
+const { pathname } = Astro.url
+
+// This file is called on routes that are not matched the predefined routes (e.g. /[lang]/[...path])
+
+// handle url paths that are not files
+if (!pathname.includes('.')) {
+  // redirect / to /[lang]
+  if (pathname === '/') {
+    const userLang = headers.get('accept-language')?.slice(0, 2) as Locale | undefined
+    const langPath = userLang && locales.includes(userLang) ? `/${userLang}` : `/${defaultLocale}`
+
+    return Astro.redirect(`${pathname === '/preview' ? '/preview' : ''}${langPath}`, 302)
+  }
+}
+
+// handle unknown paths
+return Astro.redirect(pathname, 404)
+---

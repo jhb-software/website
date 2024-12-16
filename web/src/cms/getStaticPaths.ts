@@ -27,7 +27,7 @@ export async function getStaticPaths(): Promise<StaticPagePropsFrontend[]> {
       paths.push({
         params: {
           lang: lang,
-          path: path.paths[lang]?.replace(`/${lang}/`, '/') || '',
+          path: path.paths[lang]?.replace(`/${lang}`, '') || '',
         },
         props: {
           id: path.id,
