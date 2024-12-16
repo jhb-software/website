@@ -1,3 +1,5 @@
+import { authenticated } from '@/shared/access/authenticated'
+import { anyone } from '@/shared/access/anyone'
 import { CollectionGroups } from '@/shared/CollectionGroups'
 import { createPageCollectionConfig } from '@jhb.software/payload-pages-plugin'
 import { CollectionConfig } from 'payload'
@@ -26,6 +28,12 @@ const Projects: CollectionConfig = createPageCollectionConfig({
     parentCollection: 'pages',
     parentField: 'parent',
     sharedParentDocument: true,
+  },
+  access: {
+    read: anyone,
+    update: authenticated,
+    delete: authenticated,
+    create: authenticated,
   },
   fields: [
     // Sidebar fields:

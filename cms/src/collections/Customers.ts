@@ -1,3 +1,5 @@
+import { anyone } from '@/shared/access/anyone'
+import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
 import { isValidURL } from '@/utils/isValidURL'
 import { CollectionConfig } from 'payload'
@@ -18,6 +20,12 @@ const Customers: CollectionConfig = {
     useAsTitle: 'name',
     defaultColumns: ['name', 'updatedAt', 'status'],
     group: CollectionGroups.ContentCollections,
+  },
+  access: {
+    read: anyone,
+    update: authenticated,
+    delete: authenticated,
+    create: authenticated,
   },
   fields: [
     // Sidebar fields:

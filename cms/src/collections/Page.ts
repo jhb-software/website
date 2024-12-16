@@ -5,6 +5,8 @@ import { RichTextBlock } from '@/blocks/RichTextBlock'
 import { ServicesBlock } from '@/blocks/ServicesBlock'
 import { TestimonialsBlock } from '@/blocks/TestimonialsBlock'
 import { linkFields } from '@/fields/link'
+import { anyone } from '@/shared/access/anyone'
+import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
 import { createPageCollectionConfig } from '@jhb.software/payload-pages-plugin'
 import { CollectionConfig } from 'payload'
@@ -28,6 +30,12 @@ const Page: CollectionConfig = createPageCollectionConfig({
   },
   versions: {
     drafts: true,
+  },
+  access: {
+    read: anyone,
+    update: authenticated,
+    delete: authenticated,
+    create: authenticated,
   },
   page: {
     parentCollection: 'pages',

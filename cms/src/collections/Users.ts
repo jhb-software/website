@@ -1,3 +1,4 @@
+import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
 import type { CollectionConfig } from 'payload'
 
@@ -20,6 +21,12 @@ export const Users: CollectionConfig = {
     group: CollectionGroups.SystemCollections,
   },
   auth: true,
+  access: {
+    read: authenticated,
+    update: authenticated,
+    delete: authenticated,
+    create: authenticated,
+  },
   fields: [
     // Email field is added by default
     {
@@ -38,34 +45,6 @@ export const Users: CollectionConfig = {
       label: {
         de: 'Nachname',
         en: 'Last Name',
-      },
-    },
-    {
-      name: 'role',
-      required: true,
-      type: 'select',
-      options: [
-        {
-          value: 'admin',
-          label: {
-            de: 'Administrator',
-            en: 'Admin',
-          },
-        },
-        {
-          value: 'editor',
-          label: {
-            de: 'Bearbeiter',
-            en: 'Editor',
-          },
-        },
-      ],
-      defaultValue: 'editor',
-      // Save this field to JWT so it can be used from `req.user`
-      saveToJWT: true,
-      label: {
-        de: 'Rolle',
-        en: 'Role',
       },
     },
   ],

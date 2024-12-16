@@ -1,3 +1,5 @@
+import { anyone } from '@/shared/access/anyone'
+import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
 import { createMediaCollectionConfig } from '@jhb.software/payload-cloudinary-plugin'
 
@@ -15,6 +17,12 @@ export const Media = createMediaCollectionConfig({
   },
   admin: {
     group: CollectionGroups.MediaCollections,
+  },
+  access: {
+    read: anyone,
+    update: authenticated,
+    delete: authenticated,
+    create: authenticated,
   },
   fields: [
     {

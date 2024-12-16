@@ -1,3 +1,5 @@
+import { anyone } from '@/shared/access/anyone'
+import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
 import { CollectionConfig } from 'payload'
 
@@ -20,6 +22,12 @@ const Testimonials: CollectionConfig = {
   },
   versions: {
     drafts: true,
+  },
+  access: {
+    read: anyone,
+    update: authenticated,
+    delete: authenticated,
+    create: authenticated,
   },
   fields: [
     // Sidebar fields:

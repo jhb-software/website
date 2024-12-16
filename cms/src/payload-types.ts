@@ -368,7 +368,6 @@ export interface User {
   id: number;
   firstName: string;
   lastName: string;
-  role: 'admin' | 'editor';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -702,7 +701,6 @@ export interface RedirectsSelect<T extends boolean = true> {
 export interface UsersSelect<T extends boolean = true> {
   firstName?: T;
   lastName?: T;
-  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
