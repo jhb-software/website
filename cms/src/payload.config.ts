@@ -10,7 +10,7 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { de } from '@payloadcms/translations/languages/de'
 import { en } from '@payloadcms/translations/languages/en'
 import path from 'path'
-import { buildConfig } from 'payload'
+import { buildConfig, CollectionConfig, CollectionSlug } from 'payload'
 import { fileURLToPath } from 'url'
 import Articles from './collections/Articles'
 import Customers from './collections/Customers'
@@ -20,6 +20,7 @@ import Project from './collections/Project'
 import { Redirects } from './collections/Redirects'
 import Testimonials from './collections/Testimonials'
 import { Users } from './collections/Users'
+import { getStatisPagesProps } from './endpoints/staticPages'
 import Footer from './globals/footer'
 import Header from './globals/header'
 import { Page as PageType, Project as ProjectType } from './payload-types'
@@ -29,6 +30,27 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 const siteName = 'JHB Software'
+
+export const collections: CollectionConfig[] = [
+  // Pages Collections
+  Page, Project, Articles, Customers,
+
+  // Data Collections
+  Testimonials, Media,
+
+  // System Collections
+  Redirects, Users
+]
+
+export const pageCollections: CollectionConfig[] = collections.filter(
+  (collection) => typeof (collection as any).page === 'object',
+)
+export const pageCollectionsSlugs: CollectionSlug[] = pageCollections.map(
+  (collection) => collection.slug as CollectionSlug,
+)
+export type PageCollectionSlugs = typeof pageCollectionsSlugs[number]
+
+
 
 export default buildConfig({
   localization: {
@@ -62,7 +84,7 @@ export default buildConfig({
     translations: customTranslations,
   },
   globals: [Header, Footer],
-  collections: [Page, Project, Articles, Customers, Testimonials, Media, Redirects, Users],
+  collections: collections,
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -72,7 +94,14 @@ export default buildConfig({
     pool: {
       connectionString: process.env.POSTGRES_URL || '',
     },
-  }),
+  }), 
+  endpoints: [
+    {
+      path: '/static-paths',
+      method: 'get',
+      handler: getStatisPagesProps,
+    },
+  ],
   plugins: [
     payloadPagesPlugin({}),
     payloadCloudinaryPlugin({}),
