@@ -1,0 +1,36 @@
+---
+import type { Page } from 'cms/src/payload-types'
+import { payloadSDK } from '../cms/sdk'
+import { normalizePath } from '../utils/normalizePath'
+
+const footer = await payloadSDK.findGlobal({
+  slug: 'footer',
+  populate: {
+    pages: {
+      path: true,
+
+      // the following fields are necessary for the virtual path field to be generated
+      parent: true,
+      slug: true,
+    },
+  },
+})
+
+const isPreview = Astro.url.pathname.startsWith('/preview')
+---
+
+<footer class:list={['fixed z-40 flex w-full items-center justify-between bg-white px-12']}>
+  <p class="font-semibold">JHB Software © {new Date().getFullYear()}</p>
+
+  <nav>
+    <ul class="flex list-none gap-4">
+      {
+        footer.links?.map((link) => (
+          <li>
+            <a href={normalizePath((link.page.value as Page).path, isPreview)}>{link.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</footer>

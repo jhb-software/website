@@ -1,6 +1,7 @@
 ---
 import type { PageMetaData } from '../cms/getPageData'
 import '../styles.css'
+import Footer from './Footer.astro'
 import Header from './Header.astro'
 import SEOMetadata from './SEOMetadata.astro'
 
@@ -23,5 +24,6 @@ const { meta, lang } = Astro.props
   <body class="prose">
     <Header />
     <slot />
+    <Footer />
   </body>
 </html>
