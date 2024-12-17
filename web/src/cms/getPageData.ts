@@ -1,5 +1,5 @@
 import type { PageProps } from 'cms/src/endpoints/pageProps'
-import type { HeroSection, SeoMetadata } from 'cms/src/payload-types'
+import type { HeroSection, Page, SeoMetadata } from 'cms/src/payload-types'
 import { payloadSDK } from './sdk'
 import type { Locale } from './types'
 
@@ -9,6 +9,7 @@ export type PageMetaData = {
 
 export type PageData = PageMetaData & {
   hero: HeroSection
+  sections: Page['sections']
   [key: string]: unknown
 }
 

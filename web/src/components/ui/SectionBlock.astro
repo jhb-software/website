@@ -2,6 +2,8 @@
 import type { Page } from 'cms/src/payload-types'
 import TestimonialsBlock from './blocks/TestimonialsBlock.astro'
 import type { TestimonialsBlock as TestimonialsBlockType } from 'cms/src/payload-types'
+import ServicesBlock from './blocks/ServicesBlock.astro'
+import type { ServicesBlock as ServicesBlockType } from 'cms/src/payload-types'
 
 export type Props = NonNullable<NonNullable<Page['sections']>[number]['blocks']>[number]
 
@@ -14,7 +16,7 @@ const { blockType, ...props } = Astro.props
       case 'rich-text':
         return <p>RichTextBlock</p>
       case 'services':
-        return <p>ServicesBlock</p>
+        return <ServicesBlock {...(props as ServicesBlockType)} />
       case 'testimonials':
         return <TestimonialsBlock {...(props as TestimonialsBlockType)} />
       case 'customer-logos':

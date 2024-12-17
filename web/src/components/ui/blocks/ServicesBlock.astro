@@ -1,0 +1,39 @@
+---
+import type { Page, ServicesBlock } from 'cms/src/payload-types'
+import Card from '../Card.astro'
+import Link from '../Link.astro'
+import type { Locale } from '../../../cms/types'
+
+export type Props = ServicesBlock
+
+const { services } = Astro.props
+
+// TODO: add translations to the CMS
+const translations = {
+  more: {
+    de: 'Mehr Entdecken',
+    en: 'Learn More',
+  },
+}
+const locale = Astro.params.lang as Locale
+---
+
+<div class="grid gap-5 md:grid-cols-3">
+  {
+    services?.map(({ title, description, page }) => (
+      <Card class="flex flex-col items-start justify-between gap-4">
+        <div class="flex flex-row items-center gap-3">
+          {/* TODO: add icon */}
+          <h3 class="m-0 text-lg font-semibold">{title}</h3>
+        </div>
+
+        <p>{description}</p>
+        <Link
+          page={{ relationTo: 'pages', value: page as Page }}
+          label={translations.more[locale]}
+          style="text-primary"
+        />
+      </Card>
+    ))
+  }
+</div>
