@@ -468,14 +468,7 @@ export interface PagesSelect<T extends boolean = true> {
   slug?: T;
   parent?: T;
   path?: T;
-  breadcrumbs?:
-    | T
-    | {
-        slug?: T;
-        path?: T;
-        label?: T;
-        id?: T;
-      };
+  breadcrumbs?: T | BreadcrumbsSelect<T>;
   title?: T;
   hero?:
     | T
@@ -498,74 +491,105 @@ export interface PagesSelect<T extends boolean = true> {
         blocks?:
           | T
           | {
-              'rich-text'?:
-                | T
-                | {
-                    text?: T;
-                    id?: T;
-                    blockName?: T;
-                  };
-              services?:
-                | T
-                | {
-                    services?:
-                      | T
-                      | {
-                          title?: T;
-                          description?: T;
-                          page?: T;
-                          id?: T;
-                        };
-                    id?: T;
-                    blockName?: T;
-                  };
-              testimonials?:
-                | T
-                | {
-                    testimonials?: T;
-                    id?: T;
-                    blockName?: T;
-                  };
-              'customer-logos'?:
-                | T
-                | {
-                    customers?: T;
-                    id?: T;
-                    blockName?: T;
-                  };
-              'featured-projects-list'?:
-                | T
-                | {
-                    projects?: T;
-                    id?: T;
-                    blockName?: T;
-                  };
-              'projects-list'?:
-                | T
-                | {
-                    projects?: T;
-                    id?: T;
-                    blockName?: T;
-                  };
+              'rich-text'?: T | RichTextBlockSelect<T>;
+              services?: T | ServicesBlockSelect<T>;
+              testimonials?: T | TestimonialsBlockSelect<T>;
+              'customer-logos'?: T | CustomerLogosBlockSelect<T>;
+              'featured-projects-list'?: T | FeaturedProjectsListBlockSelect<T>;
+              'projects-list'?: T | ProjectsListBlockSelect<T>;
             };
         id?: T;
       };
-  meta?:
-    | T
-    | {
-        keywords?:
-          | T
-          | {
-              keyword?: T;
-              id?: T;
-            };
-        title?: T;
-        description?: T;
-        image?: T;
-      };
+  meta?: T | SeoMetadataSelect<T>;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Breadcrumbs_select".
+ */
+export interface BreadcrumbsSelect<T extends boolean = true> {
+  slug?: T;
+  path?: T;
+  label?: T;
+  id?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "RichTextBlock_select".
+ */
+export interface RichTextBlockSelect<T extends boolean = true> {
+  text?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServicesBlock_select".
+ */
+export interface ServicesBlockSelect<T extends boolean = true> {
+  services?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        page?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestimonialsBlock_select".
+ */
+export interface TestimonialsBlockSelect<T extends boolean = true> {
+  testimonials?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CustomerLogosBlock_select".
+ */
+export interface CustomerLogosBlockSelect<T extends boolean = true> {
+  customers?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedProjectsListBlock_select".
+ */
+export interface FeaturedProjectsListBlockSelect<T extends boolean = true> {
+  projects?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProjectsListBlock_select".
+ */
+export interface ProjectsListBlockSelect<T extends boolean = true> {
+  projects?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SeoMetadata_select".
+ */
+export interface SeoMetadataSelect<T extends boolean = true> {
+  keywords?:
+    | T
+    | {
+        keyword?: T;
+        id?: T;
+      };
+  title?: T;
+  description?: T;
+  image?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -575,14 +599,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   slug?: T;
   parent?: T;
   path?: T;
-  breadcrumbs?:
-    | T
-    | {
-        slug?: T;
-        path?: T;
-        label?: T;
-        id?: T;
-      };
+  breadcrumbs?: T | BreadcrumbsSelect<T>;
   customer?: T;
   startDate?: T;
   endDate?: T;
@@ -592,19 +609,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   tags?: T;
   image?: T;
   body?: T;
-  meta?:
-    | T
-    | {
-        keywords?:
-          | T
-          | {
-              keyword?: T;
-              id?: T;
-            };
-        title?: T;
-        description?: T;
-        image?: T;
-      };
+  meta?: T | SeoMetadataSelect<T>;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -617,14 +622,7 @@ export interface ArticlesSelect<T extends boolean = true> {
   slug?: T;
   parent?: T;
   path?: T;
-  breadcrumbs?:
-    | T
-    | {
-        slug?: T;
-        path?: T;
-        label?: T;
-        id?: T;
-      };
+  breadcrumbs?: T | BreadcrumbsSelect<T>;
   title?: T;
   excerpt?: T;
   content?: T;
