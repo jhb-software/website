@@ -4,14 +4,16 @@ import type { Customer, CustomerLogosBlock, Media } from 'cms/src/payload-types'
 export type Props = CustomerLogosBlock
 
 const { customers } = Astro.props
+
+// TODO: improve mobile layout, it should not take so much space, maybe add a slider?
 ---
 
-<div class="flex flex-col gap-8">
+<div class="flex flex-col gap-12">
   {
     [customers?.slice(0, 5), customers?.slice(5, 9), customers?.slice(9, 12)].map(
       (rowCustomers) => (
-        <div class="flex flex-row items-center justify-center gap-12">
-          {rowCustomers?.map((customer) => {
+        <div class="grid grid-cols-2 items-center justify-center gap-8 md:flex md:flex-row md:gap-12">
+          {rowCustomers?.filter(Boolean).map((customer) => {
             const logo = (customer as Customer).logo as Media
 
             return (
