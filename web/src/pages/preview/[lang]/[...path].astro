@@ -4,6 +4,7 @@ import { getPageProps } from '../../../cms/getPageProps'
 import { locales } from '../../../cms/locales'
 import type { Locale } from '../../../cms/types'
 import LivePreviewRefreshPageScript from '../../../components/LivePreviewRefreshPageScript.astro'
+import Section from '../../../components/ui/Section.astro'
 import HeroSection from '../../../layout/HeroSection.astro'
 import Layout from '../../../layout/Layout.astro'
 
@@ -27,4 +28,6 @@ const pageData = await getPageData(pageProps, locale, { preview: true })
   <LivePreviewRefreshPageScript />
 
   <HeroSection {...pageData.hero} />
+
+  {pageData.sections?.map((section) => <Section {...section} />)}
 </Layout>

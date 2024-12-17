@@ -1,6 +1,6 @@
 ---
 import type { HeroSection } from 'cms/src/payload-types'
-import Section from './Section.astro'
+import SectionShell from './SectionShell.astro'
 import Link from '../components/ui/Link.astro'
 
 export type Props = HeroSection
@@ -8,7 +8,7 @@ export type Props = HeroSection
 const { title, subtitle, links } = Astro.props
 ---
 
-<Section class="flex flex-col items-center gap-4 pt-32">
+<SectionShell class="flex flex-col items-center gap-4 pt-32">
   <h1 class="text-primary my-6 max-w-2xl text-balance text-center text-4xl font-extrabold">
     {title}
   </h1>
@@ -16,4 +16,4 @@ const { title, subtitle, links } = Astro.props
   <div class="flex max-w-2xl flex-row gap-4">
     {links?.map(({ link }) => <Link {...link} />)}
   </div>
-</Section>
+</SectionShell>

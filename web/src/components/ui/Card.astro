@@ -1,0 +1,14 @@
+---
+
+---
+
+<div
+  class:list={[
+    'bg-white shadow hover:shadow-lg hover:shadow-neutral-400/50', // Colors and shadow
+    'rounded-md p-4',
+    'transform shadow transition duration-300 ease-in-out hover:-translate-y-1', // Transform and transition
+    Astro.props.class,
+  ]}
+>
+  <slot />
+</div>

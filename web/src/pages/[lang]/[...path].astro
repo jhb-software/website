@@ -3,6 +3,7 @@ import { getPageData } from '../../cms/getPageData'
 import { getStaticPaths as getStaticPathsCms } from '../../cms/getStaticPaths'
 import { locales } from '../../cms/locales'
 import type { Locale } from '../../cms/types'
+import Section from '../../components/ui/Section.astro'
 import HeroSection from '../../layout/HeroSection.astro'
 import Layout from '../../layout/Layout.astro'
 
@@ -23,4 +24,6 @@ const pageData = await getPageData(props, locale)
 
 <Layout {...pageData} lang={lang}>
   <HeroSection {...pageData.hero} />
+
+  {pageData.sections?.map((section) => <Section {...section} />)}
 </Layout>

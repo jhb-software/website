@@ -1,0 +1,12 @@
+---
+import type { Testimonial, TestimonialsBlock } from 'cms/src/payload-types'
+import TestimonialCard from '../TestimonialCard.astro'
+
+export type Props = TestimonialsBlock
+
+const { testimonials } = Astro.props
+---
+
+<div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+  {testimonials?.map((testimonial) => <TestimonialCard {...(testimonial as Testimonial)} />)}
+</div>
