@@ -1,0 +1,31 @@
+---
+import type { Customer, CustomerLogosBlock, Media } from 'cms/src/payload-types'
+
+export type Props = CustomerLogosBlock
+
+const { customers } = Astro.props
+---
+
+<div class="flex flex-col gap-8">
+  {
+    [customers?.slice(0, 5), customers?.slice(5, 9), customers?.slice(9, 12)].map(
+      (rowCustomers) => (
+        <div class="flex flex-row items-center justify-center gap-12">
+          {rowCustomers?.map((customer) => {
+            const logo = (customer as Customer).logo as Media
+
+            return (
+              <img
+                src={logo.url}
+                alt={logo.alt}
+                height={50}
+                width={100}
+                class="overflow-hidden opacity-75 grayscale [filter:brightness(0)]"
+              />
+            )
+          })}
+        </div>
+      ),
+    )
+  }
+</div>
