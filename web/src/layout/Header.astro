@@ -1,9 +1,39 @@
 ---
+import type { Page } from 'cms/src/payload-types'
 import { payloadSDK } from '../cms/sdk'
+import { normalizePath } from '../utils/normalizePath'
 
-const global = await payloadSDK.findGlobal({
+const header = await payloadSDK.findGlobal({
   slug: 'header',
+  populate: {
+    pages: {
+      path: true,
+
+      // the following fields are necessary for the virtual path field to be generated
+      parent: true,
+      slug: true,
+    },
+  },
 })
+
+const { lang } = Astro.params
+const isPreview = Astro.url.pathname.startsWith('/preview')
 ---
 
-{JSON.stringify(global)}
+<header class:list={['fixed z-40 flex w-full items-center justify-between bg-white px-12']}>
+  <a href={normalizePath(`/${lang}`, isPreview)}>
+    <img src={'/logo.webp'} alt={'JHB Software Logo'} width={170} height={40} />
+  </a>
+
+  <nav>
+    <ul class="flex list-none gap-4">
+      {
+        header.links?.map((link) => (
+          <li>
+            <a href={normalizePath((link.page.value as Page).path, isPreview)}>{link.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
