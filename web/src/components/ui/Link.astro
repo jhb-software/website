@@ -1,0 +1,42 @@
+---
+import type { Link, Page } from 'cms/src/payload-types'
+import { normalizePath } from '../../utils/normalizePath'
+
+type Props = Link
+
+const { label, page, style } = Astro.props
+
+function buttonStyles(style: Link['style']) {
+  switch (style) {
+    case 'primary':
+      return 'bg-primary text-neutral-100 hover:bg-primary hover:bg-primaryDark'
+    case 'text':
+      return 'text-gray-700 hover:bg-neutral-200'
+    case 'text-primary':
+      return 'text-primary hover:bg-neutral-200'
+    case 'light':
+      return 'bg-neutral-200 hover:bg-neutral-300 text-gray-700'
+    case 'light-primary':
+      return 'bg-neutral-200 hover:bg-neutral-300 text-primary'
+  }
+}
+
+const rawPath = (page?.value as Page)?.path
+
+if (!rawPath) {
+  throw new Error('A path is required to build a link. Got: ' + JSON.stringify(Astro.props))
+}
+
+const isPreview = Astro.url.pathname.startsWith('/preview')
+const href = normalizePath(rawPath, isPreview)
+---
+
+<a
+  href={href}
+  class:list={[
+    'inline-flex items-center gap-3 rounded-md px-4 py-3 text-sm font-semibold uppercase no-underline transition-all duration-200',
+    buttonStyles(style),
+  ]}
+>
+  {label}
+</a>

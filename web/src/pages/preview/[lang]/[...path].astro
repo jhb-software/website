@@ -4,6 +4,7 @@ import { getPageProps } from '../../../cms/getPageProps'
 import { locales } from '../../../cms/locales'
 import type { Locale } from '../../../cms/types'
 import LivePreviewRefreshPageScript from '../../../components/LivePreviewRefreshPageScript.astro'
+import HeroSection from '../../../layout/HeroSection.astro'
 import Layout from '../../../layout/Layout.astro'
 
 // Preview mode, dont prerender these routes at build time
@@ -25,7 +26,5 @@ const pageData = await getPageData(pageProps, locale, { preview: true })
 <Layout {...pageData} lang={lang!}>
   <LivePreviewRefreshPageScript />
 
-  <h1>Hello World</h1>
-
-  {JSON.stringify(pageData, null, 2)}
+  <HeroSection {...pageData.hero} />
 </Layout>

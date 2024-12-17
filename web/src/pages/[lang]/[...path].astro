@@ -3,6 +3,7 @@ import { getPageData } from '../../cms/getPageData'
 import { getStaticPaths as getStaticPathsCms } from '../../cms/getStaticPaths'
 import { locales } from '../../cms/locales'
 import type { Locale } from '../../cms/types'
+import HeroSection from '../../layout/HeroSection.astro'
 import Layout from '../../layout/Layout.astro'
 
 export async function getStaticPaths() {
@@ -21,7 +22,5 @@ const pageData = await getPageData(props, locale)
 ---
 
 <Layout {...pageData} lang={lang}>
-  <h1>Hello World</h1>
-
-  {JSON.stringify(pageData, null, 2)}
+  <HeroSection {...pageData.hero} />
 </Layout>
