@@ -4,7 +4,7 @@ import { ProjectsListBlock } from '@/blocks/ProjectsList'
 import { RichTextBlock } from '@/blocks/RichTextBlock'
 import { ServicesBlock } from '@/blocks/ServicesBlock'
 import { TestimonialsBlock } from '@/blocks/TestimonialsBlock'
-import { linkFields } from '@/fields/link'
+import { heroSection } from '@/fields/heroSection'
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
@@ -51,46 +51,7 @@ const Page: CollectionConfig = createPageCollectionConfig({
       required: true,
       localized: true,
     },
-    {
-      name: 'hero',
-      type: 'group',
-      label: {
-        de: 'Hero Abschnitt',
-        en: 'Hero Section',
-      },
-      fields: [
-        {
-          name: 'title',
-          type: 'text',
-          required: true,
-          localized: true,
-          label: {
-            de: 'Titel',
-            en: 'Title',
-          },
-        },
-        {
-          name: 'subtitle',
-          type: 'textarea',
-          localized: true,
-          required: true,
-          label: {
-            de: 'Untertitel',
-            en: 'Subtitle',
-          },
-        },
-        {
-          name: 'links',
-          type: 'array',
-          admin: {
-            components: {
-              RowLabel: '/fields/components/LinkRowTitle',
-            },
-          },
-          fields: linkFields({ relationTo: ['pages'] }),
-        },
-      ],
-    },
+    heroSection(),
     {
       name: 'sections',
       type: 'array',

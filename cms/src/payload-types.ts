@@ -97,20 +97,7 @@ export interface Page {
   path: string;
   breadcrumbs: Breadcrumbs;
   title: string;
-  hero: {
-    title: string;
-    subtitle: string;
-    links?:
-      | {
-          page: {
-            relationTo: 'pages';
-            value: string | Page;
-          };
-          label: string;
-          id?: string | null;
-        }[]
-      | null;
-  };
+  hero: HeroSection;
   sections?:
     | {
         title: string;
@@ -132,6 +119,32 @@ export interface Page {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroSection".
+ */
+export interface HeroSection {
+  title: string;
+  subtitle: string;
+  links?:
+    | {
+        link: Link;
+        id?: string | null;
+      }[]
+    | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Link".
+ */
+export interface Link {
+  page: {
+    relationTo: 'pages';
+    value: string | Page;
+  };
+  label: string;
+  style: 'primary' | 'text' | 'text-primary' | 'light' | 'light-primary';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -470,19 +483,7 @@ export interface PagesSelect<T extends boolean = true> {
   path?: T;
   breadcrumbs?: T | BreadcrumbsSelect<T>;
   title?: T;
-  hero?:
-    | T
-    | {
-        title?: T;
-        subtitle?: T;
-        links?:
-          | T
-          | {
-              page?: T;
-              label?: T;
-              id?: T;
-            };
-      };
+  hero?: T | HeroSectionSelect<T>;
   sections?:
     | T
     | {
@@ -514,6 +515,29 @@ export interface BreadcrumbsSelect<T extends boolean = true> {
   path?: T;
   label?: T;
   id?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroSection_select".
+ */
+export interface HeroSectionSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  links?:
+    | T
+    | {
+        link?: T | LinkSelect<T>;
+        id?: T;
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Link_select".
+ */
+export interface LinkSelect<T extends boolean = true> {
+  page?: T;
+  label?: T;
+  style?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -749,11 +773,7 @@ export interface Header {
   id: string;
   links?:
     | {
-        page: {
-          relationTo: 'pages';
-          value: string | Page;
-        };
-        label: string;
+        link: Link;
         id?: string | null;
       }[]
     | null;
@@ -768,11 +788,7 @@ export interface Footer {
   id: string;
   links?:
     | {
-        page: {
-          relationTo: 'pages';
-          value: string | Page;
-        };
-        label: string;
+        link: Link;
         id?: string | null;
       }[]
     | null;
@@ -787,8 +803,7 @@ export interface HeaderSelect<T extends boolean = true> {
   links?:
     | T
     | {
-        page?: T;
-        label?: T;
+        link?: T | LinkSelect<T>;
         id?: T;
       };
   updatedAt?: T;
@@ -803,8 +818,7 @@ export interface FooterSelect<T extends boolean = true> {
   links?:
     | T
     | {
-        page?: T;
-        label?: T;
+        link?: T | LinkSelect<T>;
         id?: T;
       };
   updatedAt?: T;

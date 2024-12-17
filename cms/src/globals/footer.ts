@@ -1,4 +1,4 @@
-import { linkFields } from '@/fields/link'
+import { linksField } from '@/fields/links'
 import { GlobalConfig } from 'payload'
 
 const Footer: GlobalConfig = {
@@ -10,14 +10,7 @@ const Footer: GlobalConfig = {
   access: {
     read: () => true,
   },
-  fields: [
-    {
-      name: 'links',
-      label: 'Links',
-      type: 'array',
-      fields: linkFields({ relationTo: ['pages'] }),
-    },
-  ],
+  fields: [linksField({ name: 'links', relationTo: ['pages'], maxRows: 6 })],
 }
 
 export default Footer
