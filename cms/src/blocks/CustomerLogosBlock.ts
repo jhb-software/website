@@ -22,6 +22,8 @@ export const CustomerLogosBlock: Block = {
       hasMany: true,
       required: true,
       virtual: true,
+      // As the value of the field is set by the hook, do not validate it
+      validate: () => true,
       admin: {
         readOnly: true,
       },
