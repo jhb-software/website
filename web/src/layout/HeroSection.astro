@@ -1,5 +1,5 @@
 ---
-import type { HeroSection, Page } from 'cms/src/payload-types'
+import type { HeroSection } from 'cms/src/payload-types'
 import Section from './Section.astro'
 import Link from '../components/ui/Link.astro'
 
@@ -9,9 +9,11 @@ const { title, subtitle, links } = Astro.props
 ---
 
 <Section class="flex flex-col items-center gap-4 pt-32">
-  <h1 class="text-center text-4xl font-bold">{title}</h1>
-  <p class="text-center">{subtitle}</p>
-  <div>
+  <h1 class="text-primary my-6 max-w-2xl text-balance text-center text-4xl font-extrabold">
+    {title}
+  </h1>
+  <p class="my-2 max-w-2xl text-balance text-center">{subtitle}</p>
+  <div class="flex max-w-2xl flex-row gap-4">
     {links?.map(({ link }) => <Link {...link} />)}
   </div>
 </Section>

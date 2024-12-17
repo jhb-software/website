@@ -2,9 +2,9 @@
 import type { Link, Page } from 'cms/src/payload-types'
 import { normalizePath } from '../../utils/normalizePath'
 
-type Props = Link
+type Props = Link & { class?: string; uppercase?: boolean }
 
-const { label, page, style } = Astro.props
+const { label, page, style, class: className, uppercase = true } = Astro.props
 
 function buttonStyles(style: Link['style']) {
   switch (style) {
@@ -34,8 +34,10 @@ const href = normalizePath(rawPath, isPreview)
 <a
   href={href}
   class:list={[
-    'inline-flex items-center gap-3 rounded-md px-4 py-3 text-sm font-semibold uppercase no-underline transition-all duration-200',
+    'inline-flex items-center gap-3 rounded-md px-4 py-3 text-sm font-semibold no-underline transition-all duration-200',
+    uppercase ? 'uppercase' : 'normal-case',
     buttonStyles(style),
+    className,
   ]}
 >
   {label}

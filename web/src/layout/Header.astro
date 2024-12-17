@@ -20,9 +20,10 @@ const { lang } = Astro.params
 const isPreview = Astro.url.pathname.startsWith('/preview')
 ---
 
-<header class:list={['fixed z-40 flex w-full items-center justify-between bg-white px-12 py-4']}>
-  <a href={normalizePath(`/${lang}`, isPreview)}>
-    <img src={'/logo.webp'} alt={'JHB Software Logo'} width={170} height={40} />
+<header class:list={['fixed z-40 flex w-full items-center justify-between px-12 py-4']}>
+  <a href={normalizePath(`/${lang}`, isPreview)} class="flex items-center gap-2">
+    <img src={'/icon.png'} alt={'JHB'} width={40} height={40} />
+    <span class="text-2xl font-bold">Software</span>
   </a>
 
   <nav>
@@ -30,7 +31,7 @@ const isPreview = Astro.url.pathname.startsWith('/preview')
       {
         header.links?.map(({ link }) => (
           <li>
-            <Link {...link} />
+            <Link {...link} uppercase={false} />
           </li>
         ))
       }
