@@ -1,11 +1,13 @@
 ---
-import type { Page } from 'cms/src/payload-types'
-import TestimonialsBlock from './blocks/TestimonialsBlock.astro'
-import type { TestimonialsBlock as TestimonialsBlockType } from 'cms/src/payload-types'
-import ServicesBlock from './blocks/ServicesBlock.astro'
-import type { ServicesBlock as ServicesBlockType } from 'cms/src/payload-types'
+import type {
+  CustomerLogosBlock as CustomerLogosBlockType,
+  Page,
+  ServicesBlock as ServicesBlockType,
+  TestimonialsBlock as TestimonialsBlockType,
+} from 'cms/src/payload-types'
 import CustomerLogosBlock from './blocks/CustomerLogosBlock.astro'
-import type { CustomerLogosBlock as CustomerLogosBlockType } from 'cms/src/payload-types'
+import ServicesBlock from './blocks/ServicesBlock.astro'
+import TestimonialsBlock from './blocks/TestimonialsBlock.astro'
 
 export type Props = NonNullable<NonNullable<Page['sections']>[number]['blocks']>[number]
 

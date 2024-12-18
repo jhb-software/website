@@ -1,5 +1,5 @@
-import { authenticated } from '@/shared/access/authenticated'
 import { anyone } from '@/shared/access/anyone'
+import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
 import { createRedirectsCollectionConfig } from '@jhb.software/payload-pages-plugin'
 
