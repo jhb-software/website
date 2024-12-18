@@ -2,10 +2,12 @@
 import type {
   CustomerLogosBlock as CustomerLogosBlockType,
   Page,
+  RichTextBlock as RichTextBlockType,
   ServicesBlock as ServicesBlockType,
   TestimonialsBlock as TestimonialsBlockType,
 } from 'cms/src/payload-types'
 import CustomerLogosBlock from './blocks/CustomerLogosBlock.astro'
+import RichTextBlock from './blocks/RichTextBlock/RichTextBlock.astro'
 import ServicesBlock from './blocks/ServicesBlock.astro'
 import TestimonialsBlock from './blocks/TestimonialsBlock.astro'
 
@@ -18,7 +20,7 @@ const { blockType, ...props } = Astro.props
   () => {
     switch (blockType) {
       case 'rich-text':
-        return <p>RichTextBlock</p>
+        return <RichTextBlock {...(props as RichTextBlockType)} />
       case 'services':
         return <ServicesBlock {...(props as ServicesBlockType)} />
       case 'testimonials':

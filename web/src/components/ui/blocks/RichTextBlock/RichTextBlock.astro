@@ -1,0 +1,12 @@
+---
+import type { RichTextBlock as RichTextBlockType } from 'cms/src/payload-types'
+import RichTextLexical from './RichTextLexical.astro'
+
+type Props = RichTextBlockType
+
+const { text } = Astro.props
+---
+
+<div class="prose mx-auto !max-w-none">
+  <RichTextLexical nodes={text.root.children} />
+</div>
