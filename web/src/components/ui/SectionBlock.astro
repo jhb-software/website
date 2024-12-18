@@ -5,11 +5,13 @@ import type {
   RichTextBlock as RichTextBlockType,
   ServicesBlock as ServicesBlockType,
   TestimonialsBlock as TestimonialsBlockType,
+  FeaturedProjectsListBlock as FeaturedProjectsListBlockType,
 } from 'cms/src/payload-types'
 import CustomerLogosBlock from './blocks/CustomerLogosBlock.astro'
 import RichTextBlock from './blocks/RichTextBlock/RichTextBlock.astro'
 import ServicesBlock from './blocks/ServicesBlock.astro'
 import TestimonialsBlock from './blocks/TestimonialsBlock.astro'
+import FeaturedProjectsListBlock from './blocks/FeaturedProjectsListBlock.astro'
 
 export type Props = NonNullable<NonNullable<Page['sections']>[number]['blocks']>[number]
 
@@ -28,7 +30,7 @@ const { blockType, ...props } = Astro.props
       case 'customer-logos':
         return <CustomerLogosBlock {...(props as CustomerLogosBlockType)} />
       case 'featured-projects-list':
-        return <p>FeaturedProjectsListBlock</p>
+        return <FeaturedProjectsListBlock {...(props as FeaturedProjectsListBlockType)} />
       case 'projects-list':
         return <p>ProjectsListBlock</p>
       default:
