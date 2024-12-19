@@ -10,9 +10,14 @@ import { useEffect } from 'react'
  */
 export default function CopyAuthorNameToTitleField() {
   const { value: authorName } = useField<string>({ path: 'author.name' })
-  const { setValue: setTitle } = useField<string>({ path: 'title' })
+  const { setValue: setTitle, value: title } = useField<string>({ path: 'title' })
 
-  useEffect(() => setTitle(authorName), [authorName, setTitle])
+  useEffect(() => {
+    // Only set the title if it is not already set to prevent the creation of unnecessary draft versions.
+    if (title !== authorName) {
+      setTitle(authorName)
+    }
+  }, [authorName, setTitle, title])
 
   return <></>
 }
