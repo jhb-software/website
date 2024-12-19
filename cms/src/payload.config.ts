@@ -13,6 +13,7 @@ import path from 'path'
 import { buildConfig, CollectionConfig, CollectionSlug } from 'payload'
 import { fileURLToPath } from 'url'
 import Articles from './collections/Articles'
+import Authors from './collections/Authors'
 import Customers from './collections/Customers'
 import { Media } from './collections/Media'
 import Page from './collections/Page'
@@ -39,7 +40,7 @@ export const collections: CollectionConfig[] = [
   Project,
   Articles,
   Customers,
-
+  Authors,
   // Data Collections
   Testimonials,
   Media,
