@@ -341,8 +341,11 @@ export interface Article {
   parent: string | Page;
   path: string;
   breadcrumbs: Breadcrumbs;
+  author: string | Author;
+  categories?: ('web' | 'app')[] | null;
   title: string;
   excerpt: string;
+  image?: (string | null) | Media;
   content: {
     root: {
       type: string;
@@ -685,8 +688,11 @@ export interface ArticlesSelect<T extends boolean = true> {
   parent?: T;
   path?: T;
   breadcrumbs?: T | BreadcrumbsSelect<T>;
+  author?: T;
+  categories?: T;
   title?: T;
   excerpt?: T;
+  image?: T;
   content?: T;
   updatedAt?: T;
   createdAt?: T;

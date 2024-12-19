@@ -39,7 +39,33 @@ const Articles: CollectionConfig = createPageCollectionConfig({
   },
   fields: [
     // Sidebar fields:
-
+    {
+      name: 'author',
+      type: 'relationship',
+      relationTo: 'authors',
+      required: true,
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'categories',
+      type: 'select',
+      options: [
+        {
+          label: 'Web',
+          value: 'web',
+        },
+        {
+          label: 'App',
+          value: 'app',
+        },
+      ],
+      hasMany: true,
+      admin: {
+        position: 'sidebar',
+      },
+    },
     // Body fields:
     {
       name: 'title',
@@ -60,6 +86,12 @@ const Articles: CollectionConfig = createPageCollectionConfig({
         en: 'Excerpt',
         de: 'Kurzbeschreibung',
       },
+    },
+    {
+      name: 'image',
+      type: 'upload',
+      relationTo: 'media',
+      required: false,
     },
     {
       name: 'content',
