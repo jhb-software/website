@@ -1,0 +1,19 @@
+---
+import type { PageData } from '@/cms/getPageData'
+import RichTextBlock from '@/components/ui/blocks/RichTextBlock/RichTextBlock.astro'
+import SectionShell from '@/layout/SectionShell.astro'
+
+type Props = {
+  article: PageData['articles']
+}
+
+const { article } = Astro.props
+---
+
+<SectionShell>
+  <h1 class="mb-16 text-balance text-center text-4xl font-extrabold text-slate-700">
+    {article.title}
+  </h1>
+
+  <RichTextBlock text={article.content} />
+</SectionShell>

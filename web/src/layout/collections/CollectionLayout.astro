@@ -4,6 +4,7 @@ import type { Locale } from '@/cms/types'
 import LivePreviewRefreshPageScript from '@/components/LivePreviewRefreshPageScript.astro'
 import type { PageProps } from 'cms/src/endpoints/pageProps'
 import Layout from '../Layout.astro'
+import ArticleLayout from './ArticleLayout.astro'
 import PageLayout from './PageLayout.astro'
 import ProjectLayout from './ProjectLayout.astro'
 
@@ -32,8 +33,10 @@ const pageData = await getPageData(collection, id, locale, { preview })
           return <PageLayout page={pageData} />
         case 'projects':
           return <ProjectLayout project={pageData} />
+        case 'articles':
+          return <ArticleLayout article={pageData} />
         default:
-          throw new Error(`${collection} has no layout yet.`)
+          throw new Error(`Collection ${collection} has no layout yet.`)
       }
     }
   }
