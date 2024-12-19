@@ -1,8 +1,9 @@
 ---
+import { CldImage } from 'astro-cloudinary'
 import type { FeaturedProjectsListBlock, Media, Project } from 'cms/src/payload-types'
+import type { Locale } from '../../../cms/types'
 import { normalizePath } from '../../../utils/normalizePath'
 import Link from '../Link.astro'
-import type { Locale } from '../../../cms/types'
 
 export type Props = FeaturedProjectsListBlock
 
@@ -33,8 +34,8 @@ const locale = Astro.params.lang as Locale
         <a href={normalizePath(project.path, isPreview)}>
           <div class="flex flex-col items-center gap-4 rounded-md bg-neutral-100 shadow-sm md:flex-row">
             <div class="w-48 flex-none">
-              <img
-                src={(project.image as Media).cloudinaryURL}
+              <CldImage
+                src={(project.image as Media).cloudinaryPublicId!}
                 alt={(project.image as Media).alt}
                 width={720}
                 height={480}

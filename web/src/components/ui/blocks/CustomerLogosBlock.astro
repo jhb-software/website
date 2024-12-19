@@ -1,4 +1,5 @@
 ---
+import { CldImage } from 'astro-cloudinary'
 import type { Customer, CustomerLogosBlock, Media } from 'cms/src/payload-types'
 
 export type Props = CustomerLogosBlock
@@ -17,11 +18,12 @@ const { customers } = Astro.props
             const logo = (customer as Customer).logo as Media
 
             return (
-              <img
-                src={logo.url}
+              <CldImage
+                src={logo.cloudinaryPublicId!}
                 alt={logo.alt}
-                height={50}
                 width={100}
+                quality={100}
+                sizes="100vw"
                 class="overflow-hidden opacity-75 grayscale [filter:brightness(0)]"
               />
             )

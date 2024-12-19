@@ -19,6 +19,10 @@ export default defineConfig({
         context: 'server',
         access: 'secret',
       }),
+      PUBLIC_CLOUDINARY_CLOUD_NAME: envField.string({
+        context: 'server',
+        access: 'public',
+      }),
     },
   },
 })
