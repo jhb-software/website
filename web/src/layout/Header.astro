@@ -3,8 +3,22 @@ import { payloadSDK } from '../cms/sdk'
 import Link from '../components/ui/Link.astro'
 import { normalizePath } from '../utils/normalizePath'
 
+type Props = {
+  // TODO: fix: the generated SeoMetadata type is not correct
+  // alternatePaths: SeoMetadata['alternatePaths']
+  alternatePaths: {
+    hreflang: string
+    path: string
+    id?: string | null
+  }[]
+}
+
+const { alternatePaths } = Astro.props
+const { lang } = Astro.params
+
 const header = await payloadSDK.findGlobal({
   slug: 'header',
+  locale: lang as any,
   populate: {
     pages: {
       path: true,
@@ -16,11 +30,10 @@ const header = await payloadSDK.findGlobal({
   },
 })
 
-const { lang } = Astro.params
 const isPreview = Astro.url.pathname.startsWith('/preview')
 ---
 
-<header class:list={['fixed z-40 flex w-full items-center justify-between px-12 py-4']}>
+<header class:list={['fixed z-40 flex w-full items-center justify-between bg-white px-12 py-4']}>
   <a href={normalizePath(`/${lang}`, isPreview)} class="flex items-center gap-2">
     <img src={'/icon.png'} alt={'JHB'} width={40} height={40} />
     <span class="text-2xl font-bold">Software</span>
@@ -37,4 +50,25 @@ const isPreview = Astro.url.pathname.startsWith('/preview')
       }
     </ul>
   </nav>
+
+  <div class="flex gap-2">
+    {
+      alternatePaths.map(({ hreflang, path }, index) => {
+        return (
+          <>
+            <a
+              href={normalizePath(path, isPreview)}
+              class:list={[
+                'text-sm font-medium uppercase',
+                hreflang === lang ? 'text-primary underline' : 'text-slate-600 hover:text-primary',
+              ]}
+            >
+              {hreflang}
+            </a>
+            {index < alternatePaths.length - 1 && <span class="text-slate-600">/</span>}
+          </>
+        )
+      })
+    }
+  </div>
 </header>
