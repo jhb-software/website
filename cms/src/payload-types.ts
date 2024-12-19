@@ -373,6 +373,7 @@ export interface Article {
     };
     [k: string]: unknown;
   };
+  meta: SeoMetadata;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -405,6 +406,7 @@ export interface Author {
     };
     [k: string]: unknown;
   };
+  meta: SeoMetadata;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -736,6 +738,7 @@ export interface ArticlesSelect<T extends boolean = true> {
   excerpt?: T;
   image?: T;
   content?: T;
+  meta?: T | SeoMetadataSelect<T>;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -765,6 +768,7 @@ export interface AuthorsSelect<T extends boolean = true> {
   profession?: T;
   photo?: T;
   description?: T;
+  meta?: T | SeoMetadataSelect<T>;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

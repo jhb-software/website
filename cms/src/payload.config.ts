@@ -141,7 +141,7 @@ export default buildConfig({
       },
 
       // Payload official seo plugin config:
-      collections: ['pages', 'projects'],
+      collections: pageCollectionsSlugs,
       uploadsCollection: 'media',
       generateTitle: ({ doc }: { doc: any }) => `${doc.title} - ${siteName}`,
       generateURL: ({ doc }: { doc: any }) => getPageUrl({ path: doc.path })!,
