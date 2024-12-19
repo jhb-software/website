@@ -11,6 +11,7 @@ type Props = {
 }
 
 const { article } = Astro.props
+const { locale } = Astro.params
 
 const isPreview = Astro.url.pathname.startsWith('/preview')
 ---
@@ -20,26 +21,47 @@ const isPreview = Astro.url.pathname.startsWith('/preview')
     {article.title}
   </h1>
   <div class="mb-12 mt-4 flex flex-row items-center justify-center gap-4">
-    <CldImage
-      src={(article.author.photo as Media).cloudinaryPublicId!}
-      alt={article.author.name}
-      width={100}
-      height={100}
-      class="!h-16 !w-16 rounded-full"
-    />
+    <div class="flex flex-shrink-0 -space-x-6">
+      {
+        (article.authors as Author[]).map((author) => (
+          <div class="h-16 w-16 flex-shrink-0">
+            <a href={normalizePath(author.path, isPreview)}>
+              <CldImage
+                src={((author as Author).photo as Media).cloudinaryPublicId!}
+                alt={(author as Author).name}
+                width={100}
+                height={100}
+                class="inline-block aspect-square !h-16 !w-16 rounded-full ring-2 ring-white"
+              />
+            </a>
+          </div>
+        ))
+      }
+    </div>
 
     <div class="flex flex-col items-start gap-1 text-sm text-slate-700">
       <p>
-        Geschrieben von:{'  '}<a
-          class="text-primary underline"
-          href={normalizePath((article.author as Author).path, isPreview)}>{article.author.name}</a
-        >
+        Geschrieben von:{'  '}{
+          (article.authors as Author[])
+            .map((author) => (
+              <a
+                class="inline-block text-nowrap text-primary underline"
+                href={normalizePath(author.path, isPreview)}
+              >
+                {author.name}
+              </a>
+            ))
+            .map((item, index) => [
+              index > 0 ? (index == (article.authors as Author[]).length - 1 ? ` und ` : ', ') : '',
+              item,
+            ])
+        }
       </p>
 
       <p>
         Zuletzt aktualisiert am:
         {
-          new Date(article.updatedAt).toLocaleDateString('de-DE', {
+          new Date(article.updatedAt).toLocaleDateString(locale, {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
