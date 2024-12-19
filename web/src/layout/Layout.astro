@@ -1,5 +1,6 @@
 ---
 import '@fontsource-variable/montserrat'
+import { ClientRouter } from 'astro:transitions'
 import type { SeoMetadata } from 'cms/src/payload-types'
 import '../styles.css'
 import Footer from './Footer.astro'
@@ -24,6 +25,8 @@ const { meta, lang } = Astro.props
     <link rel="icon" href="/icon.svg" sizes="any" type="image/svg+xml" />
 
     <SEOMetadata {...meta} />
+
+    <ClientRouter />
   </head>
   <body
     style={{
