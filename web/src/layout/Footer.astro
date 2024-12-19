@@ -16,7 +16,11 @@ const footer = await payloadSDK.findGlobal({
 })
 ---
 
-<footer class:list={['fixed z-40 flex w-full items-center justify-between bg-white px-12']}>
+<footer
+  class:list={[
+    'bg-white-100 z-40 flex w-full items-center justify-between border-t border-gray-300 bg-white p-2 px-12',
+  ]}
+>
   <p class="font-semibold">JHB Software © {new Date().getFullYear()}</p>
 
   <nav>

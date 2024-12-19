@@ -32,7 +32,9 @@ const { meta, lang } = Astro.props
     }}
   >
     <Header />
-    <slot />
+    <main class="py-32">
+      <slot />
+    </main>
     <Footer />
   </body>
 </html>

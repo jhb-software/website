@@ -1,0 +1,34 @@
+---
+import type { Project } from 'cms/src/payload-types'
+
+type Props = {
+  tags: Project['tags']
+  class?: string
+}
+
+const { tags, class: className } = Astro.props
+---
+
+<div class:list={['space-x-2', className]}>
+  {
+    tags?.map((tag) => (
+      <span class="rounded-md bg-gray-200 px-2 py-1 text-sm font-medium text-gray-700">
+        {() => {
+          // TODO: translate tags
+          switch (tag) {
+            case 'web-app':
+              return 'Webanwendung'
+            case 'website':
+              return 'Website'
+            case 'app':
+              return 'Mobile App'
+            case 'seo':
+              return 'SEO'
+            default:
+              return tag
+          }
+        }}
+      </span>
+    ))
+  }
+</div>

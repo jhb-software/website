@@ -2,7 +2,7 @@
 import type { RichTextBlock as RichTextBlockType } from 'cms/src/payload-types'
 import RichTextLexical from './RichTextLexical.astro'
 
-type Props = RichTextBlockType
+type Props = Omit<RichTextBlockType, 'blockType'>
 
 const { text } = Astro.props
 ---

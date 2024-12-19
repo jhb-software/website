@@ -1,9 +1,9 @@
 ---
 import { CldImage } from 'astro-cloudinary'
 import type { FeaturedProjectsListBlock, Media, Project } from 'cms/src/payload-types'
-import type { Locale } from '../../../cms/types'
 import { normalizePath } from '../../../utils/normalizePath'
-import Link from '../Link.astro'
+import ProjectDate from '../ProjectDate.astro'
+import ProjectTagsList from '../ProjectTagsList.astro'
 
 export type Props = FeaturedProjectsListBlock
 
@@ -12,24 +12,11 @@ const projects = Astro.props.projects as Project[]
 projects.sort((a, b) => new Date(b.startDate || 0).getTime() - new Date(a.startDate || 0).getTime())
 
 const isPreview = Astro.url.pathname.startsWith('/preview')
-
-// TODO: add translations to the CMS
-const translations = {
-  goToProject: {
-    de: 'Zum Projekt',
-    en: 'Go to Project',
-  },
-}
-const locale = Astro.params.lang as Locale
 ---
 
-<div class="my-16 flex flex-col gap-2">
+<div class="my-16 flex flex-col gap-4">
   {
     projects?.map((project) => {
-      const quarter = (date: Date) => {
-        return `Q${Math.ceil((date.getMonth() + 1) / 3)}/${date.getFullYear()}`
-      }
-
       return (
         <a href={normalizePath(project.path, isPreview)}>
           <div class="flex flex-col items-center gap-4 rounded-md bg-neutral-100 shadow-sm md:flex-row">
@@ -47,50 +34,11 @@ const locale = Astro.params.lang as Locale
               <div class="flex flex-col gap-4">
                 <h3 class="my-0 text-lg font-semibold">{project.title}</h3>
                 <div class="flex flex-row gap-5 text-base font-normal">
-                  <span class="space-x-2">
-                    {project.tags?.map((tag) => (
-                      <span>
-                        {() => {
-                          // TODO: translate tags
-                          switch (tag) {
-                            case 'web-app':
-                              return 'Webanwendung'
-                            case 'website':
-                              return 'Website'
-                            case 'app':
-                              return 'Mobile App'
-                            case 'seo':
-                              return 'SEO'
-                            default:
-                              return tag
-                          }
-                        }}
-                      </span>
-                    ))}
-                  </span>
+                  <ProjectTagsList tags={project.tags} />
 
-                  <span class="text-gray-400">•</span>
-
-                  <div>
-                    <span>{quarter(new Date(project.startDate))}</span>
-                    {project.endDate &&
-                      quarter(new Date(project.endDate)) !==
-                        quarter(new Date(project.startDate)) && (
-                        <>
-                          <span class="text-gray-400">-</span>
-                          <span>{quarter(new Date(project.endDate))}</span>
-                        </>
-                      )}
-                  </div>
+                  <ProjectDate startDate={project.startDate} endDate={project.endDate} />
                 </div>
               </div>
-
-              <Link
-                page={{ relationTo: 'projects', value: { path: project.path } }}
-                style="light"
-                class="mt-2 hidden md:block"
-                label={'>'}
-              />
             </div>
           </div>
         </a>

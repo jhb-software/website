@@ -1,27 +1,18 @@
 ---
 import { CldImage } from 'astro-cloudinary'
 import type { FeaturedProjectsListBlock, Media, Project } from 'cms/src/payload-types'
-import type { Locale } from '../../../cms/types'
 import { normalizePath } from '../../../utils/normalizePath'
-import Link from '../Link.astro'
+import ProjectDate from '../ProjectDate.astro'
+import ProjectTagsList from '../ProjectTagsList.astro'
 
 export type Props = FeaturedProjectsListBlock
 
 const projects = Astro.props.projects as Project[]
 
 const isPreview = Astro.url.pathname.startsWith('/preview')
-
-// TODO: add translations to the CMS
-const translations = {
-  more: {
-    de: 'Mehr Entdecken',
-    en: 'Learn More',
-  },
-}
-const locale = Astro.params.lang as Locale
 ---
 
-<div class="my-16 flex flex-col gap-12">
+<div class="my-16 flex flex-col gap-24">
   {
     projects?.map((project, index) => (
       <div class="flex flex-col items-center gap-5 sm:odd:flex-row sm:odd:text-right sm:even:flex-row-reverse sm:even:text-left md:gap-8">
@@ -39,38 +30,18 @@ const locale = Astro.params.lang as Locale
         </div>
 
         <div class="flex flex-col gap-5 sm:basis-5/12">
-          <h2 class="my-0 text-xl font-semibold">{project.title}</h2>
+          <a href={normalizePath(project.path, isPreview)}>
+            <h2 class="my-0 text-xl font-semibold">{project.title}</h2>
+          </a>
 
           <div class="rounded-md bg-gray-500 p-5 text-white shadow-md">{project.excerpt}</div>
 
-          <div>
-            {project.tags?.map((tag) => (
-              <span class="mx-2">
-                {() => {
-                  // TODO: translate tags
-                  switch (tag) {
-                    case 'web-app':
-                      return 'Webanwendung'
-                    case 'website':
-                      return 'Website'
-                    case 'app':
-                      return 'Mobile App'
-                    case 'seo':
-                      return 'SEO'
-                    default:
-                      return tag
-                  }
-                }}
-              </span>
-            ))}
-          </div>
+          <div
+            class:list={['flex flex-row justify-end gap-4', index % 2 === 1 && 'flex-row-reverse']}
+          >
+            <ProjectDate startDate={project.startDate} endDate={project.endDate} />
 
-          <div>
-            <Link
-              page={{ relationTo: 'projects', value: { path: project.path } }}
-              label={translations.more[locale]}
-              style="text-primary"
-            />
+            <ProjectTagsList tags={project.tags} />
           </div>
         </div>
       </div>

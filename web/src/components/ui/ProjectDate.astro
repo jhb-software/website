@@ -1,0 +1,24 @@
+---
+import { dateStringToQuarter } from '@/utils/dateToQuarter'
+
+type Props = {
+  startDate: string
+  endDate?: string | null
+  class?: string
+}
+
+const { startDate, endDate, class: className } = Astro.props
+---
+
+<p class:list={[className, 'text-slate-500']}>
+  <span>{dateStringToQuarter(startDate)}</span>
+
+  {
+    endDate && dateStringToQuarter(endDate) !== dateStringToQuarter(startDate) && (
+      <>
+        <span class="font-semibold text-slate-300"> - </span>
+        <span>{dateStringToQuarter(endDate)}</span>
+      </>
+    )
+  }
+</p>
