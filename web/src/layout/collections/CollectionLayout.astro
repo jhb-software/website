@@ -5,6 +5,7 @@ import LivePreviewRefreshPageScript from '@/components/LivePreviewRefreshPageScr
 import type { PageProps } from 'cms/src/endpoints/pageProps'
 import Layout from '../Layout.astro'
 import ArticleLayout from './ArticleLayout.astro'
+import AuthorLayout from './AuthorLayout.astro'
 import PageLayout from './PageLayout.astro'
 import ProjectLayout from './ProjectLayout.astro'
 
@@ -35,6 +36,8 @@ const pageData = await getPageData(collection, id, locale, { preview })
           return <ProjectLayout project={pageData} />
         case 'articles':
           return <ArticleLayout article={pageData} />
+        case 'authors':
+          return <AuthorLayout author={pageData} />
         default:
           throw new Error(`Collection ${collection} has no layout yet.`)
       }

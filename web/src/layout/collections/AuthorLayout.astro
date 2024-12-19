@@ -1,0 +1,32 @@
+---
+import type { PageData } from '@/cms/getPageData'
+import RichTextBlock from '@/components/ui/blocks/RichTextBlock/RichTextBlock.astro'
+import SectionShell from '@/layout/SectionShell.astro'
+import { CldImage } from 'astro-cloudinary'
+import type { Media } from 'cms/src/payload-types'
+
+type Props = {
+  author: PageData['authors']
+}
+
+const { author } = Astro.props
+---
+
+<SectionShell>
+  <h1 class="text-balance text-center text-4xl font-extrabold text-slate-700">
+    {author.name}
+  </h1>
+  <p class="mb-8 text-center text-lg text-slate-700">{author.profession}</p>
+
+  <div class="flex flex-col items-center">
+    <CldImage
+      src={(author.photo as Media).cloudinaryPublicId!}
+      alt={author.name}
+      width={500}
+      height={500}
+      class="!h-64 !w-64 rounded-full"
+    />
+  </div>
+
+  <RichTextBlock text={author.description} class="mt-8" />
+</SectionShell>

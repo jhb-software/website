@@ -1,4 +1,4 @@
-import type { Article, Page, Project } from 'cms/src/payload-types'
+import type { Article, Author, Page, Project } from 'cms/src/payload-types'
 import type { PageCollectionSlugs } from 'cms/src/payload.config'
 import { payloadSDK } from './sdk'
 import type { Locale } from './types'
@@ -7,6 +7,7 @@ export type PageData = {
   pages: Page
   projects: Project
   articles: Article
+  authors: Author
 }
 
 export async function getPageData<T extends PageCollectionSlugs>(
