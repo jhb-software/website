@@ -1,11 +1,8 @@
 ---
-import { getPageData } from '../../cms/getPageData'
+import CollectionLayout from '@/layout/collections/CollectionLayout.astro'
 import { getStaticPaths as getStaticPathsCms } from '../../cms/getStaticPaths'
 import { locales } from '../../cms/locales'
 import type { Locale } from '../../cms/types'
-import Section from '../../components/ui/Section.astro'
-import HeroSection from '../../layout/HeroSection.astro'
-import Layout from '../../layout/Layout.astro'
 
 export async function getStaticPaths() {
   return await getStaticPathsCms()
@@ -18,12 +15,6 @@ if (!locales.includes(lang!)) {
   return Astro.redirect(Astro.url.pathname, 404)
 }
 const locale = lang as Locale
-
-const pageData = await getPageData(props, locale)
 ---
 
-<Layout {...pageData} lang={lang}>
-  <HeroSection {...pageData.hero} />
-
-  {pageData.sections?.map((section) => <Section {...section} />)}
-</Layout>
+<CollectionLayout pageProps={props} preview={false} locale={locale} />

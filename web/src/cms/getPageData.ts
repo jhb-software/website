@@ -1,30 +1,26 @@
-import type { PageProps } from 'cms/src/endpoints/pageProps'
-import type { HeroSection, Page, SeoMetadata } from 'cms/src/payload-types'
+import type { Page, Project } from 'cms/src/payload-types'
+import type { PageCollectionSlugs } from 'cms/src/payload.config'
 import { payloadSDK } from './sdk'
 import type { Locale } from './types'
 
-export type PageMetaData = {
-  meta: SeoMetadata
+export type PageData = {
+  pages: Page
+  projects: Project
 }
 
-export type PageData = PageMetaData & {
-  hero: HeroSection
-  sections: Page['sections']
-  [key: string]: unknown
-}
-
-export async function getPageData(
-  props: PageProps,
+export async function getPageData<T extends PageCollectionSlugs>(
+  collection: T,
+  id: string,
   locale: Locale,
   options?: { preview?: boolean },
-): Promise<PageData> {
+): Promise<T extends keyof PageData ? PageData[T] : never> {
   const result = await payloadSDK.find({
-    collection: props.collection as any,
+    collection: collection,
     locale,
     draft: options?.preview ? true : false,
     where: {
       id: {
-        equals: props.id,
+        equals: id,
       },
       _status: options?.preview ? { in: ['draft', 'published'] } : { equals: 'published' },
     },
@@ -33,8 +29,8 @@ export async function getPageData(
   })
 
   if (result.totalDocs === 0) {
-    throw new Error('Page for props ' + JSON.stringify(props) + ' not found')
+    throw new Error('Page for collection ' + collection + ' with id ' + id + ' not found')
   }
 
-  return result.docs.at(0) as unknown as PageData
+  return result.docs.at(0) as unknown as T extends keyof PageData ? PageData[T] : never
 }

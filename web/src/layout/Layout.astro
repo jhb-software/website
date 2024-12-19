@@ -1,12 +1,13 @@
 ---
 import '@fontsource-variable/montserrat'
-import type { PageMetaData } from '../cms/getPageData'
+import type { SeoMetadata } from 'cms/src/payload-types'
 import '../styles.css'
 import Footer from './Footer.astro'
 import Header from './Header.astro'
 import SEOMetadata from './SEOMetadata.astro'
 
-type Props = PageMetaData & {
+type Props = {
+  meta: SeoMetadata
   lang: string
 }
 

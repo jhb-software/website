@@ -1,0 +1,22 @@
+---
+import type { PageData } from '@/cms/getPageData'
+import SectionShell from '@/layout/SectionShell.astro'
+import { CldImage } from 'astro-cloudinary'
+import type { Media } from 'cms/src/payload-types'
+
+type Props = {
+  project: PageData['projects']
+}
+
+const { project: pageData } = Astro.props
+---
+
+<SectionShell class="pt-32">
+  <h1 class="text-center text-2xl font-semibold">{pageData.title}</h1>
+  <CldImage
+    src={(pageData.image as Media).cloudinaryURL!}
+    alt={(pageData.image as Media).alt}
+    width={1920}
+    height={1080}
+  />
+</SectionShell>

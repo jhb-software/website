@@ -1,5 +1,5 @@
 import type { Config } from '@/payload-types'
-import { locales, pageCollectionsSlugs } from '@/payload.config'
+import { locales, PageCollectionSlugs, pageCollectionsSlugs } from '@/payload.config'
 import { CollectionSlug, PayloadRequest } from 'payload'
 import { StaticPageProps } from './staticPages'
 
@@ -29,7 +29,7 @@ export async function getPagePropsByPath(req: PayloadRequest) {
 
   // If there is none or only one slug after the locale, the path is for a page in the pages collection.
   // Therefore iterate over the pages collection first. Otherwise the order does not matter.
-  const collections =
+  const collections: PageCollectionSlugs[] =
     slugs.length <= 1
       ? ['pages', ...pageCollectionsSlugs.filter((collection) => collection !== 'pages')]
       : pageCollectionsSlugs

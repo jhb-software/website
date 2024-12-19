@@ -5,7 +5,7 @@ import { PayloadRequest } from 'payload'
 export type StaticPageProps = {
   id: string
   paths: Partial<Record<Config['locale'], string>>
-  collection: string
+  collection: PageCollectionSlugs
 }
 
 /**

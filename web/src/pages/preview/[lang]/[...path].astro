@@ -1,12 +1,8 @@
 ---
-import { getPageData } from '../../../cms/getPageData'
-import { getPageProps } from '../../../cms/getPageProps'
-import { locales } from '../../../cms/locales'
-import type { Locale } from '../../../cms/types'
-import LivePreviewRefreshPageScript from '../../../components/LivePreviewRefreshPageScript.astro'
-import Section from '../../../components/ui/Section.astro'
-import HeroSection from '../../../layout/HeroSection.astro'
-import Layout from '../../../layout/Layout.astro'
+import { getPageProps } from '@/cms/getPageProps'
+import { locales } from '@/cms/locales'
+import type { Locale } from '@/cms/types'
+import CollectionLayout from '@/layout/collections/CollectionLayout.astro'
 
 // Preview mode, dont prerender these routes at build time
 export const prerender = false
@@ -17,17 +13,9 @@ if (!locales.includes(lang!)) {
   return Astro.redirect(Astro.url.pathname, 404)
 }
 const locale = lang as Locale
-
 const fullPath = `/${locale}${path ? '/' : ''}${path ?? ''}`
 
 const pageProps = await getPageProps(fullPath)
-const pageData = await getPageData(pageProps, locale, { preview: true })
 ---
 
-<Layout {...pageData} lang={lang!}>
-  <LivePreviewRefreshPageScript />
-
-  <HeroSection {...pageData.hero} />
-
-  {pageData.sections?.map((section) => <Section {...section} />)}
-</Layout>
+<CollectionLayout pageProps={pageProps} preview={true} locale={locale} />

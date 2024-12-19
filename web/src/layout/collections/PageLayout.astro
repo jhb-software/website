@@ -1,0 +1,15 @@
+---
+import type { PageData } from '@/cms/getPageData'
+import Section from '@/components/ui/Section.astro'
+import HeroSection from '../HeroSection.astro'
+
+type Props = {
+  page: PageData['pages']
+}
+
+const { page: pageData } = Astro.props
+---
+
+<HeroSection {...pageData.hero} />
+
+{pageData.sections?.map((section) => <Section {...section} />)}

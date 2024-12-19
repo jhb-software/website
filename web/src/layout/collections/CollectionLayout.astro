@@ -1,0 +1,40 @@
+---
+import { getPageData } from '@/cms/getPageData'
+import type { Locale } from '@/cms/types'
+import LivePreviewRefreshPageScript from '@/components/LivePreviewRefreshPageScript.astro'
+import type { PageProps } from 'cms/src/endpoints/pageProps'
+import Layout from '../Layout.astro'
+import PageLayout from './PageLayout.astro'
+import ProjectLayout from './ProjectLayout.astro'
+
+type Props = {
+  pageProps: PageProps
+  locale: Locale
+  preview?: boolean
+}
+
+const {
+  pageProps: { collection, id },
+  locale,
+  preview,
+} = Astro.props
+
+const pageData = await getPageData(collection, id, locale, { preview })
+---
+
+<Layout meta={pageData.meta} lang={locale!}>
+  {preview && <LivePreviewRefreshPageScript />}
+
+  {
+    () => {
+      switch (collection) {
+        case 'pages':
+          return <PageLayout page={pageData} />
+        case 'projects':
+          return <ProjectLayout project={pageData} />
+        default:
+          throw new Error(`${collection} has no layout yet.`)
+      }
+    }
+  }
+</Layout>
