@@ -40,10 +40,12 @@ const Articles: CollectionConfig = createPageCollectionConfig({
   fields: [
     // Sidebar fields:
     {
-      name: 'author',
+      name: 'authors',
       type: 'relationship',
       relationTo: 'authors',
       required: true,
+      hasMany: true,
+      minRows: 1,
       admin: {
         position: 'sidebar',
       },

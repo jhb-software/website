@@ -353,7 +353,7 @@ export interface Article {
   parent: string | Page;
   path: string;
   breadcrumbs: Breadcrumbs;
-  author: string | Author;
+  authors: (string | Author)[];
   categories?: ('web' | 'app')[] | null;
   title: string;
   excerpt: string;
@@ -730,7 +730,7 @@ export interface ArticlesSelect<T extends boolean = true> {
   parent?: T;
   path?: T;
   breadcrumbs?: T | BreadcrumbsSelect<T>;
-  author?: T;
+  authors?: T;
   categories?: T;
   title?: T;
   excerpt?: T;

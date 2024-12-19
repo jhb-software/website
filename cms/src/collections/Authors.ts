@@ -51,6 +51,7 @@ const Authors: CollectionConfig = createPageCollectionConfig({
       name: 'profession',
       type: 'text',
       required: true,
+      localized: true,
       label: {
         en: 'Profession',
         de: 'Berufbezeichnung',
