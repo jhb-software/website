@@ -10,6 +10,6 @@ type Props = {
 const { page: pageData } = Astro.props
 ---
 
-<HeroSection {...pageData.hero} />
+<HeroSection {...pageData.hero} breadcrumbs={pageData.breadcrumbs} />
 
 {pageData.sections?.map((section) => <Section {...section} />)}

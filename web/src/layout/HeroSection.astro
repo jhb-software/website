@@ -1,14 +1,16 @@
 ---
-import type { HeroSection } from 'cms/src/payload-types'
+import type { Breadcrumbs, HeroSection } from 'cms/src/payload-types'
+import BreadcrumbsBlock from '../components/ui/Breadcrumbs.astro'
 import Link from '../components/ui/Link.astro'
 import SectionShell from './SectionShell.astro'
 
-export type Props = HeroSection
+export type Props = HeroSection & { breadcrumbs: Breadcrumbs }
 
-const { title, subtitle, links } = Astro.props
+const { title, subtitle, links, breadcrumbs } = Astro.props
 ---
 
 <SectionShell class="flex flex-col items-center gap-4">
+  {breadcrumbs && <BreadcrumbsBlock crumbs={breadcrumbs} />}
   <h1 class="my-6 max-w-2xl text-balance text-center text-4xl font-extrabold text-primary">
     {title}
   </h1>

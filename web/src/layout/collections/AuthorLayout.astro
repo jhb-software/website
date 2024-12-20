@@ -1,19 +1,22 @@
 ---
 import type { PageData } from '@/cms/getPageData'
 import RichTextBlock from '@/components/ui/blocks/RichTextBlock/RichTextBlock.astro'
+import BreadcrumbsBlock from '@/components/ui/Breadcrumbs.astro'
 import SectionShell from '@/layout/SectionShell.astro'
 import { CldImage } from 'astro-cloudinary'
-import type { Media } from 'cms/src/payload-types'
+import type { Breadcrumbs, Media } from 'cms/src/payload-types'
 
 type Props = {
   author: PageData['authors']
+  breadcrumbs: Breadcrumbs
 }
 
-const { author } = Astro.props
+const { author, breadcrumbs } = Astro.props
 ---
 
 <SectionShell>
-  <h1 class="text-balance text-center text-4xl font-extrabold text-slate-700">
+  {breadcrumbs && <BreadcrumbsBlock crumbs={breadcrumbs} />}
+  <h1 class="mt-4 text-balance text-center text-4xl font-extrabold text-slate-700">
     {author.name}
   </h1>
   <p class="mb-8 text-center text-lg text-slate-700">{author.profession}</p>

@@ -33,11 +33,11 @@ const pageData = await getPageData(collection, id, locale, { preview })
         case 'pages':
           return <PageLayout page={pageData} />
         case 'projects':
-          return <ProjectLayout project={pageData} />
+          return <ProjectLayout project={pageData} breadcrumbs={pageData.breadcrumbs} />
         case 'articles':
-          return <ArticleLayout article={pageData} />
+          return <ArticleLayout article={pageData} breadcrumbs={pageData.breadcrumbs} />
         case 'authors':
-          return <AuthorLayout author={pageData} />
+          return <AuthorLayout author={pageData} breadcrumbs={pageData.breadcrumbs} />
         default:
           throw new Error(`Collection ${collection} has no layout yet.`)
       }

@@ -1,21 +1,26 @@
 ---
 import type { PageData } from '@/cms/getPageData'
+import BreadcrumbsBlock from '@/components/ui/Breadcrumbs.astro'
 import ProjectDate from '@/components/ui/ProjectDate.astro'
 import ProjectTagsList from '@/components/ui/ProjectTagsList.astro'
 import RichTextBlock from '@/components/ui/blocks/RichTextBlock/RichTextBlock.astro'
 import SectionShell from '@/layout/SectionShell.astro'
 import { CldImage } from 'astro-cloudinary'
-import type { Media } from 'cms/src/payload-types'
+import type { Breadcrumbs, Media } from 'cms/src/payload-types'
 
 type Props = {
   project: PageData['projects']
+  breadcrumbs: Breadcrumbs
 }
 
-const { project: pageData } = Astro.props
+const { project: pageData, breadcrumbs } = Astro.props
 ---
 
 <SectionShell>
-  <h1 class="text-balance text-center text-4xl font-extrabold text-slate-700">{pageData.title}</h1>
+  {breadcrumbs && <BreadcrumbsBlock crumbs={breadcrumbs} />}
+  <h1 class="mt-4 text-balance text-center text-4xl font-extrabold text-slate-700">
+    {pageData.title}
+  </h1>
 
   <div class="flex flex-col items-center gap-4">
     <ProjectDate
