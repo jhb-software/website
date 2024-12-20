@@ -1,5 +1,6 @@
 import type { Config } from '@/payload-types'
 import { locales, pageCollectionsSlugs } from '@/payload.config'
+import { createHash } from 'crypto'
 import { PayloadRequest } from 'payload'
 
 export type SitemapEntry = {
@@ -59,9 +60,20 @@ export async function getSitemap(req: PayloadRequest) {
     }
   }
 
-  return new Response(JSON.stringify(pages), {
+  const jsonString = JSON.stringify(pages)
+  const etag = createHash('md5').update(jsonString).digest('hex')
+
+  // Check if the client has a matching etag
+  const ifNoneMatch = req.headers.get('if-none-match')
+  if (ifNoneMatch === etag) {
+    return new Response(null, { status: 304 })
+  }
+
+  return new Response(jsonString, {
     headers: {
       'Content-Type': 'application/json',
+      ETag: etag,
+      'Cache-Control': 'no-cache',
     },
   })
 }

@@ -1,5 +1,6 @@
 import type { Config } from '@/payload-types'
 import { PageCollectionSlugs, pageCollectionsSlugs } from '@/payload.config'
+import { createHash } from 'crypto'
 import { PayloadRequest } from 'payload'
 
 export type StaticPageProps = {
@@ -49,9 +50,20 @@ export async function getStatisPagesProps(req: PayloadRequest) {
     }
   }
 
-  return new Response(JSON.stringify(collectionItems), {
+  const jsonString = JSON.stringify(collectionItems)
+  const etag = createHash('md5').update(jsonString).digest('hex')
+
+  // Check if the client has a matching etag
+  const ifNoneMatch = req.headers.get('if-none-match')
+  if (ifNoneMatch === etag) {
+    return new Response(null, { status: 304 })
+  }
+
+  return new Response(jsonString, {
     headers: {
       'Content-Type': 'application/json',
+      ETag: etag,
+      'Cache-Control': 'no-cache',
     },
   })
 }
