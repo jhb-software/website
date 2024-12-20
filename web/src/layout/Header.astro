@@ -1,4 +1,5 @@
 ---
+import type { Page } from 'cms/src/payload-types'
 import { payloadSDK } from '../cms/sdk'
 import Link from '../components/ui/Link.astro'
 import { normalizePath } from '../utils/normalizePath'
@@ -31,16 +32,20 @@ const header = await payloadSDK.findGlobal({
 })
 
 const isPreview = Astro.url.pathname.startsWith('/preview')
+const currentPath = Astro.url.pathname
 ---
 
-<header class:list={['fixed z-40 flex w-full items-center justify-between bg-white px-12 py-4']}>
+<header
+  class:list={['fixed z-40 flex w-full items-center justify-between bg-white px-4 py-4 md:px-12']}
+  id="header"
+>
   <a href={normalizePath(`/${lang}`, isPreview)} class="flex items-center gap-2">
     <img src={'/icon.png'} alt={'JHB'} width={40} height={40} />
     <span class="text-2xl font-bold">Software</span>
   </a>
 
   <nav>
-    <ul class="flex list-none gap-4">
+    <ul class="hidden list-none gap-4 md:flex">
       {
         header.links?.map(({ link }) => (
           <li>
@@ -51,7 +56,7 @@ const isPreview = Astro.url.pathname.startsWith('/preview')
     </ul>
   </nav>
 
-  <div class="flex gap-2">
+  <div class="hidden gap-2 md:flex">
     {
       alternatePaths.map(({ hreflang, path }, index) => {
         return (
@@ -71,4 +76,116 @@ const isPreview = Astro.url.pathname.startsWith('/preview')
       })
     }
   </div>
+
+  <div class="block md:hidden">
+    <div class="menu-icon" id="menu-icon">
+      <input class="menu-icon__checkbox" type="checkbox" />
+      <div>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
 </header>
+
+<section
+  role="dialog"
+  class:list={['fixed inset-0 z-50 hidden h-screen w-screen bg-white p-4']}
+  id="navbar-modal"
+>
+  <div class="flex h-full flex-col items-stretch justify-between">
+    <ul class="flex flex-col gap-5">
+      {
+        header.links?.map(({ link }) => (
+          <li>
+            <Link
+              {...link}
+              style={
+                normalizePath((link.page?.value as Page)?.path, isPreview) == currentPath
+                  ? 'text-primary'
+                  : 'text'
+              }
+              uppercase={true}
+              class="w-full !text-lg"
+            />
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="flex flex-row justify-center gap-2">
+      {
+        alternatePaths.map(({ hreflang, path }, index) => {
+          return (
+            <>
+              <a
+                href={normalizePath(path, isPreview)}
+                class:list={[
+                  'text-md font-medium uppercase',
+                  hreflang === lang
+                    ? 'text-primary underline'
+                    : 'text-slate-600 hover:text-primary',
+                ]}
+              >
+                {hreflang}
+              </a>
+              {index < alternatePaths.length - 1 && <span class="text-slate-600">/</span>}
+            </>
+          )
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  function setupHeader() {
+    const modalButton = document.getElementById('menu-icon')
+    const modal = document.getElementById('navbar-modal')
+    const navbar = document.getElementById('header')
+
+    if (!modalButton || !modal || !navbar) {
+      throw new Error('Missing elements')
+    }
+
+    modal?.style.setProperty('top', `${navbar.clientHeight}px`)
+    modal?.style.setProperty('height', `${window.innerHeight - navbar.clientHeight}px`)
+
+    const animateInClasses = ['animate-in', 'slide-in-from-top-5', 'fade-in', 'duration-300']
+    const animateOutClasses = ['animate-out', 'slide-out-to-top-5', 'fade-out', 'duration-300']
+
+    modalButton?.addEventListener('click', () => {
+      if (modalButton.classList.contains('active')) {
+        // close modal
+        modalButton.classList.remove('active')
+        modal?.classList.add(...animateOutClasses)
+
+        // Wait for animation to complete before hiding
+        setTimeout(() => {
+          modal?.classList.add('hidden')
+          modal?.classList.remove(...animateOutClasses)
+        }, 300)
+
+        // enable page scrolling
+        document.body.style.overflow = 'auto'
+      } else {
+        // open modal
+        modalButton.classList.add('active')
+        modal?.classList.remove('hidden')
+        modal?.classList.add(...animateInClasses)
+
+        // Remove animation classes after animation completes
+        setTimeout(() => {
+          modal?.classList.remove(...animateInClasses)
+        }, 300)
+
+        // disable page scrolling
+        document.body.style.overflow = 'hidden'
+      }
+    })
+  }
+
+  // Run script on the initial and any subsequent page loads due to navigation
+  // https://docs.astro.build/en/guides/view-transitions/#astropage-load
+  document.addEventListener('astro:page-load', setupHeader)
+</script>

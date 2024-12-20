@@ -2,3 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 @tailwind variants;
+
+@layer components {
+  .menu-icon {
+    @apply relative h-12 w-12 cursor-pointer;
+  }
+
+  .menu-icon__checkbox {
+    @apply absolute z-20 block h-full w-full cursor-pointer opacity-0;
+    -webkit-touch-callout: none;
+  }
+
+  .menu-icon div {
+    @apply absolute bottom-0 left-0 right-0 top-0 m-auto h-4 w-7;
+  }
+
+  .menu-icon span {
+    @apply absolute block h-[3px] w-full rounded-sm bg-slate-700;
+    transition: all 0.2s cubic-bezier(0.1, 0.82, 0.76, 0.965);
+  }
+
+  .menu-icon span:first-of-type {
+    @apply top-0;
+  }
+
+  .menu-icon span:last-of-type {
+    @apply bottom-0 left-[1/5] w-[4/5];
+  }
+
+  .menu-icon.active span:first-of-type,
+  .menu-icon__checkbox:checked + div span:first-of-type {
+    @apply top-[4px];
+    transform: rotate(45deg);
+  }
+
+  .menu-icon.active span:last-of-type,
+  .menu-icon__checkbox:checked + div span:last-of-type {
+    @apply bottom-[9px] left-0 w-full;
+    transform: rotate(-45deg);
+  }
+}
