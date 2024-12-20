@@ -2,9 +2,16 @@
 import type { Link, Page } from 'cms/src/payload-types'
 import { normalizePath } from '../../utils/normalizePath'
 
-type Props = Link & { class?: string; uppercase?: boolean }
+type Props =
+  // When the data is a Link group from the CMS:
+  | (Link & { class?: string; uppercase?: boolean })
 
-const { label, page, style, class: className, uppercase = true } = Astro.props
+  // When the data is a path (e.g. from a breadcrumb):
+  | {
+      path: string
+      style: Link['style']
+      class?: string
+    }
 
 function buttonStyles(style: Link['style']) {
   switch (style) {
@@ -21,7 +28,12 @@ function buttonStyles(style: Link['style']) {
   }
 }
 
-const rawPath = (page?.value as Page)?.path
+const rawPath =
+  'path' in Astro.props
+    ? Astro.props.path
+    : 'page' in Astro.props
+      ? (Astro.props.page?.value as Page)?.path
+      : undefined
 
 if (!rawPath) {
   throw new Error('A path is required to build a link. Got: ' + JSON.stringify(Astro.props))
@@ -35,10 +47,10 @@ const href = normalizePath(rawPath, isPreview)
   href={href}
   class:list={[
     'inline-flex items-center gap-3 rounded-md px-4 py-3 text-sm font-semibold no-underline transition-all duration-200',
-    uppercase ? 'uppercase' : 'normal-case',
-    buttonStyles(style),
-    className,
+    'uppercase' in Astro.props && Astro.props.uppercase && 'uppercase',
+    buttonStyles(Astro.props.style),
+    Astro.props.class,
   ]}
 >
-  {label}
+  {'label' in Astro.props ? Astro.props.label : <slot />}
 </a>
