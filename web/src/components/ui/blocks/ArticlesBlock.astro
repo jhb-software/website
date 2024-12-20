@@ -1,0 +1,19 @@
+---
+import type { Article, ArticlesBlock } from 'cms/src/payload-types'
+import ArticleCard from '../ArticleCard.astro'
+
+export type Props = ArticlesBlock
+
+const articles = Astro.props.articles as Article[]
+
+// Sort articles by date, newest first
+articles?.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+---
+
+<div class="my-16 grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-8">
+  {
+    articles?.map((article, index) => (
+      <ArticleCard {...article} featured={index === 0} class={index === 0 ? 'md:col-span-2' : ''} />
+    ))
+  }
+</div>

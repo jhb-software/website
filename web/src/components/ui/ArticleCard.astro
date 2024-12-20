@@ -1,0 +1,117 @@
+---
+import { payloadSDK } from '@/cms/sdk'
+import { CldImage } from 'astro-cloudinary'
+import type { Article, Author, Media } from 'cms/src/payload-types'
+import { normalizePath } from '../../utils/normalizePath'
+
+type Props = Article & {
+  featured?: boolean
+  class?: string
+}
+
+const { featured, class: className, ...article } = Astro.props
+const locale = Astro.params.lang
+
+const isPreview = Astro.url.pathname.startsWith('/preview')
+
+let authors: Author[] = []
+if (featured) {
+  // TODO: populate the authors image when fetching the articles block to avoid this SDK request
+  const result = await payloadSDK.find({
+    collection: 'authors',
+    locale: locale as any,
+    draft: isPreview ? true : false,
+    where: {
+      id: {
+        in: article.authors?.map((author) => (author as Author).id),
+      },
+      _status: isPreview ? { in: ['draft', 'published'] } : { equals: 'published' },
+    },
+    limit: 1,
+    pagination: false,
+  })
+
+  authors = result.docs
+}
+---
+
+<div
+  class:list={[
+    'flex items-center gap-4 md:gap-8',
+    featured ? 'flex-col md:flex-row' : 'flex-col',
+    className,
+  ]}
+>
+  <a href={normalizePath(article.path, isPreview)} class={featured ? 'basis-7/12' : ''}>
+    <CldImage
+      src={(article.image as Media).cloudinaryPublicId!}
+      alt={(article.image as Media).alt}
+      width={1920}
+      height={1080}
+      loading={featured ? 'eager' : 'lazy'}
+      class="my-0 rounded-xl"
+    />
+  </a>
+
+  <div class:list={['flex flex-col gap-4', featured ? 'basis-5/12' : '']}>
+    <div class="flex flex-row items-center gap-2 text-sm">
+      {
+        article.categories?.map((category) => (
+          <span class="rounded-md bg-gray-200 px-2 py-1 text-sm font-medium text-gray-700">
+            {category}
+          </span>
+        ))
+      }
+      <span class="text-sm text-slate-500">
+        {
+          new Date(article.createdAt).toLocaleDateString(locale, {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })
+        }
+      </span>
+    </div>
+
+    <a href={normalizePath(article.path, isPreview)}>
+      <h2 class="my-0 text-xl font-semibold">{article.title}</h2>
+    </a>
+
+    <div class="text-sm">{article.excerpt}</div>
+
+    {
+      featured && (
+        <div class="flex items-center gap-4">
+          <div class="flex flex-shrink-0 -space-x-6">
+            {authors.map((author) => (
+              <div class="h-12 w-12 flex-shrink-0">
+                <a href={normalizePath(author.path, isPreview)}>
+                  <CldImage
+                    src={((author as Author).photo as Media).cloudinaryPublicId!}
+                    alt={(author as Author).name}
+                    width={200}
+                    height={200}
+                    class="inline-block aspect-square !h-11 !w-11 rounded-full ring-2 ring-white"
+                  />
+                </a>
+              </div>
+            ))}
+          </div>
+          <div class="flex flex-col text-sm">
+            <div>
+              {authors.map((author, index) => [
+                index > 0 ? ', ' : '',
+                <a href={normalizePath(author.path, isPreview)} class="font-medium">
+                  {author.name}
+                </a>,
+              ])}
+              <div class="text-slate-600">
+                {authors.map((author) => author.profession).join(', ')}
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    }
+  </div>
+</div>
