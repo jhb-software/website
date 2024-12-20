@@ -4,6 +4,18 @@
 @tailwind variants;
 
 @layer components {
+  .header-solid {
+    @apply bg-white;
+  }
+
+  .header-scrolled {
+    @apply bg-white shadow-sm;
+  }
+
+  .header-transparent {
+    @apply bg-transparent;
+  }
+
   .menu-icon {
     @apply relative h-12 w-12 cursor-pointer;
   }

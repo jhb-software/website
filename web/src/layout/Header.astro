@@ -36,7 +36,7 @@ const currentPath = Astro.url.pathname
 ---
 
 <header
-  class:list={['fixed z-40 flex w-full items-center justify-between bg-white px-4 py-4 md:px-12']}
+  class:list={['fixed z-40 flex w-full items-center justify-between px-4 py-4 md:px-12']}
   id="header"
 >
   <a href={normalizePath(`/${lang}`, isPreview)} class="flex items-center gap-2">
@@ -113,7 +113,7 @@ const currentPath = Astro.url.pathname
       }
     </ul>
 
-    <div class="flex flex-row justify-center gap-2">
+    <div class="flex flex-row items-center justify-center gap-4">
       {
         alternatePaths.map(({ hreflang, path }, index) => {
           return (
@@ -121,7 +121,7 @@ const currentPath = Astro.url.pathname
               <a
                 href={normalizePath(path, isPreview)}
                 class:list={[
-                  'text-md font-medium uppercase',
+                  'text-lg font-medium uppercase',
                   hreflang === lang
                     ? 'text-primary underline'
                     : 'text-slate-600 hover:text-primary',
@@ -142,14 +142,23 @@ const currentPath = Astro.url.pathname
   function setupHeader() {
     const modalButton = document.getElementById('menu-icon')
     const modal = document.getElementById('navbar-modal')
-    const navbar = document.getElementById('header')
+    const header = document.getElementById('header')
 
-    if (!modalButton || !modal || !navbar) {
+    if (!modalButton || !modal || !header) {
       throw new Error('Missing elements')
     }
 
-    modal?.style.setProperty('top', `${navbar.clientHeight}px`)
-    modal?.style.setProperty('height', `${window.innerHeight - navbar.clientHeight}px`)
+    const intercept = document.createElement('div')
+    intercept.setAttribute('data-observer-intercept', '')
+    header.before(intercept)
+
+    const observer = new IntersectionObserver(([entry]) => {
+      header.classList.toggle('header-scrolled', !entry.isIntersecting)
+      header.classList.toggle('header-transparent', entry.isIntersecting)
+      document.body.classList.toggle('scrolled', !entry.isIntersecting)
+    })
+
+    observer.observe(intercept)
 
     const animateInClasses = ['animate-in', 'slide-in-from-top-5', 'fade-in', 'duration-300']
     const animateOutClasses = ['animate-out', 'slide-out-to-top-5', 'fade-out', 'duration-300']
@@ -160,6 +169,11 @@ const currentPath = Astro.url.pathname
         modalButton.classList.remove('active')
         modal?.classList.add(...animateOutClasses)
 
+        // reset header styles
+        header.classList.add(
+          document.body.classList.contains('scrolled') ? 'header-scrolled' : 'header-transparent',
+        )
+
         // Wait for animation to complete before hiding
         setTimeout(() => {
           modal?.classList.add('hidden')
@@ -169,10 +183,19 @@ const currentPath = Astro.url.pathname
         // enable page scrolling
         document.body.style.overflow = 'auto'
       } else {
+        modal?.style.setProperty('top', `${header.clientHeight}px`)
+        modal?.style.setProperty('height', `${window.innerHeight - header.clientHeight}px`)
+
         // open modal
         modalButton.classList.add('active')
         modal?.classList.remove('hidden')
         modal?.classList.add(...animateInClasses)
+
+        // set header styles
+        header.classList.remove('header-transparent')
+        header.classList.add(
+          document.body.classList.contains('scrolled') ? 'header-scrolled' : 'header-solid',
+        )
 
         // Remove animation classes after animation completes
         setTimeout(() => {
