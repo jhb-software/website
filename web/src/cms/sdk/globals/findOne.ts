@@ -1,5 +1,6 @@
 import type { SelectType } from 'payload'
 
+import { buildCache } from '@/cms/cache'
 import type { PayloadSDK } from '../sdk'
 import type {
   GlobalSlug,
@@ -33,12 +34,22 @@ export async function findGlobal<
   options: FindGlobalOptions<T, TSlug, TSelect>,
   init?: RequestInit,
 ): Promise<TransformGlobalWithSelect<T, TSlug, TSelect>> {
+  const cacheKey = `${options.locale}-${options.slug}`
+  const block = buildCache.globalBlocks.get(cacheKey)
+
+  if (block) {
+    return block
+  }
+
   const response = await sdk.request({
     args: options,
     init,
     method: 'GET',
     path: `/globals/${options.slug}`,
   })
+  const json = response.json()
 
-  return response.json()
+  buildCache.globalBlocks.set(cacheKey, json)
+
+  return json
 }
