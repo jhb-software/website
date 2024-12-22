@@ -231,6 +231,9 @@ export interface Project {
   customer: string | Customer;
   startDate: string;
   endDate?: string | null;
+  /**
+   * Whether the project should be shown in the featured projects section.
+   */
   featured: boolean;
   title: string;
   excerpt: string;
@@ -295,12 +298,18 @@ export interface Media {
  * via the `definition` "SeoMetadata".
  */
 export interface SeoMetadata {
+  /**
+   * Keywords that indicate what the page is about. These are used for generating the meta description.
+   */
   keywords: {
     keyword: string;
     id?: string | null;
   }[];
   title?: string | null;
   description?: string | null;
+  /**
+   * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+   */
   image?: (string | null) | Media;
 }
 /**
