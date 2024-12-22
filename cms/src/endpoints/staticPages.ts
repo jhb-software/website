@@ -26,10 +26,6 @@ export async function getStatisPagesProps(req: PayloadRequest) {
       },
       select: {
         path: true,
-
-        // TODO: remove these selects once the setVirtualFieldsBeforeRead hook from the pages plugin is migrated
-        slug: true,
-        parent: true,
       },
     })
 

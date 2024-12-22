@@ -64,9 +64,6 @@ export async function getPagePropsByPath(req: PayloadRequest) {
         slug: true,
         path: true,
         template: true,
-
-        // TODO: remove this select once the setVirtualFieldsBeforeRead hook from the pages plugin is migrated
-        parent: true,
       },
     })
 
