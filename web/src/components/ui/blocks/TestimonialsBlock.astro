@@ -7,6 +7,46 @@ export type Props = TestimonialsBlock
 const { testimonials } = Astro.props
 ---
 
-<div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-  {testimonials?.map((testimonial) => <TestimonialCard {...(testimonial as Testimonial)} />)}
+<div class="group relative" id="testimonials-container" data-expanded={false}>
+  <div
+    class:list={[
+      'columns-1 gap-5 sm:columns-2 lg:columns-3',
+      'overflow-y-auto group-data-[expanded=false]:max-h-[33rem]',
+    ]}
+  >
+    {
+      testimonials?.map((testimonial) => (
+        <div class="mb-5 break-inside-avoid">
+          <TestimonialCard {...(testimonial as Testimonial)} />
+        </div>
+      ))
+    }
+  </div>
+
+  <div
+    class:list={[
+      'pointer-events-none absolute inset-x-0 bottom-0 justify-center bg-gradient-to-t',
+      'from-white pb-8 pt-32 dark:from-neutral-150',
+      'flex group-data-[expanded=true]:hidden',
+    ]}
+  >
+    <button
+      class="pointer-events-auto relative translate-y-4 rounded-md bg-primary px-4 py-3 text-sm font-semibold text-white no-underline"
+    >
+      Mehr anzeigen
+    </button>
+  </div>
 </div>
+
+<script>
+  const container = document.querySelector('#testimonials-container')
+  const button = container?.querySelector('button')
+
+  if (container && button) {
+    button.addEventListener('click', () => {
+      const isExpanded = container.getAttribute('data-expanded') === 'true'
+      container.setAttribute('data-expanded', (!isExpanded).toString())
+      button.textContent = 'Mehr anzeigen'
+    })
+  }
+</script>
