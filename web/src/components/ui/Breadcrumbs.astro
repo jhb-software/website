@@ -36,7 +36,7 @@ const structuredDataScript = JSON.stringify(structuredData, null, 2)
               <Link
                 path={path}
                 style="text"
-                class="!py-2 text-sm !font-medium uppercase text-slate-500"
+                class="!py-2 text-sm !font-medium text-slate-500 uppercase"
                 aria-current={index + 1 === array.length ? 'location' : false}
               >
                 {label}
@@ -68,7 +68,7 @@ const structuredDataScript = JSON.stringify(structuredData, null, 2)
               <Link
                 path={crumbs[crumbs.length - 2].path}
                 style="text"
-                class="!py-2 text-sm !font-medium uppercase text-slate-500"
+                class="!py-2 text-sm !font-medium text-slate-500 uppercase"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

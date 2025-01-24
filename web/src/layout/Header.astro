@@ -70,7 +70,7 @@ const currentPath = Astro.url.pathname
               href={normalizePath(path, isPreview)}
               class:list={[
                 'text-sm font-medium uppercase',
-                hreflang === lang ? 'text-primary underline' : 'text-slate-600 hover:text-primary',
+                hreflang === lang ? 'text-primary underline' : 'hover:text-primary text-slate-600',
               ]}
             >
               {hreflang}
@@ -129,7 +129,7 @@ const currentPath = Astro.url.pathname
                   'text-lg font-medium uppercase',
                   hreflang === lang
                     ? 'text-primary underline'
-                    : 'text-slate-600 hover:text-primary',
+                    : 'hover:text-primary text-slate-600',
                 ]}
               >
                 {hreflang}

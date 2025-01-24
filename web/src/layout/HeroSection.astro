@@ -11,10 +11,10 @@ const { title, subtitle, links, breadcrumbs } = Astro.props
 
 <SectionShell class="flex flex-col items-center gap-4">
   {breadcrumbs && <BreadcrumbsBlock crumbs={breadcrumbs} />}
-  <h1 class="my-6 max-w-2xl text-balance text-center text-4xl font-extrabold text-primary">
+  <h1 class="text-primary my-6 max-w-2xl text-center text-4xl font-extrabold text-balance">
     {title}
   </h1>
-  <p class="my-2 max-w-2xl text-balance text-center">{subtitle}</p>
+  <p class="my-2 max-w-2xl text-center text-balance">{subtitle}</p>
   <div class="flex max-w-2xl flex-row gap-4">
     {links?.map(({ link }) => <Link {...link} />)}
   </div>

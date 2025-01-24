@@ -11,7 +11,7 @@ const { title, subTitle, blocks } = Astro.props
 <SectionShell class="my-32 space-y-6">
   <div class="space-y-2">
     <h2 class="text-center text-2xl font-bold">{title}</h2>
-    <p class="text-balance text-center">{subTitle}</p>
+    <p class="text-center text-balance">{subTitle}</p>
   </div>
 
   {blocks?.map((block) => <SectionBlock {...block} />)}

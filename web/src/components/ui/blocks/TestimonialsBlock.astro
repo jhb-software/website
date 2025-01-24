@@ -26,12 +26,12 @@ const { testimonials } = Astro.props
   <div
     class:list={[
       'pointer-events-none absolute inset-x-0 bottom-0 justify-center bg-gradient-to-t',
-      'from-white pb-8 pt-32 dark:from-neutral-150',
+      'dark:from-neutral-150 from-white pt-32 pb-8',
       'flex group-data-[expanded=true]:hidden',
     ]}
   >
     <button
-      class="pointer-events-auto relative translate-y-4 rounded-md bg-primary px-4 py-3 text-sm font-semibold text-white no-underline"
+      class="bg-primary pointer-events-auto relative translate-y-4 rounded-md px-4 py-3 text-sm font-semibold text-white no-underline"
     >
       Mehr anzeigen
     </button>
