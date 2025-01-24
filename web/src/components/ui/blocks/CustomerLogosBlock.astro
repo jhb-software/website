@@ -5,31 +5,44 @@ import type { Customer, CustomerLogosBlock, Media } from 'cms/src/payload-types'
 export type Props = CustomerLogosBlock
 
 const { customers } = Astro.props
-
-// TODO: improve mobile layout, it should not take so much space, maybe add a slider?
 ---
 
-<div class="flex flex-col gap-12">
-  {
-    [customers?.slice(0, 5), customers?.slice(5, 9), customers?.slice(9, 12)].map(
-      (rowCustomers) => (
-        <div class="grid grid-cols-2 items-center justify-center gap-8 md:flex md:flex-row md:gap-12">
-          {rowCustomers?.filter(Boolean).map((customer) => {
-            const logo = (customer as Customer).logo as Media
+<div class="relative -mx-4 w-[calc(100%+2rem)] overflow-hidden md:mx-0 md:w-full">
+  <div
+    class="flex animate-[scroll_20s_linear_infinite] flex-row gap-12 md:animate-none md:flex-col"
+  >
+    {
+      [customers?.slice(0, 5), customers?.slice(5, 9), customers?.slice(9, 12)].map(
+        (rowCustomers) => (
+          <div class="flex flex-row items-center justify-center gap-8 md:gap-12">
+            {rowCustomers?.filter(Boolean).map((customer) => {
+              const logo = (customer as Customer).logo as Media
 
-            return (
-              <CldImage
-                src={logo.cloudinaryPublicId!}
-                alt={logo.alt}
-                width={100}
-                quality={100}
-                sizes="100vw"
-                class="overflow-hidden opacity-75 grayscale [filter:brightness(0)]"
-              />
-            )
-          })}
-        </div>
-      ),
-    )
-  }
+              return (
+                <CldImage
+                  src={logo.cloudinaryPublicId!}
+                  alt={logo.alt}
+                  width={100}
+                  quality={100}
+                  sizes="100vw"
+                  class="!w-[60vw] overflow-hidden opacity-75 grayscale [filter:brightness(0)]"
+                />
+              )
+            })}
+          </div>
+        ),
+      )
+    }
+  </div>
 </div>
+
+<style>
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+</style>
