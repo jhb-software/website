@@ -1,13 +1,15 @@
 // @ts-check
-import tailwind from '@astrojs/tailwind'
 import vercel from '@astrojs/vercel'
+import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, envField } from 'astro/config'
 
 export default defineConfig({
   adapter: vercel({
     edgeMiddleware: true,
   }),
-  integrations: [tailwind()],
+  vite: {
+    plugins: [tailwindcss()],
+  },
   trailingSlash: 'never',
   env: {
     schema: {

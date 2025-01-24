@@ -1,7 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@tailwind variants;
+@import 'tailwindcss';
+@plugin "@tailwindcss/typography";
+@plugin "@nobie-org/tailwindcss-animate";
+
+@theme {
+  --font-family-sans: 'Montserrat', ui-sans-serif, system-ui, -apple-system;
+  --color-primary: #1e3a8a;
+  --color-primary-dark: #162d6e;
+  --color-neutral-150: #ededed;
+}
 
 @layer components {
   .header-solid {
@@ -26,7 +32,7 @@
   }
 
   .menu-icon div {
-    @apply absolute bottom-0 left-0 right-0 top-0 m-auto h-4 w-7;
+    @apply absolute top-0 right-0 bottom-0 left-0 m-auto h-4 w-7;
   }
 
   .menu-icon span {
