@@ -31,7 +31,7 @@ const { testimonials } = Astro.props
     ]}
   >
     <button
-      class="bg-primary pointer-events-auto relative translate-y-4 rounded-md px-4 py-3 text-sm font-semibold text-white no-underline"
+      class="bg-primary pointer-events-auto relative translate-y-4 cursor-pointer rounded-md px-4 py-3 text-sm font-semibold text-white no-underline"
     >
       Mehr anzeigen
     </button>
@@ -46,7 +46,6 @@ const { testimonials } = Astro.props
     button.addEventListener('click', () => {
       const isExpanded = container.getAttribute('data-expanded') === 'true'
       container.setAttribute('data-expanded', (!isExpanded).toString())
-      button.textContent = 'Mehr anzeigen'
     })
   }
 </script>
