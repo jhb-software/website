@@ -56,10 +56,12 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    translations: Translations;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    translations: TranslationsSelect<false> | TranslationsSelect<true>;
   };
   locale: 'de' | 'en';
   user: User & {
@@ -915,6 +917,19 @@ export interface Footer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "translations".
+ */
+export interface Translations {
+  id: string;
+  global: {
+    'show-more': string;
+    'learn-more': string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -938,6 +953,21 @@ export interface FooterSelect<T extends boolean = true> {
     | {
         link?: T | LinkSelect<T>;
         id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "translations_select".
+ */
+export interface TranslationsSelect<T extends boolean = true> {
+  global?:
+    | T
+    | {
+        'show-more'?: T;
+        'learn-more'?: T;
       };
   updatedAt?: T;
   createdAt?: T;
