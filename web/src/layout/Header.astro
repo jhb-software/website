@@ -23,10 +23,6 @@ const header = await payloadSDK.findGlobal({
   populate: {
     pages: {
       path: true,
-
-      // the following fields are necessary for the virtual path field to be generated
-      parent: true,
-      slug: true,
     },
   },
 })
