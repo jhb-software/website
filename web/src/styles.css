@@ -3,7 +3,7 @@
 @plugin "@nobie-org/tailwindcss-animate";
 
 @theme {
-  --font-family-sans: 'Montserrat', ui-sans-serif, system-ui, -apple-system;
+  --font-sans: 'Montserrat Variable', ui-sans-serif, system-ui, -apple-system;
   --color-primary: #1e3a8a;
   --color-primary-dark: #162d6e;
   --color-neutral-150: #ededed;
