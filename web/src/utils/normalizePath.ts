@@ -10,6 +10,7 @@ import { locales } from '../cms/locales'
  */
 export function normalizePath(path: string, preview: boolean) {
   if (
+    !path ||
     !locales.includes(path.split('/').at(1) ?? '') ||
     path.endsWith('/') ||
     path.startsWith('/preview') ||
