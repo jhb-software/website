@@ -12,24 +12,33 @@ const { translations } = globalState
 <div class="group relative" id="testimonials-container" data-expanded={false}>
   <div
     class:list={[
-      'columns-1 gap-5 sm:columns-2 lg:columns-3',
-      'overflow-y-auto group-data-[expanded=false]:max-h-[33rem]',
+      'space-y-5',
+      'group-data-[expanded=false]:mask-linear-gradient',
+      'group-data-[expanded=false]:h-[33rem]',
+      'overflow-y-hidden',
+      'relative',
     ]}
   >
-    {
-      testimonials?.map((testimonial) => (
-        <div class="mb-5 break-inside-avoid">
-          <TestimonialCard {...(testimonial as Testimonial)} />
-        </div>
-      ))
-    }
+    <div class="columns-1 gap-5 space-y-5 sm:columns-2 lg:columns-3">
+      {
+        testimonials?.map((testimonial) => (
+          <div class="inline-block w-full break-inside-avoid">
+            <TestimonialCard {...(testimonial as Testimonial)} />
+          </div>
+        ))
+      }
+    </div>
+    <div
+      class="group-data-[expanded=false]:absolute group-data-[expanded=false]:right-0 group-data-[expanded=false]:bottom-0 group-data-[expanded=false]:left-0 group-data-[expanded=false]:h-46 group-data-[expanded=false]:bg-gradient-to-t group-data-[expanded=false]:from-white group-data-[expanded=false]:to-transparent"
+    >
+    </div>
   </div>
 
   <div
     class:list={[
-      'pointer-events-none absolute inset-x-0 bottom-0 justify-center bg-gradient-to-t',
-      'dark:from-neutral-150 from-white pt-32 pb-8',
+      'pointer-events-none absolute inset-x-0 bottom-0 justify-center',
       'flex group-data-[expanded=true]:hidden',
+      'pt-32 pb-8',
     ]}
   >
     <button
@@ -51,3 +60,10 @@ const { translations } = globalState
     })
   }
 </script>
+
+<style>
+  .mask-linear-gradient {
+    mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  }
+</style>
