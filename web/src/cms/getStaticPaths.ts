@@ -5,7 +5,7 @@ import type { StaticPageProps } from 'cms/src/endpoints/staticPages'
 export type StaticPagePropsFrontend = {
   params: {
     lang: string
-    path: string
+    path: string | undefined
   }
   props: PageProps
 }
@@ -25,7 +25,7 @@ export async function getStaticPaths(): Promise<StaticPagePropsFrontend[]> {
       paths.push({
         params: {
           lang: lang,
-          path: path.paths[lang]?.replace(`/${lang}`, '') || '',
+          path: path.paths[lang]?.replace(`/${lang}`, '') || undefined,
         },
         props: {
           id: path.id,
