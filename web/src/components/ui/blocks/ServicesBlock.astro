@@ -1,21 +1,13 @@
 ---
+import { globalState } from '@/globalState'
 import type { Page, ServicesBlock } from 'cms/src/payload-types'
-import type { Locale } from '../../../cms/types'
 import Card from '../Card.astro'
 import Link from '../Link.astro'
 
 export type Props = ServicesBlock
 
 const { services } = Astro.props
-
-// TODO: add translations to the CMS
-const translations = {
-  more: {
-    de: 'Mehr Entdecken',
-    en: 'Learn More',
-  },
-}
-const locale = Astro.params.lang as Locale
+const { translations } = globalState
 ---
 
 <div class="grid gap-5 md:grid-cols-3">
@@ -30,7 +22,7 @@ const locale = Astro.params.lang as Locale
         <p>{description}</p>
         <Link
           page={{ relationTo: 'pages', value: page as Page }}
-          label={translations.more[locale]}
+          label={translations.global['learn-more']}
           style="text-primary"
         />
       </Card>

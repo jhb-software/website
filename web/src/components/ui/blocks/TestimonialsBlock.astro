@@ -1,10 +1,12 @@
 ---
 import type { Testimonial, TestimonialsBlock } from 'cms/src/payload-types'
 import TestimonialCard from '../TestimonialCard.astro'
+import { globalState } from '@/globalState'
 
 export type Props = TestimonialsBlock
 
 const { testimonials } = Astro.props
+const { translations } = globalState
 ---
 
 <div class="group relative" id="testimonials-container" data-expanded={false}>
@@ -33,7 +35,7 @@ const { testimonials } = Astro.props
     <button
       class="bg-primary pointer-events-auto relative translate-y-4 cursor-pointer rounded-md px-4 py-3 text-sm font-semibold text-white no-underline"
     >
-      Mehr anzeigen
+      {translations.global['show-more']}
     </button>
   </div>
 </div>
