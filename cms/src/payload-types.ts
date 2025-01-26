@@ -925,6 +925,12 @@ export interface Translations {
     'show-more': string;
     'learn-more': string;
   };
+  projects: {
+    'web-app': string;
+    website: string;
+    app: string;
+    seo: string;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -968,6 +974,14 @@ export interface TranslationsSelect<T extends boolean = true> {
     | {
         'show-more'?: T;
         'learn-more'?: T;
+      };
+  projects?:
+    | T
+    | {
+        'web-app'?: T;
+        website?: T;
+        app?: T;
+        seo?: T;
       };
   updatedAt?: T;
   createdAt?: T;

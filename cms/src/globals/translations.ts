@@ -1,3 +1,4 @@
+import { Project } from '@/payload-types'
 import { GlobalConfig, TextField } from 'payload'
 
 const localizationField = (name: string): TextField => ({
@@ -26,6 +27,15 @@ const Translations: GlobalConfig = {
       type: 'group',
       name: 'global',
       fields: [localizationField('show-more'), localizationField('learn-more')],
+    },
+    {
+      type: 'group',
+      name: 'projects',
+      fields: [
+        ...(['web-app', 'website', 'app', 'seo'] satisfies Project['tags']).map((tag) =>
+          localizationField(tag),
+        ),
+      ],
     },
   ],
 }
