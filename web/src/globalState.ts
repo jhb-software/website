@@ -1,3 +1,4 @@
+import type { AstroGlobal } from 'astro'
 import type { Translations } from 'cms/src/payload-types'
 import { getTranslations } from './cms/getTranslations'
 import type { Locale } from './cms/types'
@@ -14,10 +15,10 @@ export let globalState: GlobalState
 /**
  * Initializes the globalState of the website by fetching global data based on path params of the provided URL from the CMS.
  */
-export async function initGlobalState(url: URL) {
-  const locale = url.pathname.split('/')[1] as Locale
+export async function initGlobalState(Astro: AstroGlobal) {
+  const locale = Astro.props.lang as Locale
   const translations = await getTranslations(locale)
-  const preview = url.pathname.startsWith('/preview')
+  const preview = Astro.url.pathname.startsWith('/preview')
 
   const state: GlobalState = {
     locale,
