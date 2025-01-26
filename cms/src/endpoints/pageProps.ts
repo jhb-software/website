@@ -50,13 +50,7 @@ export async function getPagePropsByPath(req: PayloadRequest) {
         // filtering for the virtual path field is not supported, as it is not stored in the database
         // Instead, filter for the document slug, which always is the last part of the path
         slug: {
-          equals:
-            // TODO: implement a better way to detect the root page
-            slugs.length == 0 && locale == 'de'
-              ? 'startseite'
-              : slugs.length == 0 && locale == 'en'
-                ? 'frontpage'
-                : slugs.at(-1),
+          equals: slugs.at(-1) ?? '',
         },
       },
       select: {
