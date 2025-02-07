@@ -27,10 +27,11 @@ const Authors: CollectionConfig = createPageCollectionConfig({
     },
   },
   page: {
-    parentCollection: 'pages',
-    parentField: 'parent',
-    sharedParentDocument: true,
-    breadcrumbLabelField: 'name',
+    parent: {
+      collection: 'pages',
+      name: 'parent',
+      sharedDocument: true,
+    },
   },
   access: {
     read: anyone,

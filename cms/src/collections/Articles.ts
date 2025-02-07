@@ -27,9 +27,11 @@ const Articles: CollectionConfig = createPageCollectionConfig({
     },
   },
   page: {
-    parentCollection: 'pages',
-    parentField: 'parent',
-    sharedParentDocument: true,
+    parent: {
+      collection: 'pages',
+      name: 'parent',
+      sharedDocument: true,
+    },
   },
   access: {
     read: anyone,

@@ -42,8 +42,11 @@ const Page: CollectionConfig = createPageCollectionConfig({
     create: authenticated,
   },
   page: {
-    parentCollection: 'pages',
-    parentField: 'parent',
+    parent: {
+      collection: 'pages',
+      name: 'parent',
+      sharedDocument: true,
+    },
     isRootCollection: true,
   },
   fields: [
