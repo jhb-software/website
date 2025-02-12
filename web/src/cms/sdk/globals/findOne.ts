@@ -1,6 +1,6 @@
 import type { SelectType } from 'payload'
 
-import { buildCache } from '@/cms/cache'
+import { buildCache } from '../../cache'
 import type { PayloadSDK } from '../sdk'
 import type {
   GlobalSlug,
