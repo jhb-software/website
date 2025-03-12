@@ -1,9 +1,9 @@
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
-import { createMediaCollectionConfig } from '@jhb.software/payload-cloudinary-plugin'
+import { CollectionConfig } from 'payload'
 
-export const Media = createMediaCollectionConfig({
+export const Media: CollectionConfig = {
   slug: 'media',
   labels: {
     singular: {
@@ -25,6 +25,7 @@ export const Media = createMediaCollectionConfig({
     create: authenticated,
   },
   fields: [
+    // The other fields are automatically added by the plugin
     {
       name: 'alt',
       label: {
@@ -36,4 +37,4 @@ export const Media = createMediaCollectionConfig({
       localized: true,
     },
   ],
-})
+}

@@ -36,13 +36,11 @@ export async function getStatisPagesProps(req: PayloadRequest) {
     }
 
     for (const doc of data.docs as Doc[]) {
-      for (const lang of Object.keys(doc.path)) {
-        collectionItems.push({
-          id: doc.id,
-          paths: doc.path,
-          collection: collection,
-        })
-      }
+      collectionItems.push({
+        id: doc.id,
+        paths: doc.path,
+        collection: collection,
+      })
     }
   }
 

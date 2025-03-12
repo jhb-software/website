@@ -54,7 +54,7 @@ export const collections: CollectionConfig[] = [
 export const locales = ['de', 'en']
 
 export const pageCollections: CollectionConfig[] = collections.filter(
-  (collection) => typeof (collection as any).page === 'object',
+  (collection) => 'page' in collection && typeof collection.page === 'object',
 )
 export const pageCollectionsSlugs: CollectionSlug[] = pageCollections.map(
   (collection) => collection.slug as CollectionSlug,
@@ -122,7 +122,16 @@ export default buildConfig({
   ],
   plugins: [
     payloadPagesPlugin({}),
-    payloadCloudinaryPlugin({}),
+    payloadCloudinaryPlugin({
+      uploadCollections: ['media'],
+      credentials: {
+        apiKey: process.env.CLOUDINARY_API_KEY!,
+        apiSecret: process.env.CLOUDINARY_API_SECRET!,
+      },
+      cloudinary: {
+        cloudName: process.env.CLOUDINARY_CLOUD_NAME!,
+      },
+    }),
     payloadSeoPlugin({
       // JHB plugin related config
       websiteContext: {
@@ -133,7 +142,7 @@ export default buildConfig({
           title: doc.title,
           subTitle: doc.hero.subtitle,
         }),
-        projects: async (doc: ProjectType, lexicalToPlainText: any) => ({
+        projects: async (doc: ProjectType, lexicalToPlainText) => ({
           title: doc.title,
           excerpt: doc.excerpt,
           tags: doc.tags?.join(', '),
@@ -144,11 +153,11 @@ export default buildConfig({
       // Payload official seo plugin config:
       collections: pageCollectionsSlugs,
       uploadsCollection: 'media',
-      generateTitle: ({ doc }: { doc: any }) => `${doc.title} - ${siteName}`,
-      generateURL: ({ doc }: { doc: any }) => getPageUrl({ path: doc.path })!,
+      generateTitle: ({ doc }) => `${doc.title} - ${siteName}`,
+      generateURL: ({ doc }) => getPageUrl({ path: doc.path })!,
       interfaceName: 'SeoMetadata',
-      fields: ({ defaultFields }: { defaultFields: any }) => [
-        ...defaultFields.map((field: any) => {
+      fields: ({ defaultFields }) => [
+        ...defaultFields.map((field) => {
           if ('name' in field) {
             if (field.name === 'title') {
               return {
