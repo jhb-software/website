@@ -5,12 +5,13 @@ import {
   payloadPagesPlugin,
 } from '@jhb.software/payload-pages-plugin'
 import { payloadSeoPlugin } from '@jhb.software/payload-seo-plugin'
+import { openAIResolver, translator } from '@payload-enchants/translator'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { de } from '@payloadcms/translations/languages/de'
 import { en } from '@payloadcms/translations/languages/en'
 import path from 'path'
-import { buildConfig, CollectionConfig, CollectionSlug } from 'payload'
+import { buildConfig, CollectionConfig, CollectionSlug, GlobalSlug } from 'payload'
 import { fileURLToPath } from 'url'
 import Articles from './collections/Articles'
 import Authors from './collections/Authors'
@@ -60,6 +61,10 @@ export const pageCollectionsSlugs: CollectionSlug[] = pageCollections.map(
   (collection) => collection.slug as CollectionSlug,
 )
 export type PageCollectionSlugs = (typeof pageCollectionsSlugs)[number]
+
+const translatableCollectionsSlugs: CollectionSlug[] = collections
+  .filter((collection) => ![Redirects.slug, Users.slug].includes(collection.slug as CollectionSlug))
+  .map((collection) => collection.slug as CollectionSlug)
 
 export default buildConfig({
   localization: {
@@ -121,6 +126,15 @@ export default buildConfig({
     },
   ],
   plugins: [
+    translator({
+      collections: translatableCollectionsSlugs,
+      globals: [Header.slug, Footer.slug, Translations.slug] as GlobalSlug[],
+      resolvers: [
+        openAIResolver({
+          apiKey: process.env.OPENAI_API_KEY!,
+        }),
+      ],
+    }),
     payloadPagesPlugin({}),
     payloadCloudinaryPlugin({
       uploadCollections: ['media'],

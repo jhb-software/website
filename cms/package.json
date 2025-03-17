@@ -19,6 +19,7 @@
     "@jhb.software/payload-cloudinary-plugin": "^0.2.1",
     "@jhb.software/payload-pages-plugin": "^0.4.0",
     "@jhb.software/payload-seo-plugin": "^0.1.3",
+    "@payload-enchants/translator": "workspace:*",
     "@payloadcms/db-mongodb": "^3.28.0",
     "@payloadcms/next": "^3.28.0",
     "@payloadcms/plugin-seo": "^3.28.0",

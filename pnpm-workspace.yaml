@@ -1,3 +1,4 @@
 packages:
   - "web"
   - "cms"
+  - "cms/plugins/cms-content-translator"
