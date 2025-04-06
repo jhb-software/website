@@ -363,12 +363,17 @@ export interface SeoMetadata {
     keyword: string;
     id?: string | null;
   }[];
-  title?: string | null;
-  description?: string | null;
+  title: string;
+  description: string;
   /**
    * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
    */
   image?: (string | null) | Media;
+  alternatePaths: {
+    hreflang: string;
+    path: string;
+    id?: string | null;
+  }[];
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -767,6 +772,13 @@ export interface SeoMetadataSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   image?: T;
+  alternatePaths?:
+    | T
+    | {
+        hreflang?: T;
+        path?: T;
+        id?: T;
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
