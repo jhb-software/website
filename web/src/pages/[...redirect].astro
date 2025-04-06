@@ -1,4 +1,8 @@
 ---
+// This file is excluded from Astro's type checking (see comment above redirectPath)
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { defaultLocale, locales } from '../cms/locales'
 import type { Locale } from '../cms/types'
 
@@ -16,7 +20,11 @@ if (!pathname.includes('.')) {
     const userLang = headers.get('accept-language')?.slice(0, 2) as Locale | undefined
     const langPath = userLang && locales.includes(userLang) ? `/${userLang}` : `/${defaultLocale}`
 
-    return Astro.redirect(`${pathname === '/preview' ? '/preview' : ''}${langPath}`, 302)
+     // Because of a bug in 'astro check' the following line is flagged as 'unused value' even though it is used
+    // see https://github.com/withastro/language-tools/issues/980
+    const redirectPath = `${pathname === '/preview' ? '/preview' : ''}${langPath}`
+
+    return Astro.redirect(redirectPath, 302)
   }
 }
 

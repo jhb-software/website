@@ -1,6 +1,6 @@
 ---
 import slugifyId from '@/utils/slugifyId'
-import type { HeadingNode } from '../types'
+import type { HeadingNode, TextNode } from '../types'
 import RichTextLexical from '../RichTextLexical.astro'
 
 type Props = {
@@ -13,8 +13,8 @@ const HeadingTag = node.tag ?? 'h1'
 ---
 
 <HeadingTag
-  id={node.children?.[0]?.text && ['h2', 'h3'].includes(node.tag)
-    ? slugifyId(node.children?.[0]?.text)
+  id={(node.children?.[0] as TextNode)?.text && ['h2', 'h3'].includes(node.tag)
+    ? slugifyId((node.children?.[0] as TextNode)?.text)
     : undefined}
 >
   <RichTextLexical nodes={node.children ?? []} />

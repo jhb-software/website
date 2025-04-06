@@ -92,4 +92,4 @@ const structuredDataScript = JSON.stringify(structuredData, null, 2)
     </nav>
   )
 }
-{(<script type="application/ld+json" set:html={structuredDataScript} />)}
+{(<script is:inline type="application/ld+json" set:html={structuredDataScript} />)}

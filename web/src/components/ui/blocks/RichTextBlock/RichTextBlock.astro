@@ -1,6 +1,7 @@
 ---
 import type { RichTextBlock as RichTextBlockType } from 'cms/src/payload-types'
 import RichTextLexical from './RichTextLexical.astro'
+import type { LexicalNode } from './types'
 
 type Props = Omit<RichTextBlockType, 'blockType'> & {
   class?: string
@@ -10,5 +11,5 @@ const { text, class: className } = Astro.props
 ---
 
 <div class:list={['prose mx-auto !max-w-none', className]}>
-  <RichTextLexical nodes={text.root.children} />
+  <RichTextLexical nodes={text.root.children as unknown as LexicalNode[]} />
 </div>
