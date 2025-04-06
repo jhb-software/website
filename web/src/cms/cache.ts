@@ -10,7 +10,7 @@ interface BuildCache {
 }
 
 /** Global build cache which stores frequently used CMS resources when building the website */
-export let buildCache: BuildCache = {
+export const buildCache: BuildCache = {
   globalBlocks: new Map(),
   translations: new Map(),
 }

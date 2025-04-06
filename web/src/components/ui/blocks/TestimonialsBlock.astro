@@ -13,7 +13,7 @@ const { translations } = globalState
   <div
     class:list={[
       'space-y-5',
-      'group-data-[expanded=false]:mask-linear-gradient',
+      'group-data-[expanded=false]:mask-b-from-60%',
       'group-data-[expanded=false]:h-[33rem]',
       'overflow-y-hidden',
       'relative',
@@ -27,10 +27,6 @@ const { translations } = globalState
           </div>
         ))
       }
-    </div>
-    <div
-      class="group-data-[expanded=false]:absolute group-data-[expanded=false]:right-0 group-data-[expanded=false]:bottom-0 group-data-[expanded=false]:left-0 group-data-[expanded=false]:h-46 group-data-[expanded=false]:bg-gradient-to-t group-data-[expanded=false]:from-white group-data-[expanded=false]:to-transparent"
-    >
     </div>
   </div>
 
@@ -60,10 +56,3 @@ const { translations } = globalState
     })
   }
 </script>
-
-<style>
-  .mask-linear-gradient {
-    mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-  }
-</style>
