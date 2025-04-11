@@ -6,7 +6,12 @@ export async function getPageProps(path: string): Promise<PageProps> {
 
   if (!response.ok) {
     throw new Error(
-      'Failed to fetch page props for path: ' + path + '. Status: ' + response.status + '. Response: ' + await response.text(),
+      'Failed to fetch page props for path: ' +
+        path +
+        '. Status: ' +
+        response.status +
+        '. Response: ' +
+        (await response.text()),
     )
   }
   const data = await response.json()
