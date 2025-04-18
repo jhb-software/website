@@ -1,9 +1,7 @@
 ---
+import Icon from '@/components/icons/Icon.astro'
 import { CldImage } from 'astro-cloudinary'
 import type { ContactBlock, Media } from 'cms/src/payload-types'
-import GitHub from '../../icons/github.svg'
-import LinkedIn from '../../icons/linkedin.svg'
-import WhatsApp from '../../icons/whatsapp.svg'
 
 type Props = ContactBlock
 
@@ -48,9 +46,7 @@ const { name, image, phone, email, socialLinks } = Astro.props
                 rel="noopener noreferrer"
                 class="hover:text-primary text-gray-800"
               >
-                {link.icon === 'linkedin' && <LinkedIn />}
-                {link.icon === 'github' && <GitHub />}
-                {link.icon === 'whatsapp' && <WhatsApp />}
+                <Icon name={link.icon} class:list={['h-5 w-5']} />
               </a>
             ))}
           </div>

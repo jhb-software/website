@@ -1,9 +1,9 @@
 ---
 import { globalState } from '@/globalState'
 import type { Page, ServicesBlock } from 'cms/src/payload-types'
+import Icon from '../../icons/Icon.astro'
 import Card from '../Card.astro'
 import Link from '../Link.astro'
-
 export type Props = ServicesBlock
 
 const { services } = Astro.props
@@ -12,10 +12,10 @@ const { translations } = globalState
 
 <div class="grid gap-5 md:grid-cols-3">
   {
-    services?.map(({ title, description, page }) => (
+    services?.map(({ title, description, page, icon }) => (
       <Card class="flex flex-col items-start justify-between gap-4">
         <div class="flex flex-row items-center gap-3">
-          {/* TODO: add icon */}
+          <Icon name={icon} class:list={['h-6 w-6 text-black/80']} />
           <h3 class="m-0 text-lg font-semibold">{title}</h3>
         </div>
 
@@ -24,6 +24,7 @@ const { translations } = globalState
           page={{ relationTo: 'pages', value: page as Page }}
           label={translations.global['learn-more']}
           style="text-primary"
+          icon="chevron-right"
         />
       </Card>
     ))

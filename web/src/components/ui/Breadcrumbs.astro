@@ -2,6 +2,7 @@
 import { normalizePath } from '@/utils/normalizePath'
 import { SITE_URL } from 'astro:env/client'
 import type { Breadcrumbs } from 'cms/src/payload-types'
+import Icon from '../icons/Icon.astro'
 import Link from './Link.astro'
 
 type Props = {
@@ -70,19 +71,7 @@ const structuredDataScript = JSON.stringify(structuredData, null, 2)
                 style="text"
                 class="!py-2 text-sm !font-medium text-slate-500 uppercase"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M15 18l-6-6 6-6" />
-                </svg>
+                <Icon name="chevron-left" class:list={['h-3 w-3']} />
                 {crumbs[crumbs.length - 2].label}
               </Link>
             </a>

@@ -1,0 +1,66 @@
+---
+import BarsStaggered from './bars-staggered.svg'
+import Building from './building.svg'
+import ChevronDown from './chevron-down.svg'
+import ChevronLeft from './chevron-left.svg'
+import ChevronRight from './chevron-right.svg'
+import Comments from './comments.svg'
+import Github from './github.svg'
+import LaptopCode from './laptop-code.svg'
+import Laptop from './laptop.svg'
+import Linkedin from './linkedin.svg'
+import MobilePhone from './mobile-phone.svg'
+import WhatsApp from './whatsapp.svg'
+
+type Props = {
+  name:
+    | 'bars-staggered'
+    | 'comments'
+    | 'mobile-phone'
+    | 'laptop'
+    | 'laptop-code'
+    | 'github'
+    | 'linkedin'
+    | 'whatsapp'
+    | 'chevron-right'
+    | 'chevron-down'
+    | 'chevron-left'
+    | 'building'
+}
+
+const classNames = 'class' in Astro.props ? Astro.props.class : ''
+const { name } = Astro.props
+---
+
+{
+  () => {
+    switch (name) {
+      case 'bars-staggered':
+        return <BarsStaggered class:list={classNames} />
+      case 'comments':
+        return <Comments class:list={classNames} />
+      case 'mobile-phone':
+        return <MobilePhone class:list={classNames} />
+      case 'laptop':
+        return <Laptop class:list={classNames} />
+      case 'laptop-code':
+        return <LaptopCode class:list={classNames} />
+      case 'github':
+        return <Github class:list={classNames} />
+      case 'linkedin':
+        return <Linkedin class:list={classNames} />
+      case 'whatsapp':
+        return <WhatsApp class:list={classNames} />
+      case 'chevron-right':
+        return <ChevronRight class:list={classNames} />
+      case 'chevron-down':
+        return <ChevronDown class:list={classNames} />
+      case 'chevron-left':
+        return <ChevronLeft class:list={classNames} />
+      case 'building':
+        return <Building class:list={classNames} />
+      default:
+        throw new Error(`Icon ${name} not found`)
+    }
+  }
+}

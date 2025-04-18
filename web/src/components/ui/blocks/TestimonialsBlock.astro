@@ -1,6 +1,7 @@
 ---
 import { payloadSDK } from '@/cms/sdk'
 import type { Locale } from '@/cms/types'
+import Icon from '@/components/icons/Icon.astro'
 import { globalState } from '@/globalState'
 import type { Project, Testimonial, TestimonialsBlock } from 'cms/src/payload-types'
 import TestimonialCard from '../TestimonialCard.astro'
@@ -70,9 +71,10 @@ const populatedTestimonials = testimonials?.map((testimonial) => {
     ]}
   >
     <button
-      class="bg-primary pointer-events-auto relative translate-y-4 cursor-pointer rounded-md px-4 py-3 text-sm font-semibold text-white no-underline"
+      class="bg-primary pointer-events-auto relative flex translate-y-4 cursor-pointer items-center gap-3 rounded-md px-4 py-3 text-sm font-semibold text-white no-underline"
     >
       {translations.global['show-more']}
+      <Icon name="chevron-down" class:list={['h-3 w-3']} />
     </button>
   </div>
 </div>

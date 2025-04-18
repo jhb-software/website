@@ -1,6 +1,7 @@
 ---
 import type { Link, Page } from 'cms/src/payload-types'
 import { normalizePath } from '../../utils/normalizePath'
+import Icon from '../icons/Icon.astro'
 
 type Props =
   // When the data is a Link group from the CMS:
@@ -11,6 +12,7 @@ type Props =
       path: string
       style: Link['style']
       class?: string
+      icon?: Link['icon']
     }
 
 function buttonStyles(style: Link['style']) {
@@ -53,4 +55,5 @@ const href = normalizePath(rawPath, isPreview)
   ]}
 >
   {'label' in Astro.props ? Astro.props.label : <slot />}
+  {'icon' in Astro.props && Astro.props.icon && <Icon name={Astro.props.icon} />}
 </a>
