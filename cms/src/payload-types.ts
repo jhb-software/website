@@ -75,7 +75,9 @@ export interface Config {
   auth: {
     users: UserAuthOperations;
   };
-  blocks: {};
+  blocks: {
+    code: CodeBlock;
+  };
   collections: {
     pages: Page;
     projects: Project;
@@ -144,6 +146,17 @@ export interface UserAuthOperations {
     email: string;
     password: string;
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CodeBlock".
+ */
+export interface CodeBlock {
+  code: string;
+  caption?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'code';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

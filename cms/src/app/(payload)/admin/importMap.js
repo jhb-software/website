@@ -36,6 +36,7 @@ import { MetaImageComponent as MetaImageComponent_a8a977ebc872c5d5ea7ee689724c08
 import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { PreviewButtonField as PreviewButtonField_e6458422044c3374e7ca411c92428566 } from '@jhb.software/payload-pages-plugin/client'
 import { CustomButtonWithTranslator as CustomButtonWithTranslator_0754f48e597a64286a6ec55277e0e245 } from '@payload-enchants/translator/client'
+import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { default as default_1b8d860059dbed4b3a90b2af97375475 } from '../../../fields/components/CopyAuthorNameToTitleField'
 
 export const importMap = {
@@ -77,5 +78,6 @@ export const importMap = {
   "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@jhb.software/payload-pages-plugin/client#PreviewButtonField": PreviewButtonField_e6458422044c3374e7ca411c92428566,
   "@payload-enchants/translator/client#CustomButtonWithTranslator": CustomButtonWithTranslator_0754f48e597a64286a6ec55277e0e245,
+  "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "/fields/components/CopyAuthorNameToTitleField#default": default_1b8d860059dbed4b3a90b2af97375475
 }
