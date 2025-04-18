@@ -2,6 +2,7 @@
 import type { PageData } from '@/cms/getPageData'
 import RichTextBlock from '@/components/ui/blocks/RichTextBlock/RichTextBlock.astro'
 import BreadcrumbsBlock from '@/components/ui/Breadcrumbs.astro'
+import { globalState } from '@/globalState'
 import SectionShell from '@/layout/SectionShell.astro'
 import { normalizePath } from '@/utils/normalizePath'
 import { CldImage } from 'astro-cloudinary'
@@ -13,7 +14,7 @@ type Props = {
 }
 
 const { article, breadcrumbs } = Astro.props
-const { locale } = Astro.params
+const { locale } = globalState
 
 const isPreview = Astro.url.pathname.startsWith('/preview')
 ---

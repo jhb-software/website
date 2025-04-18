@@ -1,6 +1,5 @@
 ---
 import { payloadSDK } from '@/cms/sdk'
-import type { Locale } from '@/cms/types'
 import Icon from '@/components/icons/Icon.astro'
 import { globalState } from '@/globalState'
 import type { Project, Testimonial, TestimonialsBlock } from 'cms/src/payload-types'
@@ -9,14 +8,13 @@ import TestimonialCard from '../TestimonialCard.astro'
 export type Props = TestimonialsBlock
 
 const { testimonials } = Astro.props
-const { translations } = globalState
-const { lang } = Astro.params
+const { translations, locale } = globalState
 
 // Fetching the customers is necessary since the customer is not populated because the pages are fetched with depth 1
 // When migrating to GraphQL or the REST select API, this will be resolved.
 const customers = await payloadSDK.find({
   collection: 'customers',
-  locale: lang as Locale,
+  locale: locale,
   draft: false,
   limit: 0,
   pagination: false,

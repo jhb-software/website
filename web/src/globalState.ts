@@ -22,7 +22,7 @@ export async function initGlobalState(Astro: AstroGlobal) {
 
   const state: GlobalState = {
     locale,
-    preview: preview,
+    preview,
     translations,
   }
 

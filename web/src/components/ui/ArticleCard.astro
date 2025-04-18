@@ -1,5 +1,6 @@
 ---
 import { payloadSDK } from '@/cms/sdk'
+import { globalState } from '@/globalState'
 import { CldImage } from 'astro-cloudinary'
 import type { Article, Author, Media } from 'cms/src/payload-types'
 import { normalizePath } from '../../utils/normalizePath'
@@ -10,7 +11,7 @@ type Props = Article & {
 }
 
 const { featured, class: className, ...article } = Astro.props
-const locale = Astro.params.lang
+const { locale } = globalState
 
 const isPreview = Astro.url.pathname.startsWith('/preview')
 
@@ -19,7 +20,7 @@ if (featured) {
   // TODO: populate the authors image when fetching the articles block to avoid this SDK request
   const result = await payloadSDK.find({
     collection: 'authors',
-    locale: locale as any,
+    locale: locale,
     draft: isPreview ? true : false,
     where: {
       id: {

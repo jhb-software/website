@@ -1,25 +1,20 @@
 ---
-import type { Page } from 'cms/src/payload-types'
+import { globalState } from '@/globalState'
+import type { Page, SeoMetadata } from 'cms/src/payload-types'
 import { payloadSDK } from '../cms/sdk'
 import Link from '../components/ui/Link.astro'
 import { normalizePath } from '../utils/normalizePath'
 
 type Props = {
-  // TODO: fix: the generated SeoMetadata type is not correct
-  // alternatePaths: SeoMetadata['alternatePaths']
-  alternatePaths: {
-    hreflang: string
-    path: string
-    id?: string | null
-  }[]
+  alternatePaths: SeoMetadata['alternatePaths']
 }
 
 const { alternatePaths } = Astro.props
-const { lang } = Astro.params
+const { locale } = globalState
 
 const header = await payloadSDK.findGlobal({
   slug: 'header',
-  locale: lang as any,
+  locale: locale,
   populate: {
     pages: {
       path: true,
@@ -35,7 +30,7 @@ const currentPath = Astro.url.pathname
   class:list={['fixed z-40 flex w-full items-center justify-between px-4 py-4 md:px-12']}
   id="header"
 >
-  <a href={normalizePath(`/${lang}`, isPreview)} class="flex items-center gap-2">
+  <a href={normalizePath(`/${locale}`, isPreview)} class="flex items-center gap-2">
     <img src={'/icon.png'} alt={'JHB'} width={40} height={40} />
     <span class="text-2xl font-bold">Software</span>
   </a>
@@ -66,7 +61,9 @@ const currentPath = Astro.url.pathname
               href={normalizePath(path, isPreview)}
               class:list={[
                 'text-sm font-medium uppercase',
-                hreflang === lang ? 'text-primary underline' : 'hover:text-primary text-slate-600',
+                hreflang === locale
+                  ? 'text-primary underline'
+                  : 'hover:text-primary text-slate-600',
               ]}
             >
               {hreflang}
@@ -123,7 +120,7 @@ const currentPath = Astro.url.pathname
                 href={normalizePath(path, isPreview)}
                 class:list={[
                   'text-lg font-medium uppercase',
-                  hreflang === lang
+                  hreflang === locale
                     ? 'text-primary underline'
                     : 'hover:text-primary text-slate-600',
                 ]}

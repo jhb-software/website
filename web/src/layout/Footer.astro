@@ -1,12 +1,13 @@
 ---
+import { globalState } from '@/globalState'
 import { payloadSDK } from '../cms/sdk'
 import Link from '../components/ui/Link.astro'
 
-const { lang } = Astro.params
+const { locale } = globalState
 
 const footer = await payloadSDK.findGlobal({
   slug: 'footer',
-  locale: lang as any,
+  locale: locale,
   populate: {
     pages: {
       path: true,

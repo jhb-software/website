@@ -28,7 +28,7 @@ type Props = {
     | 'building'
 }
 
-const classNames = 'class' in Astro.props ? Astro.props.class : ''
+const classNames = 'class' in Astro.props && Astro.props.class ? Astro.props.class : undefined
 const { name } = Astro.props
 ---
 
