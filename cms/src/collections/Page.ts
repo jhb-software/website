@@ -85,7 +85,6 @@ const Page: CollectionConfig = createPageCollectionConfig({
         {
           name: 'title',
           type: 'text',
-          required: true,
           localized: true,
           label: {
             de: 'Titel',

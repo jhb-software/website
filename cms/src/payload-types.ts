@@ -173,7 +173,7 @@ export interface Page {
   hero: HeroSection;
   sections?:
     | {
-        title: string;
+        title?: string | null;
         subTitle?: string | null;
         highlightBackground?: boolean | null;
         blocks?:
