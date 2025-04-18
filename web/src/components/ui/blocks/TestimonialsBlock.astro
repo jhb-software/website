@@ -46,13 +46,19 @@ const { translations } = globalState
 </div>
 
 <script>
-  const container = document.querySelector('#testimonials-container')
-  const button = container?.querySelector('button')
+  function setupTestimonials() {
+    const container = document.querySelector('#testimonials-container')
+    const button = container?.querySelector('button')
 
-  if (container && button) {
-    button.addEventListener('click', () => {
-      const isExpanded = container.getAttribute('data-expanded') === 'true'
-      container.setAttribute('data-expanded', (!isExpanded).toString())
-    })
+    if (container && button) {
+      button.addEventListener('click', () => {
+        const isExpanded = container.getAttribute('data-expanded') === 'true'
+        container.setAttribute('data-expanded', (!isExpanded).toString())
+      })
+    }
   }
+
+  // Run setup function on the initial and any subsequent page loads due to navigation
+  // https://docs.astro.build/en/guides/view-transitions/#astropage-load
+  document.addEventListener('astro:page-load', setupTestimonials)
 </script>

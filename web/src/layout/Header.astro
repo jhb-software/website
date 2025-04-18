@@ -209,7 +209,7 @@ const currentPath = Astro.url.pathname
     })
   }
 
-  // Run script on the initial and any subsequent page loads due to navigation
+  // Run setup function on the initial and any subsequent page loads due to navigation
   // https://docs.astro.build/en/guides/view-transitions/#astropage-load
   document.addEventListener('astro:page-load', setupHeader)
 </script>
