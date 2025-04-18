@@ -5,10 +5,13 @@ import SectionBlock from './SectionBlock.astro'
 
 export type Props = NonNullable<Page['sections']>[number]
 
-const { title, subTitle, blocks } = Astro.props
+const { title, subTitle, blocks, highlightBackground } = Astro.props
 ---
 
-<SectionShell class="my-32 space-y-6">
+<SectionShell
+  class:list={['my-16 space-y-6 py-16']}
+  sectionClass={highlightBackground ? 'bg-gray-200/20' : undefined}
+>
   <div class="space-y-2">
     <h2 class="text-center text-2xl font-bold">{title}</h2>
     <p class="text-center text-balance">{subTitle}</p>

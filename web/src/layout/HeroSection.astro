@@ -9,11 +9,12 @@ export type Props = HeroSection & { breadcrumbs: Breadcrumbs }
 const { title, subtitle, links, breadcrumbs } = Astro.props
 ---
 
-<SectionShell class="flex flex-col items-center gap-4">
+<SectionShell class="flex flex-col items-center gap-4 py-16">
   {breadcrumbs && <BreadcrumbsBlock crumbs={breadcrumbs} />}
-  <h1 class="text-primary my-6 max-w-2xl text-center text-4xl font-extrabold text-balance">
+  <h1 class="text-primary mb-6 max-w-2xl text-center text-4xl font-extrabold text-balance">
     {title}
   </h1>
+
   <p class="my-2 max-w-2xl text-center text-balance">{subtitle}</p>
   <div class="flex max-w-2xl flex-row gap-4">
     {links?.map(({ link }) => <Link {...link} />)}
