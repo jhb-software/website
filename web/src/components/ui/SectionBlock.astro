@@ -1,17 +1,21 @@
 ---
 import type {
+  AboutBlock as AboutBlockType,
   ArticlesBlock as ArticlesBlockType,
   CustomerLogosBlock as CustomerLogosBlockType,
   FeaturedProjectsListBlock as FeaturedProjectsListBlockType,
   Page,
+  PhilosophyBlock as PhilosophyBlockType,
   ProjectsListBlock as ProjectsListBlockType,
   RichTextBlock as RichTextBlockType,
   ServicesBlock as ServicesBlockType,
   TestimonialsBlock as TestimonialsBlockType,
 } from 'cms/src/payload-types'
+import AboutBlock from './blocks/AboutBlock.astro'
 import ArticlesBlock from './blocks/ArticlesBlock.astro'
 import CustomerLogosBlock from './blocks/CustomerLogosBlock.astro'
 import FeaturedProjectsListBlock from './blocks/FeaturedProjectsListBlock.astro'
+import PhilosophyBlock from './blocks/PhilosophyBlock.astro'
 import ProjectsListBlock from './blocks/ProjectsListBlock.astro'
 import RichTextBlock from './blocks/RichTextBlock/RichTextBlock.astro'
 import ServicesBlock from './blocks/ServicesBlock.astro'
@@ -38,6 +42,10 @@ const { blockType, ...props } = Astro.props
         return <ProjectsListBlock {...(props as ProjectsListBlockType)} />
       case 'articles':
         return <ArticlesBlock {...(props as ArticlesBlockType)} />
+      case 'about':
+        return <AboutBlock {...(props as AboutBlockType)} />
+      case 'philosophy':
+        return <PhilosophyBlock {...(props as PhilosophyBlockType)} />
       default:
         throw new Error('Block type not implemented: ' + blockType)
     }
