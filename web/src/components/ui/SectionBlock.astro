@@ -3,6 +3,7 @@ import type {
   AboutBlock as AboutBlockType,
   ArticlesBlock as ArticlesBlockType,
   AuthorsBlock as AuthorsBlockType,
+  ContactBlock as ContactBlockType,
   CustomerLogosBlock as CustomerLogosBlockType,
   FeaturedProjectsListBlock as FeaturedProjectsListBlockType,
   Page,
@@ -15,6 +16,7 @@ import type {
 import AboutBlock from './blocks/AboutBlock.astro'
 import ArticlesBlock from './blocks/ArticlesBlock.astro'
 import AuthorsListBlock from './blocks/AuthorsListBlock.astro'
+import ContactBlock from './blocks/ContactBlock.astro'
 import CustomerLogosBlock from './blocks/CustomerLogosBlock.astro'
 import FeaturedProjectsListBlock from './blocks/FeaturedProjectsListBlock.astro'
 import PhilosophyBlock from './blocks/PhilosophyBlock.astro'
@@ -50,6 +52,8 @@ const { blockType, ...props } = Astro.props
         return <PhilosophyBlock {...(props as PhilosophyBlockType)} />
       case 'authors':
         return <AuthorsListBlock {...(props as AuthorsBlockType)} />
+      case 'contact':
+        return <ContactBlock {...(props as ContactBlockType)} />
       default:
         throw new Error('Block type not implemented: ' + blockType)
     }

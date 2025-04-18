@@ -1,0 +1,61 @@
+---
+import { CldImage } from 'astro-cloudinary'
+import type { ContactBlock, Media } from 'cms/src/payload-types'
+import GitHub from '../../icons/github.svg'
+import LinkedIn from '../../icons/linkedin.svg'
+import WhatsApp from '../../icons/whatsapp.svg'
+
+type Props = ContactBlock
+
+const { name, image, phone, email, socialLinks } = Astro.props
+---
+
+<div class="my-16">
+  <div
+    class="flex flex-col items-center justify-center gap-10 text-center md:flex-row md:text-left"
+  >
+    <div class="">
+      <div class="flex flex-col items-center gap-4">
+        <CldImage
+          src={(image as Media).cloudinaryPublicId!}
+          class="w-full rounded-full shadow-lg"
+          width={200}
+          height={200}
+          alt={(image as Media).alt}
+        />
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <h3 class="text-2xl font-semibold">{name}</h3>
+
+      <div class="space-y-2">
+        <p class="flex items-center gap-2">
+          <a href={`tel:${phone}`} class="hover:primary">{phone}</a>
+        </p>
+        <p class="flex items-center gap-2">
+          <a href={`mailto:${email}`} class="hover:primary">{email}</a>
+        </p>
+      </div>
+
+      {
+        socialLinks && socialLinks.length > 0 && (
+          <div class="flex gap-6 pt-4">
+            {socialLinks.map((link) => (
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="hover:text-primary text-gray-800"
+              >
+                {link.icon === 'linkedin' && <LinkedIn />}
+                {link.icon === 'github' && <GitHub />}
+                {link.icon === 'whatsapp' && <WhatsApp />}
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </div>
+</div>
