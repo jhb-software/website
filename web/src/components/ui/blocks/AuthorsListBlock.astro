@@ -1,0 +1,48 @@
+---
+import { CldImage } from 'astro-cloudinary'
+import type { Author, AuthorsBlock } from 'cms/src/payload-types'
+import { normalizePath } from '../../../utils/normalizePath'
+import Card from '../Card.astro'
+import RichTextBlock from './RichTextBlock/RichTextBlock.astro'
+
+export type Props = AuthorsBlock
+
+const authors = Astro.props.authors as Author[]
+
+const isPreview = Astro.url.pathname.startsWith('/preview')
+---
+
+<div class="my-16 flex flex-col gap-4">
+  {
+    authors.map((author) => {
+      return (
+        <Card class="!p-0">
+          <a href={normalizePath(author.path, isPreview)}>
+            <div class="flex flex-col items-center gap-4 md:flex-row">
+              <div class="w-48 flex-none">
+                {author.photo && typeof author.photo === 'object' && (
+                  <CldImage
+                    src={author.photo.cloudinaryPublicId!}
+                    alt={`Photo of ${author.name}`}
+                    width={480}
+                    height={480}
+                    class="m-4 rounded-md md:m-0 md:rounded-r-none"
+                  />
+                )}
+              </div>
+
+              <div class="flex flex-auto flex-row justify-between gap-8 p-4">
+                <div class="flex flex-col gap-4">
+                  <h3 class="my-0 text-lg font-semibold">{author.name}</h3>
+                  <div class="text-base font-normal">
+                    <RichTextBlock text={author.description} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </Card>
+      )
+    })
+  }
+</div>
