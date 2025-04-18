@@ -187,6 +187,7 @@ export interface Page {
               | AuthorsBlock
               | AboutBlock
               | PhilosophyBlock
+              | ContactBlock
             )[]
           | null;
         id?: string | null;
@@ -567,6 +568,24 @@ export interface PhilosophyBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactBlock".
+ */
+export interface ContactBlock {
+  name: string;
+  image: string | Media;
+  phone: string;
+  email: string;
+  socialLinks: {
+    url: string;
+    icon: 'linkedin' | 'github' | 'whatsapp';
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contact';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -712,6 +731,7 @@ export interface PagesSelect<T extends boolean = true> {
               authors?: T | AuthorsBlockSelect<T>;
               about?: T | AboutBlockSelect<T>;
               philosophy?: T | PhilosophyBlockSelect<T>;
+              contact?: T | ContactBlockSelect<T>;
             };
         id?: T;
       };
@@ -856,6 +876,25 @@ export interface PhilosophyBlockSelect<T extends boolean = true> {
     | {
         title?: T;
         text?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactBlock_select".
+ */
+export interface ContactBlockSelect<T extends boolean = true> {
+  name?: T;
+  image?: T;
+  phone?: T;
+  email?: T;
+  socialLinks?:
+    | T
+    | {
+        url?: T;
+        icon?: T;
         id?: T;
       };
   id?: T;
