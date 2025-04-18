@@ -1,12 +1,44 @@
 ---
+import { payloadSDK } from '@/cms/sdk'
+import type { Locale } from '@/cms/types'
 import { globalState } from '@/globalState'
-import type { Testimonial, TestimonialsBlock } from 'cms/src/payload-types'
+import type { Project, Testimonial, TestimonialsBlock } from 'cms/src/payload-types'
 import TestimonialCard from '../TestimonialCard.astro'
 
 export type Props = TestimonialsBlock
 
 const { testimonials } = Astro.props
 const { translations } = globalState
+const { lang } = Astro.params
+
+// Fetching the customers is necessary since the customer is not populated because the pages are fetched with depth 1
+// When migrating to GraphQL or the REST select API, this will be resolved.
+const customers = await payloadSDK.find({
+  collection: 'customers',
+  locale: lang as Locale,
+  draft: false,
+  limit: 0,
+  pagination: false,
+})
+
+const populatedTestimonials = testimonials?.map((testimonial) => {
+  if (typeof testimonial === 'string') {
+    return testimonial
+  }
+
+  return {
+    ...testimonial,
+    project: {
+      ...(typeof testimonial.project === 'object' ? testimonial.project : {}),
+      customer:
+        typeof testimonial.project === 'object' && typeof testimonial.project.customer === 'string'
+          ? customers.docs.find(
+              (customer) => customer.id === (testimonial.project as Project).customer,
+            )
+          : undefined,
+    },
+  }
+})
 ---
 
 <div class="group relative" id="testimonials-container" data-expanded={false}>
@@ -21,7 +53,7 @@ const { translations } = globalState
   >
     <div class="columns-1 gap-5 space-y-5 sm:columns-2 lg:columns-3">
       {
-        testimonials?.map((testimonial) => (
+        populatedTestimonials?.map((testimonial) => (
           <div class="inline-block w-full break-inside-avoid">
             <TestimonialCard {...(testimonial as Testimonial)} />
           </div>
