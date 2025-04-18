@@ -14,10 +14,10 @@
   "dependencies": {
     "@astrojs/vercel": "^8.1.3",
     "@fontsource-variable/montserrat": "^5.2.5",
-    "astro": "^5.6.1",
+    "astro": "^5.7.4",
     "astro-cloudinary": "^1.3.2",
     "cms": "workspace:*",
-    "payload": "^3.33.0",
+    "payload": "^3.35.1",
     "qs-esm": "^7.0.2",
     "ts-essentials": "^10.0.4"
   },
@@ -25,9 +25,9 @@
     "@astrojs/check": "^0.9.4",
     "@nobie-org/tailwindcss-animate": "^1.0.9",
     "@tailwindcss/typography": "^0.5.16",
-    "@tailwindcss/vite": "^4.1.3",
-    "@typescript-eslint/parser": "^8.29.0",
-    "dotenv": "^16.4.7",
+    "@tailwindcss/vite": "^4.1.4",
+    "@typescript-eslint/parser": "^8.30.1",
+    "dotenv": "^16.5.0",
     "eslint": "^9.24.0",
     "eslint-plugin-astro": "^1.3.1",
     "eslint-plugin-jsx-a11y": "^6.10.2",
@@ -36,7 +36,7 @@
     "prettier-plugin-astro-organize-imports": "^0.4.11",
     "prettier-plugin-organize-imports": "^4.1.0",
     "prettier-plugin-tailwindcss": "^0.6.11",
-    "tailwindcss": "^4.1.3",
-    "typescript-eslint": "^8.29.0"
+    "tailwindcss": "^4.1.4",
+    "typescript-eslint": "^8.30.1"
   }
 }
