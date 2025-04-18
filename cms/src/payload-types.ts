@@ -172,6 +172,8 @@ export interface Page {
               | ProjectsListBlock
               | ArticlesBlock
               | AuthorsBlock
+              | AboutBlock
+              | PhilosophyBlock
             )[]
           | null;
         id?: string | null;
@@ -495,6 +497,63 @@ export interface AuthorsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutBlock".
+ */
+export interface AboutBlock {
+  title?: string | null;
+  name?: string | null;
+  text: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  image: string | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'about';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PhilosophyBlock".
+ */
+export interface PhilosophyBlock {
+  title: string;
+  text: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  items: {
+    title: string;
+    text: string;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'philosophy';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -638,6 +697,8 @@ export interface PagesSelect<T extends boolean = true> {
               'projects-list'?: T | ProjectsListBlockSelect<T>;
               articles?: T | ArticlesBlockSelect<T>;
               authors?: T | AuthorsBlockSelect<T>;
+              about?: T | AboutBlockSelect<T>;
+              philosophy?: T | PhilosophyBlockSelect<T>;
             };
         id?: T;
       };
@@ -755,6 +816,35 @@ export interface ArticlesBlockSelect<T extends boolean = true> {
  */
 export interface AuthorsBlockSelect<T extends boolean = true> {
   authors?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutBlock_select".
+ */
+export interface AboutBlockSelect<T extends boolean = true> {
+  title?: T;
+  name?: T;
+  text?: T;
+  image?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PhilosophyBlock_select".
+ */
+export interface PhilosophyBlockSelect<T extends boolean = true> {
+  title?: T;
+  text?: T;
+  items?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }

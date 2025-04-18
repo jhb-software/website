@@ -1,7 +1,9 @@
+import { AboutBlock } from '@/blocks/AboutBlock'
 import { ArticlesBlock } from '@/blocks/ArticlesBlock'
 import { AuthorsBlock } from '@/blocks/AuthorsBlock'
 import { CustomerLogosBlock } from '@/blocks/CustomerLogosBlock'
 import { FeaturedProjectsListBlock } from '@/blocks/FeaturedProjectsList'
+import { PhilosophyBlock } from '@/blocks/PhilosophyBlock'
 import { ProjectsListBlock } from '@/blocks/ProjectsList'
 import { RichTextBlock } from '@/blocks/RichTextBlock'
 import { ServicesBlock } from '@/blocks/ServicesBlock'
@@ -111,6 +113,8 @@ const Page: CollectionConfig = createPageCollectionConfig({
             ProjectsListBlock,
             ArticlesBlock,
             AuthorsBlock,
+            AboutBlock,
+            PhilosophyBlock,
           ],
           label: {
             de: 'Blöcke',
