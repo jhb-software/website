@@ -12,4 +12,8 @@ const { page: pageData } = Astro.props
 
 <HeroSection {...pageData.hero} breadcrumbs={pageData.breadcrumbs} />
 
-{pageData.sections?.map((section) => <Section {...section} />)}
+{
+  pageData.sections?.map((section, index) => (
+    <Section {...section} withoutTopSpace={index === 0 && !pageData.isRootPage} />
+  ))
+}
