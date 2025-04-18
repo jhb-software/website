@@ -63,16 +63,16 @@
   },
   "devDependencies": {
     "@types/he": "^1.2.3",
-    "@types/react": "19.1.0",
-    "@types/react-dom": "19.1.1",
+    "@types/react": "19.1.2",
+    "@types/react-dom": "19.1.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "typescript": "5.8.3"
   },
   "peerDependencies": {
-    "@payloadcms/translations": "^3.33.0",
-    "@payloadcms/ui": "^3.33.0",
-    "payload": "^3.33.0"
+    "@payloadcms/translations": "^3.35.1",
+    "@payloadcms/ui": "^3.35.1",
+    "payload": "^3.35.1"
   },
   "publishConfig": {
     "exports": {
