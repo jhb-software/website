@@ -23,14 +23,39 @@ export const ServicesBlock: Block = {
       type: 'array',
       fields: [
         {
-          name: 'title',
-          type: 'text',
-          required: true,
-          localized: true,
-          label: {
-            de: 'Titel',
-            en: 'Title',
-          },
+          type: 'row',
+          fields: [
+            {
+              name: 'title',
+              type: 'text',
+              required: true,
+              localized: true,
+              label: {
+                de: 'Titel',
+                en: 'Title',
+              },
+              admin: {
+                width: '70%',
+              },
+            },
+            {
+              name: 'icon',
+              type: 'select',
+              options: [
+                { label: 'Mobile Phone', value: 'mobile-phone' },
+                { label: 'Laptop', value: 'laptop' },
+                { label: 'Laptop Code', value: 'laptop-code' },
+              ],
+              required: true,
+              label: {
+                de: 'Icon',
+                en: 'Icon',
+              },
+              admin: {
+                width: '30%',
+              },
+            },
+          ],
         },
         {
           name: 'description',

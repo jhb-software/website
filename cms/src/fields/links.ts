@@ -42,7 +42,7 @@ const linkGroup = ({ relationTo }: { relationTo: CollectionSlug[] }): GroupField
           relationTo: relationTo,
           required: true,
           admin: {
-            width: '33%',
+            width: '50%',
           },
         },
         {
@@ -55,7 +55,26 @@ const linkGroup = ({ relationTo }: { relationTo: CollectionSlug[] }): GroupField
           localized: true,
           required: true,
           admin: {
-            width: '33%',
+            width: '50%',
+          },
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'icon',
+          type: 'select',
+          options: [
+            { label: 'Bars Staggered', value: 'bars-staggered' },
+            { label: 'Comments', value: 'comments' },
+            { label: 'Chevron Right', value: 'chevron-right' },
+            { label: 'Chevron Down', value: 'chevron-down' },
+          ],
+          required: false,
+          admin: {
+            width: '50%',
           },
         },
         {
@@ -75,7 +94,7 @@ const linkGroup = ({ relationTo }: { relationTo: CollectionSlug[] }): GroupField
           ],
           defaultValue: 'primary',
           admin: {
-            width: '33%',
+            width: '50%',
           },
         },
       ],

@@ -222,6 +222,7 @@ export interface Link {
     value: string | Page;
   };
   label: string;
+  icon?: ('bars-staggered' | 'comments' | 'chevron-right' | 'chevron-down') | null;
   style: 'primary' | 'text' | 'text-primary' | 'light' | 'light-primary';
 }
 /**
@@ -256,6 +257,7 @@ export interface ServicesBlock {
   services?:
     | {
         title: string;
+        icon: 'mobile-phone' | 'laptop' | 'laptop-code';
         description: string;
         page: string | Page;
         id?: string | null;
@@ -771,6 +773,7 @@ export interface HeroSectionSelect<T extends boolean = true> {
 export interface LinkSelect<T extends boolean = true> {
   page?: T;
   label?: T;
+  icon?: T;
   style?: T;
 }
 /**
@@ -791,6 +794,7 @@ export interface ServicesBlockSelect<T extends boolean = true> {
     | T
     | {
         title?: T;
+        icon?: T;
         description?: T;
         page?: T;
         id?: T;
