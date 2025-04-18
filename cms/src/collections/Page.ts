@@ -102,6 +102,14 @@ const Page: CollectionConfig = createPageCollectionConfig({
           },
         },
         {
+          name: 'highlightBackground',
+          type: 'checkbox',
+          label: {
+            de: 'Hintergrund hervorheben',
+            en: 'Highlight Background',
+          },
+        },
+        {
           name: 'blocks',
           type: 'blocks',
           blocks: [

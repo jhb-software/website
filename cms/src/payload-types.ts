@@ -175,6 +175,7 @@ export interface Page {
     | {
         title: string;
         subTitle?: string | null;
+        highlightBackground?: boolean | null;
         blocks?:
           | (
               | RichTextBlock
@@ -720,6 +721,7 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         title?: T;
         subTitle?: T;
+        highlightBackground?: T;
         blocks?:
           | T
           | {
