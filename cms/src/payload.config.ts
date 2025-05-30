@@ -14,6 +14,7 @@ import { de } from '@payloadcms/translations/languages/de'
 import { en } from '@payloadcms/translations/languages/en'
 import path from 'path'
 import { buildConfig, CollectionConfig, CollectionSlug, GlobalSlug } from 'payload'
+import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 import CodeBlock from './blocks/CodeBlock'
 import Articles from './collections/Articles'
@@ -140,6 +141,7 @@ export default buildConfig({
     // Since the CodeBlock is only used inside the RichText editor of the articles, add it here to generate the type
     CodeBlock,
   ],
+  sharp,
   plugins: [
     translator({
       collections: translatableCollectionsSlugs,
