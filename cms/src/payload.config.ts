@@ -7,6 +7,7 @@ import {
 import { payloadSeoPlugin } from '@jhb.software/payload-seo-plugin'
 import { openAIResolver, translator } from '@payload-enchants/translator'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
+import { resendAdapter } from '@payloadcms/email-resend'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { de } from '@payloadcms/translations/languages/de'
 import { en } from '@payloadcms/translations/languages/en'
@@ -108,6 +109,11 @@ export default buildConfig({
   },
   db: mongooseAdapter({
     url: process.env.MONGODB_URI!,
+  }),
+  email: resendAdapter({
+    defaultFromAddress: 'cms@jhb.software',
+    defaultFromName: `${siteName} CMS`,
+    apiKey: process.env.RESEND_API_KEY!,
   }),
   endpoints: [
     {
