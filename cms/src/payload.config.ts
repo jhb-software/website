@@ -5,6 +5,7 @@ import {
   payloadPagesPlugin,
 } from '@jhb.software/payload-pages-plugin'
 import { payloadSeoPlugin } from '@jhb.software/payload-seo-plugin'
+import { hetznerStorage } from '@joneslloyd/payload-storage-hetzner'
 import { openAIResolver, translator } from '@payload-enchants/translator'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
@@ -22,6 +23,7 @@ import { Media } from './collections/Media'
 import Page from './collections/Page'
 import Project from './collections/Project'
 import { Redirects } from './collections/Redirects'
+import { S3Media } from './collections/S3Media'
 import Testimonials from './collections/Testimonials'
 import { Users } from './collections/Users'
 import { getPagePropsByPath } from './endpoints/pageProps'
@@ -45,9 +47,11 @@ export const collections: CollectionConfig[] = [
   Articles,
   Customers,
   Authors,
+
   // Data Collections
   Testimonials,
   Media,
+  S3Media,
 
   // System Collections
   Redirects,
@@ -147,6 +151,19 @@ export default buildConfig({
       ],
     }),
     payloadPagesPlugin({}),
+    hetznerStorage({
+      collections: {
+        's3-media': true,
+      },
+      bucket: process.env.HETZNER_BUCKET!,
+      region: 'nbg1',
+      credentials: {
+        accessKeyId: process.env.HETZNER_ACCESS_KEY_ID!,
+        secretAccessKey: process.env.HETZNER_SECRET_ACCESS_KEY!,
+      },
+      clientUploads: true,
+      acl: 'public-read',
+    }),
     payloadCloudinaryPlugin({
       uploadCollections: ['media'],
       credentials: {
