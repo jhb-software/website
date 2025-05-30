@@ -63,6 +63,11 @@ export const traverseFields = ({
         break
 
       case 'group': {
+        if (!('name' in field)) {
+          // TODO: handle unnamed groups correctly
+          break
+        }
+
         const groupDataFrom = siblingDataFrom[field.name] as Record<string, unknown>
 
         if (!groupDataFrom) break
