@@ -20,6 +20,7 @@ const Testimonials: CollectionConfig = {
     defaultColumns: ['title', 'author', 'project', 'updatedAt', 'status'],
     group: CollectionGroups.ContentCollections,
   },
+  orderable: true,
   versions: {
     drafts: true,
   },

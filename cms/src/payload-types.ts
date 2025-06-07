@@ -286,6 +286,7 @@ export interface TestimonialsBlock {
  */
 export interface Testimonial {
   id: string;
+  _order?: string | null;
   project: string | Project;
   title: string;
   author: {
@@ -1081,6 +1082,7 @@ export interface AuthorsSelect<T extends boolean = true> {
  * via the `definition` "testimonials_select".
  */
 export interface TestimonialsSelect<T extends boolean = true> {
+  _order?: T;
   project?: T;
   title?: T;
   author?:
