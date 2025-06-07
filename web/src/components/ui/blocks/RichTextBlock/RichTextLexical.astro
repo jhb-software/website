@@ -61,6 +61,8 @@ const { nodes } = Astro.props
         return <TableComponent node={node} />
       case 'horizontalrule':
         return <hr />
+      case 'linebreak':
+        return <br />
     }
   })
 }
