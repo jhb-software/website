@@ -37,7 +37,10 @@ const isPreview = Astro.url.pathname.startsWith('/preview')
           <div class="rounded-md bg-gray-500 p-5 text-white shadow-md">{project.excerpt}</div>
 
           <div
-            class:list={['flex flex-row justify-end gap-4', index % 2 === 1 && 'flex-row-reverse']}
+            class:list={[
+              'flex flex-row gap-4 md:justify-end',
+              index % 2 === 1 && 'md:flex-row-reverse',
+            ]}
           >
             <ProjectDate startDate={project.startDate} endDate={project.endDate} />
 

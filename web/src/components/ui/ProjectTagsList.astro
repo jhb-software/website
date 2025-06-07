@@ -11,10 +11,10 @@ const { tags, class: className } = Astro.props
 const { translations } = globalState
 ---
 
-<div class:list={['space-x-2', className]}>
+<div class:list={['flex flex-wrap gap-2', className]}>
   {
     tags?.map((tag) => (
-      <span class="rounded-md bg-gray-200 px-2 py-1 text-sm font-medium text-gray-700">
+      <span class="max-h-fit rounded-md bg-gray-200 px-2 py-1 text-sm font-medium text-gray-700">
         {translations.projects[tag]}
       </span>
     ))
