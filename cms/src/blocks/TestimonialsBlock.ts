@@ -41,6 +41,7 @@ export const TestimonialsBlock: Block = {
                   equals: 'published',
                 },
               },
+              sort: '_order',
               draft: false,
             })
 
