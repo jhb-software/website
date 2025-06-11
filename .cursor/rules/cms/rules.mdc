@@ -1,0 +1,74 @@
+---
+description: Payload CMS conventions and best practises
+globs: cms/**
+alwaysApply: false
+---
+# CMS General Rules
+
+## Key Principles
+
+- Write concise, technical TypeScript code.
+- Prefer iteration and modularization over code duplication.
+- Use descriptive variable names
+
+## Collection Fields
+
+- all fields should have `required: true` by default, unless explicitly optional
+- all text fields (e.g. labels, titles, etc.) should have `localized: true`
+
+## Access Control
+
+- define granular access control for all collections
+- use `authenticated` as a default
+- use `anyone` for public read access
+
+## Types
+
+- Use TypeScript for all code
+- avoid using the `any` type or type assertions; use proper type definitions and type guards instead
+
+## Performance
+
+To ensure fast response times and optimal resource usage when querying Payload data, follow these performance guidelines:
+
+- Use `depth: 0` whenever possible
+  - This prevents deep population of relational fields and speeds up queries significantly.
+  - e.g.
+    ```ts
+    req.payload.find({
+      collection: 'pages',
+      depth: 0,
+    });
+    ```
+- If `depth > 0` is required, keep it as small as possible
+
+- Use the `select` property to limit returned fields
+  - Only request the fields you actually need
+  - e.g.
+    ```ts
+    payload.find({
+      collection: 'pages',
+      depth: 0,
+      select: {
+        id: true,
+        slug: true,
+        path: true,
+      },
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  

@@ -1,0 +1,72 @@
+---
+description: Astro component conventions
+globs: web/src/**/*.astro
+alwaysApply: false
+---
+# Astro Components Rules
+
+## General
+
+- If a component has props, define a `Props` type inside the component and destructure it from `Astro.props`:
+
+  ```ts
+  type Props = {
+    title: string;
+  }
+
+  const { title } = Astro.props;
+  ```
+
+- Try to use types from the CMS wherever possible. For example:
+
+  ```ts
+  import type { Media } from 'cms/src/payload-types';
+
+  type Props = {
+    images: Media[];
+  }
+
+  const { images } = Astro.props;
+  ```
+
+## Styling
+
+- Always use Tailwind CSS for styling. When a tag has many classes, group them with `class:list` and inline comments:
+
+  ```astro
+  <div class:list={[
+    'flex flex-col', // Layout
+    'p-4 gap-2',  // Spacing
+    'bg-white rounded shadow-md',  // Visual
+  ]}>
+  ```
+
+## Using custom built components
+  
+- Use the custom `<Img />` component from [Img.astro](mdc:web/src/components/ui/Img.astro) to render images. The Img component handles setting the alt text and other things:
+
+  ```astro
+  <Img
+    media={media}
+    class="w-full h-full aspect-square"
+    height={500}
+    width={500}
+  />
+  ```
+
+- For rendering rich text from the CMS, always use the `<RichText />` from [RichTextLexical.astro](mdc:web/src/components/ui/blocks/RichTextBlock/RichTextLexical.astro) omponent:
+
+  ```astro
+  <RichText data={richText} />
+  ```
+
+## More
+
+- For internal or external links, always use the custom [Link.astro](mdc:web/src/components/ui/Link.astro) component.
+- Normalize CMS-driven internal paths using `normalizePath()`.
+
+  ```astro
+   <Link href={normalizePath(page.path)}>Page Name</Link>
+
+   <Link href={externalUrl}>Website Name</Link>
+  ```
