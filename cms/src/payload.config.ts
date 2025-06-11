@@ -1,4 +1,3 @@
-import { payloadCloudinaryPlugin } from '@jhb.software/payload-cloudinary-plugin'
 import {
   alternatePathsField,
   getPageUrl,
@@ -24,7 +23,6 @@ import { Media } from './collections/Media'
 import Page from './collections/Page'
 import Project from './collections/Project'
 import { Redirects } from './collections/Redirects'
-import { S3Media } from './collections/S3Media'
 import Testimonials from './collections/Testimonials'
 import { Users } from './collections/Users'
 import { getPagePropsByPath } from './endpoints/pageProps'
@@ -52,7 +50,6 @@ export const collections: CollectionConfig[] = [
   // Data Collections
   Testimonials,
   Media,
-  S3Media,
 
   // System Collections
   Redirects,
@@ -114,6 +111,7 @@ export default buildConfig({
   },
   db: mongooseAdapter({
     url: process.env.MONGODB_URI!,
+    allowIDOnCreate: true,
   }),
   email: resendAdapter({
     defaultFromAddress: 'cms@jhb.software',
@@ -155,7 +153,7 @@ export default buildConfig({
     payloadPagesPlugin({}),
     hetznerStorage({
       collections: {
-        's3-media': true,
+        media: true,
       },
       bucket: process.env.HETZNER_BUCKET!,
       region: 'nbg1',
@@ -165,16 +163,6 @@ export default buildConfig({
       },
       clientUploads: true,
       acl: 'public-read',
-    }),
-    payloadCloudinaryPlugin({
-      uploadCollections: ['media'],
-      credentials: {
-        apiKey: process.env.CLOUDINARY_API_KEY!,
-        apiSecret: process.env.CLOUDINARY_API_SECRET!,
-      },
-      cloudinary: {
-        cloudName: process.env.CLOUDINARY_CLOUD_NAME!,
-      },
     }),
     payloadSeoPlugin({
       // JHB plugin related config

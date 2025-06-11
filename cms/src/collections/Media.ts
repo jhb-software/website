@@ -17,6 +17,39 @@ export const Media: CollectionConfig = {
   },
   admin: {
     group: CollectionGroups.MediaCollections,
+    defaultColumns: ['filename', 'title', 'alt', 'createdAt', 'updatedAt'],
+  },
+  upload: {
+    mimeTypes: ['image/*', 'application/pdf'],
+    imageSizes: [
+      {
+        name: 'xs',
+        width: 480,
+      },
+      {
+        name: 'sm',
+        width: 768,
+      },
+      {
+        name: 'md',
+        width: 1024,
+      },
+      {
+        name: 'lg',
+        width: 1920,
+      },
+      {
+        name: 'xl',
+        width: 2560,
+      },
+      {
+        // optimal size for an Open Graph (OG) image
+        name: 'og',
+        width: 1200,
+        height: 630,
+      },
+    ],
+    adminThumbnail: 'sm',
   },
   access: {
     read: anyone,
@@ -25,7 +58,6 @@ export const Media: CollectionConfig = {
     create: authenticated,
   },
   fields: [
-    // The other fields are automatically added by the plugin
     {
       name: 'alt',
       label: {

@@ -16,7 +16,6 @@
     "format": "prettier --write src"
   },
   "dependencies": {
-    "@jhb.software/payload-cloudinary-plugin": "^0.2.1",
     "@jhb.software/payload-pages-plugin": "^0.5.0-beta.2",
     "@jhb.software/payload-seo-plugin": "^0.1.4",
     "@joneslloyd/payload-storage-hetzner": "^1.0.2",
@@ -24,11 +23,11 @@
     "@payloadcms/db-mongodb": "^3.42.0",
     "@payloadcms/email-resend": "^3.42.0",
     "@payloadcms/next": "^3.42.0",
+    "@payloadcms/plugin-cloud-storage": "^3.42.0",
     "@payloadcms/plugin-seo": "^3.42.0",
     "@payloadcms/richtext-lexical": "^3.42.0",
     "@payloadcms/translations": "^3.42.0",
     "@payloadcms/ui": "^3.42.0",
-    "@payloadcms/plugin-cloud-storage": "^3.42.0",
     "cross-env": "^7.0.3",
     "graphql": "^16.11.0",
     "next": "15.3.3",
