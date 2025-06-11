@@ -39,6 +39,7 @@ const Projects: CollectionConfig = createPageCollectionConfig({
     delete: authenticated,
     create: authenticated,
   },
+  enableQueryPresets: true,
   fields: [
     // Sidebar fields:
     {
