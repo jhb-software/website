@@ -9,8 +9,8 @@ importers:
   cms:
     dependencies:
       '@jhb.software/payload-pages-plugin':
-        specifier: ^0.5.0-beta.2
-        version: 0.5.0-beta.2(@payloadcms/ui@3.42.0(@types/react@19.1.7)(monaco-editor@0.52.2)(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3))(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^0.5.0-beta.3
+        version: 0.5.0-beta.3(@payloadcms/ui@3.42.0(@types/react@19.1.7)(monaco-editor@0.52.2)(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3))(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@jhb.software/payload-seo-plugin':
         specifier: ^0.1.4
         version: 0.1.4(db75f9fbec70cf8ec5a94b87ce6ddc6f)
@@ -1194,13 +1194,13 @@ packages:
     resolution: {integrity: sha512-wgm9Ehl2jpeqP3zw/7mo3kRHFp5MEDhqAdwy1fTGkHAwnkGOVsgpvQhL8B5n1qlb01jV3n/bI0ZfZp5lWA1k4w==}
     engines: {node: '>=18.0.0'}
 
-  '@jhb.software/payload-pages-plugin@0.5.0-beta.2':
-    resolution: {integrity: sha512-ywZ/KyD2EG1f9GPc7DY69hQ7RD/2UR7WZ2t06fZ10T1yLUGrANhD4c7AYp6MPrjqEPUKCTtzktd1fgVtTpV1hg==}
+  '@jhb.software/payload-pages-plugin@0.5.0-beta.3':
+    resolution: {integrity: sha512-wbS7GJdv3eRaaDu8d3XrwSm3+26pIAR8vSuXYAgUP4QJmvIfQNDCxl0HU6Yx6UmfNorrqPZJG0eB6fAvmgVuCw==}
     engines: {node: ^18.20.2 || >=20.9.0}
     peerDependencies:
-      '@payloadcms/ui': 3.37.0
-      next: 15.3.2
-      payload: 3.37.0
+      '@payloadcms/ui': 3.42.0
+      next: 15.3.3
+      payload: 3.42.0
       react: 19.1.0
       react-dom: 19.1.0
 
@@ -6684,7 +6684,7 @@ snapshots:
     dependencies:
       minipass: 7.1.2
 
-  '@jhb.software/payload-pages-plugin@0.5.0-beta.2(@payloadcms/ui@3.42.0(@types/react@19.1.7)(monaco-editor@0.52.2)(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3))(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+  '@jhb.software/payload-pages-plugin@0.5.0-beta.3(@payloadcms/ui@3.42.0(@types/react@19.1.7)(monaco-editor@0.52.2)(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3))(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
       '@payloadcms/ui': 3.42.0(@types/react@19.1.7)(monaco-editor@0.52.2)(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)
       next: 15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4)

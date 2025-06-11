@@ -16,7 +16,7 @@
     "format": "prettier --write src"
   },
   "dependencies": {
-    "@jhb.software/payload-pages-plugin": "^0.5.0-beta.2",
+    "@jhb.software/payload-pages-plugin": "^0.5.0-beta.3",
     "@jhb.software/payload-seo-plugin": "^0.1.4",
     "@joneslloyd/payload-storage-hetzner": "^1.0.2",
     "@payload-enchants/translator": "workspace:*",
