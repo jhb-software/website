@@ -138,6 +138,10 @@ const Projects: CollectionConfig = createPageCollectionConfig({
           label: 'SEO',
           value: 'seo',
         },
+        {
+          label: 'CMS',
+          value: 'cms',
+        },
       ],
     },
     {

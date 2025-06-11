@@ -315,7 +315,7 @@ export interface Project {
   featured: boolean;
   title: string;
   excerpt: string;
-  tags: ('web-app' | 'website' | 'app' | 'seo')[];
+  tags: ('web-app' | 'website' | 'app' | 'seo' | 'cms')[];
   image: string | Media;
   body: {
     root: {
