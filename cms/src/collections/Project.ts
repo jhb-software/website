@@ -4,6 +4,11 @@ import { CollectionGroups } from '@/shared/CollectionGroups'
 import { createPageCollectionConfig } from '@jhb.software/payload-pages-plugin'
 import { CollectionConfig } from 'payload'
 
+// TODO: add an AI-functionality to generate a project page from notes. Here are some informations on what to include in the prompt:
+// - title: The title of the project, do not include the customer name, instead focus on the WHAT instead of the for WHO.
+// - excerpt: A short description of the scope of the project, what was implemented.
+// - body: A detailed description of the project, a brief introduction to the customer, then the problem with the implemented solution and a note on the time frame and the technologies used.
+
 const Projects: CollectionConfig = createPageCollectionConfig({
   slug: 'projects',
   labels: {
@@ -22,9 +27,7 @@ const Projects: CollectionConfig = createPageCollectionConfig({
     group: CollectionGroups.PagesCollections,
   },
   versions: {
-    drafts: {
-      autosave: true,
-    },
+    drafts: true,
   },
   page: {
     parent: {
