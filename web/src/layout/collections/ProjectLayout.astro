@@ -32,7 +32,7 @@ const { project: pageData, breadcrumbs } = Astro.props
     <ProjectTagsList tags={pageData.tags} />
   </div>
 
-  <Img image={pageData.image as Media} size="xl" class="my-8" />
+  <Img image={pageData.image as Media} size="xl" class="mx-auto my-8 w-full max-w-4xl rounded-xl" />
 
   <RichTextBlock text={pageData.body} />
 </SectionShell>
