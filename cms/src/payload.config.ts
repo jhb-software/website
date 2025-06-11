@@ -185,7 +185,26 @@ export default buildConfig({
       // Payload official seo plugin config:
       collections: pageCollectionsSlugs,
       uploadsCollection: 'media',
-      generateTitle: ({ doc }) => `${doc.title} - ${siteName}`,
+      generateTitle: ({ doc, collectionConfig, locale }) => {
+        const suffixMap: Record<string, Record<string, string>> = {
+          projects: {
+            de: 'Referenzen',
+            en: 'References',
+          },
+          articles: {
+            de: 'Artikel',
+            en: 'Articles',
+          },
+          authors: {
+            de: 'Autoren',
+            en: 'Authors',
+          },
+        }
+
+        const suffix = suffixMap[collectionConfig?.slug ?? '']?.[locale ?? 'de']
+
+        return `${doc.title} - ${siteName} ${suffix ?? ''}`
+      },
       generateURL: ({ doc }) => getPageUrl({ path: doc.path })!,
       interfaceName: 'SeoMetadata',
       fields: ({ defaultFields }) => [
