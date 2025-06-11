@@ -9,6 +9,13 @@
   --color-neutral-150: #ededed;
 }
 
+@layer base {
+  h1,
+  h2 {
+    @apply sm:hyphenate-none hyphenate;
+  }
+}
+
 @layer components {
   .header-solid {
     @apply bg-white;
@@ -59,4 +66,26 @@
     @apply bottom-[9px] left-0 w-full;
     transform: rotate(-45deg);
   }
+}
+
+@utility hyphenate {
+  hyphens: auto;
+
+  hyphenate-limit-chars: 10 6 6;
+  -ms-hyphenate-limit-chars: 10 6 6;
+  -webkit-hyphenate-limit-before: 6;
+  -webkit-hyphenate-limit-after: 6;
+}
+
+@utility hyphenate-tight {
+  hyphens: auto;
+
+  hyphenate-limit-chars: 10 6 4;
+  -ms-hyphenate-limit-chars: 10 6 4;
+  -webkit-hyphenate-limit-before: 6;
+  -webkit-hyphenate-limit-after: 4;
+}
+
+@utility hyphenate-none {
+  hyphens: none;
 }
