@@ -1,5 +1,5 @@
 ---
-import { CldImage } from 'astro-cloudinary'
+import Img from '@/components/ui/Img.astro'
 import type { AboutBlock, Media } from 'cms/src/payload-types'
 import RichTextBlock from './RichTextBlock/RichTextBlock.astro'
 
@@ -12,13 +12,7 @@ const { title, name, text, image } = Astro.props
   <div class="flex flex-col items-start gap-8 md:flex-row">
     <div class="w-full md:w-1/3">
       <div class="flex flex-col items-center gap-4">
-        <CldImage
-          src={(image as Media).cloudinaryPublicId!}
-          class="w-full rounded-lg shadow-lg"
-          width={400}
-          height={400}
-          alt={(image as Media).alt}
-        />
+        <Img image={image as Media} size="md" class="w-full rounded-lg shadow-lg" />
       </div>
     </div>
 

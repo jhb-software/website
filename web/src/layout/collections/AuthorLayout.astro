@@ -2,8 +2,8 @@
 import type { PageData } from '@/cms/getPageData'
 import RichTextBlock from '@/components/ui/blocks/RichTextBlock/RichTextBlock.astro'
 import BreadcrumbsBlock from '@/components/ui/Breadcrumbs.astro'
+import Img from '@/components/ui/Img.astro'
 import SectionShell from '@/layout/SectionShell.astro'
-import { CldImage } from 'astro-cloudinary'
 import type { Breadcrumbs, Media } from 'cms/src/payload-types'
 
 type Props = {
@@ -22,13 +22,7 @@ const { author, breadcrumbs } = Astro.props
   <p class="mb-8 text-center text-lg text-slate-700">{author.profession}</p>
 
   <div class="flex flex-col items-center">
-    <CldImage
-      src={(author.photo as Media).cloudinaryPublicId!}
-      alt={author.name}
-      width={500}
-      height={500}
-      class="!h-64 !w-64 rounded-full"
-    />
+    <Img image={author.photo as Media} size="md" class="!h-64 !w-64 rounded-full" />
   </div>
 
   <RichTextBlock text={author.description} class="mt-8" />

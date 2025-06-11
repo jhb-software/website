@@ -1,5 +1,5 @@
 ---
-import { CldImage } from 'astro-cloudinary'
+import Img from '@/components/ui/Img.astro'
 import type { FeaturedProjectsListBlock, Media, Project } from 'cms/src/payload-types'
 import { normalizePath } from '../../../utils/normalizePath'
 import ProjectDate from '../ProjectDate.astro'
@@ -21,13 +21,7 @@ const isPreview = Astro.url.pathname.startsWith('/preview')
         <a href={normalizePath(project.path, isPreview)}>
           <div class="flex flex-col items-center gap-4 rounded-md bg-neutral-100 shadow-sm md:flex-row">
             <div class="hidden w-48 flex-none md:block">
-              <CldImage
-                src={(project.image as Media).cloudinaryPublicId!}
-                alt={(project.image as Media).alt}
-                width={720}
-                height={480}
-                class="my-0 rounded-l-xl"
-              />
+              <Img image={project.image as Media} size="md" class="my-0 rounded-l-xl" />
             </div>
 
             <div class="flex w-full flex-auto flex-row justify-between gap-8 p-4">

@@ -2,10 +2,10 @@
 import type { PageData } from '@/cms/getPageData'
 import RichTextBlock from '@/components/ui/blocks/RichTextBlock/RichTextBlock.astro'
 import BreadcrumbsBlock from '@/components/ui/Breadcrumbs.astro'
+import Img from '@/components/ui/Img.astro'
 import { globalState } from '@/globalState'
 import SectionShell from '@/layout/SectionShell.astro'
 import { normalizePath } from '@/utils/normalizePath'
-import { CldImage } from 'astro-cloudinary'
 import type { Author, Breadcrumbs, Media } from 'cms/src/payload-types'
 
 type Props = {
@@ -30,11 +30,9 @@ const isPreview = Astro.url.pathname.startsWith('/preview')
         (article.authors as Author[]).map((author) => (
           <div class="h-16 w-16 flex-shrink-0">
             <a href={normalizePath(author.path, isPreview)}>
-              <CldImage
-                src={((author as Author).photo as Media).cloudinaryPublicId!}
-                alt={(author as Author).name}
-                width={100}
-                height={100}
+              <Img
+                image={(author as Author).photo as Media}
+                size="sm"
                 class="inline-block aspect-square !h-16 !w-16 rounded-full ring-2 ring-white"
               />
             </a>
@@ -75,13 +73,7 @@ const isPreview = Astro.url.pathname.startsWith('/preview')
     </div>
   </div>
 
-  <CldImage
-    src={(article.image as Media).cloudinaryURL!}
-    alt={(article.image as Media).alt}
-    class="mx-auto my-8 !max-w-96"
-    width={1920}
-    height={1080}
-  />
+  <Img image={article.image as Media} size="xl" class="mx-auto my-8 !max-w-96" />
 
   <RichTextBlock text={article.content} />
 </SectionShell>

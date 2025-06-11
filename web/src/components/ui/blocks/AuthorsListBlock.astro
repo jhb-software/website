@@ -1,6 +1,6 @@
 ---
-import { CldImage } from 'astro-cloudinary'
-import type { Author, AuthorsBlock } from 'cms/src/payload-types'
+import Img from '@/components/ui/Img.astro'
+import type { Author, AuthorsBlock, Media } from 'cms/src/payload-types'
 import { normalizePath } from '../../../utils/normalizePath'
 import Card from '../Card.astro'
 import RichTextBlock from './RichTextBlock/RichTextBlock.astro'
@@ -21,11 +21,9 @@ const isPreview = Astro.url.pathname.startsWith('/preview')
             <div class="flex flex-col items-center gap-4 md:flex-row">
               <div class="w-48 flex-none">
                 {author.photo && typeof author.photo === 'object' && (
-                  <CldImage
-                    src={author.photo.cloudinaryPublicId!}
-                    alt={`Photo of ${author.name}`}
-                    width={480}
-                    height={480}
+                  <Img
+                    image={author.photo as Media}
+                    size="md"
                     class="m-4 rounded-md md:m-0 md:rounded-r-none"
                   />
                 )}

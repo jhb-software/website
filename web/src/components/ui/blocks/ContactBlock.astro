@@ -1,6 +1,6 @@
 ---
 import Icon from '@/components/icons/Icon.astro'
-import { CldImage } from 'astro-cloudinary'
+import Img from '@/components/ui/Img.astro'
 import type { ContactBlock, Media } from 'cms/src/payload-types'
 
 type Props = ContactBlock
@@ -11,13 +11,7 @@ const { name, image, phone, email, socialLinks } = Astro.props
 <div class="flex flex-col items-center justify-center gap-10 text-center md:flex-row md:text-left">
   <div class="">
     <div class="flex flex-col items-center gap-4">
-      <CldImage
-        src={(image as Media).cloudinaryPublicId!}
-        class="w-full rounded-full shadow-lg"
-        width={200}
-        height={200}
-        alt={(image as Media).alt}
-      />
+      <Img image={image as Media} size="md" class="w-full rounded-full shadow-lg" />
     </div>
   </div>
 

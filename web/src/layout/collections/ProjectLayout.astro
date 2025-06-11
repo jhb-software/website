@@ -1,11 +1,11 @@
 ---
 import type { PageData } from '@/cms/getPageData'
 import BreadcrumbsBlock from '@/components/ui/Breadcrumbs.astro'
+import Img from '@/components/ui/Img.astro'
 import ProjectDate from '@/components/ui/ProjectDate.astro'
 import ProjectTagsList from '@/components/ui/ProjectTagsList.astro'
 import RichTextBlock from '@/components/ui/blocks/RichTextBlock/RichTextBlock.astro'
 import SectionShell from '@/layout/SectionShell.astro'
-import { CldImage } from 'astro-cloudinary'
 import type { Breadcrumbs, Media } from 'cms/src/payload-types'
 
 type Props = {
@@ -32,13 +32,7 @@ const { project: pageData, breadcrumbs } = Astro.props
     <ProjectTagsList tags={pageData.tags} />
   </div>
 
-  <CldImage
-    src={(pageData.image as Media).cloudinaryURL!}
-    alt={(pageData.image as Media).alt}
-    class="my-8"
-    width={1920}
-    height={1080}
-  />
+  <Img image={pageData.image as Media} size="xl" class="my-8" />
 
   <RichTextBlock text={pageData.body} />
 </SectionShell>

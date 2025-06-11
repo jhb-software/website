@@ -1,0 +1,101 @@
+---
+import { VERCEL_ENV } from 'astro:env/server'
+import type { Media } from 'cms/src/payload-types'
+
+type ImageSize = keyof NonNullable<Media['sizes']> | 'original'
+
+type Props = {
+  image: Media
+  size?: ImageSize
+  class?: string
+  fetchpriority?: 'high' | 'low' | 'auto'
+
+  // custom width and height:
+  width?: number
+  height?: number
+}
+
+const { image, size = 'md', class: className, fetchpriority, width, height } = Astro.props
+
+if (!image.filename) {
+  throw new Error('Image filename is required')
+}
+
+if (!image.mimeType?.startsWith('image/')) {
+  throw new Error('Image mime type is required and must start with "image/"')
+}
+
+function getImageUrl(filename: string) {
+  // fetch the image directly from hetzner instead of the CMS API to improve performance
+  const hetznerBaseUrl = 'https://jhb-software.nbg1.your-objectstorage.com'
+
+  return `${hetznerBaseUrl}/${filename}`
+}
+
+function getFileSize(size: ImageSize): {
+  fileName: string
+  width: number | undefined
+  height: number | undefined
+} {
+  let fileName: string | undefined
+  let width: number | undefined
+  let height: number | undefined
+
+  if (!image.filename) {
+    throw new Error('Image filename is required')
+  }
+
+  if (size === 'original') {
+    fileName = image.filename
+    width = image.width ?? undefined
+    height = image.height ?? undefined
+  } else {
+    fileName = image.sizes?.[size]?.filename ?? undefined
+    width = image.sizes?.[size]?.width ?? undefined
+    height = image.sizes?.[size]?.height ?? undefined
+
+    if (!fileName || !width || !height) {
+      // TODO: fall back to a smaller file size, if the requested one does not exist (e.g. the original image is lower quality than the requested one, then no size exists for the requested one)
+
+      if (VERCEL_ENV !== 'production') {
+        console.warn(
+          `File size ${size} not found in image: {id: ${image.id}, filename: ${image.filename}}. Falling back to original file.`,
+        )
+      }
+
+      fileName = image.filename
+      width = image.width ?? undefined
+      height = image.height ?? undefined
+    }
+  }
+
+  if (!fileName || !width || !height) {
+    if (VERCEL_ENV !== 'production') {
+      console.warn(
+        `File size ${size} not found in image: {id: ${image.id}, filename: ${image.filename}}`,
+      )
+    }
+
+    const fallbackFileSize = {
+      fileName: image.filename,
+      width: image.width ?? undefined,
+      height: image.height ?? undefined,
+    }
+
+    return fallbackFileSize
+  } else {
+    return { fileName, width, height }
+  }
+}
+
+const fileSize = getFileSize(size)
+---
+
+<img
+  src={getImageUrl(fileSize.fileName)}
+  alt={image.alt}
+  class={className}
+  fetchpriority={fetchpriority}
+  width={width ?? fileSize.width}
+  height={height ?? fileSize.height}
+/>

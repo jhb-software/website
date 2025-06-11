@@ -23,7 +23,8 @@ export default defineConfig({
         context: 'server',
         access: 'secret',
       }),
-      PUBLIC_CLOUDINARY_CLOUD_NAME: envField.string({
+      VERCEL_ENV: envField.enum({
+        values: ['production', 'preview', 'development'],
         context: 'server',
         access: 'public',
       }),

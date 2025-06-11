@@ -1,7 +1,7 @@
 ---
 import { payloadSDK } from '@/cms/sdk'
+import Img from '@/components/ui/Img.astro'
 import { globalState } from '@/globalState'
-import { CldImage } from 'astro-cloudinary'
 import type { Article, Author, Media } from 'cms/src/payload-types'
 import { normalizePath } from '../../utils/normalizePath'
 
@@ -44,12 +44,10 @@ if (featured) {
   ]}
 >
   <a href={normalizePath(article.path, isPreview)} class={featured ? 'basis-7/12' : ''}>
-    <CldImage
-      src={(article.image as Media).cloudinaryPublicId!}
-      alt={(article.image as Media).alt}
-      width={1920}
-      height={1080}
-      loading={featured ? 'eager' : 'lazy'}
+    <Img
+      image={article.image as Media}
+      size="xl"
+      fetchpriority={featured ? 'high' : 'low'}
       class="my-0 rounded-xl"
     />
   </a>
@@ -87,11 +85,9 @@ if (featured) {
             {authors.map((author) => (
               <div class="h-12 w-12 flex-shrink-0">
                 <a href={normalizePath(author.path, isPreview)}>
-                  <CldImage
-                    src={((author as Author).photo as Media).cloudinaryPublicId!}
-                    alt={(author as Author).name}
-                    width={200}
-                    height={200}
+                  <Img
+                    image={(author as Author).photo as Media}
+                    size="sm"
                     class="inline-block aspect-square !h-11 !w-11 rounded-full ring-2 ring-white"
                   />
                 </a>
