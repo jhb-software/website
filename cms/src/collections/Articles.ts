@@ -109,7 +109,11 @@ const Articles: CollectionConfig = createPageCollectionConfig({
       name: 'image',
       type: 'upload',
       relationTo: 'media',
-      required: false,
+      required: true,
+      label: {
+        en: 'Image',
+        de: 'Bild',
+      },
     },
     {
       name: 'content',
@@ -117,7 +121,7 @@ const Articles: CollectionConfig = createPageCollectionConfig({
       required: true,
       localized: true,
       label: {
-        en: 'Body',
+        en: 'Content',
         de: 'Inhalt',
       },
       editor: lexicalEditor({

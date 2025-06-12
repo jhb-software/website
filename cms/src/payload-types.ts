@@ -499,7 +499,7 @@ export interface Article {
   tags: ('payload-cms' | 'next-js' | 'seo' | 'web-development' | 'app-development')[];
   title: string;
   excerpt: string;
-  image?: (string | null) | Media;
+  image: string | Media;
   content: {
     root: {
       type: string;

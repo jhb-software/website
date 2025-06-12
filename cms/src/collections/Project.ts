@@ -159,12 +159,14 @@ const Projects: CollectionConfig = createPageCollectionConfig({
       },
     },
     {
+      // TODO: rename this field to content to be consistent with the articles rich text field
+      // NOTE: a database migration is needed
       name: 'body',
       type: 'richText',
       required: true,
       localized: true,
       label: {
-        en: 'Body',
+        en: 'Content',
         de: 'Inhalt',
       },
     },
