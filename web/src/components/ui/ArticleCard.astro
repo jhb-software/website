@@ -12,9 +12,7 @@ type Props = Article & {
 }
 
 const { featured, class: className, ...article } = Astro.props
-const { locale } = globalState
-
-const isPreview = Astro.url.pathname.startsWith('/preview')
+const { locale, preview } = globalState
 
 let authors: Author[] = []
 if (featured) {
@@ -22,12 +20,12 @@ if (featured) {
   const result = await payloadSDK.find({
     collection: 'authors',
     locale: locale,
-    draft: isPreview ? true : false,
+    draft: preview,
     where: {
       id: {
         in: article.authors?.map((author) => (author as Author).id),
       },
-      _status: isPreview ? { in: ['draft', 'published'] } : { equals: 'published' },
+      _status: preview ? { in: ['draft', 'published'] } : { equals: 'published' },
     },
     limit: 1,
     pagination: false,
@@ -44,7 +42,7 @@ if (featured) {
     className,
   ]}
 >
-  <a href={normalizePath(article.path, isPreview)} class={featured ? 'basis-7/12' : ''}>
+  <a href={normalizePath(article.path, preview)} class={featured ? 'basis-7/12' : ''}>
     <Img
       image={article.image as Media}
       size="xl"
@@ -68,7 +66,7 @@ if (featured) {
       </span>
     </div>
 
-    <a href={normalizePath(article.path, isPreview)}>
+    <a href={normalizePath(article.path, preview)}>
       <h2 class="my-0 text-xl font-semibold">{article.title}</h2>
     </a>
 
@@ -80,7 +78,7 @@ if (featured) {
           <div class="flex flex-shrink-0 -space-x-6">
             {authors.map((author) => (
               <div class="h-12 w-12 flex-shrink-0">
-                <a href={normalizePath(author.path, isPreview)}>
+                <a href={normalizePath(author.path, preview)}>
                   <Img
                     image={(author as Author).photo as Media}
                     size="sm"
@@ -94,7 +92,7 @@ if (featured) {
             <div>
               {authors.map((author, index) => [
                 index > 0 ? ', ' : '',
-                <a href={normalizePath(author.path, isPreview)} class="font-medium">
+                <a href={normalizePath(author.path, preview)} class="font-medium">
                   {author.name}
                 </a>,
               ])}

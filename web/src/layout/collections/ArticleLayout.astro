@@ -15,9 +15,7 @@ type Props = {
 }
 
 const { article, breadcrumbs } = Astro.props
-const { locale } = globalState
-
-const isPreview = Astro.url.pathname.startsWith('/preview')
+const { locale, preview } = globalState
 ---
 
 <SectionShell>
@@ -33,7 +31,7 @@ const isPreview = Astro.url.pathname.startsWith('/preview')
       {
         (article.authors as Author[]).map((author) => (
           <div class="h-16 w-16 flex-shrink-0">
-            <a href={normalizePath(author.path, isPreview)}>
+            <a href={normalizePath(author.path, preview)}>
               <Img
                 image={(author as Author).photo as Media}
                 size="sm"
@@ -52,7 +50,7 @@ const isPreview = Astro.url.pathname.startsWith('/preview')
             .map((author) => (
               <a
                 class="text-primary inline-block text-nowrap underline"
-                href={normalizePath(author.path, isPreview)}
+                href={normalizePath(author.path, preview)}
               >
                 {author.name}
               </a>

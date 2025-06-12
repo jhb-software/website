@@ -10,7 +10,7 @@ type Props = {
 }
 
 const { alternatePaths } = Astro.props
-const { locale } = globalState
+const { locale, preview } = globalState
 
 const header = await payloadSDK.findGlobal({
   slug: 'header',
@@ -22,7 +22,6 @@ const header = await payloadSDK.findGlobal({
   },
 })
 
-const isPreview = Astro.url.pathname.startsWith('/preview')
 const currentPath = Astro.url.pathname
 ---
 
@@ -30,7 +29,7 @@ const currentPath = Astro.url.pathname
   class:list={['fixed z-40 flex w-full items-center justify-between px-4 py-4 md:px-12']}
   id="header"
 >
-  <a href={normalizePath(`/${locale}`, isPreview)} class="flex items-center gap-2">
+  <a href={normalizePath(`/${locale}`, preview)} class="flex items-center gap-2">
     <img src={'/icon.png'} alt={'JHB'} width={40} height={40} />
     <span class="text-2xl font-bold">Software</span>
   </a>
@@ -42,7 +41,7 @@ const currentPath = Astro.url.pathname
           <li>
             <div class="flex flex-col gap-0.5">
               <Link {...link} uppercase={false} class="!py-2" />
-              {currentPath === normalizePath((link.page?.value as Page)?.path, isPreview) && (
+              {currentPath === normalizePath((link.page?.value as Page)?.path, preview) && (
                 <span class="h-0.5 w-full rounded-sm bg-slate-400" />
               )}
             </div>
@@ -58,7 +57,7 @@ const currentPath = Astro.url.pathname
         return (
           <>
             <a
-              href={normalizePath(path, isPreview)}
+              href={normalizePath(path, preview)}
               class:list={[
                 'text-sm font-medium uppercase',
                 hreflang === locale
@@ -99,7 +98,7 @@ const currentPath = Astro.url.pathname
             <Link
               {...link}
               style={
-                normalizePath((link.page?.value as Page)?.path, isPreview) == currentPath
+                normalizePath((link.page?.value as Page)?.path, preview) == currentPath
                   ? 'text-primary'
                   : 'text'
               }
@@ -117,7 +116,7 @@ const currentPath = Astro.url.pathname
           return (
             <>
               <a
-                href={normalizePath(path, isPreview)}
+                href={normalizePath(path, preview)}
                 class:list={[
                   'text-lg font-medium uppercase',
                   hreflang === locale

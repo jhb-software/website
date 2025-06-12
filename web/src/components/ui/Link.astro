@@ -1,4 +1,5 @@
 ---
+import { globalState } from '@/globalState'
 import type { Link, Page } from 'cms/src/payload-types'
 import { normalizePath } from '../../utils/normalizePath'
 import Icon from '../icons/Icon.astro'
@@ -41,8 +42,8 @@ if (!rawPath) {
   throw new Error('A path is required to build a link. Got: ' + JSON.stringify(Astro.props))
 }
 
-const isPreview = Astro.url.pathname.startsWith('/preview')
-const href = normalizePath(rawPath, isPreview)
+const { preview } = globalState
+const href = normalizePath(rawPath, preview)
 ---
 
 <a

@@ -1,4 +1,5 @@
 ---
+import { globalState } from '@/globalState'
 import { normalizePath } from '@/utils/normalizePath'
 import { SITE_URL } from 'astro:env/client'
 import type { Breadcrumbs } from 'cms/src/payload-types'
@@ -11,7 +12,7 @@ type Props = {
 }
 
 const { crumbs, displayMode = 'lastOnly' } = Astro.props
-const isPreview = Astro.url.pathname.startsWith('/preview')
+const { preview } = globalState
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -63,7 +64,7 @@ const structuredDataScript = JSON.stringify(structuredData, null, 2)
         {crumbs.length > 1 && (
           <li>
             <a
-              href={normalizePath(crumbs[crumbs.length - 2].path, isPreview)}
+              href={normalizePath(crumbs[crumbs.length - 2].path, preview)}
               class="flex items-center gap-1"
             >
               <Link

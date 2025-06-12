@@ -1,46 +1,48 @@
 ---
 import Img from '@/components/ui/Img.astro'
-import type { Author, AuthorsBlock, Media } from 'cms/src/payload-types'
+import { globalState } from '@/globalState'
+import type { AuthorsBlock, Media } from 'cms/src/payload-types'
 import { normalizePath } from '../../../utils/normalizePath'
 import Card from '../Card.astro'
 import RichTextBlock from './RichTextBlock/RichTextBlock.astro'
 
 export type Props = AuthorsBlock
 
-const authors = Astro.props.authors as Author[]
-
-const isPreview = Astro.url.pathname.startsWith('/preview')
+const { authors } = Astro.props
+const { preview } = globalState
 ---
 
 <div class="flex flex-col gap-4">
   {
-    authors.map((author) => {
-      return (
-        <Card class="!p-0">
-          <a href={normalizePath(author.path, isPreview)}>
-            <div class="flex flex-col items-center gap-4 md:flex-row">
-              <div class="w-48 flex-none">
-                {author.photo && typeof author.photo === 'object' && (
-                  <Img
-                    image={author.photo as Media}
-                    size="md"
-                    class="m-4 rounded-md md:m-0 md:rounded-r-none"
-                  />
-                )}
-              </div>
+    authors
+      .filter((author) => typeof author === 'object')
+      .map((author) => {
+        return (
+          <Card class="!p-0">
+            <a href={normalizePath(author.path, preview)}>
+              <div class="flex flex-col items-center gap-4 md:flex-row">
+                <div class="w-48 flex-none">
+                  {author.photo && typeof author.photo === 'object' && (
+                    <Img
+                      image={author.photo as Media}
+                      size="md"
+                      class="m-4 rounded-md md:m-0 md:rounded-r-none"
+                    />
+                  )}
+                </div>
 
-              <div class="flex flex-auto flex-row justify-between gap-8 p-4">
-                <div class="flex flex-col gap-4">
-                  <h3 class="my-0 text-lg font-semibold">{author.name}</h3>
-                  <div class="text-base font-normal">
-                    <RichTextBlock text={author.description} />
+                <div class="flex flex-auto flex-row justify-between gap-8 p-4">
+                  <div class="flex flex-col gap-4">
+                    <h3 class="my-0 text-lg font-semibold">{author.name}</h3>
+                    <div class="text-base font-normal">
+                      <RichTextBlock text={author.description} />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </a>
-        </Card>
-      )
-    })
+            </a>
+          </Card>
+        )
+      })
   }
 </div>
