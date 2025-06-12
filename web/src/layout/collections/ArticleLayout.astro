@@ -73,7 +73,7 @@ const isPreview = Astro.url.pathname.startsWith('/preview')
     </div>
   </div>
 
-  <Img image={article.image as Media} size="xl" class="mx-auto my-8 !max-w-96" />
+  <Img image={article.image as Media} size="xl" class="mx-auto my-8 w-full max-w-4xl rounded-xl" />
 
   <RichTextBlock text={article.content} />
 </SectionShell>
