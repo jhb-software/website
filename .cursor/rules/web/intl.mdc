@@ -1,0 +1,77 @@
+---
+description: 
+globs: web/src/**/*.astro
+alwaysApply: false
+---
+# Internationalization & Formatting Rules (Intl)
+
+## Overview
+
+Ensure **all `.astro` files** under `web/` leverage the built-in JavaScript `Intl` APIs for any locale-aware formatting. This includes currencies, numbers, dates, times, and lists.
+
+## General Guidelines
+
+- Prefer `Intl` over manual string concatenation or third-party libraries for locale-aware formatting.
+- The active locale **must always come from the app-wide global state** (e.g., `const { locale } = globalState`). Never hard-code a locale string.
+
+## Date & Time Formatting
+
+Always use `Intl.DateTimeFormat` for date formatting.
+
+```astro
+---
+import { globalState } from '@/globalState';
+
+const { publishedAt } = Astro.props;
+const { locale } = globalState;
+
+export const formatDate = (date: Date | string) =>
+  new Intl.DateTimeFormat(locale, {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+  }).format(new Date(date));
+---
+<p>{formatDate(publishedAt)}</p>
+```
+
+## List Formatting
+
+```astro
+---
+import { globalState } from '@/globalState';
+
+const { tags } = Astro.props;
+const { locale } = globalState;
+
+export const formatList = (
+  items: string[],
+  locale = 'de-DE',
+  type: Intl.ListFormatType = 'conjunction'
+) => new Intl.ListFormat(locale, { type }).format(items);
+---
+<ul>
+  <li>{formatList(tags, locale)}</li>
+</ul>
+```
+
+## Currency & Number Formatting
+
+Always use `Intl.NumberFormat`.
+
+```astro
+---
+import { locale } from '@/state';
+
+export const formatCurrency = (value: number, currency = 'EUR') =>
+  new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency,
+    minimumFractionDigits: 2,
+  }).format(value);
+
+const { price } = Astro.props;
+---
+<p>{formatCurrency(price, 'EUR')}</p>
+```
+
