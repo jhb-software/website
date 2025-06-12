@@ -38,6 +38,8 @@ import { PreviewButtonField as PreviewButtonField_e6458422044c3374e7ca411c924285
 import { CustomButtonWithTranslator as CustomButtonWithTranslator_0754f48e597a64286a6ec55277e0e245 } from '@payload-enchants/translator/client'
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { default as default_1b8d860059dbed4b3a90b2af97375475 } from '../../../fields/components/CopyAuthorNameToTitleField'
+import { default as default_e1ade08e4fbe8c63229c8e335587134e } from '../../../../plugins/llm-alt-text-generator/components/AltTextField'
+import { default as default_453db141d478a18290c119e535801c89 } from '../../../../plugins/llm-alt-text-generator/components/BulkUpdateAltTextsButton'
 import { QueryPresetsAccessCell as QueryPresetsAccessCell_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
 import { QueryPresetsWhereCell as QueryPresetsWhereCell_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
 import { QueryPresetsWhereField as QueryPresetsWhereField_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
@@ -86,6 +88,8 @@ export const importMap = {
   "@payload-enchants/translator/client#CustomButtonWithTranslator": CustomButtonWithTranslator_0754f48e597a64286a6ec55277e0e245,
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "/fields/components/CopyAuthorNameToTitleField#default": default_1b8d860059dbed4b3a90b2af97375475,
+  "../plugins/llm-alt-text-generator/components/AltTextField#default": default_e1ade08e4fbe8c63229c8e335587134e,
+  "../plugins/llm-alt-text-generator/components/BulkUpdateAltTextsButton#default": default_453db141d478a18290c119e535801c89,
   "@payloadcms/ui#QueryPresetsAccessCell": QueryPresetsAccessCell_3817bf644402e67bfe6577f60ef982de,
   "@payloadcms/ui#QueryPresetsWhereCell": QueryPresetsWhereCell_3817bf644402e67bfe6577f60ef982de,
   "@payloadcms/ui#QueryPresetsWhereField": QueryPresetsWhereField_3817bf644402e67bfe6577f60ef982de,

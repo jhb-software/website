@@ -358,7 +358,15 @@ export interface Customer {
  */
 export interface Media {
   id: string;
+  /**
+   * Details not visible in the image (such as the location or event). Used to enhance AI-generated alt text with additional context.
+   */
+  context?: string | null;
   alt: string;
+  /**
+   * Keywords which describe the image. Used for searching the image.
+   */
+  keywords?: string[] | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -1124,7 +1132,9 @@ export interface TestimonialsSelect<T extends boolean = true> {
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
+  context?: T;
   alt?: T;
+  keywords?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;

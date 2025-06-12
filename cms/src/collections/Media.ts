@@ -2,8 +2,10 @@ import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
 import { CollectionConfig } from 'payload'
+import { AltTextField } from 'plugins/llm-alt-text-generator/AltTextField'
+import { injectBulkGenerateButton } from 'plugins/llm-alt-text-generator/injectBulkGenerateButton'
 
-export const Media: CollectionConfig = {
+export const Media: CollectionConfig = injectBulkGenerateButton({
   slug: 'media',
   labels: {
     singular: {
@@ -59,14 +61,35 @@ export const Media: CollectionConfig = {
   },
   fields: [
     {
-      name: 'alt',
+      name: 'context',
+      label: 'Context',
+      type: 'text',
+      required: false,
+      localized: true,
+      admin: {
+        description:
+          'Details not visible in the image (such as the location or event). Used to enhance AI-generated alt text with additional context.',
+      },
+    },
+    AltTextField({
       label: {
         de: 'Alternativer Text',
         en: 'Alternative Text',
       },
-      type: 'text',
-      required: true,
       localized: true,
+    }),
+    {
+      name: 'keywords',
+      label: 'Keywords',
+      type: 'text',
+      hasMany: true,
+      required: false,
+      localized: true,
+      hidden: true, // this field is currently not used, but it is kept for future use
+      admin: {
+        description: 'Keywords which describe the image. Used for searching the image.',
+        readOnly: true,
+      },
     },
   ],
-}
+})

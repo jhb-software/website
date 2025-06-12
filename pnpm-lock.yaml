@@ -13,7 +13,7 @@ importers:
         version: 0.5.0-beta.3(@payloadcms/ui@3.42.0(@types/react@19.1.7)(monaco-editor@0.52.2)(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3))(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@jhb.software/payload-seo-plugin':
         specifier: ^0.1.4
-        version: 0.1.4(db75f9fbec70cf8ec5a94b87ce6ddc6f)
+        version: 0.1.4(upb6zwao7d5ninfqzkp3xnxeye)
       '@joneslloyd/payload-storage-hetzner':
         specifier: ^1.0.2
         version: 1.0.2(@payloadcms/plugin-cloud-storage@3.42.0(@types/react@19.1.7)(monaco-editor@0.52.2)(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react@19.1.0)
@@ -53,6 +53,12 @@ importers:
       next:
         specifier: 15.3.3
         version: 15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4)
+      openai:
+        specifier: ^5.3.0
+        version: 5.3.0(ws@8.18.0)(zod@3.25.63)
+      p-map:
+        specifier: ^7.0.3
+        version: 7.0.3
       payload:
         specifier: ^3.42.0
         version: 3.42.0(graphql@16.11.0)(typescript@5.8.3)
@@ -65,6 +71,9 @@ importers:
       sharp:
         specifier: ^0.34.2
         version: 0.34.2
+      zod:
+        specifier: ^3.25.63
+        version: 3.25.63
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3.3.1
@@ -4094,6 +4103,18 @@ packages:
       zod:
         optional: true
 
+  openai@5.3.0:
+    resolution: {integrity: sha512-VIKmoF7y4oJCDOwP/oHXGzM69+x0dpGFmN9QmYO+uPbLFOmmnwO+x1GbsgUtI+6oraxomGZ566Y421oYVu191w==}
+    hasBin: true
+    peerDependencies:
+      ws: ^8.18.0
+      zod: ^3.23.8
+    peerDependenciesMeta:
+      ws:
+        optional: true
+      zod:
+        optional: true
+
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
     engines: {node: '>= 0.8.0'}
@@ -4113,6 +4134,10 @@ packages:
   p-locate@5.0.0:
     resolution: {integrity: sha512-LaNjtRWUBY++zB5nE/NwcaoMylSPk+S+ZHNB1TzdbMJMny6dynpAGt7X/tl/QYq3TIeE6nxHppbo2LGymrG5Pw==}
     engines: {node: '>=10'}
+
+  p-map@7.0.3:
+    resolution: {integrity: sha512-VkndIv2fIB99swvQoA65bm+fsmt6UNdGeIB0oxBs+WhAhdh08QA04JXpI7rbB9r08/nkbysKoya9rtDERYOYMA==}
+    engines: {node: '>=18'}
 
   p-queue@8.1.0:
     resolution: {integrity: sha512-mxLDbbGIBEXTJL0zEx8JIylaj3xQ7Z/7eEVjcF9fJX4DBiH9oqe+oahYnlKKxm0Ci9TlWTyhSHgygxMxjIB2jw==}
@@ -5451,6 +5476,9 @@ packages:
   zod@3.24.2:
     resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
 
+  zod@3.25.63:
+    resolution: {integrity: sha512-3ttCkqhtpncYXfP0f6dsyabbYV/nEUW+Xlu89jiXbTBifUfjaSqXOG6JnQPLtqt87n7KAmnMqcjay6c0Wq0Vbw==}
+
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
@@ -6693,13 +6721,13 @@ snapshots:
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
 
-  '@jhb.software/payload-seo-plugin@0.1.4(db75f9fbec70cf8ec5a94b87ce6ddc6f)':
+  '@jhb.software/payload-seo-plugin@0.1.4(upb6zwao7d5ninfqzkp3xnxeye)':
     dependencies:
       '@payloadcms/plugin-seo': 3.42.0(@types/react@19.1.7)(monaco-editor@0.52.2)(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)
       '@payloadcms/richtext-lexical': 3.42.0(@faceless-ui/modal@3.0.0-beta.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(@faceless-ui/scroll-info@2.0.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(@payloadcms/next@3.42.0(@types/react@19.1.7)(graphql@16.11.0)(monaco-editor@0.52.2)(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3))(@types/react@19.1.7)(monaco-editor@0.52.2)(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(yjs@13.6.23)
       '@payloadcms/ui': 3.42.0(@types/react@19.1.7)(monaco-editor@0.52.2)(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)
       next: 15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4)
-      openai: 4.83.0(ws@8.18.0)(zod@3.24.2)
+      openai: 4.83.0(ws@8.18.0)(zod@3.25.63)
       payload: 3.42.0(graphql@16.11.0)(typescript@5.8.3)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
@@ -10394,7 +10422,7 @@ snapshots:
       regex: 6.0.1
       regex-recursion: 6.0.2
 
-  openai@4.83.0(ws@8.18.0)(zod@3.24.2):
+  openai@4.83.0(ws@8.18.0)(zod@3.25.63):
     dependencies:
       '@types/node': 18.19.75
       '@types/node-fetch': 2.6.12
@@ -10405,9 +10433,14 @@ snapshots:
       node-fetch: 2.7.0
     optionalDependencies:
       ws: 8.18.0
-      zod: 3.24.2
+      zod: 3.25.63
     transitivePeerDependencies:
       - encoding
+
+  openai@5.3.0(ws@8.18.0)(zod@3.25.63):
+    optionalDependencies:
+      ws: 8.18.0
+      zod: 3.25.63
 
   optionator@0.9.4:
     dependencies:
@@ -10435,6 +10468,8 @@ snapshots:
   p-locate@5.0.0:
     dependencies:
       p-limit: 3.1.0
+
+  p-map@7.0.3: {}
 
   p-queue@8.1.0:
     dependencies:
@@ -11879,5 +11914,7 @@ snapshots:
       zod: 3.24.2
 
   zod@3.24.2: {}
+
+  zod@3.25.63: {}
 
   zwitch@2.0.4: {}
