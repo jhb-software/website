@@ -1,0 +1,72 @@
+---
+import Img from '@/components/ui/Img.astro'
+import { globalState } from '@/globalState'
+import type { Media, Project } from 'cms/src/payload-types'
+import { normalizePath } from '../../utils/normalizePath'
+import ProjectDate from './ProjectDate.astro'
+import ProjectTagsList from './ProjectTagsList.astro'
+
+type Props = Project & {
+  featured?: boolean
+  index?: number
+}
+
+const { featured, index, ...project } = Astro.props
+
+const { preview } = globalState
+---
+
+{
+  featured ? (
+    <div class="flex flex-col items-center gap-5 sm:odd:flex-row sm:odd:text-right sm:even:flex-row-reverse sm:even:text-left md:gap-8">
+      <div class="mb-0 w-full sm:basis-7/12">
+        <a href={normalizePath(project.path, preview)}>
+          <Img
+            image={project.image as Media}
+            size="xl"
+            fetchpriority={featured ? 'high' : 'low'}
+            class="my-0 rounded-xl"
+          />
+        </a>
+      </div>
+
+      <div class="flex flex-col gap-5 sm:basis-5/12">
+        <a href={normalizePath(project.path, preview)}>
+          <h2 class="my-0 text-xl font-semibold">{project.title}</h2>
+        </a>
+
+        <div class="rounded-md bg-gray-500 p-5 text-white shadow-md">{project.excerpt}</div>
+
+        <div
+          class:list={[
+            'flex flex-row gap-4 md:justify-end',
+            index && index % 2 === 1 && 'md:flex-row-reverse',
+          ]}
+        >
+          <ProjectDate startDate={project.startDate} endDate={project.endDate} />
+
+          <ProjectTagsList tags={project.tags} />
+        </div>
+      </div>
+    </div>
+  ) : (
+    <a href={normalizePath(project.path, preview)}>
+      <div class="flex flex-col items-center gap-4 rounded-md bg-neutral-100 shadow-sm md:flex-row">
+        <div class="hidden w-48 flex-none md:block">
+          <Img image={project.image as Media} size="md" class="my-0 rounded-l-xl" />
+        </div>
+
+        <div class="flex w-full flex-auto flex-row justify-between gap-8 p-4">
+          <div class="flex flex-col gap-4">
+            <h3 class="my-0 text-lg font-semibold">{project.title}</h3>
+            <div class="flex flex-row gap-5 text-base font-normal">
+              <ProjectTagsList tags={project.tags} />
+
+              <ProjectDate startDate={project.startDate} endDate={project.endDate} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  )
+}

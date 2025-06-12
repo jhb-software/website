@@ -1,42 +1,14 @@
 ---
-import Img from '@/components/ui/Img.astro'
-import type { FeaturedProjectsListBlock, Media, Project } from 'cms/src/payload-types'
-import { normalizePath } from '../../../utils/normalizePath'
-import ProjectDate from '../ProjectDate.astro'
-import ProjectTagsList from '../ProjectTagsList.astro'
+import type { FeaturedProjectsListBlock, Project } from 'cms/src/payload-types'
+import ProjectCard from '../ProjectCard.astro'
 
 export type Props = FeaturedProjectsListBlock
 
 const projects = Astro.props.projects as Project[]
 
 projects.sort((a, b) => new Date(b.startDate || 0).getTime() - new Date(a.startDate || 0).getTime())
-
-const isPreview = Astro.url.pathname.startsWith('/preview')
 ---
 
 <div class="my-16 flex flex-col gap-4">
-  {
-    projects?.map((project) => {
-      return (
-        <a href={normalizePath(project.path, isPreview)}>
-          <div class="flex flex-col items-center gap-4 rounded-md bg-neutral-100 shadow-sm md:flex-row">
-            <div class="hidden w-48 flex-none md:block">
-              <Img image={project.image as Media} size="md" class="my-0 rounded-l-xl" />
-            </div>
-
-            <div class="flex w-full flex-auto flex-row justify-between gap-8 p-4">
-              <div class="flex flex-col gap-4">
-                <h3 class="my-0 text-lg font-semibold">{project.title}</h3>
-                <div class="flex flex-row gap-5 text-base font-normal">
-                  <ProjectTagsList tags={project.tags} />
-
-                  <ProjectDate startDate={project.startDate} endDate={project.endDate} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </a>
-      )
-    })
-  }
+  {projects?.map((project, index) => <ProjectCard {...project} index={index} />)}
 </div>

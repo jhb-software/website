@@ -1,51 +1,12 @@
 ---
-import Img from '@/components/ui/Img.astro'
-import type { FeaturedProjectsListBlock, Media, Project } from 'cms/src/payload-types'
-import { normalizePath } from '../../../utils/normalizePath'
-import ProjectDate from '../ProjectDate.astro'
-import ProjectTagsList from '../ProjectTagsList.astro'
+import type { FeaturedProjectsListBlock, Project } from 'cms/src/payload-types'
+import ProjectCard from '../ProjectCard.astro'
 
 export type Props = FeaturedProjectsListBlock
 
 const projects = Astro.props.projects as Project[]
-
-const isPreview = Astro.url.pathname.startsWith('/preview')
 ---
 
 <div class="flex flex-col gap-24">
-  {
-    projects?.map((project, index) => (
-      <div class="flex flex-col items-center gap-5 sm:odd:flex-row sm:odd:text-right sm:even:flex-row-reverse sm:even:text-left md:gap-8">
-        <div class="mb-0 w-full sm:basis-7/12">
-          <a href={normalizePath(project.path, isPreview)}>
-            <Img
-              image={project.image as Media}
-              size="xl"
-              fetchpriority={index === 0 ? 'high' : 'low'}
-              class="my-0 rounded-xl"
-            />
-          </a>
-        </div>
-
-        <div class="flex flex-col gap-5 sm:basis-5/12">
-          <a href={normalizePath(project.path, isPreview)}>
-            <h2 class="my-0 text-xl font-semibold">{project.title}</h2>
-          </a>
-
-          <div class="rounded-md bg-gray-500 p-5 text-white shadow-md">{project.excerpt}</div>
-
-          <div
-            class:list={[
-              'flex flex-row gap-4 md:justify-end',
-              index % 2 === 1 && 'md:flex-row-reverse',
-            ]}
-          >
-            <ProjectDate startDate={project.startDate} endDate={project.endDate} />
-
-            <ProjectTagsList tags={project.tags} />
-          </div>
-        </div>
-      </div>
-    ))
-  }
+  {projects?.map((project, index) => <ProjectCard {...project} index={index} featured />)}
 </div>
