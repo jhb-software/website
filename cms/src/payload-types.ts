@@ -1350,6 +1350,8 @@ export interface Translations {
     seo: string;
     'web-development': string;
     'app-development': string;
+    'written-by': string;
+    'last-updated-at': string;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1411,6 +1413,8 @@ export interface TranslationsSelect<T extends boolean = true> {
         seo?: T;
         'web-development'?: T;
         'app-development'?: T;
+        'written-by'?: T;
+        'last-updated-at'?: T;
       };
   updatedAt?: T;
   createdAt?: T;

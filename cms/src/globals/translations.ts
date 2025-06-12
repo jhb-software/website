@@ -50,6 +50,8 @@ const Translations: GlobalConfig = {
             'app-development',
           ] satisfies Article['tags']
         ).map((tag) => localizationField(tag)),
+        localizationField('written-by'),
+        localizationField('last-updated-at'),
       ],
     },
   ],
