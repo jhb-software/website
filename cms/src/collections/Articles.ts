@@ -54,16 +54,29 @@ const Articles: CollectionConfig = createPageCollectionConfig({
       },
     },
     {
-      name: 'categories',
+      name: 'tags',
       type: 'select',
+      required: true,
       options: [
         {
-          label: 'Web',
-          value: 'web',
+          label: 'Payload CMS',
+          value: 'payload-cms',
         },
         {
-          label: 'App',
-          value: 'app',
+          label: 'Next.js',
+          value: 'next-js',
+        },
+        {
+          label: 'SEO',
+          value: 'seo',
+        },
+        {
+          label: 'Web Development',
+          value: 'web-development',
+        },
+        {
+          label: 'App Development',
+          value: 'app-development',
         },
       ],
       hasMany: true,

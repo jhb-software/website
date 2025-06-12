@@ -496,7 +496,7 @@ export interface Article {
   path: string;
   breadcrumbs: Breadcrumbs;
   authors: (string | Author)[];
-  categories?: ('web' | 'app')[] | null;
+  tags: ('payload-cms' | 'next-js' | 'seo' | 'web-development' | 'app-development')[];
   title: string;
   excerpt: string;
   image?: (string | null) | Media;
@@ -1060,7 +1060,7 @@ export interface ArticlesSelect<T extends boolean = true> {
   path?: T;
   breadcrumbs?: T | BreadcrumbsSelect<T>;
   authors?: T;
-  categories?: T;
+  tags?: T;
   title?: T;
   excerpt?: T;
   image?: T;
@@ -1344,6 +1344,13 @@ export interface Translations {
     app: string;
     seo: string;
   };
+  articles: {
+    'payload-cms': string;
+    'next-js': string;
+    seo: string;
+    'web-development': string;
+    'app-development': string;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1395,6 +1402,15 @@ export interface TranslationsSelect<T extends boolean = true> {
         website?: T;
         app?: T;
         seo?: T;
+      };
+  articles?:
+    | T
+    | {
+        'payload-cms'?: T;
+        'next-js'?: T;
+        seo?: T;
+        'web-development'?: T;
+        'app-development'?: T;
       };
   updatedAt?: T;
   createdAt?: T;
