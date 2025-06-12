@@ -4,6 +4,7 @@ import Img from '@/components/ui/Img.astro'
 import { globalState } from '@/globalState'
 import type { Article, Author, Media } from 'cms/src/payload-types'
 import { normalizePath } from '../../utils/normalizePath'
+import ArticleTagsList from './ArticleTagsList.astro'
 
 type Props = Article & {
   featured?: boolean
@@ -54,13 +55,8 @@ if (featured) {
 
   <div class:list={['flex flex-col gap-4', featured ? 'basis-5/12' : '']}>
     <div class="flex flex-row items-center gap-2 text-sm">
-      {
-        article.categories?.map((category) => (
-          <span class="rounded-md bg-gray-200 px-2 py-1 text-sm font-medium text-gray-700">
-            {category}
-          </span>
-        ))
-      }
+      <ArticleTagsList tags={article.tags} />
+
       <span class="text-sm text-slate-500">
         {
           new Date(article.createdAt).toLocaleDateString(locale, {

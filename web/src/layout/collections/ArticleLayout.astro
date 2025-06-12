@@ -1,5 +1,6 @@
 ---
 import type { PageData } from '@/cms/getPageData'
+import ArticleTagsList from '@/components/ui/ArticleTagsList.astro'
 import RichTextBlock from '@/components/ui/blocks/RichTextBlock/RichTextBlock.astro'
 import BreadcrumbsBlock from '@/components/ui/Breadcrumbs.astro'
 import Img from '@/components/ui/Img.astro'
@@ -24,6 +25,9 @@ const isPreview = Astro.url.pathname.startsWith('/preview')
   <h1 class="mt-4 text-center text-4xl font-extrabold text-balance text-slate-700">
     {article.title}
   </h1>
+
+  <ArticleTagsList tags={article.tags} class="my-4 flex flex-row items-center justify-center" />
+
   <div class="mt-4 mb-12 flex flex-row items-center justify-center gap-4">
     <div class="flex flex-shrink-0 -space-x-6">
       {
