@@ -16,7 +16,7 @@ export const GET: APIRoute = async ({ props }) => {
 
   const pagesXml = sitemapData.map(({ path, updatedAt }) => {
     return `<url>
-                <loc>${SITE_URL}/${path}</loc>
+                <loc>${SITE_URL}${path}</loc>
                 <lastmod>${updatedAt}</lastmod>
                 <changefreq>monthly</changefreq>
                 <priority>1.0</priority>
