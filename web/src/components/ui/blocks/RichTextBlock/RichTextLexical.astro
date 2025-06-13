@@ -1,11 +1,5 @@
 ---
 import type { CodeBlock as CodeBlockType } from 'cms/src/payload-types'
-import CodeBlock from '../CodeBlock.astro'
-import HeadingComponent from './nodes/HeadingComponent.astro'
-import LinkComponent from './nodes/LinkComponent.astro'
-import ListComponent from './nodes/ListComponent.astro'
-import TableComponent from './nodes/TableComponent.astro'
-import TextComponent from './nodes/TextComponent.astro'
 import type {
   BlockNode,
   HeadingNode,
@@ -14,7 +8,16 @@ import type {
   ListNode,
   ParagraphNode,
   TextNode,
+  UploadNode,
 } from './types'
+
+import CodeBlock from '../CodeBlock.astro'
+import HeadingComponent from './nodes/HeadingComponent.astro'
+import LinkComponent from './nodes/LinkComponent.astro'
+import ListComponent from './nodes/ListComponent.astro'
+import TableComponent from './nodes/TableComponent.astro'
+import TextComponent from './nodes/TextComponent.astro'
+import UploadComponent from './nodes/UploadComponent.astro'
 
 type Props = { nodes: LexicalNode[] }
 
@@ -49,7 +52,7 @@ const { nodes } = Astro.props
           </p>
         )
       case 'upload':
-        throw new Error('Upload feature not implemented in RichTextBlock.astro')
+        return <UploadComponent node={node as UploadNode} />
       case 'block':
         switch ((node as BlockNode).fields.blockType) {
           case 'code':

@@ -1,5 +1,3 @@
-import type { PageCollectionSlugs } from 'cms/src/payload.config'
-
 export interface LexicalNode {
   type: string
   indent: number
@@ -18,7 +16,7 @@ export interface LinkNode extends LexicalNode {
 // https://github.com/payloadcms/payload/blob/main/packages/richtext-lexical/src/features/link/nodes/types.ts
 export interface LinkFields {
   doc: {
-    relationTo: PageCollectionSlugs
+    relationTo: string
     value:
       | {
           // Actual doc data, populated in afterRead hook
@@ -71,5 +69,21 @@ export interface BlockNode extends LexicalNode {
     blockName: string
     blockType: string
     [key: string]: unknown
+  }
+}
+
+// https://github.com/payloadcms/payload/blob/main/packages/richtext-lexical/src/field/features/Upload/nodes/UploadNode.tsx
+export interface UploadNode extends LexicalNode {
+  type: 'upload'
+  relationTo: string // media collection name
+  value: {
+    // Actual upload data, populated in afterRead hook
+    [key: string]: unknown
+    id: string
+    width: number
+    height: number
+    url: string
+    alt: string
+    filename: string
   }
 }

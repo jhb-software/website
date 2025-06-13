@@ -13,8 +13,8 @@ const HeadingTag = node.tag ?? 'h1'
 ---
 
 <HeadingTag
-  id={(node.children?.[0] as TextNode)?.text && ['h2', 'h3'].includes(node.tag)
-    ? slugifyId((node.children?.[0] as TextNode)?.text)
+  id={(node.children?.[0] as TextNode).text && ['h2', 'h3'].includes(node.tag)
+    ? slugifyId((node.children?.[0] as TextNode).text)
     : undefined}
 >
   <RichTextLexical nodes={node.children ?? []} />

@@ -1,6 +1,4 @@
 ---
-import { globalState } from '@/globalState'
-import { normalizePath } from '@/utils/normalizePath'
 import { SITE_URL } from 'astro:env/client'
 import type { Breadcrumbs } from 'cms/src/payload-types'
 import Icon from '../icons/Icon.astro'
@@ -12,7 +10,6 @@ type Props = {
 }
 
 const { crumbs, displayMode = 'lastOnly' } = Astro.props
-const { preview } = globalState
 
 const structuredData = {
   '@context': 'https://schema.org',

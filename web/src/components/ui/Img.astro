@@ -17,13 +17,14 @@ type Props = {
   size?: ImageSize
   class?: string
   fetchpriority?: 'high' | 'low' | 'auto'
+  loading?: 'eager' | 'lazy'
 
   // custom width and height:
   width?: number
   height?: number
 }
 
-const { image, size = 'md', class: className, fetchpriority, width, height } = Astro.props
+const { image, size = 'md', class: className, fetchpriority, loading, width, height } = Astro.props
 
 if (!image.filename) {
   throw new Error('Image filename is required, got: ' + JSON.stringify(image))
@@ -87,6 +88,7 @@ const fileSize = getFileSize(size, image)
   alt={image.alt}
   class={className}
   fetchpriority={fetchpriority}
+  loading={loading}
   width={width ?? fileSize.width}
   height={height ?? fileSize.height}
 />
