@@ -153,7 +153,10 @@ export default buildConfig({
     payloadPagesPlugin({}),
     hetznerStorage({
       collections: {
-        media: true,
+        media: {
+          // serve files directly from hetzner object storage to improve performance
+          disablePayloadAccessControl: true,
+        },
       },
       bucket: process.env.HETZNER_BUCKET!,
       region: 'nbg1',
@@ -161,7 +164,8 @@ export default buildConfig({
         accessKeyId: process.env.HETZNER_ACCESS_KEY_ID!,
         secretAccessKey: process.env.HETZNER_SECRET_ACCESS_KEY!,
       },
-      clientUploads: true,
+      // TODO: temporary disabled client uploads because of issue with hetzner-object-storage (see https://github.com/joneslloyd/hetzner-object-storage/issues/1#issuecomment-2969432045)
+      clientUploads: false,
       acl: 'public-read',
     }),
     payloadSeoPlugin({
