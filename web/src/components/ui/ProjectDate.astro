@@ -16,7 +16,7 @@ const { startDate, endDate, class: className } = Astro.props
   {
     endDate && dateStringToQuarter(endDate) !== dateStringToQuarter(startDate) && (
       <>
-        <span class="font-semibold text-slate-300"> - </span>
+        <span class="font-semibold"> - </span>
         <span>{dateStringToQuarter(endDate)}</span>
       </>
     )

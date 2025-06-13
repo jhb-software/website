@@ -174,3 +174,4 @@ dist
 
 # Astro
 .astro
+/.unlighthouse

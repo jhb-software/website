@@ -33,11 +33,6 @@
     @apply relative h-12 w-12 cursor-pointer;
   }
 
-  .menu-icon__checkbox {
-    @apply absolute z-20 block h-full w-full cursor-pointer opacity-0;
-    -webkit-touch-callout: none;
-  }
-
   .menu-icon div {
     @apply absolute top-0 right-0 bottom-0 left-0 m-auto h-4 w-7;
   }
@@ -55,14 +50,14 @@
     @apply bottom-0 left-[1/5] w-[4/5];
   }
 
-  .menu-icon.active span:first-of-type,
-  .menu-icon__checkbox:checked + div span:first-of-type {
+  .menu-icon[data-state='open'] span:first-of-type,
+  .menu-icon.active span:first-of-type {
     @apply top-[4px];
     transform: rotate(45deg);
   }
 
-  .menu-icon.active span:last-of-type,
-  .menu-icon__checkbox:checked + div span:last-of-type {
+  .menu-icon[data-state='open'] span:last-of-type,
+  .menu-icon.active span:last-of-type {
     @apply bottom-[9px] left-0 w-full;
     transform: rotate(-45deg);
   }

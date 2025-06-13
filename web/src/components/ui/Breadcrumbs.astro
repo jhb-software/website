@@ -58,26 +58,19 @@ const structuredDataScript = JSON.stringify(structuredData, null, 2)
 }
 
 {
-  displayMode === 'lastOnly' && (
+  displayMode === 'lastOnly' && crumbs.length > 1 && (
     <nav aria-label="breadcrumbs">
       <ol class:list={['flex flex-row justify-center gap-2 text-sm text-slate-500']}>
-        {crumbs.length > 1 && (
-          <li>
-            <a
-              href={normalizePath(crumbs[crumbs.length - 2].path, preview)}
-              class="flex items-center gap-1"
-            >
-              <Link
-                path={crumbs[crumbs.length - 2].path}
-                style="text"
-                class="!py-2 text-sm !font-medium text-slate-500 uppercase"
-              >
-                <Icon name="chevron-left" class:list={['h-3 w-3']} />
-                {crumbs[crumbs.length - 2].label}
-              </Link>
-            </a>
-          </li>
-        )}
+        <li>
+          <Link
+            path={crumbs[crumbs.length - 2].path}
+            style="text"
+            class="flex items-center gap-1 !py-2 text-sm !font-medium text-slate-500 uppercase"
+          >
+            <Icon name="chevron-left" class:list={['h-3 w-3']} />
+            {crumbs[crumbs.length - 2].label}
+          </Link>
+        </li>
       </ol>
     </nav>
   )
