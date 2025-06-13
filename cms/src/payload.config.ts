@@ -164,8 +164,8 @@ export default buildConfig({
         accessKeyId: process.env.HETZNER_ACCESS_KEY_ID!,
         secretAccessKey: process.env.HETZNER_SECRET_ACCESS_KEY!,
       },
-      // TODO: temporary disabled client uploads because of issue with hetzner-object-storage (see https://github.com/joneslloyd/hetzner-object-storage/issues/1#issuecomment-2969432045)
-      clientUploads: false,
+      cacheControl: 'public, max-age=2592000', // max age 30 days
+      clientUploads: true,
       acl: 'public-read',
     }),
     payloadSeoPlugin({

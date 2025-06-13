@@ -15,8 +15,8 @@ importers:
         specifier: ^0.1.4
         version: 0.1.4(2f8d365782aa0390ab615cc81f15f376)
       '@joneslloyd/payload-storage-hetzner':
-        specifier: ^3.42.0
-        version: 3.42.0(@payloadcms/plugin-cloud-storage@3.42.0(@types/react@19.1.7)(monaco-editor@0.52.2)(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react@19.1.0)
+        specifier: ^3.42.3
+        version: 3.42.3(@payloadcms/plugin-cloud-storage@3.42.0(@types/react@19.1.7)(monaco-editor@0.52.2)(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react@19.1.0)
       '@payload-enchants/translator':
         specifier: workspace:*
         version: link:plugins/cms-content-translator
@@ -1224,8 +1224,8 @@ packages:
       react: 19.0.0
       react-dom: 19.0.0
 
-  '@joneslloyd/payload-storage-hetzner@3.42.0':
-    resolution: {integrity: sha512-yOrHWkFle0KdG50QtRgc74kZUS5evP7esDHZQkt88XKNeRQgCg7ibwbE1ioIh3/ztRXQT/9xvuKlQtjK1QuIWQ==}
+  '@joneslloyd/payload-storage-hetzner@3.42.3':
+    resolution: {integrity: sha512-17+q8gd0E1TaMJhehwJ2MAAg9G2jxdu8T8BKvlAJ9gPCDNn6tz2p5D3bE65df7Z/3SFTrT/X012oh2hVEL9sZg==}
     engines: {node: ^18.20.2 || >=20.9.0}
     peerDependencies:
       '@payloadcms/plugin-cloud-storage': ^3.33.0
@@ -6736,7 +6736,7 @@ snapshots:
       - ws
       - zod
 
-  '@joneslloyd/payload-storage-hetzner@3.42.0(@payloadcms/plugin-cloud-storage@3.42.0(@types/react@19.1.7)(monaco-editor@0.52.2)(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react@19.1.0)':
+  '@joneslloyd/payload-storage-hetzner@3.42.3(@payloadcms/plugin-cloud-storage@3.42.0(@types/react@19.1.7)(monaco-editor@0.52.2)(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3))(payload@3.42.0(graphql@16.11.0)(typescript@5.8.3))(react@19.1.0)':
     dependencies:
       '@aws-sdk/client-s3': 3.820.0
       '@aws-sdk/lib-storage': 3.820.0(@aws-sdk/client-s3@3.820.0)
