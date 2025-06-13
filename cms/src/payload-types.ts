@@ -1353,6 +1353,7 @@ export interface Translations {
     website: string;
     app: string;
     seo: string;
+    cms: string;
   };
   articles: {
     'payload-cms': string;
@@ -1414,6 +1415,7 @@ export interface TranslationsSelect<T extends boolean = true> {
         website?: T;
         app?: T;
         seo?: T;
+        cms?: T;
       };
   articles?:
     | T

@@ -32,7 +32,7 @@ const Translations: GlobalConfig = {
       type: 'group',
       name: 'projects',
       fields: [
-        ...(['web-app', 'website', 'app', 'seo'] satisfies Project['tags']).map((tag) =>
+        ...(['web-app', 'website', 'app', 'seo', 'cms'] satisfies Project['tags']).map((tag) =>
           localizationField(tag),
         ),
       ],
