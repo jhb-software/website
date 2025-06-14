@@ -4,7 +4,6 @@ import { globalState } from '@/globalState'
 import type { AuthorsBlock, Media } from 'cms/src/payload-types'
 import { normalizePath } from '../../../utils/normalizePath'
 import Card from '../Card.astro'
-import RichTextBlock from './RichTextBlock/RichTextBlock.astro'
 
 export type Props = AuthorsBlock
 
@@ -34,9 +33,7 @@ const { preview } = globalState
                 <div class="flex flex-auto flex-row justify-between gap-8 p-4">
                   <div class="flex flex-col gap-4">
                     <h2 class="my-0 text-lg font-semibold">{author.name}</h2>
-                    <div class="text-base font-normal">
-                      <RichTextBlock text={author.description} />
-                    </div>
+                    <div class="text-base font-normal">{author.excerpt}</div>
                   </div>
                 </div>
               </div>
