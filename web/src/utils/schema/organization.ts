@@ -13,6 +13,11 @@ export const organizationSchema = (): WithContext<Organization> => {
     '@type': 'Organization',
     name: siteName,
     logo: logoURL,
+    sameAs: [
+      'https://github.com/jhb-software',
+      'https://www.x.com/jhb_software',
+      'https://www.linkedin.com/company/jhb-software/',
+    ],
     // TODO: add description, email etc.
     url: SITE_URL,
   }
