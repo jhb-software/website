@@ -106,6 +106,10 @@ export default buildConfig({
   collections: collections,
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
+  csrf:
+    process.env.NODE_ENV === 'production'
+      ? ['https://cms.jhb.software']
+      : ['http://localhost:3000', 'http://localhost:3001'],
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
