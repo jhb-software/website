@@ -15,9 +15,11 @@
     "@astrojs/vercel": "^8.1.5",
     "@fontsource-variable/montserrat": "^5.2.6",
     "astro": "^5.9.2",
+    "astro-seo-schema": "^5.0.0",
     "cms": "workspace:*",
     "payload": "^3.42.0",
     "qs-esm": "^7.0.2",
+    "schema-dts": "^1.1.5",
     "ts-essentials": "^10.1.0"
   },
   "devDependencies": {

@@ -1,13 +1,18 @@
 ---
 import type { PageData } from '@/cms/getPageData'
 import Section from '@/components/ui/Section.astro'
+import { Schema } from 'astro-seo-schema'
 import HeroSection from '../HeroSection.astro'
+import { organizationSchema } from '@/utils/schema/organization'
 
 type Props = {
   page: PageData['pages']
 }
 
 const { page: pageData } = Astro.props
+const isRootPage = 'isRootPage' in pageData && Boolean(pageData.isRootPage)
+
+const schema = isRootPage ? organizationSchema() : undefined
 ---
 
 <HeroSection {...pageData.hero} breadcrumbs={pageData.breadcrumbs} />
@@ -17,3 +22,5 @@ const { page: pageData } = Astro.props
     <Section {...section} withoutTopSpace={index === 0 && !pageData.isRootPage} />
   ))
 }
+
+{schema && <Schema item={schema} />}
