@@ -1,5 +1,5 @@
 ---
-import { logoPath } from '@/constants'
+import { iconPath } from '@/constants'
 import { globalState } from '@/globalState'
 import type { Page, SeoMetadata } from 'cms/src/payload-types'
 import { payloadSDK } from '../cms/sdk'
@@ -31,7 +31,7 @@ const currentPath = Astro.url.pathname
   id="header"
 >
   <a href={normalizePath(`/${locale}`, preview)} class="flex items-center gap-2">
-    <img src={logoPath} alt={'JHB'} width={40} height={40} />
+    <img src={iconPath} alt={'JHB'} width={40} height={40} />
     <span class="text-2xl font-bold">Software</span>
   </a>
 
