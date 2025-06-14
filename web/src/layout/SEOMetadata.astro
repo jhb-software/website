@@ -1,5 +1,5 @@
 ---
-import { siteName } from '@/constants'
+import { ogImageURL, siteName } from '@/constants'
 import { globalState } from '@/globalState'
 import { SITE_URL } from 'astro:env/client'
 import type { SeoMetadata } from 'cms/src/payload-types'
@@ -10,8 +10,6 @@ const { title, description, alternatePaths } = Astro.props
 const { locale } = globalState
 
 const canonicalUrl = new URL(Astro.url.pathname, SITE_URL)
-
-// TODO: add og:image and twitter:image
 ---
 
 <title>{title}</title>
@@ -38,11 +36,11 @@ const canonicalUrl = new URL(Astro.url.pathname, SITE_URL)
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:locale" content={locale} />
-<!-- <meta property="og:image" content={ogImageURL(locale)} /> -->
+<meta property="og:image" content={ogImageURL(locale)} />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={canonicalUrl} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
-<!-- <meta property="twitter:image" content={ogImageURL(locale)} /> -->
+<meta property="twitter:image" content={ogImageURL(locale)} />
