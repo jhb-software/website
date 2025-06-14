@@ -17,6 +17,15 @@ export type Breadcrumbs = {
   id?: string | null;
 }[];
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SocialLinks".
+ */
+export type SocialLinks = {
+  url: string;
+  icon: 'github' | 'whatsapp' | 'instagram' | 'facebook' | 'youtube' | 'linkedin' | 'x';
+  id?: string | null;
+}[];
+/**
  * Supported timezones in IANA format.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -541,6 +550,8 @@ export interface Author {
   name: string;
   profession: string;
   photo: string | Media;
+  excerpt: string;
+  socialLinks: SocialLinks;
   description: {
     root: {
       type: string;
@@ -1102,11 +1113,22 @@ export interface AuthorsSelect<T extends boolean = true> {
   name?: T;
   profession?: T;
   photo?: T;
+  excerpt?: T;
+  socialLinks?: T | SocialLinksSelect<T>;
   description?: T;
   meta?: T | SeoMetadataSelect<T>;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SocialLinks_select".
+ */
+export interface SocialLinksSelect<T extends boolean = true> {
+  url?: T;
+  icon?: T;
+  id?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1335,6 +1357,7 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
+  socialLinks: SocialLinks;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1393,6 +1416,7 @@ export interface FooterSelect<T extends boolean = true> {
         link?: T | LinkSelect<T>;
         id?: T;
       };
+  socialLinks?: T | SocialLinksSelect<T>;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

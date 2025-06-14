@@ -1,3 +1,4 @@
+import { socialLinksField } from '@/fields/socialLinks'
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
@@ -62,6 +63,17 @@ const Authors: CollectionConfig = createPageCollectionConfig({
       relationTo: 'media',
       required: true,
     },
+    {
+      name: 'excerpt',
+      type: 'textarea',
+      required: true,
+      localized: true,
+      label: {
+        en: 'Excerpt',
+        de: 'Kurzbeschreibung',
+      },
+    },
+    socialLinksField({ name: 'socialLinks', required: true, minRows: 1 }),
     {
       name: 'description',
       type: 'richText',
