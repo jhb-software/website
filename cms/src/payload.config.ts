@@ -1,3 +1,4 @@
+import { jhbDashboardPlugin } from '@/plugins/jhb-dashboard/plugin'
 import {
   alternatePathsField,
   getPageUrl,
@@ -145,6 +146,15 @@ export default buildConfig({
   ],
   sharp,
   plugins: [
+    jhbDashboardPlugin({
+      title: siteName + ' CMS',
+      frontend: {
+        url: process.env.NEXT_PUBLIC_FRONTEND_URL!,
+      },
+      features: {
+        deploymentInfo: true,
+      },
+    }),
     translator({
       collections: translatableCollectionsSlugs,
       globals: [Header.slug, Footer.slug, Translations.slug] as GlobalSlug[],

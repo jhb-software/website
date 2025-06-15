@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "jhb-dashboard": {
+      "type": "object",
+      "properties": {
+        "website": { "type": "string" },
+        "deploymentInfoTitle": { "type": "string" },
+        "deploymentInfoDescription": { "type": "string" },
+        "deploymentInfoActiveDeployment": { "type": "string" },
+        "deploymentInfoLatestDeployment": { "type": "string" },
+        "deploymentInfoTriggerRebuild": { "type": "string" },
+        "deploymentInfoInspectDeployment": { "type": "string" },
+        "deploymentInfoDeploymentTriggeredSuccessfully": { "type": "string" },
+        "deploymentInfoDeploymentTriggeredFailed": { "type": "string" },
+        "deploymentInfoDeploymentCompletedSuccessfully": { "type": "string" },
+        "vercelDeploymentStatusBuilding": { "type": "string" },
+        "vercelDeploymentStatusReady": { "type": "string" },
+        "vercelDeploymentStatusError": { "type": "string" },
+        "vercelDeploymentStatusQueued": { "type": "string" },
+        "vercelDeploymentStatusInitializing": { "type": "string" },
+        "vercelDeploymentStatusCanceled": { "type": "string" },
+        "vercelDeploymentStatusDeleted": { "type": "string" },
+        "vercelDeploymentStatusFailed": { "type": "string" },
+        "vercelDeploymentStatusUnknown": { "type": "string" }
+      },
+      "required": [
+        "website",
+        "deploymentInfoTitle",
+        "deploymentInfoDescription",
+        "deploymentInfoActiveDeployment",
+        "deploymentInfoLatestDeployment",
+        "deploymentInfoTriggerRebuild",
+        "deploymentInfoInspectDeployment",
+        "deploymentInfoDeploymentTriggeredSuccessfully",
+        "deploymentInfoDeploymentTriggeredFailed",
+        "deploymentInfoDeploymentCompletedSuccessfully",
+        "vercelDeploymentStatusBuilding",
+        "vercelDeploymentStatusReady",
+        "vercelDeploymentStatusError",
+        "vercelDeploymentStatusQueued",
+        "vercelDeploymentStatusInitializing",
+        "vercelDeploymentStatusCanceled",
+        "vercelDeploymentStatusDeleted",
+        "vercelDeploymentStatusFailed",
+        "vercelDeploymentStatusUnknown"
+      ]
+    }
+  },
+  "required": ["jhb-dashboard"]
+}

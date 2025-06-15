@@ -1,0 +1,30 @@
+// Tailwind CSS V4 configuration for Payload CMS Admin Panel.
+// see https://adrianmaj.com/en/posts/integrating-tailwindcss-with-payloadcms-complete-guide for more info
+
+@layer theme {
+  @import 'tailwindcss/theme.css';
+}
+
+@layer base {
+  /* The preflight must be explicitly enabled for Tailwind elements to avoid conflicts with Payload's admin styles. */
+  .twp {
+    @import 'tailwindcss/preflight.css';
+  }
+
+  /* The no-twp class is used to reset all Tailwind styles. */
+  .twp.no-twp {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+      all: revert-layer;
+    }
+  }
+}
+
+@layer components;
+
+@layer utilities {
+  @import 'tailwindcss/utilities.css';
+}

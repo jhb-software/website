@@ -46,6 +46,7 @@ import { QueryPresetsWhereField as QueryPresetsWhereField_3817bf644402e67bfe6577
 import { QueryPresetsColumnsCell as QueryPresetsColumnsCell_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
 import { QueryPresetsColumnField as QueryPresetsColumnField_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
 import { HetznerClientUploadHandler as HetznerClientUploadHandler_8ac97c7c3d1014cb6b64a5b50ca764f3 } from '@joneslloyd/payload-storage-hetzner/client'
+import { DashboardView as DashboardView_b2b4ae8325c7d78b1c88c5f3f47f7333 } from '../../../plugins/jhb-dashboard/components/DashboardView'
 
 export const importMap = {
   "@jhb.software/payload-pages-plugin/server#IsRootPageField": IsRootPageField_817212d6f65b4eb37176541413db3f8c,
@@ -95,5 +96,6 @@ export const importMap = {
   "@payloadcms/ui#QueryPresetsWhereField": QueryPresetsWhereField_3817bf644402e67bfe6577f60ef982de,
   "@payloadcms/ui#QueryPresetsColumnsCell": QueryPresetsColumnsCell_3817bf644402e67bfe6577f60ef982de,
   "@payloadcms/ui#QueryPresetsColumnField": QueryPresetsColumnField_3817bf644402e67bfe6577f60ef982de,
-  "@joneslloyd/payload-storage-hetzner/client#HetznerClientUploadHandler": HetznerClientUploadHandler_8ac97c7c3d1014cb6b64a5b50ca764f3
+  "@joneslloyd/payload-storage-hetzner/client#HetznerClientUploadHandler": HetznerClientUploadHandler_8ac97c7c3d1014cb6b64a5b50ca764f3,
+  "/plugins/jhb-dashboard/components/DashboardView#DashboardView": DashboardView_b2b4ae8325c7d78b1c88c5f3f47f7333
 }
