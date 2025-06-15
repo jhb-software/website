@@ -1,13 +1,13 @@
 'use client'
+import { useDashboardTranslation } from '@/plugins/jhb-dashboard/react-hooks/useDashboardTranslation'
+import { getFrontendDeploymentInfo } from '@/plugins/jhb-dashboard/server-actions/getFrontendDeploymentInfo'
 import { triggerFrontendDeployment } from '@/plugins/jhb-dashboard/server-actions/triggerFrontendDeployment'
 import { Button, toast } from '@payloadcms/ui'
+import { GetDeploymentResponseBody } from '@vercel/sdk/models/getdeploymentop.js'
 import { useRouter } from 'next/navigation'
 import React, { useTransition } from 'react'
-import { SpinnerIcon } from '../../icons/spinner'
-import { getFrontendDeploymentInfo } from '@/plugins/jhb-dashboard/server-actions/getFrontendDeploymentInfo'
-import { GetDeploymentResponseBody } from '@vercel/sdk/models/getdeploymentop.js'
-import { useDashboardTranslation } from '@/plugins/jhb-dashboard/react-hooks/useDashboardTranslation'
 import { RefreshIcon } from '../../icons/refresh'
+import { SpinnerIcon } from '../../icons/spinner'
 
 export const TriggerFrontendDeploymentButton: React.FC = () => {
   const [isPending, startTransition] = useTransition()
@@ -58,7 +58,7 @@ export const TriggerFrontendDeploymentButton: React.FC = () => {
 
   return (
     <div>
-      <Button type="button" buttonStyle="pill" onClick={handleClick} className="my-0">
+      <Button type="button" buttonStyle="pill" onClick={handleClick} className="my-0!">
         <span className="flex items-center gap-4">
           {t('jhb-dashboard:deploymentInfoTriggerRebuild')}
           {isPending ? <SpinnerIcon /> : <RefreshIcon />}

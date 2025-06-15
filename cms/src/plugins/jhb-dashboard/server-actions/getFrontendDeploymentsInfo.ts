@@ -48,10 +48,6 @@ const getFrontendDeploymentsInfoCached = unstable_cache(
       target: 'production', // exclude preview deployments
       limit: 10,
     })
-    console.log(
-      'deployments',
-      deployments.deployments.map((d) => d.meta),
-    )
 
     const lastReadyDeployment = deployments.deployments.find(
       (deployment) => deployment.state === 'READY',

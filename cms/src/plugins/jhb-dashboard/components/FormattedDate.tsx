@@ -19,5 +19,13 @@ export const FormattedDate: React.FC<FormattedDateProps> = ({ date, dateFNSKey }
     hour12: false,
   }
 
+  console.log({
+    window: window,
+    date: date,
+    typeofDate: typeof date,
+    toLocaleString: date.toLocaleString(dateFNSKey, dateFormat),
+    typofToLocaleString: typeof date.toLocaleString(dateFNSKey, dateFormat),
+  })
+
   return <>{date.toLocaleString(dateFNSKey, dateFormat)}</>
 }

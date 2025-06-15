@@ -1,18 +1,19 @@
+import { FormattedDate } from '@/plugins/jhb-dashboard/components/FormattedDate'
 import {
   DeploymentsInfo,
   getFrontendDeploymentsInfo,
 } from '@/plugins/jhb-dashboard/server-actions/getFrontendDeploymentsInfo'
-import { FormattedDate } from '@/plugins/jhb-dashboard/components/FormattedDate'
 import type { JhbDashboardTranslationKeys } from '@/plugins/jhb-dashboard/translations'
 import { I18nClient, TFunction } from '@payloadcms/translations'
 import { Pill, PillProps } from '@payloadcms/ui/elements/Pill'
 import { GetDeploymentsState } from '@vercel/sdk/models/getdeploymentsop.js'
 import { Suspense } from 'react'
 import { Card } from '../../Card'
-import { TriggerFrontendDeploymentButton } from './TriggerDeploymentButton'
 import { ClockIcon } from '../../icons/clock'
 import { ClockDashedIcon } from '../../icons/clock-dashed'
+import InfoIcon from '../../icons/info'
 import { SpinnerIcon } from '../../icons/spinner'
+import { TriggerFrontendDeploymentButton } from './TriggerDeploymentButton'
 
 export async function DeploymentInfoCard({ i18n }: { i18n: I18nClient }) {
   const t = i18n.t as TFunction<JhbDashboardTranslationKeys>
@@ -20,7 +21,7 @@ export async function DeploymentInfoCard({ i18n }: { i18n: I18nClient }) {
   return (
     <Card
       title={t('jhb-dashboard:deploymentInfoTitle')}
-      icon={<ClockIcon />}
+      icon={<InfoIcon />}
       actions={<TriggerFrontendDeploymentButton />}
     >
       <div className="flex flex-col gap-3">

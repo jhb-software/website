@@ -13,9 +13,9 @@ export const Card: React.FC<CardProps> = ({ title, icon, children, actions, clas
 
   return (
     <div className={cardClasses}>
-      <div className="card-header flex items-center gap-2 pb-6 border-b border-solid border-[var(--theme-border-color)] border-0">
-        {icon && <div className="text-xl text-[var(--theme-text)]">{icon}</div>}
-        <h3 className="text-lg font-medium text-[var(--theme-text)] flex-grow">{title}</h3>
+      <div className="flex items-center gap-2.5 pb-6 border-b border-solid border-[var(--theme-border-color)] border-0">
+        {icon && icon}
+        <h3 className="flex-grow">{title}</h3>
       </div>
 
       <div className="flex-grow">{children}</div>

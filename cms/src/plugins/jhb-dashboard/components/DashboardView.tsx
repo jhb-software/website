@@ -3,10 +3,10 @@ import { Gutter } from '@payloadcms/ui'
 import Link from 'next/link'
 import { AdminViewServerPropsOnly } from 'payload'
 import React from 'react'
+import { JhbDashboardTranslationKeys } from '../translations'
+import { JhbDashboardPluginConfig } from '../types'
 import { DeploymentInfoCard } from './cards/deployment-info/DeploymentInfoCard'
 import { GlobeIcon } from './icons/globe'
-import { JhbDashboardPluginConfig } from '../types'
-import { JhbDashboardTranslationKeys } from '../translations'
 
 /** Props provided by the plugin config. */
 export type DashboardViewPluginProps = {
@@ -28,7 +28,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   return (
     <Gutter>
       <div className="mb-8">
-        <h1 className="text-[var(--theme-text)] mb-4">{title}</h1>
+        <h1 className="mb-4!">{title}</h1>
 
         <div className="flex items-center gap-2">
           <GlobeIcon />

@@ -4,7 +4,7 @@ export const de: GenericTranslationsObject = {
   $schema: './translation-schema.json',
   'jhb-dashboard': {
     // General
-    website: 'Webseite',
+    website: 'Website',
 
     // Deployment Info Feature
     deploymentInfoTitle: 'Website Veröffentlichungen',
