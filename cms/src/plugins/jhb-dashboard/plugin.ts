@@ -7,6 +7,7 @@ import { deepMergeSimple } from './utilities/deepMergeSimple'
 export const jhbDashboardPlugin =
   (pluginConfig: JhbDashboardPluginConfig) =>
   (incomingConfig: Config): Config => {
+    console.time('jhb-dashboard plugin')
     const config = { ...incomingConfig }
 
     config.onInit = async (payload) => {
@@ -30,7 +31,7 @@ export const jhbDashboardPlugin =
       }
     }
 
-    return {
+    const newConfig = {
       ...config,
       i18n: {
         ...config.i18n,
@@ -56,4 +57,7 @@ export const jhbDashboardPlugin =
         },
       },
     }
+
+    console.timeEnd('jhb-dashboard plugin')
+    return newConfig
   }
