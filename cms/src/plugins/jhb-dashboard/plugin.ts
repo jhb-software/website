@@ -1,7 +1,7 @@
 import { Config } from 'payload'
-import { JhbDashboardPluginConfig } from './types'
 import { DashboardViewPluginProps } from './components/DashboardView'
 import { translations } from './translations'
+import { JhbDashboardPluginConfig } from './types'
 import { deepMergeSimple } from './utilities/deepMergeSimple'
 
 export const jhbDashboardPlugin =
