@@ -145,6 +145,7 @@ export default buildConfig({
   ],
   sharp,
   plugins: [
+    //
     // jhbDashboardPlugin({
     //   title: siteName + ' CMS',
     //   frontend: {
