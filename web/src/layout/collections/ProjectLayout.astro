@@ -6,6 +6,8 @@ import ProjectDate from '@/components/ui/ProjectDate.astro'
 import ProjectTagsList from '@/components/ui/ProjectTagsList.astro'
 import RichTextBlock from '@/components/ui/blocks/RichTextBlock/RichTextBlock.astro'
 import SectionShell from '@/layout/SectionShell.astro'
+import { projectSchema } from '@/utils/schema/project'
+import { Schema } from 'astro-seo-schema'
 import type { Breadcrumbs, Media } from 'cms/src/payload-types'
 
 type Props = {
@@ -14,6 +16,8 @@ type Props = {
 }
 
 const { project: pageData, breadcrumbs } = Astro.props
+
+const schema = projectSchema(pageData)
 ---
 
 <SectionShell>
@@ -41,3 +45,5 @@ const { project: pageData, breadcrumbs } = Astro.props
 
   <RichTextBlock text={pageData.body} />
 </SectionShell>
+
+<Schema item={schema} />

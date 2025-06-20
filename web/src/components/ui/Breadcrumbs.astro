@@ -1,8 +1,9 @@
 ---
-import { SITE_URL } from 'astro:env/client'
 import type { Breadcrumbs } from 'cms/src/payload-types'
 import Icon from '../icons/Icon.astro'
 import Link from './Link.astro'
+import { breadcrumbsSchema } from '@/utils/schema/breadcrumbs'
+import { Schema } from 'astro-seo-schema'
 
 type Props = {
   crumbs: Breadcrumbs
@@ -11,18 +12,8 @@ type Props = {
 
 const { crumbs, displayMode = 'lastOnly' } = Astro.props
 
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: crumbs.map((part, index) => ({
-    '@type': 'ListItem',
-    item: SITE_URL + part.path,
-    name: part.label,
-    position: index + 1,
-  })),
-}
-
-const structuredDataScript = JSON.stringify(structuredData, null, 2)
+// Generate structured data using the schema function
+const schema = breadcrumbsSchema(crumbs)
 ---
 
 {
@@ -72,4 +63,4 @@ const structuredDataScript = JSON.stringify(structuredData, null, 2)
     </nav>
   )
 }
-{(<script is:inline type="application/ld+json" set:html={structuredDataScript} />)}
+<Schema item={schema} />

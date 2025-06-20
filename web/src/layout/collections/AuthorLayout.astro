@@ -4,6 +4,8 @@ import RichTextBlock from '@/components/ui/blocks/RichTextBlock/RichTextBlock.as
 import BreadcrumbsBlock from '@/components/ui/Breadcrumbs.astro'
 import Img from '@/components/ui/Img.astro'
 import SectionShell from '@/layout/SectionShell.astro'
+import { authorSchema } from '@/utils/schema/author'
+import { Schema } from 'astro-seo-schema'
 import type { Breadcrumbs, Media } from 'cms/src/payload-types'
 
 type Props = {
@@ -12,6 +14,8 @@ type Props = {
 }
 
 const { author, breadcrumbs } = Astro.props
+
+const schema = authorSchema(author)
 ---
 
 <SectionShell>
@@ -27,3 +31,5 @@ const { author, breadcrumbs } = Astro.props
 
   <RichTextBlock text={author.description} class="mt-8" />
 </SectionShell>
+
+<Schema item={schema} />
