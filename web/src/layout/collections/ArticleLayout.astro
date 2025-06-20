@@ -74,7 +74,12 @@ const { locale, preview, translations } = globalState
     </div>
   </div>
 
-  <Img image={article.image as Media} size="xl" class="mx-auto my-8 w-full max-w-4xl rounded-xl" />
+  <Img
+    image={article.image as Media}
+    size="xl"
+    class="mx-auto my-8 w-full max-w-4xl rounded-xl"
+    fetchpriority="high"
+  />
 
   <RichTextBlock text={article.content} />
 </SectionShell>
