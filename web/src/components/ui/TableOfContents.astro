@@ -1,0 +1,177 @@
+---
+import { globalState } from '@/globalState'
+
+export type TocItem = {
+  id: string
+  text: string
+  level: number
+}
+
+type Props = {
+  headings: TocItem[]
+  class?: string
+}
+
+const { headings, class: className } = Astro.props
+const { translations } = globalState
+---
+
+<!-- Mobile TOC -->
+<nav
+  id="toc-mobile"
+  class:list={['mb-8 rounded-lg border border-slate-200 bg-slate-50 xl:hidden', className]}
+  aria-label={translations.global['table-of-contents']}
+>
+  <details class="group">
+    <summary
+      class="flex cursor-pointer items-center justify-between rounded-lg px-4 py-3 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-100"
+    >
+      {translations.global['table-of-contents']}
+      <svg
+        class="h-4 w-4 transition-transform group-open:rotate-180"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"
+        ></path>
+      </svg>
+    </summary>
+    <div class="px-4 pb-4">
+      <ul class="space-y-2 text-sm" aria-labelledby="toc-heading-mobile">
+        {
+          headings.map((heading) => (
+            <li
+              class:list={[
+                'toc-item',
+                heading.level === 2 && 'ml-0',
+                heading.level === 3 && 'ml-4',
+                heading.level === 4 && 'ml-8',
+              ]}
+            >
+              <a
+                href={`#${heading.id}`}
+                class="aria-[current]:text-primary block rounded py-1 text-slate-600 transition-colors duration-200 hover:text-slate-900 aria-[current]:font-medium"
+                data-toc-link
+                data-heading-id={heading.id}
+                aria-label={`${translations.global['navigate-to-section']}: ${heading.text}`}
+              >
+                {heading.text}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </details>
+</nav>
+
+<!-- Desktop TOC -->
+<nav
+  id="toc-desktop"
+  class:list={[
+    'sticky top-24 hidden max-h-[calc(100vh-8rem)] overflow-y-auto xl:block',
+    'border-l-2 border-slate-200 pl-4',
+    className,
+  ]}
+  aria-label={translations.global['table-of-contents']}
+>
+  <h2 class="mb-3 text-sm font-semibold text-slate-900" id="toc-heading">
+    {translations.global['table-of-contents']}
+  </h2>
+  <ul class="space-y-2 text-sm" aria-labelledby="toc-heading">
+    {
+      headings.map((heading) => (
+        <li
+          class:list={[
+            'toc-item',
+            heading.level === 2 && 'ml-0',
+            heading.level === 3 && 'ml-4',
+            heading.level === 4 && 'ml-8',
+          ]}
+        >
+          <a
+            href={`#${heading.id}`}
+            class="aria-[current]:text-primary block rounded py-1 text-slate-600 transition-colors duration-200 hover:text-slate-900 aria-[current]:font-medium"
+            data-toc-link
+            data-heading-id={heading.id}
+            aria-label={`${translations.global['navigate-to-section']}: ${heading.text}`}
+          >
+            {heading.text}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<script>
+  function initTableOfContents() {
+    const tocLinks = document.querySelectorAll('[data-toc-link]')
+    const headings = Array.from(document.querySelectorAll('h2[id], h3[id]'))
+
+    if (!tocLinks.length || !headings.length) return
+
+    let activeHeading: string | null = null
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          activeHeading = entry.target.id
+          updateActiveLink()
+        }
+      })
+    }
+
+    const updateActiveLink = () => {
+      tocLinks.forEach((link) => {
+        const headingId = link.getAttribute('data-heading-id')
+        if (headingId === activeHeading) {
+          link.setAttribute('aria-current', 'true')
+        } else {
+          link.removeAttribute('aria-current')
+        }
+      })
+    }
+
+    const observer = new IntersectionObserver(observerCallback, {
+      rootMargin: '-80px 0px -70% 0px',
+      threshold: 0,
+    })
+
+    headings.forEach((heading) => observer.observe(heading))
+
+    // Smooth scrolling
+    tocLinks.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault()
+        const targetId = link.getAttribute('href')?.slice(1)
+        if (!targetId) return
+
+        const targetElement = document.getElementById(targetId)
+        if (targetElement) {
+          // Use native smooth scrolling with scroll-padding-top
+          targetElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+          })
+
+          // Update URL hash without triggering scroll
+          history.pushState(null, '', `#${targetId}`)
+        }
+      })
+    })
+
+    // Set initial active state
+    const currentHash = window.location.hash
+    if (currentHash) {
+      activeHeading = currentHash.slice(1)
+      updateActiveLink()
+    }
+  }
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', initTableOfContents)
+  // Reinitialize on Astro page transitions
+  document.addEventListener('astro:page-load', initTableOfContents)
+</script>

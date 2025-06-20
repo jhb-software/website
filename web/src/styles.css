@@ -10,6 +10,11 @@
 }
 
 @layer base {
+  html {
+    /* Scroll offset to account for the fixed header */
+    @apply scroll-pt-26 md:scroll-pt-22;
+  }
+
   h1,
   h2 {
     @apply sm:hyphenate-none hyphenate;

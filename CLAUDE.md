@@ -114,3 +114,14 @@ Strict mode is enabled across the monorepo. Always ensure type safety when:
 - ESLint and Prettier are configured for consistency
 - Always run `pnpm lint` and `pnpm format` before committing
 - Follow existing patterns for imports and file organization
+
+## Translation Requirements
+
+This is a multi-language website. When adding labels or text to Astro components:
+
+1. **Never hardcode text strings** - All user-facing text must be translatable
+2. **Update the CMS translations global** - Add necessary fields to `/cms/src/globals/translations.ts`
+3. **Access translations in components** - Use `const { translations } = globalState`
+4. **Example usage**: `translations.articles['written-by']` or `translations.global['show-more']`
+
+This ensures all UI text can be properly localized for different languages.

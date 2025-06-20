@@ -1370,6 +1370,8 @@ export interface Translations {
   global: {
     'show-more': string;
     'learn-more': string;
+    'table-of-contents': string;
+    'navigate-to-section': string;
   };
   projects: {
     'web-app': string;
@@ -1431,6 +1433,8 @@ export interface TranslationsSelect<T extends boolean = true> {
     | {
         'show-more'?: T;
         'learn-more'?: T;
+        'table-of-contents'?: T;
+        'navigate-to-section'?: T;
       };
   projects?:
     | T

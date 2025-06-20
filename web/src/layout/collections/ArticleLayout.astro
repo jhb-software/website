@@ -2,11 +2,14 @@
 import type { PageData } from '@/cms/getPageData'
 import ArticleTagsList from '@/components/ui/ArticleTagsList.astro'
 import RichTextBlock from '@/components/ui/blocks/RichTextBlock/RichTextBlock.astro'
+import type { LexicalNode } from '@/components/ui/blocks/RichTextBlock/types'
 import BreadcrumbsBlock from '@/components/ui/Breadcrumbs.astro'
 import Img from '@/components/ui/Img.astro'
+import TableOfContents from '@/components/ui/TableOfContents.astro'
 import { globalState } from '@/globalState'
 import SectionShell from '@/layout/SectionShell.astro'
 import { normalizePath } from '@/utils/normalizePath'
+import { extractHeadings } from '@/utils/extractHeadings'
 import type { Author, Breadcrumbs, Media } from 'cms/src/payload-types'
 
 type Props = {
@@ -16,6 +19,9 @@ type Props = {
 
 const { article, breadcrumbs } = Astro.props
 const { locale, preview, translations } = globalState
+
+// Extract headings from article content
+const headings = extractHeadings(article.content.root.children as unknown as LexicalNode[])
 ---
 
 <SectionShell>
@@ -81,5 +87,21 @@ const { locale, preview, translations } = globalState
     fetchpriority="high"
   />
 
-  <RichTextBlock text={article.content} />
+  {headings.length > 0 && (
+    <div class="xl:hidden">
+      <TableOfContents headings={headings} />
+    </div>
+  )}
+
+  <div class="relative flex gap-8">
+    <div class="flex-1 min-w-0">
+      <RichTextBlock text={article.content} />
+    </div>
+    
+    {headings.length > 0 && (
+      <aside class="w-64 flex-shrink-0 hidden xl:block">
+        <TableOfContents headings={headings} />
+      </aside>
+    )}
+  </div>
 </SectionShell>

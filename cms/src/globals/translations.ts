@@ -26,7 +26,12 @@ const Translations: GlobalConfig = {
     {
       type: 'group',
       name: 'global',
-      fields: [localizationField('show-more'), localizationField('learn-more')],
+      fields: [
+        localizationField('show-more'),
+        localizationField('learn-more'),
+        localizationField('table-of-contents'),
+        localizationField('navigate-to-section'),
+      ],
     },
     {
       type: 'group',
