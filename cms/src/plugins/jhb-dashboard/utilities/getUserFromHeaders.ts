@@ -1,9 +1,8 @@
 'use server'
 
-import { getPayload } from 'payload'
-import { headers } from 'next/headers'
-import { Payload } from 'payload'
 import config from '@payload-config'
+import { headers } from 'next/headers'
+import { getPayload, Payload } from 'payload'
 
 /** Gets the currently authenticated user from the request headers. */
 export async function getUserFromHeaders() {
