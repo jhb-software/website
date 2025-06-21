@@ -2,8 +2,8 @@
 import { useDashboardTranslation } from '@/plugins/jhb-dashboard/react-hooks/useDashboardTranslation'
 import { getFrontendDeploymentInfo } from '@/plugins/jhb-dashboard/server-actions/getFrontendDeploymentInfo'
 import { triggerFrontendDeployment } from '@/plugins/jhb-dashboard/server-actions/triggerFrontendDeployment'
+import { VercelDeployment } from '@/plugins/jhb-dashboard/utilities/vercelApiClient'
 import { Button, toast } from '@payloadcms/ui'
-import { GetDeploymentResponseBody } from '@vercel/sdk/models/getdeploymentop.js'
 import { useRouter } from 'next/navigation'
 import React, { useTransition } from 'react'
 import { RefreshIcon } from '../../icons/refresh'
@@ -34,7 +34,7 @@ export const TriggerFrontendDeploymentButton: React.FC = () => {
   const startPolling = (deploymentId: string) => {
     const pollInterval = 5000 // 5 seconds
 
-    let lastStatus: GetDeploymentResponseBody['status']
+    let lastStatus: VercelDeployment['status']
 
     const interval = setInterval(() => {
       getFrontendDeploymentInfo(deploymentId).then((deployment) => {

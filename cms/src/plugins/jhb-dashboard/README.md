@@ -32,7 +32,6 @@ The following packages are required for the plugin to work:
 
 - `@payloadcms/ui`
 - `@payloadcms/translations`
-- `@vercel/sdk`
 - `tailwindcss`
 - `@tailwindcss/postcss`
 - `postcss`
@@ -40,5 +39,5 @@ The following packages are required for the plugin to work:
 Install the packages:
 
 ```bash
-pnpm add @vercel/sdk @payloadcms/ui @payloadcms/translations tailwindcss @tailwindcss/postcss postcss
+pnpm add @payloadcms/ui @payloadcms/translations tailwindcss @tailwindcss/postcss postcss
 ```
