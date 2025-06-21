@@ -6,6 +6,7 @@ const labelField = (name: string, label?: string): TextField => ({
   type: 'text',
   required: true,
   localized: true,
+  label: label,
 })
 
 /** Global document that contains labels that should be changable via the CMS. (e.g. aria labels or global button labels) */
