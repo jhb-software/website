@@ -76,12 +76,14 @@ const currentPath = Astro.url.pathname
   </div>
 
   <div class="block md:hidden">
-    <button 
-      class="menu-icon" 
-      id="menu-icon" 
+    <button
+      class="menu-icon"
+      id="menu-icon"
       data-state="closed"
       aria-label={translations.global['open-menu']}
       aria-expanded="false"
+      data-label-open={translations.global['open-menu']}
+      data-label-close={translations.global['close-menu']}
     >
       <div>
         <span></span>
@@ -171,6 +173,7 @@ const currentPath = Astro.url.pathname
         // close modal
         modalButton.classList.remove('active')
         modalButton.setAttribute('aria-expanded', 'false')
+        modalButton.setAttribute('aria-label', modalButton.dataset.labelOpen!)
         modal?.classList.add(...animateOutClasses)
 
         // reset header styles
@@ -193,6 +196,7 @@ const currentPath = Astro.url.pathname
         // open modal
         modalButton.classList.add('active')
         modalButton.setAttribute('aria-expanded', 'true')
+        modalButton.setAttribute('aria-label', modalButton.dataset.labelClose!)
         modal?.classList.remove('hidden')
         modal?.classList.add(...animateInClasses)
 

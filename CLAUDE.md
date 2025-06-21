@@ -121,10 +121,13 @@ This is a multi-language website. When adding labels or text to Astro components
 
 1. **Never hardcode text strings** - All user-facing text must be translatable
 2. **Update the CMS translations global** - Add necessary fields to `/cms/src/globals/translations.ts`
+   - Use the `global` group for common, site-wide translations (e.g., "show-more", "close", "loading")
+   - Use specific groups for scoped translations (e.g., `articles` for article-related text, `contact` for contact forms)
 3. **Access translations in components** - Use `const { translations } = globalState`
 4. **Example usage**: `translations.articles['written-by']` or `translations.global['show-more']`
 
-This ensures all UI text can be properly localized for different languages.
+- This ensures all UI text can be properly localized for different languages
+- When adding translations to the CMS, please ensure you use all of them. If some are unused after the frontend implementation, delete them
 
 ## Task Completion Checklist
 
