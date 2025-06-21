@@ -1,7 +1,6 @@
 import { SITE_URL } from 'astro:env/client'
 import type { Article, Author, Media } from 'cms/src/payload-types'
 import type { Person, Article as SchemaArticle, WithContext } from 'schema-dts'
-import { normalizePath } from '../utils/normalizePath'
 import { organizationSchema } from './organization'
 
 export const articleSchema = (article: Article, locale: string): WithContext<SchemaArticle> => {
@@ -10,7 +9,7 @@ export const articleSchema = (article: Article, locale: string): WithContext<Sch
   const authorSchemas: Person[] = authors.map((author) => ({
     '@type': 'Person',
     name: author.name,
-    url: new URL(normalizePath(author.path, false), SITE_URL).toString(),
+    url: new URL(author.path, SITE_URL).toString(),
     image: (author.photo as Media)?.url ?? undefined,
     jobTitle: author.profession,
   }))
@@ -25,10 +24,10 @@ export const articleSchema = (article: Article, locale: string): WithContext<Sch
     publisher: organizationSchema(),
     datePublished: article.createdAt,
     dateModified: article.updatedAt,
-    url: new URL(normalizePath(article.path, false), SITE_URL).toString(),
+    url: new URL(article.path, SITE_URL).toString(),
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': new URL(normalizePath(article.path, false), SITE_URL).toString(),
+      '@id': new URL(article.path, SITE_URL).toString(),
     },
     keywords: article.tags?.join(', '),
     articleSection: 'Technology',

@@ -1,7 +1,6 @@
 import { SITE_URL } from 'astro:env/client'
 import type { Media, Project } from 'cms/src/payload-types'
 import type { CreativeWork, WithContext } from 'schema-dts'
-import { normalizePath } from '../utils/normalizePath'
 import { organizationSchema } from './organization'
 
 export const projectSchema = (project: Project): WithContext<CreativeWork> => {
@@ -17,10 +16,10 @@ export const projectSchema = (project: Project): WithContext<CreativeWork> => {
     creator: organizationSchema(),
     dateCreated: project.startDate,
     dateModified: project.endDate || project.updatedAt,
-    url: new URL(normalizePath(project.path, false), SITE_URL).toString(),
+    url: new URL(project.path, SITE_URL).toString(),
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': new URL(normalizePath(project.path, false), SITE_URL).toString(),
+      '@id': new URL(project.path, SITE_URL).toString(),
     },
     keywords: project.tags?.join(', '),
   }
