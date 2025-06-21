@@ -1,14 +1,9 @@
-# CLAUDE.md
+# Repository Overview
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This is a mono-repository for the JHB Software company website consisting of:
 
-## Repository Overview
-
-This is a monorepo for the JHB Software company website consisting of:
-
-- **Frontend** (`/web`): Astro-based static site with Tailwind CSS
 - **CMS** (`/cms`): Payload CMS with Next.js for content management
-- **Plugin** (`/cms/plugins/cms-content-translator`): Custom translation plugin
+- **Frontend** (`/web`): Astro-based multi-language static site, styled with Tailwind CSS
 
 ## Essential Commands
 
@@ -29,7 +24,6 @@ pnpm format           # Format code with Prettier
 cd web
 pnpm dev              # Start Astro dev server (default: http://localhost:4321)
 pnpm build            # Build static site
-pnpm preview          # Preview production build
 pnpm check            # Run Astro type checking
 pnpm lint             # Run ESLint
 pnpm format           # Format code with Prettier
@@ -47,11 +41,12 @@ pnpm install          # Install all dependencies (run from root)
 
 The CMS uses Payload v3 with a modular collection and block system:
 
-- **Collections** (`/cms/src/collections/`): Define content types (Articles, Authors, Projects, etc.)
-- **Blocks** (`/cms/src/blocks/`): Reusable content blocks that map to frontend components
+- **Collections** (`/cms/src/collections/`): Define content types in plural (e.g. `Articles.ts`, `Authors.ts`, `Projects.ts`, etc.)
+- **Blocks** (`/cms/src/blocks/`): Reusable content blocks that map to frontend block components. Suffix: `Block` (e.g. `AuthorsListBlock.ts`)
 - **Globals** (`/cms/src/globals/`): Site-wide settings (Header, Footer, Translations)
-- **Access Control**: Role-based permissions defined in each collection
-- **Media Handling**: Cloud storage integration with automatic image optimization
+- **Plugins** (`/cms/src/plugins/`): Custom plugins (e.g. `cms-content-translator`, `jhb-dashboard`)
+- **Endpoints** (`/cms/src/endpoints/`): Custom HTTP API-endpoints
+- **Fields** (`/cms/src/fields/`): Reusable fields (e.g. `heroSection` field for the `pages` collection)
 
 Key architectural decisions:
 
@@ -64,15 +59,22 @@ Key architectural decisions:
 
 The frontend uses Astro's static site generation with dynamic CMS integration:
 
-- **Dynamic Routing**: Language-based routing with `[lang]/[...path].astro`
-- **CMS SDK** (`/web/src/cms-sdk/`): Type-safe data fetching from Payload
-- **Component Mapping**: Each CMS block has a corresponding Astro component
-- **Layouts**: Reusable layouts for different content types (Article, Author, Page, Project)
-- **SEO**: Automated sitemap generation, structured data, and meta tags
+- **CMS**: (`/web/src/cms/`): Utility functions for fetching data from the CMS
+- **Components**: (`/web/src/components/`): Reusable .astro components
+  - **Blocks**: (`/web/src/components/blocks/`): .astro components for CMS blocks (following the same naming convention as the CMS blocks)
+  - **Icons**: (`/web/src/components/icons/`): .svg or .astro components for icons
+  - **Cards**: (`/web/src/components/cards/`): Cards for collection types
+- **Layout**: (`/web/src/layout/`): Layout components like `HeroSection.astro`, `Footer.astro` or `PageLayout.astro`
+
+  - **collections**: (`/web/src/layout/collections/`): Layout components for collection types (e.g. `ArticleLayout.astro`)
+
+- **Pages**: (`/web/src/pages/`): Dynamic routing (e.g. `[lang]/[...path].astro`)
+- **Schema**: (`/web/src/schema/`): Structured data schemas for SEO
 
 Key architectural patterns:
 
-- Server-side rendering for optimal performance
+- Static site generation with Astro
+- SSR only for `/preview` pages
 - Progressive enhancement with minimal client-side JavaScript
 - Type-safe CMS data integration using generated types
 - Tailwind CSS v4 for styling with custom design tokens
@@ -115,7 +117,9 @@ Strict mode is enabled across the monorepo. Always ensure type safety when:
 - Always run `pnpm lint` and `pnpm format` before committing
 - Follow existing patterns for imports and file organization
 
-## Translation Requirements
+## Rules
+
+### Translation Requirements
 
 This is a multi-language website. When adding labels or text to Astro components:
 
@@ -129,7 +133,17 @@ This is a multi-language website. When adding labels or text to Astro components
 - This ensures all UI text can be properly localized for different languages
 - When adding translations to the CMS, please ensure you use all of them. If some are unused after the frontend implementation, delete them
 
-## Task Completion Checklist
+### Structured Data Schemas
+
+This website implements JSON-LD structured data for SEO. All schema definitions are located in `/web/src/schema/`.
+
+1. **File Organization**: Create one file per collection or schema type (e.g., `article.ts`, `author.ts`)
+2. **Function Naming**: Name the main export function `{contentType}Schema` (e.g., `articleSchema`, `authorSchema`)
+3. **Return Type**: Functions must return `WithContext<SchemaType>` from the `schema-dts` package
+4. **URL Construction**: Always use `new URL(path, SITE_URL)`. Do not use `normalizePath`
+5. **Usage**: Import and call schema functions in layout files, then render with `<Schema item={schema} />`
+
+### Task Completion Checklist
 
 When completing any task in this codebase, always perform these quality checks:
 
