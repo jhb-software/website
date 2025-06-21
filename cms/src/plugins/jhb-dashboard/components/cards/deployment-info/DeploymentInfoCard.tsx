@@ -4,9 +4,9 @@ import {
   getFrontendDeploymentsInfo,
 } from '@/plugins/jhb-dashboard/server-actions/getFrontendDeploymentsInfo'
 import type { JhbDashboardTranslationKeys } from '@/plugins/jhb-dashboard/translations'
+import type { VercelDeployment } from '@/plugins/jhb-dashboard/utilities/vercelApiClient'
 import { I18nClient, TFunction } from '@payloadcms/translations'
 import { Pill, PillProps } from '@payloadcms/ui/elements/Pill'
-import { GetDeploymentsState } from '@vercel/sdk/models/getdeploymentsop.js'
 import { Suspense } from 'react'
 import { Card } from '../../Card'
 import { ClockIcon } from '../../icons/clock'
@@ -76,7 +76,9 @@ function DeploymentInfoRow({
 }) {
   const t = i18n.t as TFunction<JhbDashboardTranslationKeys>
 
-  const deploymentStatusToPillStyle = (status: GetDeploymentsState): PillProps['pillStyle'] => {
+  const deploymentStatusToPillStyle = (
+    status: VercelDeployment['status'],
+  ): PillProps['pillStyle'] => {
     switch (status) {
       case 'BUILDING':
         return 'warning'
@@ -124,7 +126,9 @@ function DeploymentInfoRow({
                 ? t(
                     ('jhb-dashboard:vercelDeploymentStatus' +
                       (deploymentInfo.status.charAt(0).toUpperCase() +
-                        deploymentInfo.status.slice(1).toLowerCase())) as GetDeploymentsState,
+                        deploymentInfo.status
+                          .slice(1)
+                          .toLowerCase())) as JhbDashboardTranslationKeys,
                   )
                 : t('jhb-dashboard:vercelDeploymentStatusUnknown')}
               {deploymentInfo?.status === 'BUILDING' && <SpinnerIcon />}

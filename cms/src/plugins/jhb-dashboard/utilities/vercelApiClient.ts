@@ -10,8 +10,8 @@ export interface VercelDeployment {
   name: string
   created: number
   ready?: number
-  state: 'BUILDING' | 'ERROR' | 'INITIALIZING' | 'QUEUED' | 'READY' | 'CANCELED'
-  status: 'BUILDING' | 'ERROR' | 'INITIALIZING' | 'QUEUED' | 'READY' | 'CANCELED'
+  state: 'BUILDING' | 'ERROR' | 'INITIALIZING' | 'QUEUED' | 'READY' | 'CANCELED' | 'DELETED'
+  status: 'BUILDING' | 'ERROR' | 'INITIALIZING' | 'QUEUED' | 'READY' | 'CANCELED' | 'DELETED'
   inspectorUrl: string | null
 }
 
@@ -78,12 +78,12 @@ export class VercelApiClient {
       method?: 'GET' | 'POST' | 'PUT' | 'DELETE'
       body?: unknown
       searchParams?: Record<string, string>
-    } = {}
+    } = {},
   ): Promise<T> {
     const { method = 'GET', body, searchParams } = options
-    
+
     let url = `${this.baseUrl}${endpoint}`
-    
+
     if (searchParams) {
       const params = new URLSearchParams(searchParams)
       url += `?${params.toString()}`
@@ -92,7 +92,7 @@ export class VercelApiClient {
     const response = await fetch(url, {
       method,
       headers: {
-        'Authorization': `Bearer ${this.bearerToken}`,
+        Authorization: `Bearer ${this.bearerToken}`,
         'Content-Type': 'application/json',
       },
       body: body ? JSON.stringify(body) : undefined,
@@ -136,12 +136,9 @@ export class VercelApiClient {
   /**
    * Get a specific deployment by ID
    */
-  async getDeployment(params: {
-    idOrUrl: string
-    teamId?: string
-  }): Promise<VercelDeployment> {
+  async getDeployment(params: { idOrUrl: string; teamId?: string }): Promise<VercelDeployment> {
     const searchParams: Record<string, string> = {}
-    
+
     if (params.teamId) {
       searchParams.teamId = params.teamId
     }
@@ -159,7 +156,7 @@ export class VercelApiClient {
     requestBody: CreateDeploymentRequest
   }): Promise<CreateDeploymentResponse> {
     const searchParams: Record<string, string> = {}
-    
+
     if (params.teamId) {
       searchParams.teamId = params.teamId
     }
@@ -174,12 +171,9 @@ export class VercelApiClient {
   /**
    * Get project details by ID
    */
-  async getProject(params: {
-    projectId: string
-    teamId?: string
-  }): Promise<VercelProject> {
+  async getProject(params: { projectId: string; teamId?: string }): Promise<VercelProject> {
     const searchParams: Record<string, string> = {}
-    
+
     if (params.teamId) {
       searchParams.teamId = params.teamId
     }
