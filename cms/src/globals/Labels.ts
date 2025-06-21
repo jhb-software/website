@@ -1,4 +1,6 @@
 import { Article, Project } from '@/payload-types'
+import { anyone } from '@/shared/access/anyone'
+import { authenticated } from '@/shared/access/authenticated'
 import { GlobalConfig, TextField } from 'payload'
 
 const labelField = (name: string, label?: string): TextField => ({
@@ -22,7 +24,8 @@ const Labels: GlobalConfig = {
     en: 'Labels',
   },
   access: {
-    read: () => true,
+    read: anyone,
+    update: authenticated,
   },
   fields: [
     {

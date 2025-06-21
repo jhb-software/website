@@ -1,5 +1,7 @@
 import { linksField } from '@/fields/links'
 import { socialLinksField } from '@/fields/socialLinks'
+import { anyone } from '@/shared/access/anyone'
+import { authenticated } from '@/shared/access/authenticated'
 import { GlobalConfig } from 'payload'
 
 const Footer: GlobalConfig = {
@@ -9,7 +11,8 @@ const Footer: GlobalConfig = {
     en: 'Footer',
   },
   access: {
-    read: () => true,
+    read: anyone,
+    update: authenticated,
   },
   fields: [
     linksField({ name: 'links', relationTo: ['pages'], maxRows: 6 }),
