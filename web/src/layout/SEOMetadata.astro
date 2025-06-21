@@ -6,7 +6,7 @@ import type { Article, Author, Page, Project, SeoMetadata } from 'cms/src/payloa
 
 type Props = {
   meta: SeoMetadata
-  page: Page | Project | Article | Author
+  page?: Page | Project | Article | Author
 }
 
 const { meta, page } = Astro.props
@@ -15,7 +15,7 @@ const { locale } = globalState
 const canonicalUrl = new URL(Astro.url.pathname, SITE_URL)
 
 const ogImageUrl =
-  'image' in page && typeof page.image === 'object' && page.image.url
+  page && 'image' in page && typeof page.image === 'object' && page.image.url
     ? page.image.url
     : ogImageURL(locale)
 ---
