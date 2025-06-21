@@ -20,7 +20,7 @@ if (!pathname.includes('.')) {
     const userLang = headers.get('accept-language')?.slice(0, 2) as Locale | undefined
     const langPath = userLang && locales.includes(userLang) ? `/${userLang}` : `/${defaultLocale}`
 
-     // Because of a bug in 'astro check' the following line is flagged as 'unused value' even though it is used
+    // Because of a bug in 'astro check' the following line is flagged as 'unused value' even though it is used
     // see https://github.com/withastro/language-tools/issues/980
     const redirectPath = `${pathname === '/preview' ? '/preview' : ''}${langPath}`
 

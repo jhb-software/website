@@ -1,4 +1,4 @@
-import type { LexicalNode, HeadingNode, TextNode } from '@/components/ui/blocks/RichTextBlock/types'
+import type { HeadingNode, LexicalNode, TextNode } from '@/components/ui/blocks/RichTextBlock/types'
 import type { TocItem } from '@/components/ui/TableOfContents.astro'
 import slugifyId from './slugifyId'
 
@@ -10,7 +10,7 @@ export function extractHeadings(nodes: LexicalNode[]): TocItem[] {
       if (node.type === 'heading' && ['h2', 'h3'].includes((node as HeadingNode).tag)) {
         const headingNode = node as HeadingNode
         const textContent = extractTextFromNodes(headingNode.children || [])
-        
+
         if (textContent) {
           headings.push({
             id: slugifyId(textContent),
@@ -19,7 +19,7 @@ export function extractHeadings(nodes: LexicalNode[]): TocItem[] {
           })
         }
       }
-      
+
       // Traverse children if they exist
       if ('children' in node && node.children) {
         traverseNodes(node.children)
@@ -29,7 +29,7 @@ export function extractHeadings(nodes: LexicalNode[]): TocItem[] {
 
   function extractTextFromNodes(nodes: LexicalNode[]): string {
     let text = ''
-    
+
     for (const node of nodes) {
       if (node.type === 'text') {
         text += (node as TextNode).text
@@ -37,7 +37,7 @@ export function extractHeadings(nodes: LexicalNode[]): TocItem[] {
         text += extractTextFromNodes(node.children)
       }
     }
-    
+
     return text.trim()
   }
 
