@@ -1,5 +1,4 @@
 ---
-import { globalState } from '@/globalState'
 import type { Article } from 'cms/src/payload-types'
 
 type Props = {
@@ -8,14 +7,15 @@ type Props = {
 }
 
 const { tags, class: className } = Astro.props
-const { labels } = globalState
+
+const articleTags = tags.filter((tag) => typeof tag === 'object')
 ---
 
 <div class:list={['flex flex-wrap gap-2', className]}>
   {
-    tags?.map((tag) => (
+    articleTags?.map((tag) => (
       <span class="max-h-fit rounded-md bg-gray-200 px-2 py-1 text-sm font-medium text-gray-700">
-        {labels.articles[tag]}
+        {tag.name}
       </span>
     ))
   }
