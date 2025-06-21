@@ -1416,11 +1416,6 @@ export interface Labels {
     cms: string;
   };
   articles: {
-    'payload-cms': string;
-    'next-js': string;
-    seo: string;
-    'web-development': string;
-    'app-development': string;
     'written-by': string;
     'last-updated-at': string;
   };
@@ -1500,11 +1495,6 @@ export interface LabelsSelect<T extends boolean = true> {
   articles?:
     | T
     | {
-        'payload-cms'?: T;
-        'next-js'?: T;
-        seo?: T;
-        'web-development'?: T;
-        'app-development'?: T;
         'written-by'?: T;
         'last-updated-at'?: T;
       };

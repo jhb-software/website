@@ -1,4 +1,4 @@
-import { Article, Project } from '@/payload-types'
+import { Project } from '@/payload-types'
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { GlobalConfig, TextField } from 'payload'
@@ -64,19 +64,7 @@ const Labels: GlobalConfig = {
     {
       type: 'group',
       name: 'articles',
-      fields: [
-        ...(
-          [
-            'payload-cms',
-            'next-js',
-            'seo',
-            'web-development',
-            'app-development',
-          ] satisfies Article['tags']
-        ).map((tag) => labelField(tag)),
-        labelField('written-by'),
-        labelField('last-updated-at'),
-      ],
+      fields: [labelField('written-by'), labelField('last-updated-at')],
     },
     {
       type: 'group',
