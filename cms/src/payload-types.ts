@@ -1399,6 +1399,11 @@ export interface Labels {
     'written-by': string;
     'last-updated-at': string;
   };
+  'not-found-page': {
+    title: string;
+    description: string;
+    'home-page-button': string;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1477,6 +1482,13 @@ export interface LabelsSelect<T extends boolean = true> {
         'app-development'?: T;
         'written-by'?: T;
         'last-updated-at'?: T;
+      };
+  'not-found-page'?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        'home-page-button'?: T;
       };
   updatedAt?: T;
   createdAt?: T;

@@ -1,7 +1,7 @@
 import { Article, Project } from '@/payload-types'
 import { GlobalConfig, TextField } from 'payload'
 
-const localizationField = (name: string): TextField => ({
+const labelField = (name: string, label?: string): TextField => ({
   name,
   type: 'text',
   required: true,
@@ -28,24 +28,24 @@ const Labels: GlobalConfig = {
       type: 'group',
       name: 'global',
       fields: [
-        localizationField('show-more'),
-        localizationField('learn-more'),
-        localizationField('table-of-contents'),
-        localizationField('navigate-to-section'),
-        localizationField('open-menu'),
-        localizationField('close-menu'),
+        labelField('show-more'),
+        labelField('learn-more'),
+        labelField('table-of-contents'),
+        labelField('navigate-to-section'),
+        labelField('open-menu'),
+        labelField('close-menu'),
       ],
     },
     {
       type: 'group',
       name: 'social',
       fields: [
-        localizationField('visit-facebook'),
-        localizationField('visit-twitter'),
-        localizationField('visit-linkedin'),
-        localizationField('visit-instagram'),
-        localizationField('visit-youtube'),
-        localizationField('visit-github'),
+        labelField('visit-facebook'),
+        labelField('visit-twitter'),
+        labelField('visit-linkedin'),
+        labelField('visit-instagram'),
+        labelField('visit-youtube'),
+        labelField('visit-github'),
       ],
     },
     {
@@ -53,7 +53,7 @@ const Labels: GlobalConfig = {
       name: 'projects',
       fields: [
         ...(['web-app', 'website', 'app', 'seo', 'cms'] satisfies Project['tags']).map((tag) =>
-          localizationField(tag),
+          labelField(tag),
         ),
       ],
     },
@@ -69,9 +69,19 @@ const Labels: GlobalConfig = {
             'web-development',
             'app-development',
           ] satisfies Article['tags']
-        ).map((tag) => localizationField(tag)),
-        localizationField('written-by'),
-        localizationField('last-updated-at'),
+        ).map((tag) => labelField(tag)),
+        labelField('written-by'),
+        labelField('last-updated-at'),
+      ],
+    },
+    {
+      type: 'group',
+      name: 'not-found-page',
+      label: 'Not found (404) page',
+      fields: [
+        labelField('title', 'Title'),
+        labelField('description', 'Description'),
+        labelField('home-page-button', 'Home page button'),
       ],
     },
   ],
