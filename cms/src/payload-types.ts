@@ -1372,6 +1372,16 @@ export interface Translations {
     'learn-more': string;
     'table-of-contents': string;
     'navigate-to-section': string;
+    'open-menu': string;
+    'close-menu': string;
+  };
+  social: {
+    'visit-facebook': string;
+    'visit-twitter': string;
+    'visit-linkedin': string;
+    'visit-instagram': string;
+    'visit-youtube': string;
+    'visit-github': string;
   };
   projects: {
     'web-app': string;
@@ -1435,6 +1445,18 @@ export interface TranslationsSelect<T extends boolean = true> {
         'learn-more'?: T;
         'table-of-contents'?: T;
         'navigate-to-section'?: T;
+        'open-menu'?: T;
+        'close-menu'?: T;
+      };
+  social?:
+    | T
+    | {
+        'visit-facebook'?: T;
+        'visit-twitter'?: T;
+        'visit-linkedin'?: T;
+        'visit-instagram'?: T;
+        'visit-youtube'?: T;
+        'visit-github'?: T;
       };
   projects?:
     | T

@@ -1,11 +1,13 @@
 ---
 import Icon from '@/components/icons/Icon.astro'
 import Img from '@/components/ui/Img.astro'
+import { globalState } from '@/globalState'
 import type { ContactBlock, Media } from 'cms/src/payload-types'
 
 type Props = ContactBlock
 
 const { name, image, phone, email, socialLinks } = Astro.props
+const { translations } = globalState
 ---
 
 <div class="flex flex-col items-center justify-center gap-10 text-center md:flex-row md:text-left">
@@ -36,6 +38,9 @@ const { name, image, phone, email, socialLinks } = Astro.props
               target="_blank"
               rel="noopener noreferrer"
               class="hover:text-primary text-gray-800"
+              aria-label={
+                translations.social[`visit-${link.icon}` as keyof typeof translations.social]
+              }
             >
               <Icon name={link.icon} class:list={['h-5 w-5']} />
             </a>

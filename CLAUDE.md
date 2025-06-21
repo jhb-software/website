@@ -125,3 +125,18 @@ This is a multi-language website. When adding labels or text to Astro components
 4. **Example usage**: `translations.articles['written-by']` or `translations.global['show-more']`
 
 This ensures all UI text can be properly localized for different languages.
+
+## Task Completion Checklist
+
+When completing any task in this codebase, always perform these quality checks:
+
+### Code Quality
+
+- [ ] Run `pnpm lint` in the `cms` folder to check for linting issues
+- [ ] Run `pnpm lint` in the `web` folder to check for linting issues
+- [ ] Run `pnpm astro check` in the `web` folder to validate Astro components and TypeScript
+
+### Type Safety
+
+- [ ] If CMS schema was modified, run `cd cms && pnpm generate:types` to update TypeScript types
+- [ ] Ensure all new components properly type their props using generated CMS types

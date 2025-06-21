@@ -31,6 +31,20 @@ const Translations: GlobalConfig = {
         localizationField('learn-more'),
         localizationField('table-of-contents'),
         localizationField('navigate-to-section'),
+        localizationField('open-menu'),
+        localizationField('close-menu'),
+      ],
+    },
+    {
+      type: 'group',
+      name: 'social',
+      fields: [
+        localizationField('visit-facebook'),
+        localizationField('visit-twitter'),
+        localizationField('visit-linkedin'),
+        localizationField('visit-instagram'),
+        localizationField('visit-youtube'),
+        localizationField('visit-github'),
       ],
     },
     {

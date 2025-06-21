@@ -11,7 +11,7 @@ type Props = {
 }
 
 const { alternatePaths } = Astro.props
-const { locale, preview } = globalState
+const { locale, preview, translations } = globalState
 
 const header = await payloadSDK.findGlobal({
   slug: 'header',
@@ -76,7 +76,13 @@ const currentPath = Astro.url.pathname
   </div>
 
   <div class="block md:hidden">
-    <button class="menu-icon" id="menu-icon" data-state="closed">
+    <button 
+      class="menu-icon" 
+      id="menu-icon" 
+      data-state="closed"
+      aria-label={translations.global['open-menu']}
+      aria-expanded="false"
+    >
       <div>
         <span></span>
         <span></span>
@@ -164,6 +170,7 @@ const currentPath = Astro.url.pathname
       if (modalButton.classList.contains('active')) {
         // close modal
         modalButton.classList.remove('active')
+        modalButton.setAttribute('aria-expanded', 'false')
         modal?.classList.add(...animateOutClasses)
 
         // reset header styles
@@ -185,6 +192,7 @@ const currentPath = Astro.url.pathname
 
         // open modal
         modalButton.classList.add('active')
+        modalButton.setAttribute('aria-expanded', 'true')
         modal?.classList.remove('hidden')
         modal?.classList.add(...animateInClasses)
 
