@@ -1,6 +1,8 @@
 import { SITE_URL } from 'astro:env/client'
 import type { Locale } from './cms/types'
 
+export const plausibleDomain = 'jhb.software'
+
 export const iconPath = '/icon.png'
 
 export const logoPath = '/logo.webp'

@@ -1,4 +1,5 @@
 ---
+import { defaultLocale } from '@/cms/locales'
 import { iconPath } from '@/constants'
 import { globalState } from '@/globalState'
 import type { Page, SeoMetadata } from 'cms/src/payload-types'
@@ -27,13 +28,16 @@ const header = await payloadSDK.findGlobal(
 )
 
 const currentPath = Astro.url.pathname
+
+// NOTE: when the 404 page is rendered, the locale might be undefined, therefore fallback to default locale
+const homePagePath = normalizePath(`/${locale ?? defaultLocale}`, preview)
 ---
 
 <header
   class:list={['fixed z-40 flex w-full items-center justify-between px-4 py-4 md:px-12']}
   id="header"
 >
-  <a href={normalizePath(`/${locale}`, preview)} class="flex items-center gap-2">
+  <a href={homePagePath} class="flex items-center gap-2">
     <img src={iconPath} alt={'JHB'} width={40} height={40} />
     <span class="text-2xl font-bold">Software</span>
   </a>

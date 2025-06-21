@@ -14,6 +14,7 @@ type Props =
       style: Link['style']
       class?: string
       icon?: Link['icon']
+      normalizePath?: boolean
     }
 
 function buttonStyles(style: Link['style']) {
@@ -43,7 +44,8 @@ if (!rawPath) {
 }
 
 const { preview } = globalState
-const href = normalizePath(rawPath, preview)
+const normalizePathValue = 'normalizePath' in Astro.props ? Astro.props.normalizePath : true
+const href = normalizePathValue ? normalizePath(rawPath, preview) : rawPath
 ---
 
 <a
