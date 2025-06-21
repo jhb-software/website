@@ -1,6 +1,7 @@
 @import 'tailwindcss';
+@import 'tw-animate-css';
+
 @plugin "@tailwindcss/typography";
-@plugin "@nobie-org/tailwindcss-animate";
 
 @theme {
   --font-sans: 'Montserrat Variable', ui-sans-serif, system-ui, -apple-system;

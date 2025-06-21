@@ -24,7 +24,6 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
-    "@nobie-org/tailwindcss-animate": "^1.0.9",
     "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.1.10",
     "@typescript-eslint/parser": "^8.34.1",
@@ -38,6 +37,7 @@
     "prettier-plugin-organize-imports": "^4.1.0",
     "prettier-plugin-tailwindcss": "^0.6.13",
     "tailwindcss": "^4.1.10",
+    "tw-animate-css": "^1.3.4",
     "typescript-eslint": "^8.34.1"
   }
 }
