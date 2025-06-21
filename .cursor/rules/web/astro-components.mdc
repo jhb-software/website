@@ -43,7 +43,7 @@ alwaysApply: false
 
 ## Using custom built components
   
-- Use the custom `<Img />` component from [Img.astro](mdc:web/src/components/ui/Img.astro) to render images. The Img component handles setting the alt text and other things:
+- Use the custom `<Img />` component from [Img.astro](mdc:web/src/components/Img.astro) to render images. The Img component handles setting the alt text and other things:
 
   ```astro
   <Img
@@ -54,7 +54,7 @@ alwaysApply: false
   />
   ```
 
-- For rendering rich text from the CMS, always use the `<RichText />` from [RichTextLexical.astro](mdc:web/src/components/ui/blocks/RichTextBlock/RichTextLexical.astro) omponent:
+- For rendering rich text from the CMS, always use the `<RichText />` from [RichTextLexical.astro](mdc:web/src/components/blocks/RichTextBlock/RichTextLexical.astro) omponent:
 
   ```astro
   <RichText data={richText} />
@@ -62,7 +62,7 @@ alwaysApply: false
 
 ## More
 
-- For internal or external links, always use the custom [Link.astro](mdc:web/src/components/ui/Link.astro) component.
+- For internal or external links, always use the custom [Link.astro](mdc:web/src/components/Link.astro) component.
 - Normalize CMS-driven internal paths using `normalizePath()`.
 
   ```astro

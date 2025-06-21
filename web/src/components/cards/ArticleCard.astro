@@ -1,10 +1,10 @@
 ---
 import { payloadSDK } from '@/cms/sdk'
-import Img from '@/components/ui/Img.astro'
 import { globalState } from '@/globalState'
 import type { Article, Author, Media } from 'cms/src/payload-types'
 import { normalizePath } from '../../utils/normalizePath'
-import ArticleTagsList from './ArticleTagsList.astro'
+import ArticleTagsList from '../ArticleTagsList.astro'
+import Img from '../Img.astro'
 
 type Props = Article & {
   featured?: boolean

@@ -1,11 +1,11 @@
 ---
-import Img from '@/components/ui/Img.astro'
 import { globalState } from '@/globalState'
 import type { Media, Project } from 'cms/src/payload-types'
 import { normalizePath } from '../../utils/normalizePath'
+import Img from '../Img.astro'
+import ProjectDate from '../ProjectDate.astro'
+import ProjectTagsList from '../ProjectTagsList.astro'
 import Card from './Card.astro'
-import ProjectDate from './ProjectDate.astro'
-import ProjectTagsList from './ProjectTagsList.astro'
 
 type Props = Project & {
   featured?: boolean

@@ -1,5 +1,5 @@
-import type { HeadingNode, LexicalNode, TextNode } from '@/components/ui/blocks/RichTextBlock/types'
-import type { TocItem } from '@/components/ui/TableOfContents.astro'
+import type { HeadingNode, LexicalNode, TextNode } from '@/components/blocks/RichTextBlock/types'
+import type { TocItem } from '@/components/TableOfContents.astro'
 import slugifyId from './slugifyId'
 
 export function extractHeadings(nodes: LexicalNode[]): TocItem[] {

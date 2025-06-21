@@ -1,9 +1,9 @@
 ---
-import Img from '@/components/ui/Img.astro'
+import Img from '@/components/Img.astro'
 import { globalState } from '@/globalState'
 import type { AuthorsBlock, Media } from 'cms/src/payload-types'
-import { normalizePath } from '../../../utils/normalizePath'
-import Card from '../Card.astro'
+import { normalizePath } from '../../utils/normalizePath'
+import Card from '../cards/Card.astro'
 
 export type Props = AuthorsBlock
 

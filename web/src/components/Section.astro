@@ -1,6 +1,6 @@
 ---
 import type { Page } from 'cms/src/payload-types'
-import SectionShell from '../../layout/SectionShell.astro'
+import SectionShell from '../layout/SectionShell.astro'
 import SectionBlock from './SectionBlock.astro'
 
 export type Props = NonNullable<Page['sections']>[number] & { withoutTopSpace?: boolean }

@@ -1,11 +1,11 @@
 ---
 import type { PageData } from '@/cms/getPageData'
-import Section from '@/components/ui/Section.astro'
 import { globalState } from '@/globalState'
 import { organizationSchema } from '@/schema/organization'
 import { pageSchema } from '@/schema/page'
 import { Schema } from 'astro-seo-schema'
-import HeroSection from '../HeroSection.astro'
+import Section from '../components/Section.astro'
+import HeroSection from './HeroSection.astro'
 
 type Props = {
   page: PageData['pages']
