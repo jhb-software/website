@@ -1,7 +1,7 @@
 import { SITE_URL } from 'astro:env/client'
 import type { Media, Project } from 'cms/src/payload-types'
 import type { CreativeWork, WithContext } from 'schema-dts'
-import { normalizePath } from '../normalizePath'
+import { normalizePath } from '../utils/normalizePath'
 import { organizationSchema } from './organization'
 
 export const projectSchema = (project: Project): WithContext<CreativeWork> => {

@@ -1,7 +1,7 @@
 import { SITE_URL } from 'astro:env/client'
 import type { Article, Author, Media } from 'cms/src/payload-types'
 import type { Person, Article as SchemaArticle, WithContext } from 'schema-dts'
-import { normalizePath } from '../normalizePath'
+import { normalizePath } from '../utils/normalizePath'
 import { organizationSchema } from './organization'
 
 export const articleSchema = (article: Article, locale: string): WithContext<SchemaArticle> => {

@@ -1,7 +1,7 @@
 import { SITE_URL } from 'astro:env/client'
 import type { Page } from 'cms/src/payload-types'
 import type { WebPage, WithContext } from 'schema-dts'
-import { normalizePath } from '../normalizePath'
+import { normalizePath } from '../utils/normalizePath'
 import { organizationSchema } from './organization'
 
 export const pageSchema = (page: Page, locale: string): WithContext<WebPage> => {

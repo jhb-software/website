@@ -1,7 +1,7 @@
 import { SITE_URL } from 'astro:env/client'
 import type { Author, Media } from 'cms/src/payload-types'
 import type { Person, WithContext } from 'schema-dts'
-import { normalizePath } from '../normalizePath'
+import { normalizePath } from '../utils/normalizePath'
 
 export const authorSchema = (author: Author): WithContext<Person> => {
   const sameAs: string[] = author.socialLinks?.map((link) => link.url) ?? []

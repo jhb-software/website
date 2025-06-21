@@ -1,9 +1,9 @@
 ---
+import { breadcrumbsSchema } from '@/schema/breadcrumbs'
+import { Schema } from 'astro-seo-schema'
 import type { Breadcrumbs } from 'cms/src/payload-types'
 import Icon from '../icons/Icon.astro'
 import Link from './Link.astro'
-import { breadcrumbsSchema } from '@/utils/schema/breadcrumbs'
-import { Schema } from 'astro-seo-schema'
 
 type Props = {
   crumbs: Breadcrumbs
