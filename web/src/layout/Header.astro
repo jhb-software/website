@@ -11,7 +11,7 @@ type Props = {
 }
 
 const { alternatePaths } = Astro.props
-const { locale, preview, translations } = globalState
+const { locale, preview, labels } = globalState
 
 const header = await payloadSDK.findGlobal(
   {
@@ -83,10 +83,10 @@ const currentPath = Astro.url.pathname
       class="menu-icon"
       id="menu-icon"
       data-state="closed"
-      aria-label={translations.global['open-menu']}
+      aria-label={labels.global['open-menu']}
       aria-expanded="false"
-      data-label-open={translations.global['open-menu']}
-      data-label-close={translations.global['close-menu']}
+      data-label-open={labels.global['open-menu']}
+      data-label-close={labels.global['close-menu']}
     >
       <div>
         <span></span>

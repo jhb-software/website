@@ -43,7 +43,7 @@ The CMS uses Payload v3 with a modular collection and block system:
 
 - **Collections** (`/cms/src/collections/`): Define content types in plural (e.g. `Articles.ts`, `Authors.ts`, `Projects.ts`, etc.)
 - **Blocks** (`/cms/src/blocks/`): Reusable content blocks that map to frontend block components. Suffix: `Block` (e.g. `AuthorsListBlock.ts`)
-- **Globals** (`/cms/src/globals/`): Site-wide settings (Header, Footer, Translations)
+- **Globals** (`/cms/src/globals/`): Site-wide settings (Header, Footer, Labels)
 - **Plugins** (`/cms/src/plugins/`): Custom plugins (e.g. `cms-content-translator`, `jhb-dashboard`)
 - **Endpoints** (`/cms/src/endpoints/`): Custom HTTP API-endpoints
 - **Fields** (`/cms/src/fields/`): Reusable fields (e.g. `heroSection` field for the `pages` collection)
@@ -124,14 +124,14 @@ Strict mode is enabled across the monorepo. Always ensure type safety when:
 This is a multi-language website. When adding labels or text to Astro components:
 
 1. **Never hardcode text strings** - All user-facing text must be translatable
-2. **Update the CMS translations global** - Add necessary fields to `/cms/src/globals/translations.ts`
-   - Use the `global` group for common, site-wide translations (e.g., "show-more", "close", "loading")
-   - Use specific groups for scoped translations (e.g., `articles` for article-related text, `contact` for contact forms)
-3. **Access translations in components** - Use `const { translations } = globalState`
-4. **Example usage**: `translations.articles['written-by']` or `translations.global['show-more']`
+2. **Update the CMS labels global** - Add necessary fields to `/cms/src/globals/labels.ts`
+   - Use the `global` group for common, site-wide labels (e.g., "show-more", "close", "loading")
+   - Use specific groups for scoped labels (e.g., `articles` for article-related text, `contact` for contact forms)
+3. **Access labels in components** - Use `const { labels } = globalState`
+4. **Example usage**: `labels.articles['written-by']` or `labels.global['show-more']`
 
 - This ensures all UI text can be properly localized for different languages
-- When adding translations to the CMS, please ensure you use all of them. If some are unused after the frontend implementation, delete them
+- When adding labels to the CMS, please ensure you use all of them. If some are unused after the frontend implementation, delete them
 
 ### Structured Data Schemas
 

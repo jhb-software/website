@@ -8,7 +8,7 @@ import Link from '../Link.astro'
 export type Props = ServicesBlock
 
 const { services } = Astro.props
-const { translations } = globalState
+const { labels } = globalState
 ---
 
 <div class="grid gap-5 md:grid-cols-3">
@@ -23,7 +23,7 @@ const { translations } = globalState
         <p>{description}</p>
         <Link
           page={{ relationTo: 'pages', value: page as Page }}
-          label={translations.global['learn-more']}
+          label={labels.global['learn-more']}
           style="text-primary"
           icon="chevron-right"
         />

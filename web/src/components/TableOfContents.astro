@@ -13,20 +13,20 @@ type Props = {
 }
 
 const { headings, class: className } = Astro.props
-const { translations } = globalState
+const { labels } = globalState
 ---
 
 <!-- Mobile TOC -->
 <nav
   id="toc-mobile"
   class:list={['mb-8 rounded-lg border border-slate-200 bg-slate-50 xl:hidden', className]}
-  aria-label={translations.global['table-of-contents']}
+  aria-label={labels.global['table-of-contents']}
 >
   <details class="group">
     <summary
       class="flex cursor-pointer items-center justify-between rounded-lg px-4 py-3 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-100"
     >
-      {translations.global['table-of-contents']}
+      {labels.global['table-of-contents']}
       <svg
         class="h-4 w-4 transition-transform group-open:rotate-180"
         fill="none"
@@ -54,7 +54,7 @@ const { translations } = globalState
                 class="aria-[current]:text-primary block rounded py-1 text-slate-600 transition-colors duration-200 hover:text-slate-900 aria-[current]:font-medium"
                 data-toc-link
                 data-heading-id={heading.id}
-                aria-label={`${translations.global['navigate-to-section']}: ${heading.text}`}
+                aria-label={`${labels.global['navigate-to-section']}: ${heading.text}`}
               >
                 {heading.text}
               </a>
@@ -74,10 +74,10 @@ const { translations } = globalState
     'border-l-2 border-slate-200 pl-4',
     className,
   ]}
-  aria-label={translations.global['table-of-contents']}
+  aria-label={labels.global['table-of-contents']}
 >
   <h2 class="mb-3 text-sm font-semibold text-slate-900" id="toc-heading">
-    {translations.global['table-of-contents']}
+    {labels.global['table-of-contents']}
   </h2>
   <ul class="space-y-2 text-sm" aria-labelledby="toc-heading">
     {
@@ -95,7 +95,7 @@ const { translations } = globalState
             class="aria-[current]:text-primary block rounded py-1 text-slate-600 transition-colors duration-200 hover:text-slate-900 aria-[current]:font-medium"
             data-toc-link
             data-heading-id={heading.id}
-            aria-label={`${translations.global['navigate-to-section']}: ${heading.text}`}
+            aria-label={`${labels.global['navigate-to-section']}: ${heading.text}`}
           >
             {heading.text}
           </a>

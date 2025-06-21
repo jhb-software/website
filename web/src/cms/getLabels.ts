@@ -1,18 +1,18 @@
-import type { Translations } from 'cms/src/payload-types'
+import type { Labels } from 'cms/src/payload-types'
 import { payloadSDK } from './sdk'
 import type { Locale } from './types'
 
-/** Fetches the translations from the CMS. */
-export async function getTranslations({
+/** Fetches the labels from the CMS. */
+export async function getLabels({
   locale,
   useCache = true,
 }: {
   locale: Locale
   useCache?: boolean
-}): Promise<Translations> {
+}): Promise<Labels> {
   return await payloadSDK.findGlobal(
     {
-      slug: 'translations',
+      slug: 'labels',
       locale,
     },
     useCache,

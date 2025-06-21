@@ -1,12 +1,12 @@
 import type { AstroGlobal } from 'astro'
-import type { Translations } from 'cms/src/payload-types'
-import { getTranslations } from './cms/getTranslations'
+import type { Labels } from 'cms/src/payload-types'
+import { getLabels } from './cms/getLabels'
 import type { Locale } from './cms/types'
 
 interface GlobalState {
   readonly locale: Locale
   readonly preview: boolean
-  readonly translations: Translations
+  readonly labels: Labels
 }
 
 /** Global state which should be initialized with initGlobalState() at the top of every page */
@@ -18,12 +18,11 @@ export let globalState: GlobalState
 export async function initGlobalState(Astro: AstroGlobal) {
   const locale = Astro.props.lang as Locale
   const preview = Astro.url.pathname.startsWith('/preview')
-
-  const translations = await getTranslations({ locale, useCache: !preview })
+  const labels = await getLabels({ locale, useCache: !preview })
 
   globalState = {
     locale,
     preview,
-    translations,
+    labels,
   }
 }

@@ -8,6 +8,7 @@ const localizationField = (name: string): TextField => ({
   localized: true,
 })
 
+/** Global document that contains labels that should be changable via the CMS. (e.g. aria labels or global button labels) */
 const Labels: GlobalConfig = {
   slug: 'labels',
   // ensure payload wont convert the slug to be singular

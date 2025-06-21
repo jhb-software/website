@@ -19,7 +19,7 @@ type Props = {
 }
 
 const { article, breadcrumbs } = Astro.props
-const { locale, preview, translations } = globalState
+const { locale, preview, labels } = globalState
 
 // Extract headings from article content
 const headings = extractHeadings(article.content.root.children as unknown as LexicalNode[])
@@ -54,7 +54,7 @@ const schema = articleSchema(article, locale)
 
     <div class="flex flex-col items-start gap-1 text-sm text-slate-700">
       <p>
-        {translations.articles['written-by']}{'  '}
+        {labels.articles['written-by']}{'  '}
         {
           (article.authors as Author[]).map((author, index) => (
             <>
@@ -71,7 +71,7 @@ const schema = articleSchema(article, locale)
       </p>
 
       <p>
-        {translations.articles['last-updated-at']}{'  '}
+        {labels.articles['last-updated-at']}{'  '}
         {
           new Date(article.updatedAt).toLocaleDateString(locale, {
             year: 'numeric',

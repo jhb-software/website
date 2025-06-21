@@ -44,6 +44,6 @@ This project must meet **WCAG 2.1 AA** guidelines. Use this checklist during dev
 
 - Do NOT hardcode strings for `aria-label` or visually hidden (`sr-only`) text.
   - Instead, always use dynamic labels from the global state for consistency and localization.
-  - e.g. `translations.global['skipToMainContent']`   
+  - e.g. `labels.global['skipToMainContent']`   
 - Select elements must have an accessible name (e.g. `label` tag or `aria-label`)
 

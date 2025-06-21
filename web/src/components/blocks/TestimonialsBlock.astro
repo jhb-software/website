@@ -8,7 +8,7 @@ import TestimonialCard from '../cards/TestimonialCard.astro'
 export type Props = TestimonialsBlock
 
 const { testimonials } = Astro.props
-const { translations, locale, preview } = globalState
+const { labels, locale, preview } = globalState
 
 // Fetching the customers is necessary since the customer is not populated because the pages are fetched with depth 1
 // When migrating to GraphQL or the REST select API, this will be resolved.
@@ -74,7 +74,7 @@ const populatedTestimonials = testimonials?.map((testimonial) => {
     <button
       class="bg-primary pointer-events-auto relative flex translate-y-4 cursor-pointer items-center gap-3 rounded-md px-4 py-3 text-sm font-semibold text-white no-underline"
     >
-      {translations.global['show-more']}
+      {labels.global['show-more']}
       <Icon name="chevron-down" class:list={['h-3 w-3']} />
     </button>
   </div>
