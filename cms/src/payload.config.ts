@@ -21,8 +21,8 @@ import Articles from './collections/Articles'
 import Authors from './collections/Authors'
 import Customers from './collections/Customers'
 import { Media } from './collections/Media'
-import Page from './collections/Page'
-import Project from './collections/Project'
+import Pages from './collections/Pages'
+import Project from './collections/Projects'
 import { Redirects } from './collections/Redirects'
 import Testimonials from './collections/Testimonials'
 import { Users } from './collections/Users'
@@ -42,7 +42,7 @@ const siteName = 'JHB Software'
 
 export const collections: CollectionConfig[] = [
   // Pages Collections
-  Page,
+  Pages,
   Project,
   Articles,
   Customers,

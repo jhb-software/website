@@ -16,7 +16,7 @@ import { CollectionGroups } from '@/shared/CollectionGroups'
 import { createPageCollectionConfig } from '@jhb.software/payload-pages-plugin'
 import { CollectionConfig } from 'payload'
 
-const Page: CollectionConfig = createPageCollectionConfig({
+const Pages: CollectionConfig = createPageCollectionConfig({
   slug: 'pages',
   labels: {
     singular: {
@@ -132,4 +132,4 @@ const Page: CollectionConfig = createPageCollectionConfig({
   ],
 })
 
-export default Page
+export default Pages
