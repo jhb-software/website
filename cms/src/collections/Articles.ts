@@ -55,31 +55,11 @@ const Articles: CollectionConfig = createPageCollectionConfig({
     },
     {
       name: 'tags',
-      type: 'select',
+      type: 'relationship',
+      relationTo: 'article-tags',
       required: true,
-      options: [
-        {
-          label: 'Payload CMS',
-          value: 'payload-cms',
-        },
-        {
-          label: 'Next.js',
-          value: 'next-js',
-        },
-        {
-          label: 'SEO',
-          value: 'seo',
-        },
-        {
-          label: 'Web Development',
-          value: 'web-development',
-        },
-        {
-          label: 'App Development',
-          value: 'app-development',
-        },
-      ],
       hasMany: true,
+      minRows: 1,
       admin: {
         position: 'sidebar',
       },

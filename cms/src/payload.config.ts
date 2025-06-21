@@ -18,6 +18,7 @@ import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 import CodeBlock from './blocks/CodeBlock'
 import Articles from './collections/Articles'
+import ArticleTags from './collections/ArticleTags'
 import Authors from './collections/Authors'
 import Customers from './collections/Customers'
 import { Media } from './collections/Media'
@@ -50,6 +51,7 @@ export const collections: CollectionConfig[] = [
 
   // Data Collections
   Testimonials,
+  ArticleTags,
   Media,
 
   // System Collections

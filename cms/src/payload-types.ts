@@ -94,6 +94,7 @@ export interface Config {
     customers: Customer;
     authors: Author;
     testimonials: Testimonial;
+    'article-tags': ArticleTag;
     media: Media;
     redirects: Redirect;
     users: User;
@@ -110,6 +111,7 @@ export interface Config {
     customers: CustomersSelect<false> | CustomersSelect<true>;
     authors: AuthorsSelect<false> | AuthorsSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
+    'article-tags': ArticleTagsSelect<false> | ArticleTagsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -513,7 +515,7 @@ export interface Article {
   path: string;
   breadcrumbs: Breadcrumbs;
   authors: (string | Author)[];
-  tags: ('payload-cms' | 'next-js' | 'seo' | 'web-development' | 'app-development')[];
+  tags: (string | ArticleTag)[];
   title: string;
   excerpt: string;
   image: string | Media;
@@ -571,6 +573,16 @@ export interface Author {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "article-tags".
+ */
+export interface ArticleTag {
+  id: string;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -719,6 +731,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'testimonials';
         value: string | Testimonial;
+      } | null)
+    | ({
+        relationTo: 'article-tags';
+        value: string | ArticleTag;
       } | null)
     | ({
         relationTo: 'media';
@@ -1148,6 +1164,15 @@ export interface TestimonialsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "article-tags_select".
+ */
+export interface ArticleTagsSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
