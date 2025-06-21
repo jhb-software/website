@@ -17,14 +17,13 @@ export let globalState: GlobalState
  */
 export async function initGlobalState(Astro: AstroGlobal) {
   const locale = Astro.props.lang as Locale
-  const translations = await getTranslations(locale)
   const preview = Astro.url.pathname.startsWith('/preview')
 
-  const state: GlobalState = {
+  const translations = await getTranslations({ locale, useCache: !preview })
+
+  globalState = {
     locale,
     preview,
     translations,
   }
-
-  globalState = state
 }

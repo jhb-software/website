@@ -1,38 +1,34 @@
-import type { Article, Author, Page, Project } from 'cms/src/payload-types'
-import type { PageCollectionSlugs } from 'cms/src/payload.config'
+import type { CollectionSlug } from 'payload'
 import { payloadSDK } from './sdk'
 import type { Locale } from './types'
 
-export type PageData = {
-  pages: Page
-  projects: Project
-  articles: Article
-  authors: Author
-}
-
-export async function getPageData<T extends PageCollectionSlugs>(
-  collection: T,
+/** Fetches a single page document from the CMS. */
+export async function getPageData<T>(
+  collection: CollectionSlug,
   id: string,
   locale: Locale,
   options?: { preview?: boolean },
-): Promise<T extends keyof PageData ? PageData[T] : never> {
-  const result = await payloadSDK.find({
-    collection: collection,
-    locale,
-    draft: options?.preview ? true : false,
-    where: {
-      id: {
-        equals: id,
+): Promise<T> {
+  const result = await payloadSDK.find(
+    {
+      collection: collection,
+      locale,
+      draft: options?.preview ? true : false,
+      where: {
+        id: {
+          equals: id,
+        },
+        _status: options?.preview ? { in: ['draft', 'published'] } : { equals: 'published' },
       },
-      _status: options?.preview ? { in: ['draft', 'published'] } : { equals: 'published' },
+      limit: 1,
+      pagination: false,
     },
-    limit: 1,
-    pagination: false,
-  })
+    !options?.preview, // use cache if not in preview mode
+  )
 
   if (result.totalDocs === 0) {
     throw new Error('Page for collection ' + collection + ' with id ' + id + ' not found')
   }
 
-  return result.docs.at(0) as unknown as T extends keyof PageData ? PageData[T] : never
+  return result.docs.at(0) as T
 }

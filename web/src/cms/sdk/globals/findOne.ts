@@ -1,6 +1,6 @@
 import type { SelectType } from 'payload'
 
-import { buildCache } from '../../cache'
+import { cache } from '../cache'
 import type { PayloadSDK } from '../sdk'
 import type {
   GlobalSlug,
@@ -32,24 +32,31 @@ export async function findGlobal<
 >(
   sdk: PayloadSDK<T>,
   options: FindGlobalOptions<T, TSlug, TSelect>,
+  useCache: boolean,
   init?: RequestInit,
 ): Promise<TransformGlobalWithSelect<T, TSlug, TSelect>> {
-  const cacheKey = `${options.locale}-${options.slug}`
-  const block = buildCache.globalBlocks.get(cacheKey)
+  const path = `/globals/${options.slug}`
 
-  if (block) {
-    return block
+  const cacheKey = path + JSON.stringify(options)
+  if (useCache) {
+    const data = cache.apiRequests.get(cacheKey)
+
+    if (data) {
+      return data as TransformGlobalWithSelect<T, TSlug, TSelect>
+    }
   }
 
   const response = await sdk.request({
     args: options,
     init,
     method: 'GET',
-    path: `/globals/${options.slug}`,
+    path,
   })
-  const json = response.json()
+  const json = await response.json()
 
-  buildCache.globalBlocks.set(cacheKey, json)
+  if (useCache) {
+    cache.apiRequests.set(cacheKey, json)
+  }
 
   return json
 }

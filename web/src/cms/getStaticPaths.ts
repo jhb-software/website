@@ -10,6 +10,7 @@ export type StaticPagePropsFrontend = {
   props: PageProps
 }
 
+/** Fetches the static paths from the CMS. */
 export async function getStaticPaths(): Promise<StaticPagePropsFrontend[]> {
   const response = await fetch(`${CMS_URL}/api/static-paths`)
   const data = await response.json()

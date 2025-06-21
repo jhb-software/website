@@ -10,11 +10,16 @@ export const payloadSDK = new PayloadSDK<Config>({
   baseURL: CMS_URL + '/api',
 })
 
+/** Fetches the redirects from the CMS and converts them to the Astro `RedirectConfig` format. */
 export async function getRedirects(): Promise<Record<string, RedirectConfig>> {
-  const redirectsCms = await payloadSDK.find({
-    collection: 'redirects',
-    limit: 0, // query all
-  })
+  const redirectsCms = await payloadSDK.find(
+    {
+      collection: 'redirects',
+      limit: 0, // query all
+    },
+    false, // do not use cache
+  )
+
   const redirects = redirectsCms.docs.reduce<Record<string, RedirectConfig>>((acc, doc) => {
     acc[doc.sourcePath] = {
       destination: doc.destinationPath,

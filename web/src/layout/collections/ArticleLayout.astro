@@ -1,5 +1,4 @@
 ---
-import type { PageData } from '@/cms/getPageData'
 import ArticleTagsList from '@/components/ArticleTagsList.astro'
 import RichTextBlock from '@/components/blocks/RichTextBlock/RichTextBlock.astro'
 import type { LexicalNode } from '@/components/blocks/RichTextBlock/types'
@@ -12,10 +11,10 @@ import { articleSchema } from '@/schema/article'
 import { extractHeadings } from '@/utils/extractHeadings'
 import { normalizePath } from '@/utils/normalizePath'
 import { Schema } from 'astro-seo-schema'
-import type { Author, Breadcrumbs, Media } from 'cms/src/payload-types'
+import type { Article, Author, Breadcrumbs, Media } from 'cms/src/payload-types'
 
 type Props = {
-  article: PageData['articles']
+  article: Article
   breadcrumbs: Breadcrumbs
 }
 

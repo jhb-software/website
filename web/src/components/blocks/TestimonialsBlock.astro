@@ -8,17 +8,20 @@ import TestimonialCard from '../cards/TestimonialCard.astro'
 export type Props = TestimonialsBlock
 
 const { testimonials } = Astro.props
-const { translations, locale } = globalState
+const { translations, locale, preview } = globalState
 
 // Fetching the customers is necessary since the customer is not populated because the pages are fetched with depth 1
 // When migrating to GraphQL or the REST select API, this will be resolved.
-const customers = await payloadSDK.find({
-  collection: 'customers',
-  locale: locale,
-  draft: false,
-  limit: 0,
-  pagination: false,
-})
+const customers = await payloadSDK.find(
+  {
+    collection: 'customers',
+    locale: locale,
+    draft: false,
+    limit: 0,
+    pagination: false,
+  },
+  !preview,
+)
 
 const populatedTestimonials = testimonials?.map((testimonial) => {
   if (typeof testimonial === 'string') {

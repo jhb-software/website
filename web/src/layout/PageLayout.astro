@@ -1,14 +1,14 @@
 ---
-import type { PageData } from '@/cms/getPageData'
 import { globalState } from '@/globalState'
 import { organizationSchema } from '@/schema/organization'
 import { pageSchema } from '@/schema/page'
 import { Schema } from 'astro-seo-schema'
+import type { Page } from 'cms/src/payload-types'
 import Section from '../components/Section.astro'
 import HeroSection from './HeroSection.astro'
 
 type Props = {
-  page: PageData['pages']
+  page: Page
 }
 
 const { page: pageData } = Astro.props

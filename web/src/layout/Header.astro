@@ -13,15 +13,18 @@ type Props = {
 const { alternatePaths } = Astro.props
 const { locale, preview, translations } = globalState
 
-const header = await payloadSDK.findGlobal({
-  slug: 'header',
-  locale: locale,
-  populate: {
-    pages: {
-      path: true,
+const header = await payloadSDK.findGlobal(
+  {
+    slug: 'header',
+    locale: locale,
+    populate: {
+      pages: {
+        path: true,
+      },
     },
   },
-})
+  !preview,
+)
 
 const currentPath = Astro.url.pathname
 ---

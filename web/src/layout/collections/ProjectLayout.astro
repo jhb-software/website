@@ -1,5 +1,4 @@
 ---
-import type { PageData } from '@/cms/getPageData'
 import RichTextBlock from '@/components/blocks/RichTextBlock/RichTextBlock.astro'
 import BreadcrumbsBlock from '@/components/Breadcrumbs.astro'
 import Img from '@/components/Img.astro'
@@ -8,10 +7,10 @@ import ProjectTagsList from '@/components/ProjectTagsList.astro'
 import SectionShell from '@/layout/SectionShell.astro'
 import { projectSchema } from '@/schema/project'
 import { Schema } from 'astro-seo-schema'
-import type { Breadcrumbs, Media } from 'cms/src/payload-types'
+import type { Breadcrumbs, Media, Project } from 'cms/src/payload-types'
 
 type Props = {
-  project: PageData['projects']
+  project: Project
   breadcrumbs: Breadcrumbs
 }
 

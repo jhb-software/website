@@ -1,5 +1,6 @@
 import type { ApplyDisableErrors, SelectType } from 'payload'
 
+import { cache } from '../cache'
 import type { PayloadSDK } from '../sdk'
 import type {
   CollectionSlug,
@@ -36,18 +37,39 @@ export async function findByID<
 >(
   sdk: PayloadSDK<T>,
   options: FindByIDOptions<T, TSlug, TDisableErrors, TSelect>,
+  useCache: boolean,
   init?: RequestInit,
 ): Promise<ApplyDisableErrors<TransformCollectionWithSelect<T, TSlug, TSelect>, TDisableErrors>> {
   try {
+    const path = `/${options.collection}/${options.id}`
+
+    const cacheKey = path + JSON.stringify(options)
+    if (useCache) {
+      const data = cache.apiRequests.get(cacheKey)
+
+      if (data) {
+        return data as ApplyDisableErrors<
+          TransformCollectionWithSelect<T, TSlug, TSelect>,
+          TDisableErrors
+        >
+      }
+    }
+
     const response = await sdk.request({
       args: options,
       init,
       method: 'GET',
-      path: `/${options.collection}/${options.id}`,
+      path,
     })
 
     if (response.ok) {
-      return response.json()
+      const json = await response.json()
+
+      if (useCache) {
+        cache.apiRequests.set(cacheKey, json)
+      }
+
+      return json
     } else {
       throw new Error()
     }

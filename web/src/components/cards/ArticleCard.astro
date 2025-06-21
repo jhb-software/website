@@ -17,19 +17,22 @@ const { locale, preview } = globalState
 let authors: Author[] = []
 if (featured) {
   // TODO: populate the authors image when fetching the articles block to avoid this SDK request
-  const result = await payloadSDK.find({
-    collection: 'authors',
-    locale: locale,
-    draft: preview,
-    where: {
-      id: {
-        in: article.authors?.map((author) => (author as Author).id),
+  const result = await payloadSDK.find(
+    {
+      collection: 'authors',
+      locale: locale,
+      draft: preview,
+      where: {
+        id: {
+          in: article.authors?.map((author) => (author as Author).id),
+        },
+        _status: preview ? { in: ['draft', 'published'] } : { equals: 'published' },
       },
-      _status: preview ? { in: ['draft', 'published'] } : { equals: 'published' },
+      limit: 1,
+      pagination: false,
     },
-    limit: 1,
-    pagination: false,
-  })
+    !preview,
+  )
 
   authors = result.docs
 }

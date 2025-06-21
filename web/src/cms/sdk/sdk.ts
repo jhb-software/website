@@ -92,9 +92,10 @@ export class PayloadSDK<T extends PayloadGeneratedTypes = PayloadGeneratedTypes>
    */
   find<TSlug extends CollectionSlug<T>, TSelect extends SelectType>(
     options: FindOptions<T, TSlug, TSelect>,
+    useCache: boolean,
     init?: RequestInit,
   ): Promise<PaginatedDocs<TransformCollectionWithSelect<T, TSlug, TSelect>>> {
-    return find(this, options, init)
+    return find(this, options, useCache, init)
   }
 
   /**
@@ -108,16 +109,18 @@ export class PayloadSDK<T extends PayloadGeneratedTypes = PayloadGeneratedTypes>
     TSelect extends SelectType,
   >(
     options: FindByIDOptions<T, TSlug, TDisableErrors, TSelect>,
+    useCache: boolean,
     init?: RequestInit,
   ): Promise<ApplyDisableErrors<TransformCollectionWithSelect<T, TSlug, TSelect>, TDisableErrors>> {
-    return findByID(this, options, init)
+    return findByID(this, options, useCache, init)
   }
 
   findGlobal<TSlug extends GlobalSlug<T>, TSelect extends SelectFromGlobalSlug<T, TSlug>>(
     options: FindGlobalOptions<T, TSlug, TSelect>,
+    useCache: boolean,
     init?: RequestInit,
   ): Promise<TransformGlobalWithSelect<T, TSlug, TSelect>> {
-    return findGlobal(this, options, init)
+    return findGlobal(this, options, useCache, init)
   }
 
   async request({

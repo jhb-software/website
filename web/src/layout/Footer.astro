@@ -3,17 +3,20 @@ import { globalState } from '@/globalState'
 import { payloadSDK } from '../cms/sdk'
 import Link from '../components/Link.astro'
 
-const { locale } = globalState
+const { locale, preview } = globalState
 
-const footer = await payloadSDK.findGlobal({
-  slug: 'footer',
-  locale: locale,
-  populate: {
-    pages: {
-      path: true,
+const footer = await payloadSDK.findGlobal(
+  {
+    slug: 'footer',
+    locale: locale,
+    populate: {
+      pages: {
+        path: true,
+      },
     },
   },
-})
+  !preview,
+)
 ---
 
 <footer

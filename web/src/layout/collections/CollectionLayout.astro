@@ -3,6 +3,7 @@ import { getPageData } from '@/cms/getPageData'
 import type { Locale } from '@/cms/types'
 import LivePreviewRefreshPageScript from '@/components/LivePreviewRefreshPageScript.astro'
 import type { PageProps } from 'cms/src/endpoints/pageProps'
+import type { Article, Author, Page, Project } from 'cms/src/payload-types'
 import Layout from '../Layout.astro'
 import PageLayout from '../PageLayout.astro'
 import ArticleLayout from './ArticleLayout.astro'
@@ -21,7 +22,9 @@ const {
   preview,
 } = Astro.props
 
-const pageData = await getPageData(collection, id, locale, { preview })
+const pageData = await getPageData<Page | Project | Article | Author>(collection, id, locale, {
+  preview,
+})
 ---
 
 <Layout meta={pageData.meta} lang={locale!}>
@@ -31,13 +34,13 @@ const pageData = await getPageData(collection, id, locale, { preview })
     () => {
       switch (collection) {
         case 'pages':
-          return <PageLayout page={pageData} />
+          return <PageLayout page={pageData as Page} />
         case 'projects':
-          return <ProjectLayout project={pageData} breadcrumbs={pageData.breadcrumbs} />
+          return <ProjectLayout project={pageData as Project} breadcrumbs={pageData.breadcrumbs} />
         case 'articles':
-          return <ArticleLayout article={pageData} breadcrumbs={pageData.breadcrumbs} />
+          return <ArticleLayout article={pageData as Article} breadcrumbs={pageData.breadcrumbs} />
         case 'authors':
-          return <AuthorLayout author={pageData} breadcrumbs={pageData.breadcrumbs} />
+          return <AuthorLayout author={pageData as Author} breadcrumbs={pageData.breadcrumbs} />
         default:
           throw new Error(`Collection ${collection} has no layout yet.`)
       }
