@@ -2,23 +2,31 @@
 import { ogImageURL, siteName } from '@/constants'
 import { globalState } from '@/globalState'
 import { SITE_URL } from 'astro:env/client'
-import type { SeoMetadata } from 'cms/src/payload-types'
+import type { Article, Author, Page, Project, SeoMetadata } from 'cms/src/payload-types'
 
-type Props = SeoMetadata
+type Props = {
+  meta: SeoMetadata
+  page: Page | Project | Article | Author
+}
 
-const { title, description, alternatePaths } = Astro.props
+const { meta, page } = Astro.props
 const { locale } = globalState
 
 const canonicalUrl = new URL(Astro.url.pathname, SITE_URL)
+
+const ogImageUrl =
+  'image' in page && typeof page.image === 'object' && page.image.url
+    ? page.image.url
+    : ogImageURL(locale)
 ---
 
-<title>{title}</title>
-<meta name="description" content={description} />
+<title>{meta.title}</title>
+<meta name="description" content={meta.description} />
 
 <link rel="canonical" href={canonicalUrl} />
 
 {
-  alternatePaths.map((alternatePath) => (
+  meta.alternatePaths.map((alternatePath) => (
     <link
       rel="alternate"
       href={`${SITE_URL}${alternatePath.path}`}
@@ -33,14 +41,14 @@ const canonicalUrl = new URL(Astro.url.pathname, SITE_URL)
 <!-- Open Graph Page related -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content={canonicalUrl} />
-<meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
+<meta property="og:title" content={meta.title} />
+<meta property="og:description" content={meta.description} />
 <meta property="og:locale" content={locale} />
-<meta property="og:image" content={ogImageURL(locale)} />
+<meta property="og:image" content={ogImageUrl} />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={canonicalUrl} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={ogImageURL(locale)} />
+<meta property="twitter:title" content={meta.title} />
+<meta property="twitter:description" content={meta.description} />
+<meta property="twitter:image" content={ogImageUrl} />
