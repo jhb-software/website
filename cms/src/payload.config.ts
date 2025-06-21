@@ -31,7 +31,7 @@ import { getSitemap } from './endpoints/sitemap'
 import { getStatisPagesProps } from './endpoints/staticPages'
 import Footer from './globals/footer'
 import Header from './globals/header'
-import Translations from './globals/translations'
+import Labels from './globals/labels'
 import { Page as PageType, Project as ProjectType } from './payload-types'
 import { customTranslations } from './shared/customTranslations'
 
@@ -103,7 +103,7 @@ export default buildConfig({
     supportedLanguages: { en, de },
     translations: customTranslations,
   },
-  globals: [Header, Footer, Translations],
+  globals: [Header, Footer, Labels],
   collections: collections,
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
@@ -157,7 +157,7 @@ export default buildConfig({
     }),
     translator({
       collections: translatableCollectionsSlugs,
-      globals: [Header.slug, Footer.slug, Translations.slug] as GlobalSlug[],
+      globals: [Header.slug, Footer.slug, Labels.slug] as GlobalSlug[],
       resolvers: [
         openAIResolver({
           apiKey: process.env.OPENAI_API_KEY!,

@@ -8,16 +8,16 @@ const localizationField = (name: string): TextField => ({
   localized: true,
 })
 
-const Translations: GlobalConfig = {
-  slug: 'translations',
+const Labels: GlobalConfig = {
+  slug: 'labels',
   // ensure payload wont convert the slug to be singular
-  dbName: 'translations',
+  dbName: 'labels',
   typescript: {
-    interface: 'Translations',
+    interface: 'Labels',
   },
   label: {
-    de: 'Übersetzungen',
-    en: 'Translations',
+    de: 'Beschriftungen',
+    en: 'Labels',
   },
   access: {
     read: () => true,
@@ -76,4 +76,4 @@ const Translations: GlobalConfig = {
   ],
 }
 
-export default Translations
+export default Labels

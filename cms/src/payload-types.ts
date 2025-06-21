@@ -124,12 +124,12 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
-    translations: Translations;
+    labels: Labels;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
-    translations: TranslationsSelect<false> | TranslationsSelect<true>;
+    labels: LabelsSelect<false> | LabelsSelect<true>;
   };
   locale: 'de' | 'en';
   user: User & {
@@ -1363,9 +1363,9 @@ export interface Footer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "translations".
+ * via the `definition` "labels".
  */
-export interface Translations {
+export interface Labels {
   id: string;
   global: {
     'show-more': string;
@@ -1435,9 +1435,9 @@ export interface FooterSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "translations_select".
+ * via the `definition` "labels_select".
  */
-export interface TranslationsSelect<T extends boolean = true> {
+export interface LabelsSelect<T extends boolean = true> {
   global?:
     | T
     | {
