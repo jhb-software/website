@@ -1,8 +1,10 @@
 'use server'
 
 import { getUserFromHeaders } from '@/plugins/jhb-dashboard/utilities/getUserFromHeaders'
-import { Vercel } from '@vercel/sdk'
-import { GetDeploymentsState } from '@vercel/sdk/models/getdeploymentsop.js'
+import {
+  VercelApiClient,
+  VercelDeployment,
+} from '@/plugins/jhb-dashboard/utilities/vercelApiClient'
 import { unstable_cache } from 'next/cache'
 
 export type DeploymentsInfo = {
@@ -18,7 +20,7 @@ export type DeploymentsInfo = {
   latestDeployment:
     | {
         uid: string
-        status: GetDeploymentsState
+        status: VercelDeployment['status']
         createdAt: Date
         inspectorUrl: string | null
       }
@@ -40,19 +42,19 @@ export async function getFrontendDeploymentsInfo(): Promise<DeploymentsInfo> {
 
 const getFrontendDeploymentsInfoCached = unstable_cache(
   async () => {
-    const vercel = new Vercel({ bearerToken: process.env.VERCEL_API_TOKEN! })
+    const vercelClient = new VercelApiClient(process.env.VERCEL_API_TOKEN!)
 
-    const deployments = await vercel.deployments.getDeployments({
-      projectId: process.env.FRONTEND_VERCEL_PROJECT_ID,
-      teamId: process.env.FRONTEND_VERCEL_TEAM_ID,
+    const deploymentsResponse = await vercelClient.getDeployments({
+      projectId: process.env.FRONTEND_VERCEL_PROJECT_ID!,
+      teamId: process.env.FRONTEND_VERCEL_TEAM_ID!,
       target: 'production', // exclude preview deployments
       limit: 10,
     })
 
-    const lastReadyDeployment = deployments.deployments.find(
+    const lastReadyDeployment = deploymentsResponse.deployments.find(
       (deployment) => deployment.state === 'READY',
     )
-    const latestDeployment = deployments.deployments.at(0)
+    const latestDeployment = deploymentsResponse.deployments.at(0)
 
     const deploymentsInfo: DeploymentsInfo = {
       lastReadyDeployment: lastReadyDeployment

@@ -1,10 +1,8 @@
 'use server'
 
 import { getUserFromHeaders } from '@/plugins/jhb-dashboard/utilities/getUserFromHeaders'
-import { Vercel } from '@vercel/sdk'
+import { VercelApiClient } from '@/plugins/jhb-dashboard/utilities/vercelApiClient'
 import { revalidateTag } from 'next/cache'
-
-const vercel = new Vercel({ bearerToken: process.env.VERCEL_API_TOKEN! })
 
 /** Triggers a new production deployment of the frontend. */
 export async function triggerFrontendDeployment(): Promise<string> {
@@ -13,9 +11,10 @@ export async function triggerFrontendDeployment(): Promise<string> {
     throw new Error('No user found. This action is only available to logged in users.')
   }
 
-  const projectDetails = await getProjectDetails()
+  const vercelClient = new VercelApiClient(process.env.VERCEL_API_TOKEN!)
+  const projectDetails = await getProjectDetails(vercelClient)
 
-  const deployment = await vercel.deployments.createDeployment({
+  const deployment = await vercelClient.createDeployment({
     teamId: process.env.FRONTEND_VERCEL_TEAM_ID!,
     requestBody: {
       project: process.env.FRONTEND_VERCEL_PROJECT_ID!,
@@ -39,7 +38,7 @@ export async function triggerFrontendDeployment(): Promise<string> {
 }
 
 /** Fetches details about the project which are needed to trigger a deployment from the Vercel API. */
-async function getProjectDetails(): Promise<{
+async function getProjectDetails(vercelClient: VercelApiClient): Promise<{
   gitSource: {
     type: 'github'
     repo: string
@@ -48,19 +47,10 @@ async function getProjectDetails(): Promise<{
   }
   name: string
 }> {
-  // The sdk currently does not support getting a project by id, see https://github.com/vercel/sdk/issues/92
-  // therefore, the REST API is used to get the project details.
-  const projectResponse = await fetch(
-    `https://api.vercel.com/v9/projects/${process.env.FRONTEND_VERCEL_PROJECT_ID!}?teamId=${process.env.FRONTEND_VERCEL_TEAM_ID!}`,
-    {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${process.env.VERCEL_API_TOKEN!}`,
-      },
-    },
-  )
-
-  const project = await projectResponse.json()
+  const project = await vercelClient.getProject({
+    projectId: process.env.FRONTEND_VERCEL_PROJECT_ID!,
+    teamId: process.env.FRONTEND_VERCEL_TEAM_ID!,
+  })
 
   if (!project) {
     throw new Error('Project not found')

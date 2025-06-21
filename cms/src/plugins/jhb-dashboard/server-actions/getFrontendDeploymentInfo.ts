@@ -1,12 +1,14 @@
 'use server'
 
 import { getUserFromHeaders } from '@/plugins/jhb-dashboard/utilities/getUserFromHeaders'
-import { Vercel } from '@vercel/sdk'
-import { GetDeploymentResponseBody } from '@vercel/sdk/models/getdeploymentop.js'
+import {
+  VercelApiClient,
+  VercelDeployment,
+} from '@/plugins/jhb-dashboard/utilities/vercelApiClient'
 
 export type DeploymentInfo = {
   id: string
-  status: GetDeploymentResponseBody['status']
+  status: VercelDeployment['status']
 }
 
 /**
@@ -20,10 +22,11 @@ export const getFrontendDeploymentInfo = async (id: string): Promise<DeploymentI
     throw new Error('No user found. This action is only available to logged in users.')
   }
 
-  const vercel = new Vercel({ bearerToken: process.env.VERCEL_API_TOKEN! })
+  const vercelClient = new VercelApiClient(process.env.VERCEL_API_TOKEN!)
 
-  const deployment = await vercel.deployments.getDeployment({
+  const deployment = await vercelClient.getDeployment({
     idOrUrl: id,
+    teamId: process.env.FRONTEND_VERCEL_TEAM_ID,
   })
 
   // to improve latency and improve security, only sent the data that is needed

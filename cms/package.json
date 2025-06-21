@@ -29,7 +29,6 @@
     "@payloadcms/translations": "^3.43.0",
     "@payloadcms/ui": "^3.43.0",
     "@tailwindcss/postcss": "^4.1.10",
-    "@vercel/sdk": "^1.8.5",
     "cross-env": "^7.0.3",
     "graphql": "^16.11.0",
     "next": "15.3.4",
