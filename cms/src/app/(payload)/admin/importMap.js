@@ -2,6 +2,7 @@ import { IsRootPageField as IsRootPageField_817212d6f65b4eb37176541413db3f8c } f
 import { SlugField as SlugField_e6458422044c3374e7ca411c92428566 } from '@jhb.software/payload-pages-plugin/client'
 import { ParentField as ParentField_817212d6f65b4eb37176541413db3f8c } from '@jhb.software/payload-pages-plugin/server'
 import { PathField as PathField_e6458422044c3374e7ca411c92428566 } from '@jhb.software/payload-pages-plugin/client'
+import { BreadcrumbsField as BreadcrumbsField_e6458422044c3374e7ca411c92428566 } from '@jhb.software/payload-pages-plugin/client'
 import { default as default_26d3d86061405a78a011d3251e8fc6d5 } from '../../../fields/components/LinkRowTitle'
 import { RscEntryLexicalCell as RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
 import { RscEntryLexicalField as RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
@@ -53,6 +54,7 @@ export const importMap = {
   "@jhb.software/payload-pages-plugin/client#SlugField": SlugField_e6458422044c3374e7ca411c92428566,
   "@jhb.software/payload-pages-plugin/server#ParentField": ParentField_817212d6f65b4eb37176541413db3f8c,
   "@jhb.software/payload-pages-plugin/client#PathField": PathField_e6458422044c3374e7ca411c92428566,
+  "@jhb.software/payload-pages-plugin/client#BreadcrumbsField": BreadcrumbsField_e6458422044c3374e7ca411c92428566,
   "/fields/components/LinkRowTitle#default": default_26d3d86061405a78a011d3251e8fc6d5,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalField": RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e,
