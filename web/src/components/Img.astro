@@ -35,7 +35,7 @@ if (!image.filename) {
 }
 
 /** Converts a raw file size from the CMS to a validate file size or returns undefined if the file size is not valid */
-function validateFileSize(size: RawFileSize): ValidatedFileSize | undefined {
+export function validateFileSize(size: RawFileSize): ValidatedFileSize | undefined {
   if (!size?.url || !size?.filename) {
     return undefined
   }
@@ -49,7 +49,7 @@ function validateFileSize(size: RawFileSize): ValidatedFileSize | undefined {
 }
 
 /** Returns the validated file size for the given image and size */
-function getFileSize(size: ImageSize, image: Media): ValidatedFileSize {
+export function getFileSize(size: ImageSize, image: Media): ValidatedFileSize {
   // fall back to the original file size
   let fileSize: ValidatedFileSize | undefined = validateFileSize(image)
 

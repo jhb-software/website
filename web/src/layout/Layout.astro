@@ -3,7 +3,7 @@ import { plausibleDomain } from '@/constants'
 import '@fontsource-variable/montserrat'
 import { VERCEL_ENV } from 'astro:env/server'
 import { ClientRouter } from 'astro:transitions'
-import type { Article, Author, Page, Project, SeoMetadata } from 'cms/src/payload-types'
+import type { SeoMetadata } from 'cms/src/payload-types'
 import { globalState, initGlobalState } from '../globalState'
 import '../styles.css'
 import Footer from './Footer.astro'
@@ -12,11 +12,10 @@ import SEOMetadata from './SEOMetadata.astro'
 
 type Props = {
   meta: SeoMetadata
-  page?: Page | Project | Article | Author
   lang: string
 }
 
-const { meta, page, lang } = Astro.props
+const { meta, lang } = Astro.props
 
 await initGlobalState(Astro)
 const { preview } = globalState
@@ -33,7 +32,7 @@ const enablePlausible = VERCEL_ENV === 'production' && !preview
     <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" href="/icon.svg" sizes="any" type="image/svg+xml" />
 
-    <SEOMetadata meta={meta} page={page} />
+    <SEOMetadata {...meta} />
 
     {
       enablePlausible && (

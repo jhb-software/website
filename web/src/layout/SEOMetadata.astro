@@ -1,23 +1,21 @@
 ---
-import { ogImageURL, siteName } from '@/constants'
+import { getFileSize } from '@/components/Img.astro'
+import { siteName, siteOgImageURL } from '@/constants'
 import { globalState } from '@/globalState'
 import { SITE_URL } from 'astro:env/client'
-import type { Article, Author, Page, Project, SeoMetadata } from 'cms/src/payload-types'
+import type { SeoMetadata } from 'cms/src/payload-types'
 
-type Props = {
-  meta: SeoMetadata
-  page?: Page | Project | Article | Author
-}
+type Props = SeoMetadata
 
-const { meta, page } = Astro.props
+const meta = Astro.props
 const { locale } = globalState
 
 const canonicalUrl = new URL(Astro.url.pathname, SITE_URL)
 
 const ogImageUrl =
-  page && 'image' in page && typeof page.image === 'object' && page.image.url
-    ? page.image.url
-    : ogImageURL(locale)
+  'image' in meta && typeof meta.image === 'object' && meta.image?.url
+    ? getFileSize('og', meta.image).url
+    : siteOgImageURL(locale)
 ---
 
 <title>{meta.title}</title>

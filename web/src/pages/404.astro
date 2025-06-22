@@ -5,9 +5,6 @@ import Layout from '@/layout/Layout.astro'
 import { VERCEL_ENV } from 'astro:env/server'
 import { House } from 'lucide-astro'
 
-// TODO: is prerender false necessary?
-// export const prerender = false
-
 await initGlobalState(Astro)
 const { labels, locale, preview } = globalState
 

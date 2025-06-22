@@ -8,11 +8,11 @@ export const iconPath = '/icon.png'
 export const logoPath = '/logo.webp'
 export const logoURL = new URL(logoPath, SITE_URL).toString()
 
-export const ogImagePath = (locale: Locale) => {
+export const siteOgImagePath = (locale: Locale) => {
   return `/og_${locale}.png`
 }
-export const ogImageURL = (locale: Locale) => {
-  return new URL(ogImagePath(locale), SITE_URL).toString()
+export const siteOgImageURL = (locale: Locale) => {
+  return new URL(siteOgImagePath(locale), SITE_URL).toString()
 }
 
 export const siteName = 'JHB Software'

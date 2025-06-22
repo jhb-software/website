@@ -27,7 +27,7 @@ const pageData = await getPageData<Page | Project | Article | Author>(collection
 })
 ---
 
-<Layout lang={locale!} meta={pageData.meta} page={pageData}>
+<Layout lang={locale!} meta={pageData.meta}>
   {preview && <LivePreviewRefreshPageScript />}
 
   {
