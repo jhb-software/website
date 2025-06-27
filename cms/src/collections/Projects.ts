@@ -170,6 +170,16 @@ const Projects: CollectionConfig = createPageCollectionConfig({
         de: 'Inhalt',
       },
     },
+    {
+      name: 'testimonials',
+      type: 'join',
+      collection: 'testimonials',
+      on: 'project',
+      label: {
+        en: 'Testimonials',
+        de: 'Referenzen',
+      },
+    },
   ],
 })
 

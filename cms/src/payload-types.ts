@@ -103,7 +103,11 @@ export interface Config {
     'payload-migrations': PayloadMigration;
     'payload-query-presets': PayloadQueryPreset;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    projects: {
+      testimonials: 'testimonials';
+    };
+  };
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
@@ -344,6 +348,11 @@ export interface Project {
       version: number;
     };
     [k: string]: unknown;
+  };
+  testimonials?: {
+    docs?: (string | Testimonial)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
   };
   meta: SeoMetadata;
   updatedAt: string;
@@ -1080,6 +1089,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   tags?: T;
   image?: T;
   body?: T;
+  testimonials?: T;
   meta?: T | SeoMetadataSelect<T>;
   updatedAt?: T;
   createdAt?: T;
