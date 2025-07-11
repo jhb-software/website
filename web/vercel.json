@@ -39,6 +39,14 @@
     {
       "source": "/api/event",
       "destination": "https://plausible.io/api/event"
+    },
+    {
+      "source": "/insights/static/(.*)",
+      "destination": "https://eu-assets.i.posthog.com/static/$1"
+    },
+    {
+      "source": "/insights/(.*)",
+      "destination": "https://eu.i.posthog.com/$1"
     }
   ],
   "trailingSlash": false

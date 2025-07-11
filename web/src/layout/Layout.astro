@@ -1,4 +1,5 @@
 ---
+import PostHog from '@/components/PostHog.astro'
 import { plausibleDomain } from '@/constants'
 import '@fontsource-variable/montserrat'
 import { VERCEL_ENV } from 'astro:env/server'
@@ -20,7 +21,7 @@ const { meta, lang } = Astro.props
 await initGlobalState(Astro)
 const { preview } = globalState
 
-const enablePlausible = VERCEL_ENV === 'production' && !preview
+const enableAnalytics = VERCEL_ENV === 'production' && !preview
 ---
 
 <!doctype html>
@@ -35,7 +36,7 @@ const enablePlausible = VERCEL_ENV === 'production' && !preview
     <SEOMetadata {...meta} />
 
     {
-      enablePlausible && (
+      enableAnalytics && (
         <>
           <script is:inline id="psbl" data-domain={plausibleDomain} src="/js/script.js" async />
           <script
@@ -45,6 +46,8 @@ const enablePlausible = VERCEL_ENV === 'production' && !preview
         </>
       )
     }
+
+    {enableAnalytics && <PostHog />}
 
     <ClientRouter />
   </head>
