@@ -181,7 +181,8 @@ export default buildConfig({
         secretAccessKey: process.env.HETZNER_SECRET_ACCESS_KEY!,
       },
       cacheControl: 'public, max-age=2592000', // max age 30 days
-      clientUploads: true,
+      // TODO: reactive client uploads once the issue is fixed: https://github.com/joneslloyd/hetzner-object-storage/issues/1#issuecomment-2970473793
+      // clientUploads: true,
       acl: 'public-read',
     }),
     payloadSeoPlugin({
