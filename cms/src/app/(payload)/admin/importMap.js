@@ -41,11 +41,14 @@ import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0
 import { default as default_1b8d860059dbed4b3a90b2af97375475 } from '../../../fields/components/CopyAuthorNameToTitleField'
 import { default as default_e1ade08e4fbe8c63229c8e335587134e } from '../../../../plugins/llm-alt-text-generator/components/AltTextField'
 import { default as default_453db141d478a18290c119e535801c89 } from '../../../../plugins/llm-alt-text-generator/components/BulkUpdateAltTextsButton'
+import { LinkToDoc as LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
+import { ReindexButton as ReindexButton_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
 import { QueryPresetsAccessCell as QueryPresetsAccessCell_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
 import { QueryPresetsWhereCell as QueryPresetsWhereCell_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
 import { QueryPresetsWhereField as QueryPresetsWhereField_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
 import { QueryPresetsColumnsCell as QueryPresetsColumnsCell_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
 import { QueryPresetsColumnField as QueryPresetsColumnField_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
+import { SearchButton as SearchButton_5400ac5ea24f4363783c781edd0c24e3 } from '@jhb.software/payload-admin-search/client'
 import { HetznerClientUploadHandler as HetznerClientUploadHandler_8ac97c7c3d1014cb6b64a5b50ca764f3 } from '@joneslloyd/payload-storage-hetzner/client'
 import { DashboardView as DashboardView_b2b4ae8325c7d78b1c88c5f3f47f7333 } from '../../../plugins/jhb-dashboard/components/DashboardView'
 
@@ -93,11 +96,14 @@ export const importMap = {
   "/fields/components/CopyAuthorNameToTitleField#default": default_1b8d860059dbed4b3a90b2af97375475,
   "../plugins/llm-alt-text-generator/components/AltTextField#default": default_e1ade08e4fbe8c63229c8e335587134e,
   "../plugins/llm-alt-text-generator/components/BulkUpdateAltTextsButton#default": default_453db141d478a18290c119e535801c89,
+  "@payloadcms/plugin-search/client#LinkToDoc": LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634,
+  "@payloadcms/plugin-search/client#ReindexButton": ReindexButton_aead06e4cbf6b2620c5c51c9ab283634,
   "@payloadcms/ui#QueryPresetsAccessCell": QueryPresetsAccessCell_3817bf644402e67bfe6577f60ef982de,
   "@payloadcms/ui#QueryPresetsWhereCell": QueryPresetsWhereCell_3817bf644402e67bfe6577f60ef982de,
   "@payloadcms/ui#QueryPresetsWhereField": QueryPresetsWhereField_3817bf644402e67bfe6577f60ef982de,
   "@payloadcms/ui#QueryPresetsColumnsCell": QueryPresetsColumnsCell_3817bf644402e67bfe6577f60ef982de,
   "@payloadcms/ui#QueryPresetsColumnField": QueryPresetsColumnField_3817bf644402e67bfe6577f60ef982de,
+  "@jhb.software/payload-admin-search/client#SearchButton": SearchButton_5400ac5ea24f4363783c781edd0c24e3,
   "@joneslloyd/payload-storage-hetzner/client#HetznerClientUploadHandler": HetznerClientUploadHandler_8ac97c7c3d1014cb6b64a5b50ca764f3,
   "/plugins/jhb-dashboard/components/DashboardView#DashboardView": DashboardView_b2b4ae8325c7d78b1c88c5f3f47f7333
 }

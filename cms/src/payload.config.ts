@@ -1,4 +1,5 @@
 import { jhbDashboardPlugin } from '@/plugins/jhb-dashboard/plugin'
+import { adminSearchPlugin } from '@jhb.software/payload-admin-search'
 import {
   alternatePathsField,
   getPageUrl,
@@ -9,6 +10,7 @@ import { hetznerStorage } from '@joneslloyd/payload-storage-hetzner'
 import { openAIResolver, translator } from '@payload-enchants/translator'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
+import { searchPlugin } from '@payloadcms/plugin-search'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { de } from '@payloadcms/translations/languages/de'
 import { en } from '@payloadcms/translations/languages/en'
@@ -33,7 +35,20 @@ import { getStatisPagesProps } from './endpoints/staticPages'
 import Footer from './globals/Footer'
 import Header from './globals/Header'
 import Labels from './globals/Labels'
-import { Page as PageType, Project as ProjectType } from './payload-types'
+import {
+  Article,
+  ArticleTag,
+  Author,
+  Customer,
+  Media as MediaType,
+  Page as PageType,
+  Project as ProjectType,
+  Testimonial,
+  User,
+} from './payload-types'
+import { anyone } from './shared/access/anyone'
+import { authenticated } from './shared/access/authenticated'
+import { CollectionGroups } from './shared/CollectionGroups'
 import { customTranslations } from './shared/customTranslations'
 
 const filename = fileURLToPath(import.meta.url)
@@ -155,6 +170,54 @@ export default buildConfig({
       },
       features: {
         deploymentInfo: true,
+      },
+    }),
+    adminSearchPlugin({}),
+    searchPlugin({
+      localize: true,
+      collections: collections.map((collection) => collection.slug as CollectionSlug),
+      beforeSync: ({ originalDoc, searchDoc }) => {
+        const getTitle = () => {
+          switch (searchDoc.doc.relationTo as CollectionSlug) {
+            case 'authors':
+              return (originalDoc as Author).name
+            case 'articles':
+              return (originalDoc as Article).title
+            case 'projects':
+              return (originalDoc as ProjectType).title
+            case 'pages':
+              return (originalDoc as PageType).title
+            case 'customers':
+              return (originalDoc as Customer).name
+            case 'testimonials':
+              return (originalDoc as Testimonial).title
+            case 'article-tags':
+              return (originalDoc as ArticleTag).name
+            case 'media':
+              return (originalDoc as MediaType).filename
+            case 'users':
+              return (originalDoc as User).firstName + ' ' + (originalDoc as User).lastName
+            default:
+              return originalDoc.title
+          }
+        }
+
+        return {
+          ...searchDoc,
+          title: getTitle(),
+        }
+      },
+      searchOverrides: {
+        admin: {
+          group: CollectionGroups.SystemCollections,
+          defaultColumns: ['title', 'excerpt', 'doc'],
+        },
+        access: {
+          read: anyone,
+          update: authenticated,
+          delete: authenticated,
+          create: authenticated,
+        },
       },
     }),
     translator({
