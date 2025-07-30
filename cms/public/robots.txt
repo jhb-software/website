@@ -1,0 +1,3 @@
+# Block search engine crawlers from all pages
+User-agent: *
+Disallow: /

@@ -54,7 +54,7 @@ import { customTranslations } from './shared/customTranslations'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-const siteName = 'JHB Software'
+export const websiteName = 'JHB Software'
 
 export const collections: CollectionConfig[] = [
   // Pages Collections
@@ -105,14 +105,31 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
     meta: {
-      titleSuffix: ` - ${siteName} CMS`,
-      // TODO: add favicon
+      titleSuffix: ` - ${websiteName} CMS`,
+      icons: [
+        {
+          rel: 'icon',
+          type: 'image/png',
+          url: `/icon.png`,
+        },
+      ],
+      description: `${websiteName} CMS`,
+      defaultOGImageType: 'off',
+      openGraph: {
+        siteName: `${websiteName} CMS`,
+      },
     },
     avatar: 'default',
     dateFormat: "dd. MMM yyyy HH:mm 'Uhr'",
     livePreview: {
       collections: pageCollectionsSlugs,
       url: ({ data }) => getPageUrl({ path: data.path, preview: true })!,
+    },
+    components: {
+      graphics: {
+        Icon: '/components/Icon',
+        Logo: '/components/Logo',
+      },
     },
   },
   i18n: {
@@ -137,7 +154,7 @@ export default buildConfig({
   }),
   email: resendAdapter({
     defaultFromAddress: 'cms@jhb.software',
-    defaultFromName: `${siteName} CMS`,
+    defaultFromName: `${websiteName} CMS`,
     apiKey: process.env.RESEND_API_KEY!,
   }),
   endpoints: [
@@ -164,7 +181,7 @@ export default buildConfig({
   sharp,
   plugins: [
     jhbDashboardPlugin({
-      title: siteName + ' CMS',
+      title: websiteName + ' CMS',
       frontend: {
         url: process.env.NEXT_PUBLIC_FRONTEND_URL!,
       },
@@ -287,7 +304,7 @@ export default buildConfig({
 
         const suffix = suffixMap[collectionConfig?.slug ?? '']?.[locale ?? 'de']
 
-        return `${doc.title} - ${siteName} ${suffix ?? ''}`
+        return `${doc.title} - ${websiteName} ${suffix ?? ''}`
       },
       generateURL: ({ doc }) => getPageUrl({ path: doc.path })!,
       interfaceName: 'SeoMetadata',
