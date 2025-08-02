@@ -68,6 +68,13 @@ const Labels: GlobalConfig = {
     },
     {
       type: 'group',
+      name: 'testimonials',
+      fields: [
+        labelField('testimonials-title', 'Testimonials section title'),
+      ],
+    },
+    {
+      type: 'group',
       name: 'not-found-page',
       label: 'Not found (404) page',
       fields: [

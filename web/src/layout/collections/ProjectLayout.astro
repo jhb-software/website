@@ -1,13 +1,15 @@
 ---
 import RichTextBlock from '@/components/blocks/RichTextBlock/RichTextBlock.astro'
 import BreadcrumbsBlock from '@/components/Breadcrumbs.astro'
+import TestimonialCard from '@/components/cards/TestimonialCard.astro'
 import Img from '@/components/Img.astro'
 import ProjectDate from '@/components/ProjectDate.astro'
 import ProjectTagsList from '@/components/ProjectTagsList.astro'
+import { globalState } from '@/globalState'
 import SectionShell from '@/layout/SectionShell.astro'
 import { projectSchema } from '@/schema/project'
 import { Schema } from 'astro-seo-schema'
-import type { Breadcrumbs, Media, Project } from 'cms/src/payload-types'
+import type { Breadcrumbs, Media, Project, Testimonial } from 'cms/src/payload-types'
 
 type Props = {
   project: Project
@@ -15,8 +17,14 @@ type Props = {
 }
 
 const { project: pageData, breadcrumbs } = Astro.props
+const { labels } = globalState
 
 const schema = projectSchema(pageData)
+
+// Extract testimonials from the join field
+const testimonials = pageData.testimonials?.docs?.filter((testimonial): testimonial is Testimonial => 
+  typeof testimonial === 'object'
+) || []
 ---
 
 <SectionShell>
@@ -43,6 +51,21 @@ const schema = projectSchema(pageData)
   />
 
   <RichTextBlock text={pageData.body} />
+
+  {testimonials.length > 0 && (
+    <section class="mt-16">
+      <h2 class="mb-8 text-center text-3xl font-bold text-slate-700">
+        {labels.testimonials?.['testimonials-title'] || 'Testimonials'}
+      </h2>
+      <div class="columns-1 gap-5 space-y-5 sm:columns-2 lg:columns-3">
+        {testimonials.map((testimonial) => (
+          <div class="inline-block w-full break-inside-avoid">
+            <TestimonialCard {...testimonial} />
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
 </SectionShell>
 
 <Schema item={schema} />
