@@ -1,5 +1,6 @@
 ---
 import { dateStringToQuarter } from '@/utils/dateToQuarter'
+import { globalState } from '@/globalState'
 
 type Props = {
   startDate: string
@@ -8,17 +9,25 @@ type Props = {
 }
 
 const { startDate, endDate, class: className } = Astro.props
+const { labels } = globalState
 ---
 
 <p class:list={[className, 'text-slate-500']}>
-  <span>{dateStringToQuarter(startDate)}</span>
-
   {
-    endDate && dateStringToQuarter(endDate) !== dateStringToQuarter(startDate) && (
+    endDate ? (
       <>
-        <span class="font-semibold"> - </span>
-        <span>{dateStringToQuarter(endDate)}</span>
+        <span>{dateStringToQuarter(startDate)}</span>
+        {
+          dateStringToQuarter(endDate) !== dateStringToQuarter(startDate) && (
+            <>
+              <span class="font-semibold"> - </span>
+              <span>{dateStringToQuarter(endDate)}</span>
+            </>
+          )
+        }
       </>
+    ) : (
+      <span>{labels.global.since} {dateStringToQuarter(startDate)}</span>
     )
   }
 </p>

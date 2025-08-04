@@ -38,6 +38,7 @@ const Labels: GlobalConfig = {
         labelField('navigate-to-section'),
         labelField('open-menu'),
         labelField('close-menu'),
+        labelField('since'),
       ],
     },
     {
