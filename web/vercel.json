@@ -47,6 +47,10 @@
     {
       "source": "/insights/(.*)",
       "destination": "https://eu.i.posthog.com/$1"
+    },
+    {
+      "source": "/assets/(.*)",
+      "destination": "https://jhb-software.nbg1.your-objectstorage.com/$1"
     }
   ],
   "trailingSlash": false
