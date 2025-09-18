@@ -12,7 +12,7 @@ export type StaticPageProps = {
 /**
  * Returns a list of all pages with the props the frontend needs to prerender them.
  */
-export async function getStatisPagesProps(req: PayloadRequest) {
+export async function getStaticPagesProps(req: PayloadRequest) {
   const collectionItems: StaticPageProps[] = []
 
   for (const collection of pageCollectionsSlugs) {

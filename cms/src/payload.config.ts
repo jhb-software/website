@@ -31,7 +31,7 @@ import Testimonials from './collections/Testimonials'
 import { Users } from './collections/Users'
 import { getPagePropsByPath } from './endpoints/pageProps'
 import { getSitemap } from './endpoints/sitemap'
-import { getStatisPagesProps } from './endpoints/staticPages'
+import { getStaticPagesProps } from './endpoints/staticPages'
 import Footer from './globals/Footer'
 import Header from './globals/Header'
 import Labels from './globals/Labels'
@@ -161,7 +161,7 @@ export default buildConfig({
     {
       path: '/static-paths',
       method: 'get',
-      handler: getStatisPagesProps,
+      handler: getStaticPagesProps,
     },
     {
       path: '/sitemap',
