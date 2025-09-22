@@ -908,7 +908,7 @@ export interface PayloadQueryPreset {
     | null;
   relatedCollection: 'projects';
   /**
-   * This is a tempoary field used to determine if updating the preset would remove the user's access to it. When `true`, this record will be deleted after running the preset's `validate` function.
+   * This is a temporary field used to determine if updating the preset would remove the user's access to it. When `true`, this record will be deleted after running the preset's `validate` function.
    */
   isTemp?: boolean | null;
   updatedAt: string;

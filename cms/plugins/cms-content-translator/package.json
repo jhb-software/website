@@ -70,9 +70,9 @@
     "typescript": "5.8.3"
   },
   "peerDependencies": {
-    "@payloadcms/translations": "^3.47.0",
-    "@payloadcms/ui": "^3.47.0",
-    "payload": "^3.47.0"
+    "@payloadcms/translations": "^3.53.0",
+    "@payloadcms/ui": "^3.53.0",
+    "payload": "^3.53.0"
   },
   "publishConfig": {
     "exports": {

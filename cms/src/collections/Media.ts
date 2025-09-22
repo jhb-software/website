@@ -56,7 +56,12 @@ export const Media: CollectionConfig = injectBulkGenerateButton({
       // Use the direct URLs to the S3 bucket instead of the default /api/media URL to improve performance.
       // (Because disablePayloadAccessControl is true, the URLs are the direct URLs to the S3 bucket.)
       const media = doc as unknown as MediaType
-      const directUrl = media.sizes?.sm?.url ?? media.url ?? null
+      const directUrl =
+        media.sizes?.sm?.url ?? media.sizes?.md?.url ?? media.sizes?.lg?.url ?? media.url ?? null
+
+      if (!directUrl) {
+        console.warn('Could not find adminThumbnail URL. Doc:', doc)
+      }
 
       return directUrl
     },
