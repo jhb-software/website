@@ -52,6 +52,7 @@ export const Media: CollectionConfig = injectBulkGenerateButton({
         height: 630,
       },
     ],
+    hideRemoveFile: true, // disable this feature as it is not intuitive for the user what implications it has
     adminThumbnail: ({ doc }) => {
       // Use the direct URLs to the S3 bucket instead of the default /api/media URL to improve performance.
       // (Because disablePayloadAccessControl is true, the URLs are the direct URLs to the S3 bucket.)

@@ -18,7 +18,7 @@ export async function getStaticPagesProps(req: PayloadRequest) {
   for (const collection of pageCollectionsSlugs) {
     const data = await req.payload.find({
       collection: collection,
-      limit: 1000,
+      limit: 0,
       locale: 'all',
       depth: 0, // do not fetch related docs
       where: {
