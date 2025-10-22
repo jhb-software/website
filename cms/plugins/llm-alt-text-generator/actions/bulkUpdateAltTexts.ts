@@ -3,7 +3,6 @@
 import { Media } from '@/payload-types'
 import config from '@payload-config'
 import OpenAI from 'openai'
-import { zodResponseFormat } from 'openai/helpers/zod'
 import { ChatCompletionContentPartText } from 'openai/resources/chat/completions.mjs'
 import pMap from 'p-map'
 import { BasePayload, CollectionSlug, getPayload } from 'payload'
@@ -11,6 +10,7 @@ import { z } from 'zod'
 import { getImageThumbnail } from '../utilities/getImageThumbnail'
 import { getUserFromHeaders } from '../utilities/getUserFromHeaders'
 import { getGenerationCost } from '../utilities/logGenerationCost'
+import { zodResponseFormat } from '../utilities/zodResponesFormat'
 
 /**
  * Generates and updates the alt text for multiple images using OpenAI's vision model in both English and German.
