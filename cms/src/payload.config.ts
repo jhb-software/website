@@ -1,4 +1,3 @@
-import { jhbDashboardPlugin } from '@/plugins/jhb-dashboard/plugin'
 import { adminSearchPlugin } from '@jhb.software/payload-admin-search'
 import {
   alternatePathsField,
@@ -7,7 +6,6 @@ import {
 } from '@jhb.software/payload-pages-plugin'
 import { payloadSeoPlugin } from '@jhb.software/payload-seo-plugin'
 import { hetznerStorage } from '@joneslloyd/payload-storage-hetzner'
-import { openAIResolver, translator } from '@payload-enchants/translator'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
 import { searchPlugin } from '@payloadcms/plugin-search'
@@ -15,7 +13,8 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { de } from '@payloadcms/translations/languages/de'
 import { en } from '@payloadcms/translations/languages/en'
 import path from 'path'
-import { buildConfig, CollectionConfig, CollectionSlug, GlobalSlug } from 'payload'
+import { buildConfig, CollectionConfig, CollectionSlug, GlobalSlug, User } from 'payload'
+import { openAIResolver, translator } from 'plugins/cms-content-translator/src'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 import CodeBlock from './blocks/CodeBlock'
@@ -25,7 +24,7 @@ import Authors from './collections/Authors'
 import Customers from './collections/Customers'
 import { Media } from './collections/Media'
 import Pages from './collections/Pages'
-import Project from './collections/Projects'
+import Projects from './collections/Projects'
 import { Redirects } from './collections/Redirects'
 import Testimonials from './collections/Testimonials'
 import { Users } from './collections/Users'
@@ -41,11 +40,11 @@ import {
   Author,
   Customer,
   Media as MediaType,
-  Page as PageType,
-  Project as ProjectType,
+  Page,
+  Project,
   Testimonial,
-  User,
 } from './payload-types'
+import { jhbDashboardPlugin } from './plugins/jhb-dashboard/plugin'
 import { anyone } from './shared/access/anyone'
 import { authenticated } from './shared/access/authenticated'
 import { CollectionGroups } from './shared/CollectionGroups'
@@ -59,7 +58,7 @@ export const websiteName = 'JHB Software'
 export const collections: CollectionConfig[] = [
   // Pages Collections
   Pages,
-  Project,
+  Projects,
   Articles,
   Customers,
   Authors,
@@ -201,9 +200,9 @@ export default buildConfig({
             case 'articles':
               return (originalDoc as Article).title
             case 'projects':
-              return (originalDoc as ProjectType).title
+              return (originalDoc as Project).title
             case 'pages':
-              return (originalDoc as PageType).title
+              return (originalDoc as Page).title
             case 'customers':
               return (originalDoc as Customer).name
             case 'testimonials':
@@ -218,7 +217,6 @@ export default buildConfig({
               return originalDoc.title
           }
         }
-
         return {
           ...searchDoc,
           title: getTitle(),
@@ -270,18 +268,17 @@ export default buildConfig({
         topic: 'Software Developer for mobile, web-apps and websites',
       },
       documentContentTransformers: {
-        pages: async (doc: PageType) => ({
+        pages: async (doc: Page) => ({
           title: doc.title,
           subTitle: doc.hero.subtitle,
         }),
-        projects: async (doc: ProjectType, lexicalToPlainText) => ({
+        projects: async (doc: Project, lexicalToPlainText) => ({
           title: doc.title,
           excerpt: doc.excerpt,
           tags: doc.tags?.join(', '),
           body: (await lexicalToPlainText(doc.body)) ?? '',
         }),
       },
-
       // Payload official seo plugin config:
       collections: pageCollectionsSlugs,
       uploadsCollection: 'media',
@@ -300,9 +297,7 @@ export default buildConfig({
             en: 'Authors',
           },
         }
-
         const suffix = suffixMap[collectionConfig?.slug ?? '']?.[locale ?? 'de']
-
         return `${doc.title} - ${websiteName} ${suffix ?? ''}`
       },
       generateURL: ({ doc }) => getPageUrl({ path: doc.path })!,
@@ -338,7 +333,6 @@ export default buildConfig({
               }
             }
           }
-
           return field
         }),
         alternatePathsField(),
