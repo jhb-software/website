@@ -11,6 +11,9 @@ importers:
       '@jhb.software/payload-admin-search':
         specifier: ^0.1.2
         version: 0.1.2(@payloadcms/ui@3.61.1(@types/react@19.2.2)(monaco-editor@0.52.2)(next@15.5.6(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3))(next@15.5.6(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@jhb.software/payload-alt-text-plugin':
+        specifier: ^0.1.1
+        version: 0.1.1(@payloadcms/ui@3.61.1(@types/react@19.2.2)(monaco-editor@0.52.2)(next@15.5.6(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3))(next@15.5.6(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(ws@8.18.3)
       '@jhb.software/payload-pages-plugin':
         specifier: 0.6.0-beta.2
         version: 0.6.0-beta.2(@payloadcms/ui@3.61.1(@types/react@19.2.2)(monaco-editor@0.52.2)(next@15.5.6(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3))(next@15.5.6(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -1351,6 +1354,16 @@ packages:
       payload: 3.x
       react: 19.x
       react-dom: 19.x
+
+  '@jhb.software/payload-alt-text-plugin@0.1.1':
+    resolution: {integrity: sha512-cwzG1JOW3EhwYlX2YZ8FOpbtA8srLzgrOIajJYYiczpQBFuXet7kXIPigNSz/eXW4WAtJPYQj7f3VXm60hK/dA==}
+    engines: {node: ^18.20.2 || >=20.9.0}
+    peerDependencies:
+      '@payloadcms/ui': ^3.60.0
+      next: 15.5.6
+      payload: ^3.60.0
+      react: 19.2.0
+      react-dom: 19.2.0
 
   '@jhb.software/payload-pages-plugin@0.6.0-beta.2':
     resolution: {integrity: sha512-Pzsry2rSpiHidENRNTdSVUwH385OwxQGVMDJfIOGY+lCqxtqYOE3G51OZTIhN3EnQ2oxe4asAsFsGYZggU8bcw==}
@@ -7501,6 +7514,19 @@ snapshots:
       payload: 3.61.1(graphql@16.11.0)(typescript@5.9.3)
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
+
+  '@jhb.software/payload-alt-text-plugin@0.1.1(@payloadcms/ui@3.61.1(@types/react@19.2.2)(monaco-editor@0.52.2)(next@15.5.6(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3))(next@15.5.6(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(ws@8.18.3)':
+    dependencies:
+      '@payloadcms/ui': 3.61.1(@types/react@19.2.2)(monaco-editor@0.52.2)(next@15.5.6(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3)
+      next: 15.5.6(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4)
+      openai: 6.7.0(ws@8.18.3)(zod@4.1.12)
+      p-map: 7.0.3
+      payload: 3.61.1(graphql@16.11.0)(typescript@5.9.3)
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
+      zod: 4.1.12
+    transitivePeerDependencies:
+      - ws
 
   '@jhb.software/payload-pages-plugin@0.6.0-beta.2(@payloadcms/ui@3.61.1(@types/react@19.2.2)(monaco-editor@0.52.2)(next@15.5.6(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3))(next@15.5.6(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:

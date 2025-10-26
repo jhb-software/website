@@ -1,4 +1,5 @@
 import { adminSearchPlugin } from '@jhb.software/payload-admin-search'
+import { payloadAltTextPlugin } from '@jhb.software/payload-alt-text-plugin'
 import { alternatePathsField, payloadPagesPlugin } from '@jhb.software/payload-pages-plugin'
 import { payloadSeoPlugin } from '@jhb.software/payload-seo-plugin'
 import { hetznerStorage } from '@joneslloyd/payload-storage-hetzner'
@@ -193,6 +194,17 @@ export default buildConfig({
       },
     }),
     adminSearchPlugin({}),
+    payloadAltTextPlugin({
+      openAIApiKey: process.env.OPENAI_API_KEY!,
+      collections: ['media'],
+      model: 'gpt-4.1-mini',
+      getImageThumbnail: (doc) => {
+        const image = doc as unknown as MediaType
+
+        // use sm if possible to reduce token count and speed up the generation of the alt text
+        return image.sizes?.sm?.url ?? image.sizes?.md?.url ?? image.sizes?.lg?.url ?? image.url!
+      },
+    }),
     searchPlugin({
       localize: true,
       collections: collections.map((collection) => collection.slug as CollectionSlug),
@@ -240,6 +252,7 @@ export default buildConfig({
       },
     }),
     translator({
+      disabled: true, // temporary disabled because of issues
       collections: translatableCollectionsSlugs,
       globals: [Header.slug, Footer.slug, Labels.slug] as GlobalSlug[],
       resolvers: [
