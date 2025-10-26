@@ -185,6 +185,7 @@ export default buildConfig({
   sharp,
   plugins: [
     jhbDashboardPlugin({
+      enabled: false,
       title: websiteName + ' CMS',
       frontend: {
         url: process.env.NEXT_PUBLIC_FRONTEND_URL!,
@@ -193,7 +194,9 @@ export default buildConfig({
         deploymentInfo: true,
       },
     }),
-    adminSearchPlugin({}),
+    adminSearchPlugin({
+      enabled: false,
+    }),
     payloadAltTextPlugin({
       openAIApiKey: process.env.OPENAI_API_KEY!,
       collections: ['media'],

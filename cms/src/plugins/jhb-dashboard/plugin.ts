@@ -9,6 +9,10 @@ export const jhbDashboardPlugin =
   (incomingConfig: Config): Config => {
     const config = { ...incomingConfig }
 
+    if (!pluginConfig.enabled) {
+      return config
+    }
+
     config.onInit = async (payload) => {
       if (incomingConfig.onInit) {
         await incomingConfig.onInit(payload)
