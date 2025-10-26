@@ -1,9 +1,5 @@
 import { adminSearchPlugin } from '@jhb.software/payload-admin-search'
-import {
-  alternatePathsField,
-  getPageUrl,
-  payloadPagesPlugin,
-} from '@jhb.software/payload-pages-plugin'
+import { alternatePathsField, payloadPagesPlugin } from '@jhb.software/payload-pages-plugin'
 import { payloadSeoPlugin } from '@jhb.software/payload-seo-plugin'
 import { hetznerStorage } from '@joneslloyd/payload-storage-hetzner'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
@@ -83,6 +79,18 @@ export const pageCollectionsSlugs: CollectionSlug[] = pageCollections.map(
 )
 export type PageCollectionSlugs = (typeof pageCollectionsSlugs)[number]
 
+const generatePageURL = ({
+  path,
+  preview,
+}: {
+  path: string | null
+  preview: boolean
+}): string | null => {
+  return path && process.env.NEXT_PUBLIC_FRONTEND_URL
+    ? `${process.env.NEXT_PUBLIC_FRONTEND_URL}${preview ? '/preview' : ''}${path}`
+    : null
+}
+
 const translatableCollectionsSlugs: CollectionSlug[] = collections
   .filter((collection) => ![Redirects.slug, Users.slug].includes(collection.slug as CollectionSlug))
   .map((collection) => collection.slug as CollectionSlug)
@@ -120,10 +128,6 @@ export default buildConfig({
     },
     avatar: 'default',
     dateFormat: "dd. MMM yyyy HH:mm 'Uhr'",
-    livePreview: {
-      collections: pageCollectionsSlugs,
-      url: ({ data }) => getPageUrl({ path: data.path, preview: true })!,
-    },
     components: {
       graphics: {
         Icon: '/components/Icon',
@@ -244,7 +248,9 @@ export default buildConfig({
         }),
       ],
     }),
-    payloadPagesPlugin({}),
+    payloadPagesPlugin({
+      generatePageURL,
+    }),
     hetznerStorage({
       collections: {
         media: {
@@ -300,7 +306,7 @@ export default buildConfig({
         const suffix = suffixMap[collectionConfig?.slug ?? '']?.[locale ?? 'de']
         return `${doc.title} - ${websiteName} ${suffix ?? ''}`
       },
-      generateURL: ({ doc }) => getPageUrl({ path: doc.path })!,
+      generateURL: ({ doc }) => generatePageURL({ path: doc.path, preview: false }) ?? '',
       interfaceName: 'SeoMetadata',
       fields: ({ defaultFields }) => [
         ...defaultFields.map((field) => {

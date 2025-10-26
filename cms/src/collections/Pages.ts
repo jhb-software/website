@@ -13,10 +13,9 @@ import { heroSection } from '@/fields/heroSection'
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
-import { createPageCollectionConfig } from '@jhb.software/payload-pages-plugin'
-import { CollectionConfig } from 'payload'
+import { PageCollectionConfig } from '@jhb.software/payload-pages-plugin'
 
-const Pages: CollectionConfig = createPageCollectionConfig({
+const Pages: PageCollectionConfig = {
   slug: 'pages',
   labels: {
     singular: {
@@ -130,6 +129,6 @@ const Pages: CollectionConfig = createPageCollectionConfig({
       ],
     },
   ],
-})
+}
 
 export default Pages

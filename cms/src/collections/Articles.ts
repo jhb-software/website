@@ -2,12 +2,11 @@ import CodeBlock from '@/blocks/CodeBlock'
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
-import { createPageCollectionConfig } from '@jhb.software/payload-pages-plugin'
+import { PageCollectionConfig } from '@jhb.software/payload-pages-plugin'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { BlocksFeature } from 'node_modules/@payloadcms/richtext-lexical/dist/features/blocks/server'
-import { CollectionConfig } from 'payload'
 
-const Articles: CollectionConfig = createPageCollectionConfig({
+const Articles: PageCollectionConfig = {
   slug: 'articles',
   labels: {
     singular: {
@@ -114,6 +113,6 @@ const Articles: CollectionConfig = createPageCollectionConfig({
       }),
     },
   ],
-})
+}
 
 export default Articles

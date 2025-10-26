@@ -1,13 +1,12 @@
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
-import { createRedirectsCollectionConfig } from '@jhb.software/payload-pages-plugin'
+import { RedirectsCollectionConfig } from '@jhb.software/payload-pages-plugin'
 
-export const Redirects = createRedirectsCollectionConfig({
-  overrides: {
-    admin: {
-      group: CollectionGroups.SystemCollections,
-    },
+export const Redirects: RedirectsCollectionConfig = {
+  slug: 'redirects',
+  admin: {
+    group: CollectionGroups.SystemCollections,
   },
   access: {
     read: anyone,
@@ -15,6 +14,7 @@ export const Redirects = createRedirectsCollectionConfig({
     delete: authenticated,
     create: authenticated,
   },
+  redirects: {},
   labels: {
     singular: {
       de: 'Weiterleitung',
@@ -25,4 +25,7 @@ export const Redirects = createRedirectsCollectionConfig({
       en: 'Redirects',
     },
   },
-})
+  fields: [
+    // the fields are added by the plugin
+  ],
+}

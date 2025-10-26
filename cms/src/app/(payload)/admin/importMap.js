@@ -1,5 +1,5 @@
 import { IsRootPageField as IsRootPageField_817212d6f65b4eb37176541413db3f8c } from '@jhb.software/payload-pages-plugin/server'
-import { SlugField as SlugField_e6458422044c3374e7ca411c92428566 } from '@jhb.software/payload-pages-plugin/client'
+import { SlugFieldWrapper as SlugFieldWrapper_817212d6f65b4eb37176541413db3f8c } from '@jhb.software/payload-pages-plugin/server'
 import { ParentField as ParentField_817212d6f65b4eb37176541413db3f8c } from '@jhb.software/payload-pages-plugin/server'
 import { PathField as PathField_e6458422044c3374e7ca411c92428566 } from '@jhb.software/payload-pages-plugin/client'
 import { BreadcrumbsField as BreadcrumbsField_e6458422044c3374e7ca411c92428566 } from '@jhb.software/payload-pages-plugin/client'
@@ -35,7 +35,6 @@ import { MetaTitleComponent as MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c08
 import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaImageComponent as MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
-import { PreviewButtonField as PreviewButtonField_e6458422044c3374e7ca411c92428566 } from '@jhb.software/payload-pages-plugin/client'
 import { CustomButtonWithTranslator as CustomButtonWithTranslator_0754f48e597a64286a6ec55277e0e245 } from '@payload-enchants/translator/client'
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { default as default_1b8d860059dbed4b3a90b2af97375475 } from '../../../fields/components/CopyAuthorNameToTitleField'
@@ -56,7 +55,7 @@ import { DashboardView as DashboardView_b2b4ae8325c7d78b1c88c5f3f47f7333 } from 
 
 export const importMap = {
   "@jhb.software/payload-pages-plugin/server#IsRootPageField": IsRootPageField_817212d6f65b4eb37176541413db3f8c,
-  "@jhb.software/payload-pages-plugin/client#SlugField": SlugField_e6458422044c3374e7ca411c92428566,
+  "@jhb.software/payload-pages-plugin/server#SlugFieldWrapper": SlugFieldWrapper_817212d6f65b4eb37176541413db3f8c,
   "@jhb.software/payload-pages-plugin/server#ParentField": ParentField_817212d6f65b4eb37176541413db3f8c,
   "@jhb.software/payload-pages-plugin/client#PathField": PathField_e6458422044c3374e7ca411c92428566,
   "@jhb.software/payload-pages-plugin/client#BreadcrumbsField": BreadcrumbsField_e6458422044c3374e7ca411c92428566,
@@ -92,7 +91,6 @@ export const importMap = {
   "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaImageComponent": MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
-  "@jhb.software/payload-pages-plugin/client#PreviewButtonField": PreviewButtonField_e6458422044c3374e7ca411c92428566,
   "@payload-enchants/translator/client#CustomButtonWithTranslator": CustomButtonWithTranslator_0754f48e597a64286a6ec55277e0e245,
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "/fields/components/CopyAuthorNameToTitleField#default": default_1b8d860059dbed4b3a90b2af97375475,

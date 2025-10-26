@@ -2,10 +2,9 @@ import { socialLinksField } from '@/fields/socialLinks'
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
-import { createPageCollectionConfig } from '@jhb.software/payload-pages-plugin'
-import { CollectionConfig } from 'payload'
+import { PageCollectionConfig } from '@jhb.software/payload-pages-plugin'
 
-const Authors: CollectionConfig = createPageCollectionConfig({
+const Authors: PageCollectionConfig = {
   slug: 'authors',
   labels: {
     singular: {
@@ -85,6 +84,6 @@ const Authors: CollectionConfig = createPageCollectionConfig({
       },
     },
   ],
-})
+}
 
 export default Authors
