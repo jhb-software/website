@@ -194,9 +194,7 @@ export default buildConfig({
         deploymentInfo: true,
       },
     }),
-    adminSearchPlugin({
-      enabled: false,
-    }),
+    adminSearchPlugin({}),
     payloadAltTextPlugin({
       openAIApiKey: process.env.OPENAI_API_KEY!,
       collections: ['media'],

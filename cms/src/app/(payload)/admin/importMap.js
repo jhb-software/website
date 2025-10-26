@@ -48,6 +48,7 @@ import { QueryPresetsColumnsCell as QueryPresetsColumnsCell_3817bf644402e67bfe65
 import { QueryPresetsColumnField as QueryPresetsColumnField_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
 import { default as default_a02a4abfb5c9da17149cbadc8057c129 } from '../../../components/Icon'
 import { default as default_919492c8e60179286a0f183c0a5b652e } from '../../../components/Logo'
+import { SearchButton as SearchButton_5400ac5ea24f4363783c781edd0c24e3 } from '@jhb.software/payload-admin-search/client'
 import { HetznerClientUploadHandler as HetznerClientUploadHandler_8ac97c7c3d1014cb6b64a5b50ca764f3 } from '@joneslloyd/payload-storage-hetzner/client'
 
 export const importMap = {
@@ -101,5 +102,6 @@ export const importMap = {
   "@payloadcms/ui#QueryPresetsColumnField": QueryPresetsColumnField_3817bf644402e67bfe6577f60ef982de,
   "/components/Icon#default": default_a02a4abfb5c9da17149cbadc8057c129,
   "/components/Logo#default": default_919492c8e60179286a0f183c0a5b652e,
+  "@jhb.software/payload-admin-search/client#SearchButton": SearchButton_5400ac5ea24f4363783c781edd0c24e3,
   "@joneslloyd/payload-storage-hetzner/client#HetznerClientUploadHandler": HetznerClientUploadHandler_8ac97c7c3d1014cb6b64a5b50ca764f3
 }
