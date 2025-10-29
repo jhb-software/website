@@ -148,7 +148,8 @@ export default buildConfig({
   csrf:
     process.env.NODE_ENV === 'production'
       ? ['https://cms.jhb.software']
-      : ['http://localhost:3000', 'http://localhost:3001'],
+      : // allow any domain in dev or preview
+        [],
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
