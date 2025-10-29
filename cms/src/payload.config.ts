@@ -185,7 +185,6 @@ export default buildConfig({
   sharp,
   plugins: [
     jhbDashboardPlugin({
-      enabled: false,
       title: websiteName + ' CMS',
       frontend: {
         url: process.env.NEXT_PUBLIC_FRONTEND_URL!,
@@ -253,7 +252,7 @@ export default buildConfig({
       },
     }),
     translator({
-      disabled: true, // temporary disabled because of issues
+      disabled: true, // temporary disabled because of dependency mismatch issues
       collections: translatableCollectionsSlugs,
       globals: [Header.slug, Footer.slug, Labels.slug] as GlobalSlug[],
       resolvers: [

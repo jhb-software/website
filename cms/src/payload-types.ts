@@ -1489,6 +1489,7 @@ export interface Labels {
     'navigate-to-section': string;
     'open-menu': string;
     'close-menu': string;
+    since: string;
   };
   social: {
     'visit-facebook': string;
@@ -1562,6 +1563,7 @@ export interface LabelsSelect<T extends boolean = true> {
         'navigate-to-section'?: T;
         'open-menu'?: T;
         'close-menu'?: T;
+        since?: T;
       };
   social?:
     | T

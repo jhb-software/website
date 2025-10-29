@@ -2,7 +2,7 @@ export type JhbDashboardPluginConfig = {
   /**
    * Whether the plugin is enabled.
    */
-  enabled: boolean
+  enabled?: boolean
   /**
    * The title of the dashboard.
    */
