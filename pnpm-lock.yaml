@@ -20,9 +20,6 @@ importers:
       '@jhb.software/payload-seo-plugin':
         specifier: ^0.1.4
         version: 0.1.4(9065fddc26b81d8bd2caec222fd2255f)
-      '@joneslloyd/payload-storage-hetzner':
-        specifier: github:jhb-dev/hetzner-object-storage#3b64d06e136409df45eb70b9b350aa1649ec7f79
-        version: https://codeload.github.com/jhb-dev/hetzner-object-storage/tar.gz/3b64d06e136409df45eb70b9b350aa1649ec7f79(@payloadcms/plugin-cloud-storage@3.61.1(@types/react@19.2.2)(monaco-editor@0.52.2)(next@15.5.6(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3))(payload@3.61.1(graphql@16.11.0)(typescript@5.9.3))(react@19.2.0)
       '@payload-enchants/translator':
         specifier: workspace:*
         version: link:plugins/cms-content-translator
@@ -47,6 +44,9 @@ importers:
       '@payloadcms/richtext-lexical':
         specifier: ^3.61.1
         version: 3.61.1(@faceless-ui/modal@3.0.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@faceless-ui/scroll-info@2.0.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@payloadcms/next@3.61.1(@types/react@19.2.2)(graphql@16.11.0)(monaco-editor@0.52.2)(next@15.5.6(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3))(@types/react@19.2.2)(monaco-editor@0.52.2)(next@15.5.6(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3)(yjs@13.6.23)
+      '@payloadcms/storage-s3':
+        specifier: ^3.61.1
+        version: 3.61.1(@types/react@19.2.2)(monaco-editor@0.52.2)(next@15.5.6(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3)
       '@payloadcms/translations':
         specifier: ^3.61.1
         version: 3.61.1
@@ -362,6 +362,7 @@ packages:
   '@aws-sdk/credential-provider-web-identity@3.917.0':
     resolution: {integrity: sha512-pZncQhFbwW04pB0jcD5OFv3x2gAddDYCVxyJVixgyhSw7bKCYxqu6ramfq1NxyVpmm+qsw+ijwi/3cCmhUHF/A==}
     engines: {node: '>=18.0.0'}
+    deprecated: This version contains a compilation TypeScript error https://github.com/aws/aws-sdk-js-v3/issues/7457 - please use @aws-sdk/credential-providers@3.918.0 or higher
 
   '@aws-sdk/lib-storage@3.917.0':
     resolution: {integrity: sha512-Z8mRzfP6PgUoybJHx/tH40aop42yeh66cW7wLM8R88egB2UYQ0IgxDoRynqlLi5uceI21wss/CIDkhzO9p1cOg==}
@@ -1386,15 +1387,6 @@ packages:
       react: 19.0.0
       react-dom: 19.0.0
 
-  '@joneslloyd/payload-storage-hetzner@https://codeload.github.com/jhb-dev/hetzner-object-storage/tar.gz/3b64d06e136409df45eb70b9b350aa1649ec7f79':
-    resolution: {tarball: https://codeload.github.com/jhb-dev/hetzner-object-storage/tar.gz/3b64d06e136409df45eb70b9b350aa1649ec7f79}
-    version: 3.42.4
-    engines: {node: ^18.20.2 || >=20.9.0}
-    peerDependencies:
-      '@payloadcms/plugin-cloud-storage': ^3.33.0
-      payload: ^3.33.0
-      react: ^18.0.0 || ^19.1.0
-
   '@jridgewell/gen-mapping@0.3.12':
     resolution: {integrity: sha512-OuLGC46TjB5BbN1dH8JULVVZY4WTdkF7tV9Ys6wLL1rubZnCMstOhNHueU5bLCrnRuDhKPDM4g6sw4Bel5Gzqg==}
 
@@ -1699,6 +1691,12 @@ packages:
       payload: 3.61.1
       react: ^19.0.0 || ^19.0.0-rc-65a56d0e-20241020
       react-dom: ^19.0.0 || ^19.0.0-rc-65a56d0e-20241020
+
+  '@payloadcms/storage-s3@3.61.1':
+    resolution: {integrity: sha512-wzLORvK1J/4bfuFKvzwL0O3uo1OUCCUhgHsYrHV80upnvk80ZnI0leYEbv0UDqTdPG7SMyE5/i9SEKJX/N/CAA==}
+    engines: {node: ^18.20.2 || >=20.9.0}
+    peerDependencies:
+      payload: 3.61.1
 
   '@payloadcms/translations@3.60.0':
     resolution: {integrity: sha512-fuc/FwLOoPNWGcDuOWQ+blCDRDMCDb9/ZMoa447VVUhqmTIL0CXh0SIKdbMuhpyvq5nevQ6fxUOlV/pUj0A32A==}
@@ -7552,17 +7550,6 @@ snapshots:
       - ws
       - zod
 
-  '@joneslloyd/payload-storage-hetzner@https://codeload.github.com/jhb-dev/hetzner-object-storage/tar.gz/3b64d06e136409df45eb70b9b350aa1649ec7f79(@payloadcms/plugin-cloud-storage@3.61.1(@types/react@19.2.2)(monaco-editor@0.52.2)(next@15.5.6(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3))(payload@3.61.1(graphql@16.11.0)(typescript@5.9.3))(react@19.2.0)':
-    dependencies:
-      '@aws-sdk/client-s3': 3.917.0
-      '@aws-sdk/lib-storage': 3.917.0(@aws-sdk/client-s3@3.917.0)
-      '@aws-sdk/s3-request-presigner': 3.917.0
-      '@payloadcms/plugin-cloud-storage': 3.61.1(@types/react@19.2.2)(monaco-editor@0.52.2)(next@15.5.6(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3)
-      payload: 3.61.1(graphql@16.11.0)(typescript@5.9.3)
-      react: 19.2.0
-    transitivePeerDependencies:
-      - aws-crt
-
   '@jridgewell/gen-mapping@0.3.12':
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
@@ -7999,6 +7986,23 @@ snapshots:
       - supports-color
       - typescript
       - yjs
+
+  '@payloadcms/storage-s3@3.61.1(@types/react@19.2.2)(monaco-editor@0.52.2)(next@15.5.6(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3)':
+    dependencies:
+      '@aws-sdk/client-s3': 3.917.0
+      '@aws-sdk/lib-storage': 3.917.0(@aws-sdk/client-s3@3.917.0)
+      '@aws-sdk/s3-request-presigner': 3.917.0
+      '@payloadcms/plugin-cloud-storage': 3.61.1(@types/react@19.2.2)(monaco-editor@0.52.2)(next@15.5.6(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3)
+      payload: 3.61.1(graphql@16.11.0)(typescript@5.9.3)
+    transitivePeerDependencies:
+      - '@types/react'
+      - aws-crt
+      - monaco-editor
+      - next
+      - react
+      - react-dom
+      - supports-color
+      - typescript
 
   '@payloadcms/translations@3.60.0':
     dependencies:

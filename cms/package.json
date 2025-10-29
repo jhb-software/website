@@ -16,11 +16,10 @@
     "format": "prettier --write src"
   },
   "dependencies": {
-    "@jhb.software/payload-alt-text-plugin": "^0.2.1",
     "@jhb.software/payload-admin-search": "^0.1.2",
+    "@jhb.software/payload-alt-text-plugin": "^0.2.1",
     "@jhb.software/payload-pages-plugin": "0.6.0-beta.2",
     "@jhb.software/payload-seo-plugin": "^0.1.4",
-    "@joneslloyd/payload-storage-hetzner": "github:jhb-dev/hetzner-object-storage#3b64d06e136409df45eb70b9b350aa1649ec7f79",
     "@payload-enchants/translator": "workspace:*",
     "@payloadcms/db-mongodb": "^3.61.1",
     "@payloadcms/email-resend": "^3.61.1",
@@ -29,6 +28,7 @@
     "@payloadcms/plugin-search": "^3.61.1",
     "@payloadcms/plugin-seo": "^3.61.1",
     "@payloadcms/richtext-lexical": "^3.61.1",
+    "@payloadcms/storage-s3": "^3.61.1",
     "@payloadcms/translations": "^3.61.1",
     "@payloadcms/ui": "^3.61.1",
     "@tailwindcss/postcss": "^4.1.16",

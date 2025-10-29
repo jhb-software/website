@@ -1,4 +1,3 @@
-import { Media as MediaType } from '@/payload-types'
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
@@ -51,19 +50,6 @@ export const Media: CollectionConfig = {
       },
     ],
     hideRemoveFile: true, // disable this feature as it is not intuitive for the user what implications it has
-    adminThumbnail: ({ doc }) => {
-      // Use the direct URLs to the S3 bucket instead of the default /api/media URL to improve performance.
-      // (Because disablePayloadAccessControl is true, the URLs are the direct URLs to the S3 bucket.)
-      const media = doc as unknown as MediaType
-      const directUrl =
-        media.sizes?.sm?.url ?? media.sizes?.md?.url ?? media.sizes?.lg?.url ?? media.url ?? null
-
-      if (!directUrl) {
-        console.warn('Could not find adminThumbnail URL. Doc:', doc)
-      }
-
-      return directUrl
-    },
   },
   access: {
     read: anyone,
