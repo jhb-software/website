@@ -1,11 +1,13 @@
 import type { CollectionSlug, Config, GlobalSlug, Plugin } from 'payload'
+
 import { deepMerge } from 'payload/shared'
+
+import type { TranslatorConfig } from './types'
 
 import { CustomButton } from './client/components/CustomButton'
 import { translations } from './i18n-translations'
 import { translateEndpoint } from './translate/endpoint'
 import { translateOperation } from './translate/operation'
-import type { TranslatorConfig } from './types'
 
 export { openAIResolver } from './resolvers/openAI'
 export * from './resolvers/types'

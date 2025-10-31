@@ -2,8 +2,8 @@ import type { ArrayField, CollectionSlug, GroupField } from 'payload'
 
 export const linksField = ({
   name,
-  relationTo,
   maxRows,
+  relationTo,
 }: {
   name: string
   relationTo: CollectionSlug[]
@@ -21,12 +21,12 @@ export const linksField = ({
 })
 
 const linkGroup = ({ relationTo }: { relationTo: CollectionSlug[] }): GroupField => ({
-  type: 'group',
   name: 'link',
-  interfaceName: 'Link',
+  type: 'group',
   admin: {
     hideGutter: true,
   },
+  interfaceName: 'Link',
   label: '',
   fields: [
     {
@@ -34,29 +34,29 @@ const linkGroup = ({ relationTo }: { relationTo: CollectionSlug[] }): GroupField
       fields: [
         {
           name: 'page',
+          type: 'relationship',
+          admin: {
+            width: '50%',
+          },
           label: {
             de: 'Seite',
             en: 'Page',
           },
-          type: 'relationship',
           relationTo: relationTo,
           required: true,
-          admin: {
-            width: '50%',
-          },
         },
         {
           name: 'label',
+          type: 'text',
+          admin: {
+            width: '50%',
+          },
           label: {
             de: 'Beschriftung',
             en: 'Label',
           },
-          type: 'text',
           localized: true,
           required: true,
-          admin: {
-            width: '50%',
-          },
         },
       ],
     },
@@ -66,6 +66,9 @@ const linkGroup = ({ relationTo }: { relationTo: CollectionSlug[] }): GroupField
         {
           name: 'icon',
           type: 'select',
+          admin: {
+            width: '50%',
+          },
           options: [
             { label: 'Bars Staggered', value: 'bars-staggered' },
             { label: 'Comments', value: 'comments' },
@@ -73,18 +76,18 @@ const linkGroup = ({ relationTo }: { relationTo: CollectionSlug[] }): GroupField
             { label: 'Chevron Down', value: 'chevron-down' },
           ],
           required: false,
-          admin: {
-            width: '50%',
-          },
         },
         {
           name: 'style',
-          required: true,
+          type: 'select',
+          admin: {
+            width: '50%',
+          },
+          defaultValue: 'primary',
           label: {
             de: 'Stil',
             en: 'Style',
           },
-          type: 'select',
           options: [
             { label: { de: 'Primär', en: 'Primary' }, value: 'primary' },
             { label: { de: 'Text', en: 'Text' }, value: 'text' },
@@ -92,10 +95,7 @@ const linkGroup = ({ relationTo }: { relationTo: CollectionSlug[] }): GroupField
             { label: { de: 'Hell', en: 'Light' }, value: 'light' },
             { label: { de: 'Hell Primär', en: 'Light Primary' }, value: 'light-primary' },
           ],
-          defaultValue: 'primary',
-          admin: {
-            width: '50%',
-          },
+          required: true,
         },
       ],
     },

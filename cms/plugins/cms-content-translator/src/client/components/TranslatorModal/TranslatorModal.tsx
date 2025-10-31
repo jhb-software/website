@@ -2,15 +2,15 @@ import './styles.scss'
 
 import { getTranslation } from '@payloadcms/translations'
 import { Button, LoadingOverlay, Modal, Popup, PopupList, useTranslation } from '@payloadcms/ui'
-
 import { useState } from 'react'
+
 import { useTranslator } from '../../providers/Translator/context'
 import { LocaleLabel } from '../LocaleLabel'
 
 export const TranslatorModal = () => {
   const {
-    localeToTranslateFrom: localeCodeToTranslateFrom,
     localesOptions,
+    localeToTranslateFrom: localeCodeToTranslateFrom,
     resolverT,
     setLocaleToTranslateFrom,
     submit,

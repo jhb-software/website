@@ -1,13 +1,16 @@
+import { I18nClient, TFunction } from '@payloadcms/translations'
+import { Pill, PillProps } from '@payloadcms/ui/elements/Pill'
+import { Suspense } from 'react'
+
+import type { JhbDashboardTranslationKeys } from '@/plugins/jhb-dashboard/translations'
+import type { VercelDeployment } from '@/plugins/jhb-dashboard/utilities/vercelApiClient'
+
 import { FormattedDate } from '@/plugins/jhb-dashboard/components/FormattedDate'
 import {
   DeploymentsInfo,
   getFrontendDeploymentsInfo,
 } from '@/plugins/jhb-dashboard/server-actions/getFrontendDeploymentsInfo'
-import type { JhbDashboardTranslationKeys } from '@/plugins/jhb-dashboard/translations'
-import type { VercelDeployment } from '@/plugins/jhb-dashboard/utilities/vercelApiClient'
-import { I18nClient, TFunction } from '@payloadcms/translations'
-import { Pill, PillProps } from '@payloadcms/ui/elements/Pill'
-import { Suspense } from 'react'
+
 import { Card } from '../../Card'
 import { ClockIcon } from '../../icons/clock'
 import { ClockDashedIcon } from '../../icons/clock-dashed'
@@ -64,10 +67,10 @@ function DeploymentInfoSkeleton() {
 }
 
 function DeploymentInfoRow({
-  icon,
-  label,
   deploymentInfo,
   i18n,
+  icon,
+  label,
 }: {
   icon: React.ReactNode
   label: string

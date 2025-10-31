@@ -8,7 +8,7 @@ type CardProps = {
   className?: string
 }
 
-export const Card: React.FC<CardProps> = ({ title, icon, children, actions, className }) => {
+export const Card: React.FC<CardProps> = ({ actions, children, className, icon, title }) => {
   const cardClasses = `card flex flex-col h-full ${className || ''}`.trim()
 
   return (

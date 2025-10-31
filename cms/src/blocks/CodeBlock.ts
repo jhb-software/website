@@ -4,8 +4,8 @@ export const CodeBlock: Block = {
   slug: 'code',
   interfaceName: 'CodeBlock',
   labels: {
-    singular: 'Code Block',
     plural: 'Code Blocks',
+    singular: 'Code Block',
   },
   fields: [
     {

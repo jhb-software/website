@@ -1,6 +1,7 @@
 import { Button, useTranslation } from '@payloadcms/ui'
 
 import type { TranslateResolver } from '../../../resolvers/types'
+
 import { useTranslator } from '../../providers/Translator/context'
 
 export const ResolverButton = ({

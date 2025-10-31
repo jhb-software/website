@@ -1,11 +1,12 @@
 'use server'
 
+import { unstable_cache } from 'next/cache'
+
 import { getUserFromHeaders } from '@/plugins/jhb-dashboard/utilities/getUserFromHeaders'
 import {
   VercelApiClient,
   VercelDeployment,
 } from '@/plugins/jhb-dashboard/utilities/vercelApiClient'
-import { unstable_cache } from 'next/cache'
 
 export type DeploymentsInfo = {
   lastReadyDeployment:
@@ -45,10 +46,10 @@ const getFrontendDeploymentsInfoCached = unstable_cache(
     const vercelClient = new VercelApiClient(process.env.VERCEL_API_TOKEN!)
 
     const deploymentsResponse = await vercelClient.getDeployments({
-      projectId: process.env.FRONTEND_VERCEL_PROJECT_ID!,
-      teamId: process.env.FRONTEND_VERCEL_TEAM_ID!,
-      target: 'production', // exclude preview deployments
       limit: 10,
+      projectId: process.env.FRONTEND_VERCEL_PROJECT_ID!,
+      target: 'production', // exclude preview deployments
+      teamId: process.env.FRONTEND_VERCEL_TEAM_ID!,
     })
 
     const lastReadyDeployment = deploymentsResponse.deployments.find(
@@ -59,23 +60,23 @@ const getFrontendDeploymentsInfoCached = unstable_cache(
     const deploymentsInfo: DeploymentsInfo = {
       lastReadyDeployment: lastReadyDeployment
         ? {
-            uid: lastReadyDeployment.uid,
+            inspectorUrl: lastReadyDeployment.inspectorUrl,
             readyAt: new Date(
               typeof lastReadyDeployment.ready === 'number'
                 ? lastReadyDeployment.ready
                 : lastReadyDeployment.created,
             ),
             status: 'READY',
-            inspectorUrl: lastReadyDeployment.inspectorUrl,
+            uid: lastReadyDeployment.uid,
           }
         : undefined,
       latestDeployment:
         latestDeployment && latestDeployment.state
           ? {
-              uid: latestDeployment.uid,
-              status: latestDeployment.state,
               createdAt: new Date(latestDeployment.created),
               inspectorUrl: latestDeployment.inspectorUrl,
+              status: latestDeployment.state,
+              uid: latestDeployment.uid,
             }
           : undefined,
     }
@@ -84,7 +85,7 @@ const getFrontendDeploymentsInfoCached = unstable_cache(
   },
   undefined,
   {
-    tags: ['frontend-deployments'],
     revalidate: 60,
+    tags: ['frontend-deployments'],
   },
 )

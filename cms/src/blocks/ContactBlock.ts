@@ -4,8 +4,8 @@ export const ContactBlock: Block = {
   slug: 'contact',
   interfaceName: 'ContactBlock',
   labels: {
-    singular: 'Contact Block',
     plural: 'Contact Blocks',
+    singular: 'Contact Block',
   },
   fields: [
     {
@@ -14,19 +14,19 @@ export const ContactBlock: Block = {
         {
           name: 'name',
           type: 'text',
-          required: true,
           admin: {
             width: '50%',
           },
+          required: true,
         },
         {
           name: 'image',
           type: 'upload',
-          required: true,
-          relationTo: 'media',
           admin: {
             width: '50%',
           },
+          relationTo: 'media',
+          required: true,
         },
       ],
     },
@@ -36,26 +36,26 @@ export const ContactBlock: Block = {
         {
           name: 'phone',
           type: 'text',
-          required: true,
           admin: {
             width: '50%',
           },
+          required: true,
         },
         {
           name: 'email',
-          label: 'E-Mail',
           type: 'text',
-          required: true,
           admin: {
             width: '50%',
           },
+          label: 'E-Mail',
+          required: true,
         },
       ],
     },
     {
       name: 'socialLinks',
-      label: 'Social Media Links',
       type: 'array',
+      label: 'Social Media Links',
       required: true,
       fields: [
         {
@@ -63,17 +63,19 @@ export const ContactBlock: Block = {
           fields: [
             {
               name: 'url',
-              label: 'URL',
               type: 'text',
-              required: true,
               admin: {
                 width: '50%',
               },
+              label: 'URL',
+              required: true,
             },
             {
               name: 'icon',
               type: 'select',
-              required: true,
+              admin: {
+                width: '50%',
+              },
               options: [
                 {
                   label: 'LinkedIn',
@@ -88,9 +90,7 @@ export const ContactBlock: Block = {
                   value: 'whatsapp',
                 },
               ],
-              admin: {
-                width: '50%',
-              },
+              required: true,
             },
           ],
         },

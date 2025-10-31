@@ -1,4 +1,5 @@
 import { Config } from 'payload'
+
 import { DashboardViewPluginProps } from './components/DashboardView'
 import { translations } from './translations'
 import { JhbDashboardPluginConfig } from './types'
@@ -37,10 +38,6 @@ export const jhbDashboardPlugin =
 
     return {
       ...config,
-      i18n: {
-        ...config.i18n,
-        translations: deepMergeSimple(translations, config.i18n?.translations ?? {}),
-      },
       admin: {
         ...config.admin,
         components: {
@@ -51,14 +48,18 @@ export const jhbDashboardPlugin =
               Component: {
                 path: '/plugins/jhb-dashboard/components/DashboardView#DashboardView',
                 serverProps: {
-                  title: pluginConfig.title,
-                  frontend: pluginConfig.frontend,
                   features: pluginConfig.features,
+                  frontend: pluginConfig.frontend,
+                  title: pluginConfig.title,
                 } satisfies DashboardViewPluginProps,
               },
             },
           },
         },
+      },
+      i18n: {
+        ...config.i18n,
+        translations: deepMergeSimple(translations, config.i18n?.translations ?? {}),
       },
     }
   }

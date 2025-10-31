@@ -6,6 +6,7 @@ import type {
   SanitizedGlobalConfig,
   TypeWithID,
 } from 'payload'
+
 import { APIError } from 'payload'
 
 type Args = {
@@ -49,22 +50,22 @@ export const findEntityWithConfig = async (
   const docPromise = isGlobal
     ? payload.findGlobal({
         depth: 0,
+        draft: true,
         fallbackLocale: undefined,
         locale: locale as any,
         overrideAccess,
         req,
         slug: args.globalSlug as GlobalSlug,
-        draft: true,
       })
     : payload.findByID({
         collection: collectionSlug as CollectionSlug,
         depth: 0,
+        draft: true,
         fallbackLocale: undefined,
         id: id as number | string,
         locale: locale as any,
         overrideAccess,
         req,
-        draft: true,
       })
 
   return {

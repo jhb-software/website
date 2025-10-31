@@ -1,19 +1,20 @@
+import { GlobalConfig } from 'payload'
+
 import { linksField } from '@/fields/links'
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
-import { GlobalConfig } from 'payload'
 
 const Header: GlobalConfig = {
   slug: 'header',
-  label: {
-    de: 'Kopfzeile',
-    en: 'Header',
-  },
   access: {
     read: anyone,
     update: authenticated,
   },
-  fields: [linksField({ name: 'links', relationTo: ['pages'], maxRows: 6 })],
+  label: {
+    de: 'Kopfzeile',
+    en: 'Header',
+  },
+  fields: [linksField({ name: 'links', maxRows: 6, relationTo: ['pages'] })],
 }
 
 export default Header

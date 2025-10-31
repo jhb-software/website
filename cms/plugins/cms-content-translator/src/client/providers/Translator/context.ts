@@ -1,4 +1,5 @@
 import type { Locale } from 'payload'
+
 import { createContext, useContext } from 'react'
 
 import type { TranslateResolver } from '../../../resolvers/types'

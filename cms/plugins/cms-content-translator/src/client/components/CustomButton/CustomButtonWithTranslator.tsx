@@ -5,6 +5,7 @@ import './styles.scss'
 import { PublishButton, SaveButton, useConfig, useDocumentInfo } from '@payloadcms/ui'
 
 import type { TranslateResolver } from '../../../resolvers/types'
+
 import { TranslatorProvider } from '../../providers/Translator/TranslatorProvider'
 import { ResolverButton } from '../ResolverButton'
 import { TranslatorModal } from '../TranslatorModal'

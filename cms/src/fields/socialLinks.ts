@@ -2,9 +2,9 @@ import type { ArrayField } from 'payload'
 
 export const socialLinksField = ({
   name,
-  required = true,
-  minRows,
   maxRows,
+  minRows,
+  required = true,
 }: {
   name: string
   required: boolean
@@ -14,32 +14,34 @@ export const socialLinksField = ({
   name,
   type: 'array',
   interfaceName: 'SocialLinks',
-  labels: {
-    singular: 'Social Link',
-    plural: 'Social Links',
-  },
   label: 'Social Links',
-  required,
-  minRows,
+  labels: {
+    plural: 'Social Links',
+    singular: 'Social Link',
+  },
   maxRows,
+  minRows,
+  required,
   fields: [
     {
       type: 'row',
       fields: [
         {
           name: 'url',
-          label: 'URL',
           type: 'text',
-          required: true,
           admin: {
             width: '50%',
           },
+          label: 'URL',
+          required: true,
         },
         {
           name: 'icon',
-          label: 'Icon',
           type: 'select',
-          required: true,
+          admin: {
+            width: '50%',
+          },
+          label: 'Icon',
           options: [
             { label: 'GitHub', value: 'github' },
             { label: 'WhatsApp', value: 'whatsapp' },
@@ -49,9 +51,7 @@ export const socialLinksField = ({
             { label: 'LinkedIn', value: 'linkedin' },
             { label: 'X', value: 'x' },
           ],
-          admin: {
-            width: '50%',
-          },
+          required: true,
         },
       ],
     },
