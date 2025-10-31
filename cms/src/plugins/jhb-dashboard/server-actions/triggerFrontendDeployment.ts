@@ -32,7 +32,7 @@ export async function triggerFrontendDeployment(): Promise<string> {
     },
   })
 
-  revalidateTag('frontend-deployments')
+  revalidateTag('frontend-deployments', 'max')
 
   return deployment.id
 }

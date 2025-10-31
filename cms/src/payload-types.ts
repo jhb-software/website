@@ -454,13 +454,6 @@ export interface Media {
  * via the `definition` "SeoMetadata".
  */
 export interface SeoMetadata {
-  /**
-   * Keywords that indicate what the page is about. These are used for generating the meta description.
-   */
-  keywords: {
-    keyword: string;
-    id?: string | null;
-  }[];
   title: string;
   description: string;
   /**
@@ -1140,12 +1133,6 @@ export interface ContactBlockSelect<T extends boolean = true> {
  * via the `definition` "SeoMetadata_select".
  */
 export interface SeoMetadataSelect<T extends boolean = true> {
-  keywords?:
-    | T
-    | {
-        keyword?: T;
-        id?: T;
-      };
   title?: T;
   description?: T;
   image?: T;

@@ -1,11 +1,11 @@
 import { adminSearchPlugin } from '@jhb.software/payload-admin-search'
 import { payloadAltTextPlugin } from '@jhb.software/payload-alt-text-plugin'
 import { alternatePathsField, payloadPagesPlugin } from '@jhb.software/payload-pages-plugin'
-import { payloadSeoPlugin } from '@jhb.software/payload-seo-plugin'
 import { hetznerStorage } from '@joneslloyd/payload-storage-hetzner'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
 import { searchPlugin } from '@payloadcms/plugin-search'
+import { seoPlugin } from '@payloadcms/plugin-seo'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { de } from '@payloadcms/translations/languages/de'
 import { en } from '@payloadcms/translations/languages/en'
@@ -281,24 +281,7 @@ export default buildConfig({
       clientUploads: true,
       acl: 'public-read',
     }),
-    payloadSeoPlugin({
-      // JHB plugin related config
-      websiteContext: {
-        topic: 'Software Developer for mobile, web-apps and websites',
-      },
-      documentContentTransformers: {
-        pages: async (doc: Page) => ({
-          title: doc.title,
-          subTitle: doc.hero.subtitle,
-        }),
-        projects: async (doc: Project, lexicalToPlainText) => ({
-          title: doc.title,
-          excerpt: doc.excerpt,
-          tags: doc.tags?.join(', '),
-          body: (await lexicalToPlainText(doc.body)) ?? '',
-        }),
-      },
-      // Payload official seo plugin config:
+    seoPlugin({
       collections: pageCollectionsSlugs,
       uploadsCollection: 'media',
       generateTitle: ({ doc, collectionConfig, locale }) => {

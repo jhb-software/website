@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
       permanent: true,
     },
   ],
+  turbopack: {},
+  experimental: {
+    turbopackFileSystemCacheForDev: true,
+  },
 }
 
 export default withPayload(nextConfig, { devBundleServerPackages: false })

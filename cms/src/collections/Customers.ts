@@ -35,8 +35,8 @@ const Customers: CollectionConfig = {
       type: 'text',
       required: true,
       localized: true,
-      // @ts-ignore
-      validate: (value: string) => (isValidURL(value) ? true : 'Invalid URL'),
+      validate: (value: unknown) =>
+        typeof value === 'string' && isValidURL(value) ? true : 'Invalid URL',
       admin: {
         position: 'sidebar',
       },
