@@ -56,6 +56,7 @@ export const Media: CollectionConfig = {
         width: 1200,
       },
     ],
+    mimeTypes: ['image/*', 'application/pdf'],
   },
   fields: [
     // the alt text and keywords fields are added by the plugin
