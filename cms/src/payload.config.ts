@@ -1,11 +1,6 @@
 import { adminSearchPlugin } from '@jhb.software/payload-admin-search'
 import { payloadAltTextPlugin } from '@jhb.software/payload-alt-text-plugin'
 import { alternatePathsField, payloadPagesPlugin } from '@jhb.software/payload-pages-plugin'
-<<<<<<< HEAD
-import { payloadSeoPlugin } from '@jhb.software/payload-seo-plugin'
-=======
-import { hetznerStorage } from '@joneslloyd/payload-storage-hetzner'
->>>>>>> main
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
 import { searchPlugin } from '@payloadcms/plugin-search'
@@ -132,52 +127,6 @@ export default buildConfig({
     },
     user: Users.slug,
   },
-<<<<<<< HEAD
-  i18n: {
-    fallbackLanguage: 'de',
-    supportedLanguages: { en, de },
-    translations: customTranslations,
-  },
-  globals: [Header, Footer, Labels],
-  collections: collections,
-  editor: lexicalEditor(),
-  secret: process.env.PAYLOAD_SECRET || '',
-  csrf:
-    process.env.NODE_ENV === 'production'
-      ? ['https://cms.jhb.software']
-      : // allow any domain in dev or preview
-        [],
-  typescript: {
-    outputFile: path.resolve(dirname, 'payload-types.ts'),
-  },
-  db: mongooseAdapter({
-    url: process.env.MONGODB_URI!,
-    allowIDOnCreate: true,
-  }),
-  email: resendAdapter({
-    defaultFromAddress: 'cms@jhb.software',
-    defaultFromName: `${websiteName} CMS`,
-    apiKey: process.env.RESEND_API_KEY!,
-  }),
-  endpoints: [
-    {
-      path: '/static-paths',
-      method: 'get',
-      handler: getStaticPagesProps,
-    },
-    {
-      path: '/sitemap',
-      method: 'get',
-      handler: getSitemap,
-    },
-    {
-      path: '/page-props',
-      method: 'get',
-      handler: getPagePropsByPath,
-    },
-  ],
-=======
->>>>>>> main
   blocks: [
     // Since the CodeBlock is only used inside the RichText editor of the articles, add it here to generate the type
     CodeBlock,
@@ -317,24 +266,24 @@ export default buildConfig({
       generatePageURL,
     }),
     s3Storage({
+      acl: 'public-read',
+      bucket: process.env.HETZNER_BUCKET!,
+      clientUploads: true,
       collections: {
         media: {
           // serve files directly from hetzner object storage to improve performance
           disablePayloadAccessControl: true,
         },
       },
-      bucket: process.env.HETZNER_BUCKET!,
       config: {
-        endpoint: 'https://nbg1.your-objectstorage.com',
         credentials: {
           accessKeyId: process.env.HETZNER_ACCESS_KEY_ID!,
           secretAccessKey: process.env.HETZNER_SECRET_ACCESS_KEY!,
         },
+        endpoint: 'https://nbg1.your-objectstorage.com',
         // TODO: setting cache control is not (yet) supported by the s3 plugin
         //  cacheControl: 'public, max-age=2592000', // max age 30 days
       },
-      clientUploads: true,
-      acl: 'public-read',
     }),
     seoPlugin({
       collections: pageCollectionsSlugs,
