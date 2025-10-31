@@ -1,36 +1,37 @@
+import { GlobalConfig, TextField } from 'payload'
+
 import { Project } from '@/payload-types'
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
-import { GlobalConfig, TextField } from 'payload'
 
 const labelField = (name: string, label?: string): TextField => ({
   name,
   type: 'text',
-  required: true,
-  localized: true,
   label: label,
+  localized: true,
+  required: true,
 })
 
 /** Global document that contains labels that should be changable via the CMS. (e.g. aria labels or global button labels) */
 const Labels: GlobalConfig = {
   slug: 'labels',
-  // ensure payload wont convert the slug to be singular
-  dbName: 'labels',
   typescript: {
     interface: 'Labels',
   },
-  label: {
-    de: 'Beschriftungen',
-    en: 'Labels',
-  },
+  // ensure payload wont convert the slug to be singular
   access: {
     read: anyone,
     update: authenticated,
   },
+  dbName: 'labels',
+  label: {
+    de: 'Beschriftungen',
+    en: 'Labels',
+  },
   fields: [
     {
-      type: 'group',
       name: 'global',
+      type: 'group',
       fields: [
         labelField('show-more'),
         labelField('learn-more'),
@@ -42,8 +43,8 @@ const Labels: GlobalConfig = {
       ],
     },
     {
-      type: 'group',
       name: 'social',
+      type: 'group',
       fields: [
         labelField('visit-facebook'),
         labelField('visit-twitter'),
@@ -54,8 +55,8 @@ const Labels: GlobalConfig = {
       ],
     },
     {
-      type: 'group',
       name: 'projects',
+      type: 'group',
       fields: [
         ...(['web-app', 'website', 'app', 'seo', 'cms'] satisfies Project['tags']).map((tag) =>
           labelField(tag),
@@ -63,13 +64,13 @@ const Labels: GlobalConfig = {
       ],
     },
     {
-      type: 'group',
       name: 'articles',
+      type: 'group',
       fields: [labelField('written-by'), labelField('last-updated-at')],
     },
     {
-      type: 'group',
       name: 'not-found-page',
+      type: 'group',
       label: 'Not found (404) page',
       fields: [
         labelField('title', 'Title'),

@@ -1,7 +1,9 @@
-import type { Config } from '@/payload-types'
-import { locales, pageCollectionsSlugs } from '@/payload.config'
 import { createHash } from 'crypto'
 import { PayloadRequest } from 'payload'
+
+import type { Config } from '@/payload-types'
+
+import { locales, pageCollectionsSlugs } from '@/payload.config'
 
 export type SitemapEntry = {
   path: string
@@ -30,15 +32,15 @@ export async function getSitemap(req: PayloadRequest) {
   for (const collection of pageCollectionsSlugs) {
     const data = await req.payload.find({
       collection: collection,
+      depth: 0, // do not fetch related docs
       limit: 1000,
       locale: locale,
-      depth: 0, // do not fetch related docs
-      where: {
-        _status: { equals: 'published' },
-      },
       select: {
         path: true,
         updatedAt: true,
+      },
+      where: {
+        _status: { equals: 'published' },
       },
     })
 
@@ -67,9 +69,9 @@ export async function getSitemap(req: PayloadRequest) {
 
   return new Response(jsonString, {
     headers: {
+      'Cache-Control': 'no-cache',
       'Content-Type': 'application/json',
       ETag: etag,
-      'Cache-Control': 'no-cache',
     },
   })
 }

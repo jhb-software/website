@@ -1,10 +1,15 @@
 import { adminSearchPlugin } from '@jhb.software/payload-admin-search'
 import { payloadAltTextPlugin } from '@jhb.software/payload-alt-text-plugin'
 import { alternatePathsField, payloadPagesPlugin } from '@jhb.software/payload-pages-plugin'
+<<<<<<< HEAD
 import { payloadSeoPlugin } from '@jhb.software/payload-seo-plugin'
+=======
+import { hetznerStorage } from '@joneslloyd/payload-storage-hetzner'
+>>>>>>> main
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
 import { searchPlugin } from '@payloadcms/plugin-search'
+import { seoPlugin } from '@payloadcms/plugin-seo'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { de } from '@payloadcms/translations/languages/de'
@@ -14,6 +19,7 @@ import { buildConfig, CollectionConfig, CollectionSlug, GlobalSlug, User } from 
 import { openAIResolver, translator } from 'plugins/cms-content-translator/src'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
+
 import CodeBlock from './blocks/CodeBlock'
 import Articles from './collections/Articles'
 import ArticleTags from './collections/ArticleTags'
@@ -97,23 +103,21 @@ const translatableCollectionsSlugs: CollectionSlug[] = collections
   .map((collection) => collection.slug as CollectionSlug)
 
 export default buildConfig({
-  localization: {
-    locales: locales.map((locale) => ({
-      code: locale,
-      label: {
-        de: 'Deutsch',
-        en: 'English',
-      }[locale]!,
-    })),
-    defaultLocale: 'de',
-  },
   admin: {
-    user: Users.slug,
+    avatar: 'default',
+    components: {
+      graphics: {
+        Icon: '/components/Icon',
+        Logo: '/components/Logo',
+      },
+    },
+    dateFormat: "dd. MMM yyyy HH:mm 'Uhr'",
     importMap: {
       baseDir: path.resolve(dirname),
     },
     meta: {
-      titleSuffix: ` - ${websiteName} CMS`,
+      defaultOGImageType: 'off',
+      description: `${websiteName} CMS`,
       icons: [
         {
           rel: 'icon',
@@ -121,21 +125,14 @@ export default buildConfig({
           url: `/icon.png`,
         },
       ],
-      description: `${websiteName} CMS`,
-      defaultOGImageType: 'off',
       openGraph: {
         siteName: `${websiteName} CMS`,
       },
+      titleSuffix: ` - ${websiteName} CMS`,
     },
-    avatar: 'default',
-    dateFormat: "dd. MMM yyyy HH:mm 'Uhr'",
-    components: {
-      graphics: {
-        Icon: '/components/Icon',
-        Logo: '/components/Logo',
-      },
-    },
+    user: Users.slug,
   },
+<<<<<<< HEAD
   i18n: {
     fallbackLanguage: 'de',
     supportedLanguages: { en, de },
@@ -179,36 +176,88 @@ export default buildConfig({
       handler: getPagePropsByPath,
     },
   ],
+=======
+>>>>>>> main
   blocks: [
     // Since the CodeBlock is only used inside the RichText editor of the articles, add it here to generate the type
     CodeBlock,
   ],
+  collections: collections,
+  csrf:
+    process.env.NODE_ENV === 'production'
+      ? ['https://cms.jhb.software']
+      : ['http://localhost:3000', 'http://localhost:3001'],
+  db: mongooseAdapter({
+    allowIDOnCreate: true,
+    url: process.env.MONGODB_URI!,
+  }),
+  editor: lexicalEditor(),
+  email: resendAdapter({
+    apiKey: process.env.RESEND_API_KEY!,
+    defaultFromAddress: 'cms@jhb.software',
+    defaultFromName: `${websiteName} CMS`,
+  }),
+  endpoints: [
+    {
+      handler: getStaticPagesProps,
+      method: 'get',
+      path: '/static-paths',
+    },
+    {
+      handler: getSitemap,
+      method: 'get',
+      path: '/sitemap',
+    },
+    {
+      handler: getPagePropsByPath,
+      method: 'get',
+      path: '/page-props',
+    },
+  ],
+  globals: [Header, Footer, Labels],
+  i18n: {
+    fallbackLanguage: 'de',
+    supportedLanguages: { de, en },
+    translations: customTranslations,
+  },
+  localization: {
+    defaultLocale: 'de',
+    locales: locales.map((locale) => ({
+      code: locale,
+      label: {
+        de: 'Deutsch',
+        en: 'English',
+      }[locale]!,
+    })),
+  },
+  secret: process.env.PAYLOAD_SECRET || '',
   sharp,
+  typescript: {
+    outputFile: path.resolve(dirname, 'payload-types.ts'),
+  },
   plugins: [
     jhbDashboardPlugin({
-      title: websiteName + ' CMS',
-      frontend: {
-        url: process.env.NEXT_PUBLIC_FRONTEND_URL!,
-      },
       features: {
         deploymentInfo: true,
       },
+      frontend: {
+        url: process.env.NEXT_PUBLIC_FRONTEND_URL!,
+      },
+      title: websiteName + ' CMS',
     }),
     adminSearchPlugin({}),
     payloadAltTextPlugin({
-      openAIApiKey: process.env.OPENAI_API_KEY!,
       collections: ['media'],
-      model: 'gpt-4.1-mini',
       getImageThumbnail: (doc) => {
         const image = doc as unknown as MediaType
 
         // use sm if possible to reduce token count and speed up the generation of the alt text
         return image.sizes?.sm?.url ?? image.sizes?.md?.url ?? image.sizes?.lg?.url ?? image.url!
       },
+      model: 'gpt-4.1-mini',
+      openAIApiKey: process.env.OPENAI_API_KEY!,
     }),
     searchPlugin({
-      localize: true,
-      collections: collections.map((collection) => collection.slug as CollectionSlug),
       beforeSync: ({ originalDoc, searchDoc }) => {
         const getTitle = () => {
           switch (searchDoc.doc.relationTo as CollectionSlug) {
@@ -239,22 +288,24 @@ export default buildConfig({
           title: getTitle(),
         }
       },
+      collections: collections.map((collection) => collection.slug as CollectionSlug),
+      localize: true,
       searchOverrides: {
-        admin: {
-          group: CollectionGroups.SystemCollections,
-          defaultColumns: ['title', 'excerpt', 'doc'],
-        },
         access: {
+          create: authenticated,
+          delete: authenticated,
           read: anyone,
           update: authenticated,
-          delete: authenticated,
-          create: authenticated,
+        },
+        admin: {
+          defaultColumns: ['title', 'excerpt', 'doc'],
+          group: CollectionGroups.SystemCollections,
         },
       },
     }),
     translator({
-      disabled: true, // temporary disabled because of dependency mismatch issues
       collections: translatableCollectionsSlugs,
+      disabled: true, // temporary disabled because of dependency mismatch issues
       globals: [Header.slug, Footer.slug, Labels.slug] as GlobalSlug[],
       resolvers: [
         openAIResolver({
@@ -285,66 +336,28 @@ export default buildConfig({
       clientUploads: true,
       acl: 'public-read',
     }),
-    payloadSeoPlugin({
-      // JHB plugin related config
-      websiteContext: {
-        topic: 'Software Developer for mobile, web-apps and websites',
-      },
-      documentContentTransformers: {
-        pages: async (doc: Page) => ({
-          title: doc.title,
-          subTitle: doc.hero.subtitle,
-        }),
-        projects: async (doc: Project, lexicalToPlainText) => ({
-          title: doc.title,
-          excerpt: doc.excerpt,
-          tags: doc.tags?.join(', '),
-          body: (await lexicalToPlainText(doc.body)) ?? '',
-        }),
-      },
-      // Payload official seo plugin config:
+    seoPlugin({
       collections: pageCollectionsSlugs,
-      uploadsCollection: 'media',
-      generateTitle: ({ doc, collectionConfig, locale }) => {
-        const suffixMap: Record<string, Record<string, string>> = {
-          projects: {
-            de: 'Referenzen',
-            en: 'References',
-          },
-          articles: {
-            de: 'Artikel',
-            en: 'Articles',
-          },
-          authors: {
-            de: 'Autoren',
-            en: 'Authors',
-          },
-        }
-        const suffix = suffixMap[collectionConfig?.slug ?? '']?.[locale ?? 'de']
-        return `${doc.title} - ${websiteName} ${suffix ?? ''}`
-      },
-      generateURL: ({ doc }) => generatePageURL({ path: doc.path, preview: false }) ?? '',
-      interfaceName: 'SeoMetadata',
       fields: ({ defaultFields }) => [
         ...defaultFields.map((field) => {
           if ('name' in field) {
             if (field.name === 'title') {
               return {
                 ...field,
-                required: true,
                 label: {
                   de: 'Titel',
                   en: 'Title',
                 },
+                required: true,
               }
             } else if (field.name === 'description') {
               return {
                 ...field,
-                required: true,
                 label: {
                   de: 'Beschreibung',
                   en: 'Description',
                 },
+                required: true,
               }
             } else if (field.name === 'image') {
               return {
@@ -360,6 +373,27 @@ export default buildConfig({
         }),
         alternatePathsField(),
       ],
+      generateTitle: ({ collectionConfig, doc, locale }) => {
+        const suffixMap: Record<string, Record<string, string>> = {
+          articles: {
+            de: 'Artikel',
+            en: 'Articles',
+          },
+          authors: {
+            de: 'Autoren',
+            en: 'Authors',
+          },
+          projects: {
+            de: 'Referenzen',
+            en: 'References',
+          },
+        }
+        const suffix = suffixMap[collectionConfig?.slug ?? '']?.[locale ?? 'de']
+        return `${doc.title} - ${websiteName} ${suffix ?? ''}`
+      },
+      generateURL: ({ doc }) => generatePageURL({ path: doc.path, preview: false }) ?? '',
+      interfaceName: 'SeoMetadata',
+      uploadsCollection: 'media',
     }),
   ],
 })

@@ -4,51 +4,51 @@ export const TestimonialsBlock: Block = {
   slug: 'testimonials',
   interfaceName: 'TestimonialsBlock',
   labels: {
-    singular: {
-      de: 'Testimonials Block',
-      en: 'Testimonials Block',
-    },
     plural: {
       de: 'Testimonials Blöcke',
       en: 'Testimonials Blocks',
     },
+    singular: {
+      de: 'Testimonials Block',
+      en: 'Testimonials Block',
+    },
   },
   fields: [
     {
-      // This virtual field makes the data directly available to the frontend when a document with the block is requested
       name: 'testimonials',
       type: 'relationship',
-      relationTo: 'testimonials',
-      hasMany: true,
-      required: true,
-      virtual: true,
       // As the value of the field is set by the hook, do not validate it
-      validate: () => true,
       admin: {
         readOnly: true,
       },
+      // This virtual field makes the data directly available to the frontend when a document with the block is requested
+      hasMany: true,
       hooks: {
         afterRead: [
           async ({ req: { payload } }) => {
             const testimonials = await payload.find({
               collection: 'testimonials',
+              draft: false,
               limit: 100,
               select: {
                 // only select the id
               },
+              sort: '_order',
               where: {
                 _status: {
                   equals: 'published',
                 },
               },
-              sort: '_order',
-              draft: false,
             })
 
             return testimonials.docs.map((testimonial) => testimonial.id)
           },
         ],
       },
+      relationTo: 'testimonials',
+      required: true,
+      validate: () => true,
+      virtual: true,
     },
   ],
 }

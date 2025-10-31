@@ -3,6 +3,7 @@ import { Gutter } from '@payloadcms/ui'
 import Link from 'next/link'
 import { AdminViewServerPropsOnly } from 'payload'
 import React from 'react'
+
 import { JhbDashboardTranslationKeys } from '../translations'
 import { JhbDashboardPluginConfig } from '../types'
 import { DeploymentInfoCard } from './cards/deployment-info/DeploymentInfoCard'
@@ -18,10 +19,10 @@ export type DashboardViewPluginProps = {
 export type DashboardViewProps = DashboardViewPluginProps & AdminViewServerPropsOnly
 
 export const DashboardView: React.FC<DashboardViewProps> = ({
+  features,
+  frontend,
   i18n,
   title,
-  frontend,
-  features,
 }) => {
   const t = i18n.t as TFunction<JhbDashboardTranslationKeys>
 

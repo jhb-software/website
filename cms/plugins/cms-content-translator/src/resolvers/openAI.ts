@@ -1,5 +1,6 @@
-import { chunkArray } from '../utils/chunkArray'
 import type { TranslateResolver } from './types'
+
+import { chunkArray } from '../utils/chunkArray'
 
 export type OpenAIPrompt = (args: {
   localeFrom: string

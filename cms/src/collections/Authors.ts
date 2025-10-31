@@ -1,41 +1,42 @@
+import { PageCollectionConfig } from '@jhb.software/payload-pages-plugin'
+
 import { socialLinksField } from '@/fields/socialLinks'
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
-import { PageCollectionConfig } from '@jhb.software/payload-pages-plugin'
 
 const Authors: PageCollectionConfig = {
   slug: 'authors',
+  access: {
+    create: authenticated,
+    delete: authenticated,
+    read: anyone,
+    update: authenticated,
+  },
+  admin: {
+    defaultColumns: ['name', 'path', 'updatedAt', 'status'],
+    group: CollectionGroups.PagesCollections,
+    useAsTitle: 'name',
+  },
   labels: {
-    singular: {
-      de: 'Autor',
-      en: 'Author',
-    },
     plural: {
       de: 'Autoren',
       en: 'Authors',
     },
-  },
-  admin: {
-    useAsTitle: 'name',
-    defaultColumns: ['name', 'path', 'updatedAt', 'status'],
-    group: CollectionGroups.PagesCollections,
-  },
-  versions: {
-    drafts: true,
+    singular: {
+      de: 'Autor',
+      en: 'Author',
+    },
   },
   page: {
     parent: {
-      collection: 'pages',
       name: 'parent',
+      collection: 'pages',
       sharedDocument: true,
     },
   },
-  access: {
-    read: anyone,
-    update: authenticated,
-    delete: authenticated,
-    create: authenticated,
+  versions: {
+    drafts: true,
   },
   fields: [
     // Sidebar fields:
@@ -49,12 +50,12 @@ const Authors: PageCollectionConfig = {
     {
       name: 'profession',
       type: 'text',
-      required: true,
-      localized: true,
       label: {
-        en: 'Profession',
         de: 'Berufbezeichnung',
+        en: 'Profession',
       },
+      localized: true,
+      required: true,
     },
     {
       name: 'photo',
@@ -65,23 +66,23 @@ const Authors: PageCollectionConfig = {
     {
       name: 'excerpt',
       type: 'textarea',
-      required: true,
-      localized: true,
       label: {
-        en: 'Excerpt',
         de: 'Kurzbeschreibung',
+        en: 'Excerpt',
       },
+      localized: true,
+      required: true,
     },
-    socialLinksField({ name: 'socialLinks', required: true, minRows: 1 }),
+    socialLinksField({ name: 'socialLinks', minRows: 1, required: true }),
     {
       name: 'description',
       type: 'richText',
-      required: true,
-      localized: true,
       label: {
-        en: 'Description',
         de: 'Beschreibung',
+        en: 'Description',
       },
+      localized: true,
+      required: true,
     },
   ],
 }

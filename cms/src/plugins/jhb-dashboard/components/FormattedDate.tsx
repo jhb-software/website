@@ -12,11 +12,11 @@ export const FormattedDate: React.FC<FormattedDateProps> = ({ date, dateFNSKey }
   // similar to the global date format specified in payload.config.ts
   const dateFormat: Intl.DateTimeFormatOptions = {
     day: '2-digit',
+    hour: '2-digit',
+    hour12: false,
+    minute: '2-digit',
     month: 'short',
     year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
   }
 
   return <>{new Date(date).toLocaleString(dateFNSKey, dateFormat)}</>

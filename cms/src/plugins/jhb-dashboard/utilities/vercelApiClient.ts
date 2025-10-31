@@ -80,7 +80,7 @@ export class VercelApiClient {
       searchParams?: Record<string, string>
     } = {},
   ): Promise<T> {
-    const { method = 'GET', body, searchParams } = options
+    const { body, method = 'GET', searchParams } = options
 
     let url = `${this.baseUrl}${endpoint}`
 
@@ -90,12 +90,12 @@ export class VercelApiClient {
     }
 
     const response = await fetch(url, {
-      method,
+      body: body ? JSON.stringify(body) : undefined,
       headers: {
         Authorization: `Bearer ${this.bearerToken}`,
         'Content-Type': 'application/json',
       },
-      body: body ? JSON.stringify(body) : undefined,
+      method,
     })
 
     if (!response.ok) {
@@ -162,8 +162,8 @@ export class VercelApiClient {
     }
 
     return this.request<CreateDeploymentResponse>('/v13/deployments', {
-      method: 'POST',
       body: params.requestBody,
+      method: 'POST',
       searchParams,
     })
   }

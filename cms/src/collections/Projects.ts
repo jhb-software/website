@@ -1,7 +1,8 @@
+import { PageCollectionConfig } from '@jhb.software/payload-pages-plugin'
+
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
-import { PageCollectionConfig } from '@jhb.software/payload-pages-plugin'
 
 // TODO: add an AI-functionality to generate a project page from notes. Here are some informations on what to include in the prompt:
 // - title: The title of the project, do not include the customer name, instead focus on the WHAT instead of the for WHO.
@@ -10,120 +11,119 @@ import { PageCollectionConfig } from '@jhb.software/payload-pages-plugin'
 
 const Projects: PageCollectionConfig = {
   slug: 'projects',
+  access: {
+    create: authenticated,
+    delete: authenticated,
+    read: anyone,
+    update: authenticated,
+  },
+  admin: {
+    defaultColumns: ['title', 'path', 'updatedAt', 'status'],
+    group: CollectionGroups.PagesCollections,
+    useAsTitle: 'title',
+  },
+  enableQueryPresets: true,
   labels: {
-    singular: {
-      de: 'Projekt',
-      en: 'Project',
-    },
     plural: {
       de: 'Projekte',
       en: 'Projects',
     },
+    singular: {
+      de: 'Projekt',
+      en: 'Project',
+    },
   },
-  admin: {
-    useAsTitle: 'title',
-    defaultColumns: ['title', 'path', 'updatedAt', 'status'],
-    group: CollectionGroups.PagesCollections,
+  page: {
+    parent: {
+      name: 'parent',
+      collection: 'pages',
+      sharedDocument: true,
+    },
   },
   versions: {
     drafts: true,
   },
-  page: {
-    parent: {
-      collection: 'pages',
-      name: 'parent',
-      sharedDocument: true,
-    },
-  },
-  access: {
-    read: anyone,
-    update: authenticated,
-    delete: authenticated,
-    create: authenticated,
-  },
-  enableQueryPresets: true,
   fields: [
     // Sidebar fields:
     {
       name: 'customer',
       type: 'relationship',
-      relationTo: 'customers',
-      required: true,
       admin: {
         position: 'sidebar',
       },
+      relationTo: 'customers',
+      required: true,
     },
     {
       name: 'startDate',
       type: 'date',
-      label: {
-        en: 'Start Date',
-        de: 'Startdatum',
-      },
-      required: true,
       admin: {
         position: 'sidebar',
       },
+      label: {
+        de: 'Startdatum',
+        en: 'Start Date',
+      },
+      required: true,
     },
     {
       name: 'endDate',
       type: 'date',
-      label: {
-        en: 'End Date',
-        de: 'Enddatum',
-      },
-      required: false,
       admin: {
         position: 'sidebar',
       },
+      label: {
+        de: 'Enddatum',
+        en: 'End Date',
+      },
+      required: false,
     },
     {
       name: 'featured',
       type: 'checkbox',
+      admin: {
+        description: {
+          de: 'Ob das Projekt in der hervorgehobenen Projekte-Section angezeigt werden soll.',
+          en: 'Whether the project should be shown in the featured projects section.',
+        },
+        position: 'sidebar',
+      },
       label: {
-        en: 'Featured',
         de: 'Hervorgehoben',
+        en: 'Featured',
       },
       required: true,
-      admin: {
-        position: 'sidebar',
-        description: {
-          en: 'Whether the project should be shown in the featured projects section.',
-          de: 'Ob das Projekt in der hervorgehobenen Projekte-Section angezeigt werden soll.',
-        },
-      },
     },
 
     // Body fields:
     {
       name: 'title',
       type: 'text',
-      required: true,
-      localized: true,
       label: {
-        en: 'Title',
         de: 'Titel',
+        en: 'Title',
       },
+      localized: true,
+      required: true,
     },
     {
       name: 'excerpt',
       type: 'textarea',
-      required: true,
-      localized: true,
       label: {
-        en: 'Excerpt',
         de: 'Kurzbeschreibung',
+        en: 'Excerpt',
       },
+      localized: true,
+      required: true,
     },
     {
       name: 'tags',
       type: 'select',
       hasMany: true,
       label: {
-        en: 'Tags',
         de: 'Tags',
+        en: 'Tags',
       },
-      required: true,
       options: [
         {
           label: 'Web-App',
@@ -146,38 +146,39 @@ const Projects: PageCollectionConfig = {
           value: 'cms',
         },
       ],
+      required: true,
     },
     {
       name: 'image',
       type: 'upload',
+      label: {
+        de: 'Bild',
+        en: 'Image',
+      },
       relationTo: 'media',
       required: true,
-      label: {
-        en: 'Image',
-        de: 'Bild',
-      },
     },
     {
       // TODO: rename this field to content to be consistent with the articles rich text field
       // NOTE: a database migration is needed
       name: 'body',
       type: 'richText',
-      required: true,
-      localized: true,
       label: {
-        en: 'Content',
         de: 'Inhalt',
+        en: 'Content',
       },
+      localized: true,
+      required: true,
     },
     {
       name: 'testimonials',
       type: 'join',
       collection: 'testimonials',
-      on: 'project',
       label: {
-        en: 'Testimonials',
         de: 'Referenzen',
+        en: 'Testimonials',
       },
+      on: 'project',
     },
   ],
 }

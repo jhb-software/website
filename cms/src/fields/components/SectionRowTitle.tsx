@@ -1,7 +1,8 @@
 'use client'
 
-import { useCustomTranslations } from '@/shared/useCustomTranslations'
 import { useRowLabel } from '@payloadcms/ui'
+
+import { useCustomTranslations } from '@/shared/useCustomTranslations'
 
 export default function SectionRowTitle() {
   const { data, rowNumber } = useRowLabel<{ title?: string }>()

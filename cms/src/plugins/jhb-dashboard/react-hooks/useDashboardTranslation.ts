@@ -1,10 +1,11 @@
 'use client'
 
+import { useTranslation } from '@payloadcms/ui'
+
 import type {
   JhbDashboardTranslationKeys,
   JhbDashboardTranslations,
 } from '@/plugins/jhb-dashboard/translations'
-import { useTranslation } from '@payloadcms/ui'
 
 /**
  * Custom hook which provides type-safe access to dashboard-specific translations.

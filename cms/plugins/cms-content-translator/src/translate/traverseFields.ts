@@ -1,10 +1,12 @@
-import ObjectID from 'bson-objectid'
 import type { Field } from 'payload'
+
+import ObjectID from 'bson-objectid'
 import { tabHasName } from 'payload/shared'
+
+import type { ValueToTranslate } from './types'
 
 import { isEmpty } from '../utils/isEmpty'
 import { traverseRichText } from './traverseRichText'
-import type { ValueToTranslate } from './types'
 
 export const traverseFields = ({
   dataFrom,

@@ -4,23 +4,23 @@ export const ServicesBlock: Block = {
   slug: 'services',
   interfaceName: 'ServicesBlock',
   labels: {
-    singular: {
-      de: 'Leistungen Block',
-      en: 'Services Block',
-    },
     plural: {
       de: 'Leistungen Blöcke',
       en: 'Services Blocks',
+    },
+    singular: {
+      de: 'Leistungen Block',
+      en: 'Services Block',
     },
   },
   fields: [
     {
       name: 'services',
+      type: 'array',
       label: {
         de: 'Leistungen',
         en: 'Services',
       },
-      type: 'array',
       fields: [
         {
           type: 'row',
@@ -28,54 +28,54 @@ export const ServicesBlock: Block = {
             {
               name: 'title',
               type: 'text',
-              required: true,
-              localized: true,
+              admin: {
+                width: '70%',
+              },
               label: {
                 de: 'Titel',
                 en: 'Title',
               },
-              admin: {
-                width: '70%',
-              },
+              localized: true,
+              required: true,
             },
             {
               name: 'icon',
               type: 'select',
+              admin: {
+                width: '30%',
+              },
+              label: {
+                de: 'Icon',
+                en: 'Icon',
+              },
               options: [
                 { label: 'Mobile Phone', value: 'mobile-phone' },
                 { label: 'Laptop', value: 'laptop' },
                 { label: 'Laptop Code', value: 'laptop-code' },
               ],
               required: true,
-              label: {
-                de: 'Icon',
-                en: 'Icon',
-              },
-              admin: {
-                width: '30%',
-              },
             },
           ],
         },
         {
           name: 'description',
           type: 'textarea',
-          required: true,
-          localized: true,
           label: {
             de: 'Beschreibung',
             en: 'Description',
           },
+          localized: true,
+          required: true,
         },
         {
           name: 'page',
           type: 'relationship',
-          relationTo: 'pages',
-          required: true,
           label: {
             de: 'Seite',
             en: 'Page',
           },
+          relationTo: 'pages',
+          required: true,
         },
       ],
     },

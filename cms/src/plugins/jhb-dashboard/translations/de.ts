@@ -7,27 +7,27 @@ export const de: GenericTranslationsObject = {
     website: 'Website',
 
     // Deployment Info Feature
-    deploymentInfoTitle: 'Website Veröffentlichungen',
-    deploymentInfoDescription:
-      'Da die Website aus Performancegründen statisch ist, muss bei Inhaltsänderungen im CMS eine neue Veröffentlichung erstellt werden, bei dem die Website mit den aktuell im CMS veröffentlichten Inhalten neu erstellt wird. Der Erstellungsprozess dauert in der Regel 1-2 Minuten.',
     deploymentInfoActiveDeployment: 'Aktive Veröffentlichung',
-    deploymentInfoLatestDeployment: 'Neueste Veröffentlichung',
-    deploymentInfoTriggerRebuild: 'Neue Veröffentlichung erstellen',
-    deploymentInfoInspectDeployment: 'Veröffentlichung inspizieren',
-    deploymentInfoDeploymentTriggeredSuccessfully: 'Neue Veröffentlichung erfolgreich erstellt',
-    deploymentInfoDeploymentTriggeredFailed: 'Neue Veröffentlichung konnte nicht erstellt werden',
     deploymentInfoDeploymentCompletedSuccessfully:
       'Neue Veröffentlichung erfolgreich abgeschlossen',
+    deploymentInfoDeploymentTriggeredFailed: 'Neue Veröffentlichung konnte nicht erstellt werden',
+    deploymentInfoDeploymentTriggeredSuccessfully: 'Neue Veröffentlichung erfolgreich erstellt',
+    deploymentInfoDescription:
+      'Da die Website aus Performancegründen statisch ist, muss bei Inhaltsänderungen im CMS eine neue Veröffentlichung erstellt werden, bei dem die Website mit den aktuell im CMS veröffentlichten Inhalten neu erstellt wird. Der Erstellungsprozess dauert in der Regel 1-2 Minuten.',
+    deploymentInfoInspectDeployment: 'Veröffentlichung inspizieren',
+    deploymentInfoLatestDeployment: 'Neueste Veröffentlichung',
+    deploymentInfoTitle: 'Website Veröffentlichungen',
+    deploymentInfoTriggerRebuild: 'Neue Veröffentlichung erstellen',
 
     // Vercel Deployment Status
     vercelDeploymentStatusBuilding: 'Wird gebaut',
-    vercelDeploymentStatusReady: 'Bereit',
-    vercelDeploymentStatusError: 'Fehler',
-    vercelDeploymentStatusQueued: 'In Warteschlange',
-    vercelDeploymentStatusInitializing: 'Wird initialisiert',
     vercelDeploymentStatusCanceled: 'Abgebrochen',
     vercelDeploymentStatusDeleted: 'Gelöscht',
+    vercelDeploymentStatusError: 'Fehler',
     vercelDeploymentStatusFailed: 'Fehlgeschlagen',
+    vercelDeploymentStatusInitializing: 'Wird initialisiert',
+    vercelDeploymentStatusQueued: 'In Warteschlange',
+    vercelDeploymentStatusReady: 'Bereit',
     vercelDeploymentStatusUnknown: 'Unbekannter Status',
   },
 }

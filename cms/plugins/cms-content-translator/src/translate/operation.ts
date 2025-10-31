@@ -2,9 +2,10 @@ import he from 'he'
 import { APIError, type Payload, type PayloadRequest } from 'payload'
 
 import type { TranslateResolver } from '../resolvers/types'
+import type { TranslateArgs, TranslateResult, ValueToTranslate } from './types'
+
 import { findEntityWithConfig } from './findEntityWithConfig'
 import { traverseFields } from './traverseFields'
-import type { TranslateArgs, TranslateResult, ValueToTranslate } from './types'
 import { updateEntity } from './updateEntity'
 
 export type TranslateOperationArgs = (

@@ -14,6 +14,7 @@ import { type ReactNode, useEffect, useMemo, useState } from 'react'
 
 import type { TranslateResolver } from '../../../resolvers/types'
 import type { TranslateArgs } from '../../../translate/types'
+
 import { createClient } from '../../api'
 import { TranslatorContext } from './context'
 
@@ -151,8 +152,8 @@ export const TranslatorProvider = ({ children }: { children: ReactNode }) => {
     <TranslatorContext.Provider
       value={{
         closeTranslator,
-        localeToTranslateFrom,
         localesOptions,
+        localeToTranslateFrom,
         modalSlug,
         openTranslator: ({ resolverKey }) => {
           setResolver(resolverKey)
