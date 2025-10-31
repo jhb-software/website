@@ -17,9 +17,6 @@ importers:
       '@jhb.software/payload-pages-plugin':
         specifier: 0.6.0-beta.2
         version: 0.6.0-beta.2(@payloadcms/ui@3.62.0(@types/react@19.2.2)(monaco-editor@0.52.2)(next@16.0.1(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.62.0(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3))(next@16.0.1(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.62.0(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      '@joneslloyd/payload-storage-hetzner':
-        specifier: github:jhb-dev/hetzner-object-storage#3b64d06e136409df45eb70b9b350aa1649ec7f79
-        version: https://codeload.github.com/jhb-dev/hetzner-object-storage/tar.gz/3b64d06e136409df45eb70b9b350aa1649ec7f79(@payloadcms/plugin-cloud-storage@3.62.0(@types/react@19.2.2)(monaco-editor@0.52.2)(next@16.0.1(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.62.0(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3))(payload@3.62.0(graphql@16.11.0)(typescript@5.9.3))(react@19.2.0)
       '@payload-enchants/translator':
         specifier: workspace:*
         version: link:plugins/cms-content-translator
@@ -1381,15 +1378,6 @@ packages:
       payload: 3.60.0
       react: 19.1.1
       react-dom: 19.1.1
-
-  '@joneslloyd/payload-storage-hetzner@https://codeload.github.com/jhb-dev/hetzner-object-storage/tar.gz/3b64d06e136409df45eb70b9b350aa1649ec7f79':
-    resolution: {tarball: https://codeload.github.com/jhb-dev/hetzner-object-storage/tar.gz/3b64d06e136409df45eb70b9b350aa1649ec7f79}
-    version: 3.42.4
-    engines: {node: ^18.20.2 || >=20.9.0}
-    peerDependencies:
-      '@payloadcms/plugin-cloud-storage': ^3.33.0
-      payload: ^3.33.0
-      react: ^18.0.0 || ^19.1.0
 
   '@jridgewell/gen-mapping@0.3.12':
     resolution: {integrity: sha512-OuLGC46TjB5BbN1dH8JULVVZY4WTdkF7tV9Ys6wLL1rubZnCMstOhNHueU5bLCrnRuDhKPDM4g6sw4Bel5Gzqg==}
@@ -7382,17 +7370,6 @@ snapshots:
       qs-esm: 7.0.2
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
-
-  '@joneslloyd/payload-storage-hetzner@https://codeload.github.com/jhb-dev/hetzner-object-storage/tar.gz/3b64d06e136409df45eb70b9b350aa1649ec7f79(@payloadcms/plugin-cloud-storage@3.62.0(@types/react@19.2.2)(monaco-editor@0.52.2)(next@16.0.1(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.62.0(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3))(payload@3.62.0(graphql@16.11.0)(typescript@5.9.3))(react@19.2.0)':
-    dependencies:
-      '@aws-sdk/client-s3': 3.917.0
-      '@aws-sdk/lib-storage': 3.917.0(@aws-sdk/client-s3@3.917.0)
-      '@aws-sdk/s3-request-presigner': 3.917.0
-      '@payloadcms/plugin-cloud-storage': 3.62.0(@types/react@19.2.2)(monaco-editor@0.52.2)(next@16.0.1(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.62.0(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3)
-      payload: 3.62.0(graphql@16.11.0)(typescript@5.9.3)
-      react: 19.2.0
-    transitivePeerDependencies:
-      - aws-crt
 
   '@jridgewell/gen-mapping@0.3.12':
     dependencies:

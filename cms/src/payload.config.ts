@@ -1,12 +1,12 @@
 import { adminSearchPlugin } from '@jhb.software/payload-admin-search'
 import { payloadAltTextPlugin } from '@jhb.software/payload-alt-text-plugin'
 import { alternatePathsField, payloadPagesPlugin } from '@jhb.software/payload-pages-plugin'
-import { hetznerStorage } from '@joneslloyd/payload-storage-hetzner'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
 import { searchPlugin } from '@payloadcms/plugin-search'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { s3Storage } from '@payloadcms/storage-s3'
 import { de } from '@payloadcms/translations/languages/de'
 import { en } from '@payloadcms/translations/languages/en'
 import path from 'path'
@@ -265,10 +265,9 @@ export default buildConfig({
     payloadPagesPlugin({
       generatePageURL,
     }),
-    hetznerStorage({
+    s3Storage({
       acl: 'public-read',
       bucket: process.env.HETZNER_BUCKET!,
-      cacheControl: 'public, max-age=2592000', // max age 30 days
       clientUploads: true,
       collections: {
         media: {
@@ -276,11 +275,17 @@ export default buildConfig({
           disablePayloadAccessControl: true,
         },
       },
-      credentials: {
-        accessKeyId: process.env.HETZNER_ACCESS_KEY_ID!,
-        secretAccessKey: process.env.HETZNER_SECRET_ACCESS_KEY!,
+      config: {
+        credentials: {
+          accessKeyId: process.env.HETZNER_ACCESS_KEY_ID!,
+          secretAccessKey: process.env.HETZNER_SECRET_ACCESS_KEY!,
+        },
+        endpoint: 'https://nbg1.your-objectstorage.com',
+        region: 'nbg1',
+        // TODO: setting cache control is not (yet) supported by the s3 plugin
+        // see: https://github.com/payloadcms/payload/pull/14412
+        // cacheControl: 'public, max-age=2592000', // max age 30 days
       },
-      region: 'nbg1',
     }),
     seoPlugin({
       collections: pageCollectionsSlugs,
