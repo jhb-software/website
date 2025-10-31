@@ -281,8 +281,10 @@ export default buildConfig({
           secretAccessKey: process.env.HETZNER_SECRET_ACCESS_KEY!,
         },
         endpoint: 'https://nbg1.your-objectstorage.com',
+        region: 'nbg1',
         // TODO: setting cache control is not (yet) supported by the s3 plugin
-        //  cacheControl: 'public, max-age=2592000', // max age 30 days
+        // see: https://github.com/payloadcms/payload/pull/14412
+        // cacheControl: 'public, max-age=2592000', // max age 30 days
       },
     }),
     seoPlugin({
