@@ -1,7 +1,7 @@
 import type { Config } from '@/payload-types'
 import { locales, PageCollectionSlugs, pageCollectionsSlugs } from '@/payload.config'
 import { createHash } from 'crypto'
-import { CollectionSlug, PayloadRequest } from 'payload'
+import { PayloadRequest } from 'payload'
 import { StaticPageProps } from './staticPages'
 
 export type PageProps = Omit<StaticPageProps, 'paths'>
@@ -37,8 +37,8 @@ export async function getPagePropsByPath(req: PayloadRequest) {
 
   for (const collection of collections) {
     const data = await req.payload.find({
-      collection: collection as CollectionSlug,
-      limit: 1000,
+      collection: collection,
+      limit: 0,
       locale: locale,
       depth: 0,
       // For pages which have not been published yet (draft), the CMS by default returns the first/oldest draft instead of the latest draft.
@@ -57,8 +57,9 @@ export async function getPagePropsByPath(req: PayloadRequest) {
         id: true,
         slug: true,
         path: true,
-        template: true,
       },
+      pagination: false,
+      req,
     })
 
     for (const doc of data.docs as unknown as { path: string; id: string }[]) {
