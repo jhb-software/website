@@ -1,6 +1,6 @@
 ---
 import { globalState } from '@/globalState'
-import type { Media, Project } from 'cms/src/payload-types'
+import type { Project } from 'cms/src/payload-types'
 import { normalizePath } from '../../utils/normalizePath'
 import Img from '../Img.astro'
 import ProjectDate from '../ProjectDate.astro'
@@ -22,12 +22,9 @@ const { preview } = globalState
     <div class="flex flex-col items-center gap-5 sm:odd:flex-row sm:odd:text-right sm:even:flex-row-reverse sm:even:text-left md:gap-8">
       <div class="mb-0 w-full sm:basis-7/12">
         <a href={normalizePath(project.path, preview)}>
-          <Img
-            image={project.image as Media}
-            size="lg"
-            fetchpriority="high"
-            class="my-0 rounded-xl"
-          />
+          {typeof project.image === 'object' && (
+            <Img image={project.image} size="lg" fetchpriority="high" class="my-0 rounded-xl" />
+          )}
         </a>
       </div>
 
@@ -54,7 +51,9 @@ const { preview } = globalState
     <a href={normalizePath(project.path, preview)}>
       <Card class="flex flex-col items-center gap-4 p-0! md:flex-row">
         <div class="hidden w-48 flex-none md:block">
-          <Img image={project.image as Media} size="sm" class="my-0 rounded-l-xl" />
+          {typeof project.image === 'object' && (
+            <Img image={project.image} size="sm" class="my-0 rounded-l-xl" />
+          )}
         </div>
 
         <div class="flex w-full flex-auto flex-row justify-between gap-8 p-4">

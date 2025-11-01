@@ -95,7 +95,7 @@ export interface Config {
     authors: Author;
     testimonials: Testimonial;
     'article-tags': ArticleTag;
-    media: Media;
+    images: Image;
     redirects: Redirect;
     users: User;
     search: Search;
@@ -118,7 +118,7 @@ export interface Config {
     authors: AuthorsSelect<false> | AuthorsSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     'article-tags': ArticleTagsSelect<false> | ArticleTagsSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
+    images: ImagesSelect<false> | ImagesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
@@ -310,7 +310,7 @@ export interface Testimonial {
   title: string;
   author: {
     name: string;
-    image: string | Media;
+    image: string | Image;
   };
   text: string;
   updatedAt: string;
@@ -337,7 +337,7 @@ export interface Project {
   title: string;
   excerpt: string;
   tags: ('web-app' | 'website' | 'app' | 'seo' | 'cms')[];
-  image: string | Media;
+  image: string | Image;
   body: {
     root: {
       type: string;
@@ -372,15 +372,15 @@ export interface Customer {
   websiteUrl: string;
   name: string;
   excerpt: string;
-  logo: string | Media;
+  logo: string | Image;
   updatedAt: string;
   createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
+ * via the `definition` "images".
  */
-export interface Media {
+export interface Image {
   id: string;
   alt: string;
   /**
@@ -459,7 +459,7 @@ export interface SeoMetadata {
   /**
    * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
    */
-  image?: (string | null) | Media;
+  image?: (string | null) | Image;
   alternatePaths: {
     hreflang: string;
     path: string;
@@ -520,7 +520,7 @@ export interface Article {
   tags: (string | ArticleTag)[];
   title: string;
   excerpt: string;
-  image: string | Media;
+  image: string | Image;
   content: {
     root: {
       type: string;
@@ -553,7 +553,7 @@ export interface Author {
   breadcrumbs: Breadcrumbs;
   name: string;
   profession: string;
-  photo: string | Media;
+  photo: string | Image;
   excerpt: string;
   socialLinks: SocialLinks;
   description: {
@@ -618,7 +618,7 @@ export interface AboutBlock {
     };
     [k: string]: unknown;
   };
-  image: string | Media;
+  image: string | Image;
   id?: string | null;
   blockName?: string | null;
   blockType: 'about';
@@ -659,7 +659,7 @@ export interface PhilosophyBlock {
  */
 export interface ContactBlock {
   name: string;
-  image: string | Media;
+  image: string | Image;
   phone: string;
   email: string;
   socialLinks: {
@@ -750,8 +750,8 @@ export interface Search {
         value: string | ArticleTag;
       }
     | {
-        relationTo: 'media';
-        value: string | Media;
+        relationTo: 'images';
+        value: string | Image;
       }
     | {
         relationTo: 'redirects';
@@ -817,8 +817,8 @@ export interface PayloadLockedDocument {
         value: string | ArticleTag;
       } | null)
     | ({
-        relationTo: 'media';
-        value: string | Media;
+        relationTo: 'images';
+        value: string | Image;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1259,9 +1259,9 @@ export interface ArticleTagsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
+ * via the `definition` "images_select".
  */
-export interface MediaSelect<T extends boolean = true> {
+export interface ImagesSelect<T extends boolean = true> {
   alt?: T;
   keywords?: T;
   updatedAt?: T;

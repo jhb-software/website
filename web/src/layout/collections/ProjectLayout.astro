@@ -7,7 +7,7 @@ import ProjectTagsList from '@/components/ProjectTagsList.astro'
 import SectionShell from '@/layout/SectionShell.astro'
 import { projectSchema } from '@/schema/project'
 import { Schema } from 'astro-seo-schema'
-import type { Breadcrumbs, Media, Project } from 'cms/src/payload-types'
+import type { Breadcrumbs, Project } from 'cms/src/payload-types'
 
 type Props = {
   project: Project
@@ -35,12 +35,16 @@ const schema = projectSchema(pageData)
     <ProjectTagsList tags={pageData.tags} />
   </div>
 
-  <Img
-    image={pageData.image as Media}
-    size="xl"
-    class="mx-auto my-8 w-full max-w-4xl rounded-xl"
-    fetchpriority="high"
-  />
+  {
+    typeof pageData.image === 'object' && (
+      <Img
+        image={pageData.image}
+        size="xl"
+        class="mx-auto my-8 w-full max-w-4xl rounded-xl"
+        fetchpriority="high"
+      />
+    )
+  }
 
   <RichTextBlock text={pageData.body} />
 </SectionShell>

@@ -80,7 +80,7 @@ const Testimonials: CollectionConfig = {
             de: 'Bild',
             en: 'Image',
           },
-          relationTo: 'media',
+          relationTo: 'images',
           required: true,
         },
       ],

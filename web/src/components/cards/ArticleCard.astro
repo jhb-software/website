@@ -1,7 +1,7 @@
 ---
 import { payloadSDK } from '@/cms/sdk'
 import { globalState } from '@/globalState'
-import type { Article, Author, Media } from 'cms/src/payload-types'
+import type { Article, Author } from 'cms/src/payload-types'
 import { normalizePath } from '../../utils/normalizePath'
 import ArticleTagsList from '../ArticleTagsList.astro'
 import Img from '../Img.astro'
@@ -46,12 +46,16 @@ if (featured) {
   ]}
 >
   <a href={normalizePath(article.path, preview)} class={featured ? 'basis-7/12' : ''}>
-    <Img
-      image={article.image as Media}
-      size="lg"
-      fetchpriority={featured ? 'high' : 'low'}
-      class="my-0 rounded-xl"
-    />
+    {
+      typeof article.image === 'object' && (
+        <Img
+          image={article.image}
+          size="lg"
+          fetchpriority={featured ? 'high' : 'low'}
+          class="my-0 rounded-xl"
+        />
+      )
+    }
   </a>
 
   <div class:list={['flex flex-col gap-4', featured ? 'basis-5/12' : '']}>
@@ -82,11 +86,13 @@ if (featured) {
             {authors.map((author) => (
               <div class="h-12 w-12 flex-shrink-0">
                 <a href={normalizePath(author.path, preview)}>
-                  <Img
-                    image={(author as Author).photo as Media}
-                    size="sm"
-                    class="inline-block aspect-square !h-11 !w-11 rounded-full ring-2 ring-white"
-                  />
+                  {typeof author.photo === 'object' && (
+                    <Img
+                      image={author.photo}
+                      size="sm"
+                      class="inline-block aspect-square !h-11 !w-11 rounded-full ring-2 ring-white"
+                    />
+                  )}
                 </a>
               </div>
             ))}

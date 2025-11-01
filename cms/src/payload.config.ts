@@ -15,12 +15,23 @@ import { openAIResolver, translator } from 'plugins/cms-content-translator/src'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
+import type {
+  Article,
+  ArticleTag,
+  Author,
+  Customer,
+  Image,
+  Page,
+  Project,
+  Testimonial,
+} from './payload-types'
+
 import CodeBlock from './blocks/CodeBlock'
 import Articles from './collections/Articles'
 import ArticleTags from './collections/ArticleTags'
 import Authors from './collections/Authors'
 import Customers from './collections/Customers'
-import { Media } from './collections/Media'
+import { Images } from './collections/Images'
 import Pages from './collections/Pages'
 import Projects from './collections/Projects'
 import { Redirects } from './collections/Redirects'
@@ -32,16 +43,6 @@ import { getStaticPagesProps } from './endpoints/staticPages'
 import Footer from './globals/Footer'
 import Header from './globals/Header'
 import Labels from './globals/Labels'
-import {
-  Article,
-  ArticleTag,
-  Author,
-  Customer,
-  Media as MediaType,
-  Page,
-  Project,
-  Testimonial,
-} from './payload-types'
 import { jhbDashboardPlugin } from './plugins/jhb-dashboard/plugin'
 import { anyone } from './shared/access/anyone'
 import { authenticated } from './shared/access/authenticated'
@@ -64,7 +65,7 @@ export const collections: CollectionConfig[] = [
   // Data Collections
   Testimonials,
   ArticleTags,
-  Media,
+  Images,
 
   // System Collections
   Redirects,
@@ -196,9 +197,9 @@ export default buildConfig({
     }),
     adminSearchPlugin({}),
     payloadAltTextPlugin({
-      collections: ['media'],
+      collections: ['images'],
       getImageThumbnail: (doc) => {
-        const image = doc as unknown as MediaType
+        const image = doc as unknown as Image
 
         // use sm if possible to reduce token count and speed up the generation of the alt text
         return image.sizes?.sm?.url ?? image.sizes?.md?.url ?? image.sizes?.lg?.url ?? image.url!
@@ -224,8 +225,8 @@ export default buildConfig({
               return (originalDoc as Testimonial).title
             case 'article-tags':
               return (originalDoc as ArticleTag).name
-            case 'media':
-              return (originalDoc as MediaType).filename
+            case 'images':
+              return (originalDoc as Image).filename
             case 'users':
               return (originalDoc as User).firstName + ' ' + (originalDoc as User).lastName
             default:
@@ -270,7 +271,7 @@ export default buildConfig({
       bucket: process.env.HETZNER_BUCKET!,
       clientUploads: true,
       collections: {
-        media: {
+        images: {
           // serve files directly from hetzner object storage to improve performance
           disablePayloadAccessControl: true,
         },
@@ -344,7 +345,7 @@ export default buildConfig({
       },
       generateURL: ({ doc }) => generatePageURL({ path: doc.path, preview: false }) ?? '',
       interfaceName: 'SeoMetadata',
-      uploadsCollection: 'media',
+      uploadsCollection: 'images',
     }),
   ],
 })

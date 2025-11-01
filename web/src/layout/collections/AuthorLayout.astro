@@ -5,7 +5,7 @@ import Img from '@/components/Img.astro'
 import SectionShell from '@/layout/SectionShell.astro'
 import { authorSchema } from '@/schema/author'
 import { Schema } from 'astro-seo-schema'
-import type { Author, Breadcrumbs, Media } from 'cms/src/payload-types'
+import type { Author, Breadcrumbs } from 'cms/src/payload-types'
 
 type Props = {
   author: Author
@@ -25,7 +25,11 @@ const schema = authorSchema(author)
   <p class="mb-8 text-center text-lg text-slate-700">{author.profession}</p>
 
   <div class="flex flex-col items-center">
-    <Img image={author.photo as Media} size="md" class="!h-64 !w-64 rounded-full" />
+    {
+      typeof author.photo === 'object' && (
+        <Img image={author.photo} size="md" class="!h-64 !w-64 rounded-full" />
+      )
+    }
   </div>
 
   <RichTextBlock text={author.description} class="mt-8" />

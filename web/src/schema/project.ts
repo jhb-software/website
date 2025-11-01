@@ -1,5 +1,5 @@
 import { SITE_URL } from 'astro:env/client'
-import type { Media, Project } from 'cms/src/payload-types'
+import type { Project } from 'cms/src/payload-types'
 import type { CreativeWork, WithContext } from 'schema-dts'
 import { organizationSchema } from './organization'
 
@@ -12,7 +12,7 @@ export const projectSchema = (project: Project): WithContext<CreativeWork> => {
     '@type': 'CreativeWork',
     name: project.title,
     description: project.excerpt,
-    image: (project.image as Media)?.url ?? undefined,
+    image: typeof project.image === 'object' ? (project.image.url ?? undefined) : undefined,
     creator: organizationSchema(),
     dateCreated: project.startDate,
     dateModified: project.endDate || project.updatedAt,

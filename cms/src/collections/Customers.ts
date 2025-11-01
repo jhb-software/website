@@ -61,7 +61,7 @@ const Customers: CollectionConfig = {
     {
       name: 'logo',
       type: 'upload',
-      relationTo: 'media',
+      relationTo: 'images',
       required: true,
     },
   ],

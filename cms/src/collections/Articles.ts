@@ -92,7 +92,7 @@ const Articles: PageCollectionConfig = {
         de: 'Bild',
         en: 'Image',
       },
-      relationTo: 'media',
+      relationTo: 'images',
       required: true,
     },
     {

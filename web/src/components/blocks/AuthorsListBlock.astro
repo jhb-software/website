@@ -1,7 +1,7 @@
 ---
 import Img from '@/components/Img.astro'
 import { globalState } from '@/globalState'
-import type { AuthorsBlock, Media } from 'cms/src/payload-types'
+import type { AuthorsBlock } from 'cms/src/payload-types'
 import { normalizePath } from '../../utils/normalizePath'
 import Card from '../cards/Card.astro'
 
@@ -23,7 +23,7 @@ const { preview } = globalState
                 <div class="w-48 flex-none">
                   {author.photo && typeof author.photo === 'object' && (
                     <Img
-                      image={author.photo as Media}
+                      image={author.photo}
                       size="md"
                       class="m-4 rounded-md md:m-0 md:rounded-r-none"
                     />

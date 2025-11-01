@@ -1,10 +1,10 @@
 ---
 import { VERCEL_ENV } from 'astro:env/server'
-import type { Media } from 'cms/src/payload-types'
+import type { Image } from 'cms/src/payload-types'
 import type { ValueOf } from 'ts-essentials'
 
-type ImageSize = keyof NonNullable<Media['sizes']> | 'original'
-type RawFileSize = ValueOf<Media['sizes']>
+type ImageSize = keyof NonNullable<Image['sizes']> | 'original'
+type RawFileSize = ValueOf<Image['sizes']>
 type ValidatedFileSize = {
   fileName: string
   url: string
@@ -13,7 +13,7 @@ type ValidatedFileSize = {
 }
 
 type Props = {
-  image: Media
+  image: Image
   size?: ImageSize
   class?: string
   fetchpriority?: 'high' | 'low' | 'auto'
@@ -49,7 +49,7 @@ export function validateFileSize(size: RawFileSize): ValidatedFileSize | undefin
 }
 
 /** Returns the validated file size for the given image and size */
-export function getFileSize(size: ImageSize, image: Media): ValidatedFileSize {
+export function getFileSize(size: ImageSize, image: Image): ValidatedFileSize {
   // fall back to the original file size
   let fileSize: ValidatedFileSize | undefined = validateFileSize(image)
 

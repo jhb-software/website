@@ -1,5 +1,5 @@
 ---
-import type { Media } from 'cms/src/payload-types'
+import type { Image } from 'cms/src/payload-types'
 import Img from '../../../Img.astro'
 import type { UploadNode } from '../types'
 
@@ -10,10 +10,10 @@ const { node } = Astro.props
 
 {
   (() => {
-    if (node.relationTo === 'media' && typeof node.value === 'object') {
+    if (node.relationTo === 'images' && typeof node.value === 'object') {
       return (
         <Img
-          image={node.value as unknown as Media}
+          image={node.value as unknown as Image}
           size="md"
           class="w-full rounded-2xl md:max-w-128"
         />

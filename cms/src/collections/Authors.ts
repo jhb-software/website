@@ -60,7 +60,7 @@ const Authors: PageCollectionConfig = {
     {
       name: 'photo',
       type: 'upload',
-      relationTo: 'media',
+      relationTo: 'images',
       required: true,
     },
     {

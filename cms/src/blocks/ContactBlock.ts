@@ -25,7 +25,7 @@ export const ContactBlock: Block = {
           admin: {
             width: '50%',
           },
-          relationTo: 'media',
+          relationTo: 'images',
           required: true,
         },
       ],
