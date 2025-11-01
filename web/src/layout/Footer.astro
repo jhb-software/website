@@ -15,7 +15,11 @@ const footer = await payloadSDK.findGlobal(
       },
     },
   },
-  !preview,
+  {
+    headers: {
+      'X-Use-Cache': preview ? 'false' : 'true',
+    },
+  },
 )
 ---
 

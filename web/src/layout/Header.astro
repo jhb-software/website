@@ -24,7 +24,11 @@ const header = await payloadSDK.findGlobal(
       },
     },
   },
-  !preview,
+  {
+    headers: {
+      'X-Use-Cache': preview ? 'false' : 'true',
+    },
+  },
 )
 
 const currentPath = Astro.url.pathname

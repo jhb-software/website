@@ -1,10 +1,9 @@
 ---
 import { VERCEL_ENV } from 'astro:env/server'
 import type { Image } from 'cms/src/payload-types'
-import type { ValueOf } from 'ts-essentials'
 
 type ImageSize = keyof NonNullable<Image['sizes']> | 'original'
-type RawFileSize = ValueOf<Image['sizes']>
+type RawFileSize = NonNullable<Image['sizes']>[keyof NonNullable<Image['sizes']>]
 type ValidatedFileSize = {
   fileName: string
   url: string

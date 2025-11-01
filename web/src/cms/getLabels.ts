@@ -15,6 +15,10 @@ export async function getLabels({
       slug: 'labels',
       locale,
     },
-    useCache,
+    {
+      headers: {
+        'X-Use-Cache': useCache ? 'true' : 'false',
+      },
+    },
   )
 }

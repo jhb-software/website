@@ -20,7 +20,11 @@ const customers = await payloadSDK.find(
     limit: 0,
     pagination: false,
   },
-  !preview,
+  {
+    headers: {
+      'X-Use-Cache': preview ? 'false' : 'true',
+    },
+  },
 )
 
 const populatedTestimonials = testimonials?.map((testimonial) => {

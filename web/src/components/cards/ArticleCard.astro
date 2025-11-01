@@ -31,7 +31,11 @@ if (featured) {
       limit: 1,
       pagination: false,
     },
-    !preview,
+    {
+      headers: {
+        'X-Use-Cache': preview ? 'false' : 'true',
+      },
+    },
   )
 
   authors = result.docs
