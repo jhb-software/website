@@ -18,6 +18,29 @@ export const Images: CollectionConfig = {
     defaultColumns: ['filename', 'title', 'alt', 'createdAt', 'updatedAt'],
     group: CollectionGroups.MediaCollections,
   },
+  hooks: {
+    beforeChange: [
+      ({ data }) => {
+        // There is a bug in Payload that the (normally virtual) url and thumbnailURL fields are not virtual fields.
+        // Therefore, when updating the image, the url and thumbnailURL fields whould be stored in the db. To avoid this,
+        // we delete them here.
+
+        const image = data as Partial<Image>
+
+        delete image.url
+        delete image.thumbnailURL
+
+        delete image.sizes?.xs?.url
+        delete image.sizes?.sm?.url
+        delete image.sizes?.md?.url
+        delete image.sizes?.lg?.url
+        delete image.sizes?.xl?.url
+        delete image.sizes?.og?.url
+
+        return data
+      },
+    ],
+  },
   labels: {
     plural: {
       de: 'Bilder',
