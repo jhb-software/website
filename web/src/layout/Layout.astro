@@ -1,4 +1,5 @@
 ---
+import CacheClearButton from '@/components/CacheClearButton.astro'
 import PostHog from '@/components/PostHog.astro'
 import { plausibleDomain } from '@/constants'
 import '@fontsource-variable/montserrat'
@@ -22,6 +23,7 @@ await initGlobalState(Astro)
 const { preview } = globalState
 
 const enableAnalytics = VERCEL_ENV === 'production' && !preview
+const showCacheButton = import.meta.env.DEV && !preview
 ---
 
 <!doctype html>
@@ -62,5 +64,6 @@ const enableAnalytics = VERCEL_ENV === 'production' && !preview
       <slot />
     </main>
     <Footer />
+    {showCacheButton && <CacheClearButton />}
   </body>
 </html>

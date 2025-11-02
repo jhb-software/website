@@ -169,6 +169,9 @@ importers:
       '@fontsource-variable/montserrat':
         specifier: ^5.2.6
         version: 5.2.6
+      '@payloadcms/sdk':
+        specifier: ^3.62.0
+        version: 3.62.0(graphql@16.11.0)(typescript@5.9.3)
       astro:
         specifier: ^5.10.0
         version: 5.10.0(@types/node@24.9.2)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.44.0)(sass@1.77.4)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.0)
@@ -184,15 +187,9 @@ importers:
       payload:
         specifier: 3.62.0
         version: 3.62.0(graphql@16.11.0)(typescript@5.9.3)
-      qs-esm:
-        specifier: ^7.0.2
-        version: 7.0.2
       schema-dts:
         specifier: ^1.1.5
         version: 1.1.5
-      ts-essentials:
-        specifier: ^10.1.1
-        version: 10.1.1(typescript@5.9.3)
     devDependencies:
       '@astrojs/check':
         specifier: ^0.9.4
@@ -1635,6 +1632,9 @@ packages:
       payload: 3.62.0
       react: ^19.0.0 || ^19.0.0-rc-65a56d0e-20241020
       react-dom: ^19.0.0 || ^19.0.0-rc-65a56d0e-20241020
+
+  '@payloadcms/sdk@3.62.0':
+    resolution: {integrity: sha512-ARIIHOvVkwDsU4HjJ74L+9x7hJkE1E4PrT+40C0VvcDdfCix3QgI9OnaUNFjpAPdvyOHgjYwzqY8FmAQPNw2Bw==}
 
   '@payloadcms/storage-s3@3.62.0':
     resolution: {integrity: sha512-mX7zcOLIX3/LF4auQaRgKar/irgjaHKCQt3g5jlc7QJplQZWUsOA3vStzt4MAC43CL7+pwnIxbpvN1tFuBdcAA==}
@@ -5399,14 +5399,6 @@ packages:
       typescript:
         optional: true
 
-  ts-essentials@10.1.1:
-    resolution: {integrity: sha512-4aTB7KLHKmUvkjNj8V+EdnmuVTiECzn3K+zIbRthumvHu+j44x3w63xpfs0JL3NGIzGXqoQ7AV591xHO+XrOTw==}
-    peerDependencies:
-      typescript: '>=4.5.0'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   tsconfck@3.1.6:
     resolution: {integrity: sha512-ks6Vjr/jEw0P1gmOVwutM3B7fWxoWBL2KRDb1JfqGVawBmO5UsvmWOQFGHBPl5yxYz4eERr19E6L7NMv+Fej4w==}
     engines: {node: ^18 || >=20}
@@ -7783,6 +7775,17 @@ snapshots:
       - supports-color
       - typescript
       - yjs
+
+  '@payloadcms/sdk@3.62.0(graphql@16.11.0)(typescript@5.9.3)':
+    dependencies:
+      payload: 3.62.0(graphql@16.11.0)(typescript@5.9.3)
+      qs-esm: 7.0.2
+      ts-essentials: 10.0.3(typescript@5.9.3)
+    transitivePeerDependencies:
+      - bufferutil
+      - graphql
+      - typescript
+      - utf-8-validate
 
   '@payloadcms/storage-s3@3.62.0(@types/react@19.2.2)(monaco-editor@0.52.2)(next@16.0.1(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.62.0(graphql@16.11.0)(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3)':
     dependencies:
@@ -12347,10 +12350,6 @@ snapshots:
       typescript: 5.9.3
 
   ts-essentials@10.0.3(typescript@5.9.3):
-    optionalDependencies:
-      typescript: 5.9.3
-
-  ts-essentials@10.1.1(typescript@5.9.3):
     optionalDependencies:
       typescript: 5.9.3
 
