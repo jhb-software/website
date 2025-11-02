@@ -1,6 +1,6 @@
 import type { AstroGlobal } from 'astro'
-import type { Labels } from 'cms/src/payload-types'
-import { getLabels } from './cms/getLabels'
+import type { Footer, Header, Labels } from 'cms/src/payload-types'
+import { getGlobalData } from './cms/getGlobalData'
 import { defaultLocale } from './cms/locales'
 import type { Locale } from './cms/types'
 import { localeFromHeader } from './utils/localeFromHeader'
@@ -10,6 +10,8 @@ interface GlobalState {
   readonly locale: Locale
   readonly preview: boolean
   readonly labels: Labels
+  readonly header: Header
+  readonly footer: Footer
 }
 
 /** Global state which should be initialized with initGlobalState() at the top of every page */
@@ -22,11 +24,13 @@ export async function initGlobalState(Astro: AstroGlobal) {
   const locale =
     localeFromPath(Astro.url.pathname) || localeFromHeader(Astro.request.headers) || defaultLocale
   const preview = Astro.url.pathname.startsWith('/preview')
-  const labels = await getLabels({ locale, useCache: !preview })
+  const { labels, header, footer } = await getGlobalData({ locale, preview })
 
   globalState = {
     locale,
     preview,
     labels,
+    header,
+    footer,
   }
 }
