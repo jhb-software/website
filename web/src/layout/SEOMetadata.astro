@@ -1,14 +1,13 @@
 ---
 import { getFileSize } from '@/components/Img.astro'
 import { siteName, siteOgImageURL } from '@/constants'
-import { globalState } from '@/globalState'
 import { SITE_URL } from 'astro:env/client'
 import type { SeoMetadata } from 'cms/src/payload-types'
 
 type Props = SeoMetadata
 
 const meta = Astro.props
-const { locale } = globalState
+const { locale } = Astro.locals.globalState
 
 const canonicalUrl = new URL(Astro.url.pathname, SITE_URL)
 

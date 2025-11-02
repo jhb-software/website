@@ -1,6 +1,5 @@
 ---
 import { dateStringToQuarter } from '@/utils/dateToQuarter'
-import { globalState } from '@/globalState'
 
 type Props = {
   startDate: string
@@ -9,7 +8,7 @@ type Props = {
 }
 
 const { startDate, endDate, class: className } = Astro.props
-const { labels } = globalState
+const { labels } = Astro.locals.globalState
 ---
 
 <p class:list={[className, 'text-slate-500']}>

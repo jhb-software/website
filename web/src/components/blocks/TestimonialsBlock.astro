@@ -1,14 +1,13 @@
 ---
 import { payloadSDK } from '@/cms/sdk'
 import Icon from '@/components/icons/Icon.astro'
-import { globalState } from '@/globalState'
 import type { Project, Testimonial, TestimonialsBlock } from 'cms/src/payload-types'
 import TestimonialCard from '../cards/TestimonialCard.astro'
 
 export type Props = TestimonialsBlock
 
 const { testimonials } = Astro.props
-const { labels, locale, preview } = globalState
+const { labels, locale, preview } = Astro.locals.globalState
 
 // Fetching the customers is necessary since the customer is not populated because the pages are fetched with depth 1
 // When migrating to GraphQL or the REST select API, this will be resolved.

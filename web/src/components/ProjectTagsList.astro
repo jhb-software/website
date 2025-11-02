@@ -1,5 +1,4 @@
 ---
-import { globalState } from '@/globalState'
 import type { Project } from 'cms/src/payload-types'
 
 type Props = {
@@ -8,7 +7,7 @@ type Props = {
 }
 
 const { tags, class: className } = Astro.props
-const { labels } = globalState
+const { labels } = Astro.locals.globalState
 ---
 
 <div class:list={['flex flex-wrap gap-2', className]}>

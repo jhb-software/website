@@ -1,5 +1,4 @@
 ---
-import { globalState } from '@/globalState'
 import type { Project } from 'cms/src/payload-types'
 import { normalizePath } from '../../utils/normalizePath'
 import Img from '../Img.astro'
@@ -14,7 +13,7 @@ type Props = Project & {
 
 const { featured, index, ...project } = Astro.props
 
-const { preview } = globalState
+const { preview } = Astro.locals.globalState
 ---
 
 {

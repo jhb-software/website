@@ -5,7 +5,6 @@ import type { LexicalNode } from '@/components/blocks/RichTextBlock/types'
 import BreadcrumbsBlock from '@/components/Breadcrumbs.astro'
 import Img from '@/components/Img.astro'
 import TableOfContents from '@/components/TableOfContents.astro'
-import { globalState } from '@/globalState'
 import SectionShell from '@/layout/SectionShell.astro'
 import { articleSchema } from '@/schema/article'
 import { extractHeadings } from '@/utils/extractHeadings'
@@ -19,7 +18,7 @@ type Props = {
 }
 
 const { article, breadcrumbs } = Astro.props
-const { locale, preview, labels } = globalState
+const { locale, preview, labels } = Astro.locals.globalState
 
 // Extract headings from article content
 const headings = extractHeadings(article.content.root.children as unknown as LexicalNode[])

@@ -1,8 +1,7 @@
 ---
-import { globalState } from '@/globalState'
 import Link from '../components/Link.astro'
 
-const { footer } = globalState
+const { footer } = Astro.locals.globalState
 ---
 
 <footer

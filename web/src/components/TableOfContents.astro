@@ -1,6 +1,4 @@
 ---
-import { globalState } from '@/globalState'
-
 export type TocItem = {
   id: string
   text: string
@@ -13,7 +11,7 @@ type Props = {
 }
 
 const { headings, class: className } = Astro.props
-const { labels } = globalState
+const { labels } = Astro.locals.globalState
 ---
 
 <!-- Mobile TOC -->

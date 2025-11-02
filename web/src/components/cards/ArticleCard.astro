@@ -1,6 +1,5 @@
 ---
 import { payloadSDK } from '@/cms/sdk'
-import { globalState } from '@/globalState'
 import type { Article, Author } from 'cms/src/payload-types'
 import { normalizePath } from '../../utils/normalizePath'
 import ArticleTagsList from '../ArticleTagsList.astro'
@@ -12,7 +11,7 @@ type Props = Article & {
 }
 
 const { featured, class: className, ...article } = Astro.props
-const { locale, preview } = globalState
+const { locale, preview } = Astro.locals.globalState
 
 let authors: Author[] = []
 if (featured) {
