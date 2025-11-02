@@ -37,6 +37,7 @@ import Projects from './collections/Projects'
 import { Redirects } from './collections/Redirects'
 import Testimonials from './collections/Testimonials'
 import { Users } from './collections/Users'
+import { getGlobalData } from './endpoints/globalData'
 import { getPagePropsByPath } from './endpoints/pageProps'
 import { getSitemap } from './endpoints/sitemap'
 import { getStaticPagesProps } from './endpoints/staticPages'
@@ -162,6 +163,11 @@ export default buildConfig({
       handler: getPagePropsByPath,
       method: 'get',
       path: '/page-props',
+    },
+    {
+      handler: getGlobalData,
+      method: 'get',
+      path: '/global-data',
     },
   ],
   globals: [Header, Footer, Labels],
