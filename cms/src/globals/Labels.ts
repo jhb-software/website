@@ -18,12 +18,11 @@ const Labels: GlobalConfig = {
   typescript: {
     interface: 'Labels',
   },
-  // ensure payload wont convert the slug to be singular
   access: {
     read: anyone,
     update: authenticated,
   },
-  dbName: 'labels',
+  dbName: 'labels', // ensure payload wont convert the slug to be singular
   label: {
     de: 'Beschriftungen',
     en: 'Labels',
