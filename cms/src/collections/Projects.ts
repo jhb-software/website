@@ -22,6 +22,20 @@ const Projects: PageCollectionConfig = {
     group: CollectionGroups.PagesCollections,
     useAsTitle: 'title',
   },
+  defaultPopulate: {
+    // only populate the fields that are required by the frontend (e.g. for project cards and list views)
+    createdAt: true,
+    customer: true,
+    endDate: true,
+    excerpt: true,
+    featured: true,
+    image: true,
+    path: true,
+    startDate: true,
+    tags: true,
+    title: true,
+    updatedAt: true,
+  },
   enableQueryPresets: true,
   labels: {
     plural: {

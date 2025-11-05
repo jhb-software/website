@@ -29,6 +29,11 @@ const Pages: PageCollectionConfig = {
     group: CollectionGroups.PagesCollections,
     useAsTitle: 'title',
   },
+  defaultPopulate: {
+    // only populate the fields that are required by the frontend (e.g. for breadcrumbs and navigation)
+    path: true,
+    title: true,
+  },
   labels: {
     plural: {
       de: 'Seiten',

@@ -20,6 +20,18 @@ const Articles: PageCollectionConfig = {
     group: CollectionGroups.PagesCollections,
     useAsTitle: 'title',
   },
+
+  defaultPopulate: {
+    // only populate the fields that are required by the frontend (e.g. for article cards and list views)
+    authors: true,
+    createdAt: true,
+    excerpt: true,
+    image: true,
+    path: true,
+    tags: true,
+    title: true,
+    updatedAt: true,
+  },
   labels: {
     plural: {
       de: 'Artikel',
