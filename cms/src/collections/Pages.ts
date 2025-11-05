@@ -15,6 +15,7 @@ import { heroSection } from '@/fields/heroSection'
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
+import { lazyLoadingLivePreviewComponent } from '@/shared/lazyLoadingLivePreviewComponent'
 
 const Pages: PageCollectionConfig = {
   slug: 'pages',
@@ -25,6 +26,7 @@ const Pages: PageCollectionConfig = {
     update: authenticated,
   },
   admin: {
+    ...lazyLoadingLivePreviewComponent,
     defaultColumns: ['title', 'path', 'status', 'updatedAt'],
     group: CollectionGroups.PagesCollections,
     useAsTitle: 'title',

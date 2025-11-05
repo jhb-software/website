@@ -4,6 +4,7 @@ import { socialLinksField } from '@/fields/socialLinks'
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
+import { lazyLoadingLivePreviewComponent } from '@/shared/lazyLoadingLivePreviewComponent'
 
 const Authors: PageCollectionConfig = {
   slug: 'authors',
@@ -14,6 +15,7 @@ const Authors: PageCollectionConfig = {
     update: authenticated,
   },
   admin: {
+    ...lazyLoadingLivePreviewComponent,
     defaultColumns: ['name', 'path', 'updatedAt', 'status'],
     group: CollectionGroups.PagesCollections,
     useAsTitle: 'name',

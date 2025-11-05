@@ -3,6 +3,7 @@ import { PageCollectionConfig } from '@jhb.software/payload-pages-plugin'
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
+import { lazyLoadingLivePreviewComponent } from '@/shared/lazyLoadingLivePreviewComponent'
 
 // TODO: add an AI-functionality to generate a project page from notes. Here are some informations on what to include in the prompt:
 // - title: The title of the project, do not include the customer name, instead focus on the WHAT instead of the for WHO.
@@ -18,6 +19,7 @@ const Projects: PageCollectionConfig = {
     update: authenticated,
   },
   admin: {
+    ...lazyLoadingLivePreviewComponent,
     defaultColumns: ['title', 'path', 'updatedAt', 'status'],
     group: CollectionGroups.PagesCollections,
     useAsTitle: 'title',

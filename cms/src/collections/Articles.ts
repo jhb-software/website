@@ -6,6 +6,7 @@ import CodeBlock from '@/blocks/CodeBlock'
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
+import { lazyLoadingLivePreviewComponent } from '@/shared/lazyLoadingLivePreviewComponent'
 
 const Articles: PageCollectionConfig = {
   slug: 'articles',
@@ -16,11 +17,11 @@ const Articles: PageCollectionConfig = {
     update: authenticated,
   },
   admin: {
+    ...lazyLoadingLivePreviewComponent,
     defaultColumns: ['title', 'path', 'updatedAt', 'status'],
     group: CollectionGroups.PagesCollections,
     useAsTitle: 'title',
   },
-
   defaultPopulate: {
     // only populate the fields that are required by the frontend (e.g. for article cards and list views)
     authors: true,
