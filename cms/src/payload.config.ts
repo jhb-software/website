@@ -9,6 +9,7 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { de } from '@payloadcms/translations/languages/de'
 import { en } from '@payloadcms/translations/languages/en'
+import { attachDatabasePool } from '@vercel/functions'
 import path from 'path'
 import { buildConfig, CollectionConfig, CollectionSlug, GlobalSlug, User } from 'payload'
 import { openAIResolver, translator } from 'plugins/cms-content-translator/src'
@@ -141,6 +142,8 @@ export default buildConfig({
   db: mongooseAdapter({
     allowIDOnCreate: true,
     url: process.env.MONGODB_URI!,
+    // see https://vercel.com/guides/connection-pooling-with-functions
+    afterOpenConnection: async (adapter) => attachDatabasePool(adapter.connection.getClient()),
   }),
   editor: lexicalEditor(),
   email: resendAdapter({
