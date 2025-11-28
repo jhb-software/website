@@ -47,7 +47,7 @@ import { QueryPresetsColumnsCell as QueryPresetsColumnsCell_3817bf644402e67bfe65
 import { QueryPresetsColumnField as QueryPresetsColumnField_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
 import { default as default_a02a4abfb5c9da17149cbadc8057c129 } from '../../../components/Icon'
 import { default as default_919492c8e60179286a0f183c0a5b652e } from '../../../components/Logo'
-import { SearchButton as SearchButton_5400ac5ea24f4363783c781edd0c24e3 } from '@jhb.software/payload-admin-search/client'
+import { SearchWrapper as SearchWrapper_5400ac5ea24f4363783c781edd0c24e3 } from '@jhb.software/payload-admin-search/client'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { DashboardView as DashboardView_b2b4ae8325c7d78b1c88c5f3f47f7333 } from '../../../plugins/jhb-dashboard/components/DashboardView'
 
@@ -101,7 +101,7 @@ export const importMap = {
   "@payloadcms/ui#QueryPresetsColumnField": QueryPresetsColumnField_3817bf644402e67bfe6577f60ef982de,
   "/components/Icon#default": default_a02a4abfb5c9da17149cbadc8057c129,
   "/components/Logo#default": default_919492c8e60179286a0f183c0a5b652e,
-  "@jhb.software/payload-admin-search/client#SearchButton": SearchButton_5400ac5ea24f4363783c781edd0c24e3,
+  "@jhb.software/payload-admin-search/client#SearchWrapper": SearchWrapper_5400ac5ea24f4363783c781edd0c24e3,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
   "/plugins/jhb-dashboard/components/DashboardView#DashboardView": DashboardView_b2b4ae8325c7d78b1c88c5f3f47f7333
 }
