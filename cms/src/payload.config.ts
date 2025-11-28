@@ -264,7 +264,6 @@ export default buildConfig({
     }),
     translator({
       collections: translatableCollectionsSlugs,
-      disabled: true, // temporary disabled because of dependency mismatch issues
       globals: [Header.slug, Footer.slug, Labels.slug] as GlobalSlug[],
       resolvers: [
         openAIResolver({
