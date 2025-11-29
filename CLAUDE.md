@@ -44,7 +44,6 @@ The CMS uses Payload v3 with a modular collection and block system:
 - **Collections** (`/cms/src/collections/`): Define content types in plural (e.g. `Articles.ts`, `Authors.ts`, `Projects.ts`, etc.)
 - **Blocks** (`/cms/src/blocks/`): Reusable content blocks that map to frontend block components. Suffix: `Block` (e.g. `AuthorsListBlock.ts`)
 - **Globals** (`/cms/src/globals/`): Site-wide settings (Header, Footer, Labels)
-- **Plugins** (`/cms/src/plugins/`): Custom plugins (e.g. `cms-content-translator`, `jhb-dashboard`)
 - **Endpoints** (`/cms/src/endpoints/`): Custom HTTP API-endpoints
 - **Fields** (`/cms/src/fields/`): Reusable fields (e.g. `heroSection` field for the `pages` collection)
 

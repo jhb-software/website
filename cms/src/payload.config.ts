@@ -1,5 +1,9 @@
 import { adminSearchPlugin } from '@jhb.software/payload-admin-search'
 import { payloadAltTextPlugin } from '@jhb.software/payload-alt-text-plugin'
+import {
+  openAIResolver,
+  payloadContentTranslatorPlugin,
+} from '@jhb.software/payload-content-translator-plugin'
 import { alternatePathsField, payloadPagesPlugin } from '@jhb.software/payload-pages-plugin'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
@@ -12,7 +16,6 @@ import { en } from '@payloadcms/translations/languages/en'
 import { attachDatabasePool } from '@vercel/functions'
 import path from 'path'
 import { buildConfig, CollectionConfig, CollectionSlug, GlobalSlug, User } from 'payload'
-import { openAIResolver, translator } from 'plugins/cms-content-translator/src'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
@@ -95,10 +98,6 @@ const generatePageURL = ({
     ? `${process.env.NEXT_PUBLIC_FRONTEND_URL}${preview ? '/preview' : ''}${path === '/' ? '' : path}`
     : null
 }
-
-const translatableCollectionsSlugs: CollectionSlug[] = collections
-  .filter((collection) => ![Redirects.slug, Users.slug].includes(collection.slug as CollectionSlug))
-  .map((collection) => collection.slug as CollectionSlug)
 
 export default buildConfig({
   admin: {
@@ -262,14 +261,15 @@ export default buildConfig({
         },
       },
     }),
-    translator({
-      collections: translatableCollectionsSlugs,
+    payloadContentTranslatorPlugin({
+      collections: collections
+        .filter((collection) => ![Redirects.slug, Users.slug].includes(collection.slug))
+        .map((collection) => collection.slug as CollectionSlug),
       globals: [Header.slug, Footer.slug, Labels.slug] as GlobalSlug[],
-      resolvers: [
-        openAIResolver({
-          apiKey: process.env.OPENAI_API_KEY!,
-        }),
-      ],
+      resolver: openAIResolver({
+        apiKey: process.env.OPENAI_API_KEY!,
+        model: 'gpt-4o-mini',
+      }),
     }),
     payloadPagesPlugin({
       generatePageURL,
