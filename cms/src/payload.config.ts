@@ -1,5 +1,8 @@
 import { adminSearchPlugin } from '@jhb.software/payload-admin-search'
-import { payloadAltTextPlugin } from '@jhb.software/payload-alt-text-plugin'
+import {
+  openAIResolver as altTextOpenAIResolver,
+  payloadAltTextPlugin,
+} from '@jhb.software/payload-alt-text-plugin'
 import {
   openAIResolver,
   payloadContentTranslatorPlugin,
@@ -206,14 +209,16 @@ export default buildConfig({
     adminSearchPlugin({}),
     payloadAltTextPlugin({
       collections: ['images'],
+      resolver: altTextOpenAIResolver({
+        apiKey: process.env.OPENAI_API_KEY!,
+        model: 'gpt-4.1-mini',
+      }),
       getImageThumbnail: (doc) => {
         const image = doc as unknown as Image
 
         // use sm if possible to reduce token count and speed up the generation of the alt text
         return image.sizes?.sm?.url ?? image.sizes?.md?.url ?? image.sizes?.lg?.url ?? image.url!
       },
-      model: 'gpt-4.1-mini',
-      openAIApiKey: process.env.OPENAI_API_KEY!,
     }),
     searchPlugin({
       beforeSync: ({ originalDoc, searchDoc }) => {
