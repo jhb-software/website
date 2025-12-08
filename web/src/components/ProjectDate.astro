@@ -16,17 +16,17 @@ const { labels } = Astro.locals.globalState
     endDate ? (
       <>
         <span>{dateStringToQuarter(startDate)}</span>
-        {
-          dateStringToQuarter(endDate) !== dateStringToQuarter(startDate) && (
-            <>
-              <span class="font-semibold"> - </span>
-              <span>{dateStringToQuarter(endDate)}</span>
-            </>
-          )
-        }
+        {dateStringToQuarter(endDate) !== dateStringToQuarter(startDate) && (
+          <>
+            <span class="font-semibold"> - </span>
+            <span>{dateStringToQuarter(endDate)}</span>
+          </>
+        )}
       </>
     ) : (
-      <span>{labels.global.since} {dateStringToQuarter(startDate)}</span>
+      <span>
+        {labels.global.since} {dateStringToQuarter(startDate)}
+      </span>
     )
   }
 </p>
