@@ -1,17 +1,32 @@
 {
   "permissions": {
     "allow": [
-      "Bash(rm:*)",
       "Bash(tree:*)",
       "Bash(find:*)",
       "Bash(cat:*)",
       "Bash(ls:*)",
       "Bash(mkdir:*)",
+      "Bash(sort:*)",
+      "Bash(grep:*)",
+      "Bash(cd:*)",
+      "Bash(xargs:*)",
+      "Bash(du:*)",
+      "Bash(which:*)",
+      "Bash(pwd:*)",
+      "Bash(wc:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(date:*)",
+      "Bash(time:*)",
 
       "Bash(pnpm install:*)",
       "Bash(pnpm i:*)",
       "Bash(pnpm add:*)",
       "Bash(pnpm dev:*)",
+      "Bash(pnpm remove:*)",
+      "Bash(pnpm update:*)",
+      "Bash(pnpm why:*)",
+      "Bash(pnpm store:*)",
       "Bash(pnpm build:*)",
       "Bash(pnpm start:*)",
       "Bash(pnpm lint:*)",
@@ -29,8 +44,8 @@
       "Bash(npx prettier:*)",
       "Bash(npx eslint:*)",
 
-      "WebFetch",
       "WebSearch",
+      "WebFetch",
 
       "Bash(git status:*)",
       "Bash(git diff:*)",
