@@ -1,5 +1,5 @@
 ---
-import type { Customer, Project, Testimonial } from 'cms/src/payload-types'
+import type { Testimonial } from 'cms/src/payload-types'
 import Icon from '../icons/Icon.astro'
 import Img from '../Img.astro'
 import Card from './Card.astro'
@@ -7,6 +7,15 @@ import Card from './Card.astro'
 export type Props = Testimonial
 
 const { project, author, text } = Astro.props
+
+const customer =
+  typeof project === 'object' && 'customer' in project && typeof project.customer === 'object'
+    ? project.customer
+    : undefined
+
+if (!customer) {
+  throw new Error(`Customer not populated, got: ${JSON.stringify(Astro.props)}`)
+}
 ---
 
 <Card class="space-y-4">
@@ -25,11 +34,11 @@ const { project, author, text } = Astro.props
       <div class="font-bold">{author.name}</div>
       <div class="not-prose">
         <a
-          href={((project as Project).customer as Customer).websiteUrl}
+          href={customer.websiteUrl}
           class="flex flex-row items-center gap-2 text-sm text-gray-500"
         >
           <Icon name="building" class:list={['h-3 w-3 fill-gray-500']} />
-          {((project as Project).customer as Customer).name}
+          {customer.name}
         </a>
       </div>
     </div>

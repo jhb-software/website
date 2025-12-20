@@ -1,5 +1,6 @@
 ---
 import RichTextBlock from '@/components/blocks/RichTextBlock/RichTextBlock.astro'
+import TestimonialsBlock from '@/components/blocks/TestimonialsBlock.astro'
 import BreadcrumbsBlock from '@/components/Breadcrumbs.astro'
 import Img from '@/components/Img.astro'
 import ProjectDate from '@/components/ProjectDate.astro'
@@ -17,6 +18,9 @@ type Props = {
 const { project: pageData, breadcrumbs } = Astro.props
 
 const schema = projectSchema(pageData)
+
+const testimonials =
+  pageData.testimonials?.docs?.filter((testimonial) => typeof testimonial === 'object') || []
 ---
 
 <SectionShell>
@@ -47,6 +51,14 @@ const schema = projectSchema(pageData)
   }
 
   <RichTextBlock text={pageData.body} />
+
+  {
+    testimonials.length > 0 && (
+      <section class="mt-16">
+        <TestimonialsBlock blockType="testimonials" testimonials={testimonials} />
+      </section>
+    )
+  }
 </SectionShell>
 
 <Schema item={schema} />
