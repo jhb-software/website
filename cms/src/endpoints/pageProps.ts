@@ -1,7 +1,10 @@
-import type { Config } from '@/payload-types'
-import { locales, PageCollectionSlugs, pageCollectionsSlugs } from '@/payload.config'
 import { createHash } from 'crypto'
-import { CollectionSlug, PayloadRequest } from 'payload'
+import { PayloadRequest } from 'payload'
+
+import type { Config } from '@/payload-types'
+
+import { locales, PageCollectionSlugs, pageCollectionsSlugs } from '@/payload.config'
+
 import { StaticPageProps } from './staticPages'
 
 export type PageProps = Omit<StaticPageProps, 'paths'>
@@ -37,15 +40,22 @@ export async function getPagePropsByPath(req: PayloadRequest) {
 
   for (const collection of collections) {
     const data = await req.payload.find({
-      collection: collection as CollectionSlug,
-      limit: 1000,
-      locale: locale,
+      collection: collection,
       depth: 0,
       // For pages which have not been published yet (draft), the CMS by default returns the first/oldest draft instead of the latest draft.
       // This is a problem, because in the first version, there may be no parent set for all locales.
       // Therefore, set draft to true, which always returns the latest published or draft version.
       // ATTENTION: For published pages, this might return the latest unpublisheddraft instead of the published version.
       draft: true,
+      limit: 0,
+      locale: locale,
+      pagination: false,
+      req,
+      select: {
+        id: true,
+        path: true,
+        slug: true,
+      },
       where: {
         // filtering for the virtual path field is not supported, as it is not stored in the database
         // Instead, filter for the document slug, which always is the last part of the path
@@ -53,19 +63,13 @@ export async function getPagePropsByPath(req: PayloadRequest) {
           equals: slugs.at(-1) ?? '',
         },
       },
-      select: {
-        id: true,
-        slug: true,
-        path: true,
-        template: true,
-      },
     })
 
     for (const doc of data.docs as unknown as { path: string; id: string }[]) {
       if (doc.path === path) {
         const pageProps: PageProps = {
-          id: doc.id,
           collection: collection,
+          id: doc.id,
         }
 
         const jsonString = JSON.stringify(pageProps)
@@ -79,9 +83,9 @@ export async function getPagePropsByPath(req: PayloadRequest) {
 
         return new Response(jsonString, {
           headers: {
+            'Cache-Control': 'no-cache',
             'Content-Type': 'application/json',
             ETag: etag,
-            'Cache-Control': 'no-cache',
           },
         })
       }

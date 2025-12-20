@@ -3,6 +3,7 @@ description: Astro component conventions
 globs: web/src/**/*.astro
 alwaysApply: false
 ---
+
 # Astro Components Rules
 
 ## General
@@ -12,7 +13,7 @@ alwaysApply: false
   ```ts
   type Props = {
     title: string;
-  }
+  };
 
   const { title } = Astro.props;
   ```
@@ -20,11 +21,11 @@ alwaysApply: false
 - Try to use types from the CMS wherever possible. For example:
 
   ```ts
-  import type { Media } from 'cms/src/payload-types';
+  import type { Image } from "cms/src/payload-types";
 
   type Props = {
-    images: Media[];
-  }
+    images: Image[];
+  };
 
   const { images } = Astro.props;
   ```
@@ -42,7 +43,7 @@ alwaysApply: false
   ```
 
 ## Using custom built components
-  
+
 - Use the custom `<Img />` component from [Img.astro](mdc:web/src/components/Img.astro) to render images. The Img component handles setting the alt text and other things:
 
   ```astro

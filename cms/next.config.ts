@@ -4,9 +4,9 @@ import { NextConfig } from 'next'
 const nextConfig: NextConfig = {
   redirects: async () => [
     {
-      source: '/',
       destination: '/admin',
       permanent: true,
+      source: '/',
     },
   ],
 }

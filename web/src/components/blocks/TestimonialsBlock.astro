@@ -1,14 +1,13 @@
 ---
 import { payloadSDK } from '@/cms/sdk'
 import Icon from '@/components/icons/Icon.astro'
-import { globalState } from '@/globalState'
-import type { Testimonial, TestimonialsBlock } from 'cms/src/payload-types'
+import type { TestimonialsBlock } from 'cms/src/payload-types'
 import TestimonialCard from '../cards/TestimonialCard.astro'
 
 export type Props = TestimonialsBlock
 
 const { testimonials } = Astro.props
-const { labels, locale, preview } = globalState
+const { labels, locale, preview } = Astro.locals.globalState
 
 // Fetch the testimonials with depth 2 to ensure all related fields are populated
 const populatedTestimonials = await payloadSDK.find(
@@ -26,7 +25,11 @@ const populatedTestimonials = await payloadSDK.find(
       },
     },
   },
-  !preview,
+  {
+    headers: {
+      'X-Use-Cache': preview ? 'false' : 'true',
+    },
+  },
 )
 ---
 
@@ -55,7 +58,7 @@ const populatedTestimonials = await payloadSDK.find(
       {
         populatedTestimonials.docs?.map((testimonial) => (
           <div class="inline-block w-full break-inside-avoid">
-            <TestimonialCard {...(testimonial as Testimonial)} />
+            <TestimonialCard {...testimonial} />
           </div>
         ))
       }

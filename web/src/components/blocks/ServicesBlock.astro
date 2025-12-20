@@ -1,5 +1,4 @@
 ---
-import { globalState } from '@/globalState'
 import type { Page, ServicesBlock } from 'cms/src/payload-types'
 import Card from '../cards/Card.astro'
 import Icon from '../icons/Icon.astro'
@@ -8,7 +7,7 @@ import Link from '../Link.astro'
 export type Props = ServicesBlock
 
 const { services } = Astro.props
-const { labels } = globalState
+const { labels } = Astro.locals.globalState
 ---
 
 <div class="grid gap-5 md:grid-cols-3">

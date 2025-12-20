@@ -1,9 +1,5 @@
 /** Enum representing all collection groups with their labels in German and English. */
 export const CollectionGroups = {
-  PagesCollections: {
-    de: 'Seiten Sammlungen',
-    en: 'Pages Collections',
-  },
   ContentCollections: {
     de: 'Daten Sammlungen',
     en: 'Content Collections',
@@ -11,6 +7,10 @@ export const CollectionGroups = {
   MediaCollections: {
     de: 'Medien Sammlungen',
     en: 'Media Collections',
+  },
+  PagesCollections: {
+    de: 'Seiten Sammlungen',
+    en: 'Pages Collections',
   },
   SystemCollections: {
     de: 'System Sammlungen',

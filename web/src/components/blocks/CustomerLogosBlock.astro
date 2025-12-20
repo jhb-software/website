@@ -1,6 +1,6 @@
 ---
 import Img from '@/components/Img.astro'
-import type { Customer, CustomerLogosBlock, Media } from 'cms/src/payload-types'
+import type { CustomerLogosBlock } from 'cms/src/payload-types'
 
 export type Props = CustomerLogosBlock
 
@@ -16,16 +16,19 @@ const { customers } = Astro.props
         (rowCustomers) => (
           <div class="flex flex-row items-center justify-center gap-8 md:gap-12">
             {rowCustomers?.filter(Boolean).map((customer) => {
-              const logo = (customer as Customer).logo as Media
+              const logo =
+                typeof customer === 'object' && typeof customer.logo === 'object'
+                  ? customer.logo
+                  : undefined
 
-              return (
+              return logo ? (
                 <Img
                   image={logo}
                   size="original"
                   width={100}
                   class="max-w-[100px] overflow-hidden opacity-75 grayscale [filter:brightness(0)]"
                 />
-              )
+              ) : undefined
             })}
           </div>
         ),

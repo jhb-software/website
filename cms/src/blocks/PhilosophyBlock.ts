@@ -4,48 +4,48 @@ export const PhilosophyBlock: Block = {
   slug: 'philosophy',
   interfaceName: 'PhilosophyBlock',
   labels: {
-    singular: {
-      de: 'Philosophie Block',
-      en: 'Philosophy Block',
-    },
     plural: {
       de: 'Philosophie Blöcke',
       en: 'Philosophy Blocks',
+    },
+    singular: {
+      de: 'Philosophie Block',
+      en: 'Philosophy Block',
     },
   },
   fields: [
     {
       name: 'title',
       type: 'text',
-      required: true,
       localized: true,
+      required: true,
     },
     {
       name: 'text',
       type: 'richText',
-      required: true,
       localized: true,
+      required: true,
     },
     {
       name: 'items',
       type: 'array',
       label: {
-        en: 'Philosophy Items',
         de: 'Philosophie Elemente',
+        en: 'Philosophy Items',
       },
       required: true,
       fields: [
         {
           name: 'title',
           type: 'text',
-          required: true,
           localized: true,
+          required: true,
         },
         {
           name: 'text',
           type: 'textarea',
-          required: true,
           localized: true,
+          required: true,
         },
       ],
     },

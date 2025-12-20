@@ -1,51 +1,57 @@
-import { jhbDashboardPlugin } from '@/plugins/jhb-dashboard/plugin'
 import { adminSearchPlugin } from '@jhb.software/payload-admin-search'
 import {
-  alternatePathsField,
-  getPageUrl,
-  payloadPagesPlugin,
-} from '@jhb.software/payload-pages-plugin'
-import { payloadSeoPlugin } from '@jhb.software/payload-seo-plugin'
-import { hetznerStorage } from '@joneslloyd/payload-storage-hetzner'
-import { openAIResolver, translator } from '@payload-enchants/translator'
+  openAIResolver as altTextOpenAIResolver,
+  payloadAltTextPlugin,
+} from '@jhb.software/payload-alt-text-plugin'
+import {
+  openAIResolver,
+  payloadContentTranslatorPlugin,
+} from '@jhb.software/payload-content-translator-plugin'
+import { alternatePathsField, payloadPagesPlugin } from '@jhb.software/payload-pages-plugin'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
 import { searchPlugin } from '@payloadcms/plugin-search'
+import { seoPlugin } from '@payloadcms/plugin-seo'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { s3Storage } from '@payloadcms/storage-s3'
 import { de } from '@payloadcms/translations/languages/de'
 import { en } from '@payloadcms/translations/languages/en'
+import { attachDatabasePool } from '@vercel/functions'
 import path from 'path'
-import { buildConfig, CollectionConfig, CollectionSlug, GlobalSlug } from 'payload'
+import { buildConfig, CollectionConfig, CollectionSlug, GlobalSlug, User } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
+
+import type {
+  Article,
+  ArticleTag,
+  Author,
+  Customer,
+  Image,
+  Page,
+  Project,
+  Testimonial,
+} from './payload-types'
+
 import CodeBlock from './blocks/CodeBlock'
 import Articles from './collections/Articles'
 import ArticleTags from './collections/ArticleTags'
 import Authors from './collections/Authors'
 import Customers from './collections/Customers'
-import { Media } from './collections/Media'
+import { Images } from './collections/Images'
 import Pages from './collections/Pages'
-import Project from './collections/Projects'
+import Projects from './collections/Projects'
 import { Redirects } from './collections/Redirects'
 import Testimonials from './collections/Testimonials'
 import { Users } from './collections/Users'
+import { getGlobalData } from './endpoints/globalData'
 import { getPagePropsByPath } from './endpoints/pageProps'
 import { getSitemap } from './endpoints/sitemap'
-import { getStatisPagesProps } from './endpoints/staticPages'
+import { getStaticPagesProps } from './endpoints/staticPages'
 import Footer from './globals/Footer'
 import Header from './globals/Header'
 import Labels from './globals/Labels'
-import {
-  Article,
-  ArticleTag,
-  Author,
-  Customer,
-  Media as MediaType,
-  Page as PageType,
-  Project as ProjectType,
-  Testimonial,
-  User,
-} from './payload-types'
+import { jhbDashboardPlugin } from './plugins/jhb-dashboard/plugin'
 import { anyone } from './shared/access/anyone'
 import { authenticated } from './shared/access/authenticated'
 import { CollectionGroups } from './shared/CollectionGroups'
@@ -59,7 +65,7 @@ export const websiteName = 'JHB Software'
 export const collections: CollectionConfig[] = [
   // Pages Collections
   Pages,
-  Project,
+  Projects,
   Articles,
   Customers,
   Authors,
@@ -67,7 +73,7 @@ export const collections: CollectionConfig[] = [
   // Data Collections
   Testimonials,
   ArticleTags,
-  Media,
+  Images,
 
   // System Collections
   Redirects,
@@ -84,28 +90,34 @@ export const pageCollectionsSlugs: CollectionSlug[] = pageCollections.map(
 )
 export type PageCollectionSlugs = (typeof pageCollectionsSlugs)[number]
 
-const translatableCollectionsSlugs: CollectionSlug[] = collections
-  .filter((collection) => ![Redirects.slug, Users.slug].includes(collection.slug as CollectionSlug))
-  .map((collection) => collection.slug as CollectionSlug)
+const generatePageURL = ({
+  path,
+  preview,
+}: {
+  path: string | null
+  preview: boolean
+}): string | null => {
+  return path && process.env.NEXT_PUBLIC_FRONTEND_URL
+    ? `${process.env.NEXT_PUBLIC_FRONTEND_URL}${preview ? '/preview' : ''}${path === '/' ? '' : path}`
+    : null
+}
 
 export default buildConfig({
-  localization: {
-    locales: locales.map((locale) => ({
-      code: locale,
-      label: {
-        de: 'Deutsch',
-        en: 'English',
-      }[locale]!,
-    })),
-    defaultLocale: 'de',
-  },
   admin: {
-    user: Users.slug,
+    avatar: 'default',
+    components: {
+      graphics: {
+        Icon: '/components/Icon',
+        Logo: '/components/Logo',
+      },
+    },
+    dateFormat: "dd. MMM yyyy HH:mm 'Uhr'",
     importMap: {
       baseDir: path.resolve(dirname),
     },
     meta: {
-      titleSuffix: ` - ${websiteName} CMS`,
+      defaultOGImageType: 'off',
+      description: `${websiteName} CMS`,
       icons: [
         {
           rel: 'icon',
@@ -113,86 +125,102 @@ export default buildConfig({
           url: `/icon.png`,
         },
       ],
-      description: `${websiteName} CMS`,
-      defaultOGImageType: 'off',
       openGraph: {
         siteName: `${websiteName} CMS`,
       },
+      titleSuffix: ` - ${websiteName} CMS`,
     },
-    avatar: 'default',
-    dateFormat: "dd. MMM yyyy HH:mm 'Uhr'",
-    livePreview: {
-      collections: pageCollectionsSlugs,
-      url: ({ data }) => getPageUrl({ path: data.path, preview: true })!,
-    },
-    components: {
-      graphics: {
-        Icon: '/components/Icon',
-        Logo: '/components/Logo',
-      },
-    },
+    user: Users.slug,
   },
-  i18n: {
-    fallbackLanguage: 'de',
-    supportedLanguages: { en, de },
-    translations: customTranslations,
-  },
-  globals: [Header, Footer, Labels],
-  collections: collections,
-  editor: lexicalEditor(),
-  secret: process.env.PAYLOAD_SECRET || '',
-  csrf:
-    process.env.NODE_ENV === 'production'
-      ? ['https://cms.jhb.software']
-      : ['http://localhost:3000', 'http://localhost:3001'],
-  typescript: {
-    outputFile: path.resolve(dirname, 'payload-types.ts'),
-  },
-  db: mongooseAdapter({
-    url: process.env.MONGODB_URI!,
-    allowIDOnCreate: true,
-  }),
-  email: resendAdapter({
-    defaultFromAddress: 'cms@jhb.software',
-    defaultFromName: `${websiteName} CMS`,
-    apiKey: process.env.RESEND_API_KEY!,
-  }),
-  endpoints: [
-    {
-      path: '/static-paths',
-      method: 'get',
-      handler: getStatisPagesProps,
-    },
-    {
-      path: '/sitemap',
-      method: 'get',
-      handler: getSitemap,
-    },
-    {
-      path: '/page-props',
-      method: 'get',
-      handler: getPagePropsByPath,
-    },
-  ],
   blocks: [
     // Since the CodeBlock is only used inside the RichText editor of the articles, add it here to generate the type
     CodeBlock,
   ],
+  collections: collections,
+  csrf:
+    process.env.NODE_ENV === 'production'
+      ? ['https://cms.jhb.software']
+      : ['http://localhost:3000', 'http://localhost:3001'],
+  db: mongooseAdapter({
+    allowIDOnCreate: true,
+    url: process.env.MONGODB_URI!,
+    // see https://vercel.com/guides/connection-pooling-with-functions
+    afterOpenConnection: async (adapter) => attachDatabasePool(adapter.connection.getClient()),
+  }),
+  editor: lexicalEditor(),
+  email: resendAdapter({
+    apiKey: process.env.RESEND_API_KEY!,
+    defaultFromAddress: 'cms@jhb.software',
+    defaultFromName: `${websiteName} CMS`,
+  }),
+  endpoints: [
+    {
+      handler: getStaticPagesProps,
+      method: 'get',
+      path: '/static-paths',
+    },
+    {
+      handler: getSitemap,
+      method: 'get',
+      path: '/sitemap',
+    },
+    {
+      handler: getPagePropsByPath,
+      method: 'get',
+      path: '/page-props',
+    },
+    {
+      handler: getGlobalData,
+      method: 'get',
+      path: '/global-data',
+    },
+  ],
+  globals: [Header, Footer, Labels],
+  i18n: {
+    fallbackLanguage: 'de',
+    supportedLanguages: { de, en },
+    translations: customTranslations,
+  },
+  localization: {
+    defaultLocale: 'de',
+    locales: locales.map((locale) => ({
+      code: locale,
+      label: {
+        de: 'Deutsch',
+        en: 'English',
+      }[locale]!,
+    })),
+  },
+  secret: process.env.PAYLOAD_SECRET || '',
   sharp,
+  typescript: {
+    outputFile: path.resolve(dirname, 'payload-types.ts'),
+  },
   plugins: [
     jhbDashboardPlugin({
-      title: websiteName + ' CMS',
-      frontend: {
-        url: process.env.NEXT_PUBLIC_FRONTEND_URL!,
-      },
       features: {
         deploymentInfo: true,
       },
+      frontend: {
+        url: process.env.NEXT_PUBLIC_FRONTEND_URL!,
+      },
+      title: websiteName + ' CMS',
     }),
     adminSearchPlugin({}),
+    payloadAltTextPlugin({
+      collections: ['images'],
+      resolver: altTextOpenAIResolver({
+        apiKey: process.env.OPENAI_API_KEY!,
+        model: 'gpt-4.1-mini',
+      }),
+      getImageThumbnail: (doc) => {
+        const image = doc as unknown as Image
+
+        // use sm if possible to reduce token count and speed up the generation of the alt text
+        return image.sizes?.sm?.url ?? image.sizes?.md?.url ?? image.sizes?.lg?.url ?? image.url!
+      },
+    }),
     searchPlugin({
-      localize: true,
-      collections: collections.map((collection) => collection.slug as CollectionSlug),
       beforeSync: ({ originalDoc, searchDoc }) => {
         const getTitle = () => {
           switch (searchDoc.doc.relationTo as CollectionSlug) {
@@ -201,133 +229,100 @@ export default buildConfig({
             case 'articles':
               return (originalDoc as Article).title
             case 'projects':
-              return (originalDoc as ProjectType).title
+              return (originalDoc as Project).title
             case 'pages':
-              return (originalDoc as PageType).title
+              return (originalDoc as Page).title
             case 'customers':
               return (originalDoc as Customer).name
             case 'testimonials':
               return (originalDoc as Testimonial).title
             case 'article-tags':
               return (originalDoc as ArticleTag).name
-            case 'media':
-              return (originalDoc as MediaType).filename
+            case 'images':
+              return (originalDoc as Image).filename
             case 'users':
               return (originalDoc as User).firstName + ' ' + (originalDoc as User).lastName
             default:
               return originalDoc.title
           }
         }
-
         return {
           ...searchDoc,
           title: getTitle(),
         }
       },
+      collections: collections.map((collection) => collection.slug as CollectionSlug),
+      localize: true,
       searchOverrides: {
-        admin: {
-          group: CollectionGroups.SystemCollections,
-          defaultColumns: ['title', 'excerpt', 'doc'],
-        },
         access: {
+          create: authenticated,
+          delete: authenticated,
           read: anyone,
           update: authenticated,
-          delete: authenticated,
-          create: authenticated,
+        },
+        admin: {
+          defaultColumns: ['title', 'excerpt', 'doc'],
+          group: CollectionGroups.SystemCollections,
         },
       },
     }),
-    translator({
-      collections: translatableCollectionsSlugs,
+    payloadContentTranslatorPlugin({
+      collections: collections
+        .filter((collection) => ![Redirects.slug, Users.slug].includes(collection.slug))
+        .map((collection) => collection.slug as CollectionSlug),
       globals: [Header.slug, Footer.slug, Labels.slug] as GlobalSlug[],
-      resolvers: [
-        openAIResolver({
-          apiKey: process.env.OPENAI_API_KEY!,
-        }),
-      ],
+      resolver: openAIResolver({
+        apiKey: process.env.OPENAI_API_KEY!,
+        model: 'gpt-4o-mini',
+      }),
     }),
-    payloadPagesPlugin({}),
-    hetznerStorage({
+    payloadPagesPlugin({
+      generatePageURL,
+    }),
+    s3Storage({
+      acl: 'public-read',
+      bucket: process.env.HETZNER_BUCKET!,
+      clientUploads: true,
       collections: {
-        media: {
+        images: {
           // serve files directly from hetzner object storage to improve performance
           disablePayloadAccessControl: true,
         },
       },
-      bucket: process.env.HETZNER_BUCKET!,
-      region: 'nbg1',
-      credentials: {
-        accessKeyId: process.env.HETZNER_ACCESS_KEY_ID!,
-        secretAccessKey: process.env.HETZNER_SECRET_ACCESS_KEY!,
+      config: {
+        credentials: {
+          accessKeyId: process.env.HETZNER_ACCESS_KEY_ID!,
+          secretAccessKey: process.env.HETZNER_SECRET_ACCESS_KEY!,
+        },
+        endpoint: 'https://nbg1.your-objectstorage.com',
+        region: 'nbg1',
+        // TODO: setting cache control is not (yet) supported by the s3 plugin
+        // see: https://github.com/payloadcms/payload/pull/14412
+        // cacheControl: 'public, max-age=2592000', // max age 30 days
       },
-      cacheControl: 'public, max-age=2592000', // max age 30 days
-      // TODO: reactive client uploads once the issue is fixed: https://github.com/joneslloyd/hetzner-object-storage/issues/1#issuecomment-2970473793
-      // clientUploads: true,
-      acl: 'public-read',
     }),
-    payloadSeoPlugin({
-      // JHB plugin related config
-      websiteContext: {
-        topic: 'Software Developer for mobile, web-apps and websites',
-      },
-      documentContentTransformers: {
-        pages: async (doc: PageType) => ({
-          title: doc.title,
-          subTitle: doc.hero.subtitle,
-        }),
-        projects: async (doc: ProjectType, lexicalToPlainText) => ({
-          title: doc.title,
-          excerpt: doc.excerpt,
-          tags: doc.tags?.join(', '),
-          body: (await lexicalToPlainText(doc.body)) ?? '',
-        }),
-      },
-
-      // Payload official seo plugin config:
+    seoPlugin({
       collections: pageCollectionsSlugs,
-      uploadsCollection: 'media',
-      generateTitle: ({ doc, collectionConfig, locale }) => {
-        const suffixMap: Record<string, Record<string, string>> = {
-          projects: {
-            de: 'Referenzen',
-            en: 'References',
-          },
-          articles: {
-            de: 'Artikel',
-            en: 'Articles',
-          },
-          authors: {
-            de: 'Autoren',
-            en: 'Authors',
-          },
-        }
-
-        const suffix = suffixMap[collectionConfig?.slug ?? '']?.[locale ?? 'de']
-
-        return `${doc.title} - ${websiteName} ${suffix ?? ''}`
-      },
-      generateURL: ({ doc }) => getPageUrl({ path: doc.path })!,
-      interfaceName: 'SeoMetadata',
       fields: ({ defaultFields }) => [
         ...defaultFields.map((field) => {
           if ('name' in field) {
             if (field.name === 'title') {
               return {
                 ...field,
-                required: true,
                 label: {
                   de: 'Titel',
                   en: 'Title',
                 },
+                required: true,
               }
             } else if (field.name === 'description') {
               return {
                 ...field,
-                required: true,
                 label: {
                   de: 'Beschreibung',
                   en: 'Description',
                 },
+                required: true,
               }
             } else if (field.name === 'image') {
               return {
@@ -339,11 +334,31 @@ export default buildConfig({
               }
             }
           }
-
           return field
         }),
         alternatePathsField(),
       ],
+      generateTitle: ({ collectionConfig, doc, locale }) => {
+        const suffixMap: Record<string, Record<string, string>> = {
+          articles: {
+            de: 'Artikel',
+            en: 'Articles',
+          },
+          authors: {
+            de: 'Autoren',
+            en: 'Authors',
+          },
+          projects: {
+            de: 'Referenzen',
+            en: 'References',
+          },
+        }
+        const suffix = suffixMap[collectionConfig?.slug ?? '']?.[locale ?? 'de']
+        return `${doc.title} - ${websiteName} ${suffix ?? ''}`
+      },
+      generateURL: ({ doc }) => generatePageURL({ path: doc.path, preview: false }) ?? '',
+      interfaceName: 'SeoMetadata',
+      uploadsCollection: 'images',
     }),
   ],
 })

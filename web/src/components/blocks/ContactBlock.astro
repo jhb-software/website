@@ -1,19 +1,22 @@
 ---
-import { globalState } from '@/globalState'
-import type { ContactBlock, Media } from 'cms/src/payload-types'
+import type { ContactBlock } from 'cms/src/payload-types'
 import Icon from '../icons/Icon.astro'
 import Img from '../Img.astro'
 
 type Props = ContactBlock
 
 const { name, image, phone, email, socialLinks } = Astro.props
-const { labels } = globalState
+const { labels } = Astro.locals.globalState
 ---
 
 <div class="flex flex-col items-center justify-center gap-10 text-center md:flex-row md:text-left">
   <div class="">
     <div class="flex flex-col items-center gap-4">
-      <Img image={image as Media} size="md" class="w-64 rounded-full shadow-lg" />
+      {
+        typeof image === 'object' && (
+          <Img image={image} size="md" class="w-64 rounded-full shadow-lg" />
+        )
+      }
     </div>
   </div>
 

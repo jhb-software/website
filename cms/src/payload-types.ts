@@ -95,10 +95,11 @@ export interface Config {
     authors: Author;
     testimonials: Testimonial;
     'article-tags': ArticleTag;
-    media: Media;
+    images: Image;
     redirects: Redirect;
     users: User;
     search: Search;
+    'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -117,10 +118,11 @@ export interface Config {
     authors: AuthorsSelect<false> | AuthorsSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     'article-tags': ArticleTagsSelect<false> | ArticleTagsSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
+    images: ImagesSelect<false> | ImagesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
+    'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -129,6 +131,7 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
+  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('de' | 'en') | ('de' | 'en')[];
   globals: {
     header: Header;
     footer: Footer;
@@ -254,7 +257,7 @@ export interface RichTextBlock {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -308,7 +311,7 @@ export interface Testimonial {
   title: string;
   author: {
     name: string;
-    image: string | Media;
+    image: string | Image;
   };
   text: string;
   updatedAt: string;
@@ -335,12 +338,12 @@ export interface Project {
   title: string;
   excerpt: string;
   tags: ('web-app' | 'website' | 'app' | 'seo' | 'cms')[];
-  image: string | Media;
+  image: string | Image;
   body: {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -370,23 +373,19 @@ export interface Customer {
   websiteUrl: string;
   name: string;
   excerpt: string;
-  logo: string | Media;
+  logo: string | Image;
   updatedAt: string;
   createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
+ * via the `definition` "images".
  */
-export interface Media {
+export interface Image {
   id: string;
-  /**
-   * Details not visible in the image (such as the location or event). Used to enhance AI-generated alt text with additional context.
-   */
-  context?: string | null;
   alt: string;
   /**
-   * Keywords which describe the image. Used for searching the image.
+   * Keywords which describe the image. Used when searching for the image.
    */
   keywords?: string[] | null;
   updatedAt: string;
@@ -456,19 +455,12 @@ export interface Media {
  * via the `definition` "SeoMetadata".
  */
 export interface SeoMetadata {
-  /**
-   * Keywords that indicate what the page is about. These are used for generating the meta description.
-   */
-  keywords: {
-    keyword: string;
-    id?: string | null;
-  }[];
   title: string;
   description: string;
   /**
    * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
    */
-  image?: (string | null) | Media;
+  image?: (string | null) | Image;
   alternatePaths: {
     hreflang: string;
     path: string;
@@ -529,12 +521,12 @@ export interface Article {
   tags: (string | ArticleTag)[];
   title: string;
   excerpt: string;
-  image: string | Media;
+  image: string | Image;
   content: {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -562,14 +554,14 @@ export interface Author {
   breadcrumbs: Breadcrumbs;
   name: string;
   profession: string;
-  photo: string | Media;
+  photo: string | Image;
   excerpt: string;
   socialLinks: SocialLinks;
   description: {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -616,7 +608,7 @@ export interface AboutBlock {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -627,7 +619,7 @@ export interface AboutBlock {
     };
     [k: string]: unknown;
   };
-  image: string | Media;
+  image: string | Image;
   id?: string | null;
   blockName?: string | null;
   blockType: 'about';
@@ -642,7 +634,7 @@ export interface PhilosophyBlock {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -668,7 +660,7 @@ export interface PhilosophyBlock {
  */
 export interface ContactBlock {
   name: string;
-  image: string | Media;
+  image: string | Image;
   phone: string;
   email: string;
   socialLinks: {
@@ -759,8 +751,8 @@ export interface Search {
         value: string | ArticleTag;
       }
     | {
-        relationTo: 'media';
-        value: string | Media;
+        relationTo: 'images';
+        value: string | Image;
       }
     | {
         relationTo: 'redirects';
@@ -772,6 +764,23 @@ export interface Search {
       };
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-kv".
+ */
+export interface PayloadKv {
+  id: string;
+  key: string;
+  data:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -809,8 +818,8 @@ export interface PayloadLockedDocument {
         value: string | ArticleTag;
       } | null)
     | ({
-        relationTo: 'media';
-        value: string | Media;
+        relationTo: 'images';
+        value: string | Image;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -908,7 +917,7 @@ export interface PayloadQueryPreset {
     | null;
   relatedCollection: 'projects';
   /**
-   * This is a tempoary field used to determine if updating the preset would remove the user's access to it. When `true`, this record will be deleted after running the preset's `validate` function.
+   * This is a temporary field used to determine if updating the preset would remove the user's access to it. When `true`, this record will be deleted after running the preset's `validate` function.
    */
   isTemp?: boolean | null;
   updatedAt: string;
@@ -1121,12 +1130,6 @@ export interface ContactBlockSelect<T extends boolean = true> {
  * via the `definition` "SeoMetadata_select".
  */
 export interface SeoMetadataSelect<T extends boolean = true> {
-  keywords?:
-    | T
-    | {
-        keyword?: T;
-        id?: T;
-      };
   title?: T;
   description?: T;
   image?: T;
@@ -1253,10 +1256,9 @@ export interface ArticleTagsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
+ * via the `definition` "images_select".
  */
-export interface MediaSelect<T extends boolean = true> {
-  context?: T;
+export interface ImagesSelect<T extends boolean = true> {
   alt?: T;
   keywords?: T;
   updatedAt?: T;
@@ -1384,6 +1386,14 @@ export interface SearchSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-kv_select".
+ */
+export interface PayloadKvSelect<T extends boolean = true> {
+  key?: T;
+  data?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
@@ -1494,6 +1504,7 @@ export interface Labels {
     'navigate-to-section': string;
     'open-menu': string;
     'close-menu': string;
+    since: string;
   };
   social: {
     'visit-facebook': string;
@@ -1570,6 +1581,7 @@ export interface LabelsSelect<T extends boolean = true> {
         'navigate-to-section'?: T;
         'open-menu'?: T;
         'close-menu'?: T;
+        since?: T;
       };
   social?:
     | T

@@ -23,7 +23,11 @@ export async function getPageData<T>(
       limit: 1,
       pagination: false,
     },
-    !options?.preview, // use cache if not in preview mode
+    {
+      headers: {
+        'X-Use-Cache': options?.preview ? 'false' : 'true',
+      },
+    },
   )
 
   if (result.totalDocs === 0) {

@@ -1,45 +1,46 @@
+import { CollectionConfig } from 'payload'
+
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
 import { isValidURL } from '@/utils/isValidURL'
-import { CollectionConfig } from 'payload'
 
 const Customers: CollectionConfig = {
   slug: 'customers',
+  access: {
+    create: authenticated,
+    delete: authenticated,
+    read: anyone,
+    update: authenticated,
+  },
+  admin: {
+    defaultColumns: ['name', 'updatedAt', 'status'],
+    group: CollectionGroups.ContentCollections,
+    useAsTitle: 'name',
+  },
   labels: {
-    singular: {
-      de: 'Kunde',
-      en: 'Customer',
-    },
     plural: {
       de: 'Kunden',
       en: 'Customers',
     },
-  },
-  admin: {
-    useAsTitle: 'name',
-    defaultColumns: ['name', 'updatedAt', 'status'],
-    group: CollectionGroups.ContentCollections,
-  },
-  access: {
-    read: anyone,
-    update: authenticated,
-    delete: authenticated,
-    create: authenticated,
+    singular: {
+      de: 'Kunde',
+      en: 'Customer',
+    },
   },
   fields: [
     // Sidebar fields:
     {
       name: 'websiteUrl',
-      label: 'Website URL',
       type: 'text',
-      required: true,
-      localized: true,
-      // @ts-ignore
-      validate: (value: string) => (isValidURL(value) ? true : 'Invalid URL'),
       admin: {
         position: 'sidebar',
       },
+      label: 'Website URL',
+      localized: true,
+      required: true,
+      validate: (value: unknown) =>
+        typeof value === 'string' && isValidURL(value) ? true : 'Invalid URL',
     },
     // Body fields:
     {
@@ -50,17 +51,17 @@ const Customers: CollectionConfig = {
     {
       name: 'excerpt',
       type: 'textarea',
-      required: true,
-      localized: true,
       label: {
-        en: 'Excerpt',
         de: 'Kurzbeschreibung',
+        en: 'Excerpt',
       },
+      localized: true,
+      required: true,
     },
     {
       name: 'logo',
       type: 'upload',
-      relationTo: 'media',
+      relationTo: 'images',
       required: true,
     },
   ],

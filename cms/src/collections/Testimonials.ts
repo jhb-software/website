@@ -1,49 +1,50 @@
+import { CollectionConfig } from 'payload'
+
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
-import { CollectionConfig } from 'payload'
 
 const Testimonials: CollectionConfig = {
   slug: 'testimonials',
+  access: {
+    create: authenticated,
+    delete: authenticated,
+    read: anyone,
+    update: authenticated,
+  },
+  admin: {
+    defaultColumns: ['title', 'author', 'project', 'updatedAt', 'status'],
+    group: CollectionGroups.ContentCollections,
+    useAsTitle: 'title',
+  },
   labels: {
-    singular: {
-      de: 'Testimonial',
-      en: 'Testimonial',
-    },
     plural: {
       de: 'Testimonials',
       en: 'Testimonials',
     },
-  },
-  admin: {
-    useAsTitle: 'title',
-    defaultColumns: ['title', 'author', 'project', 'updatedAt', 'status'],
-    group: CollectionGroups.ContentCollections,
+    singular: {
+      de: 'Testimonial',
+      en: 'Testimonial',
+    },
   },
   orderable: true,
   versions: {
     drafts: true,
-  },
-  access: {
-    read: anyone,
-    update: authenticated,
-    delete: authenticated,
-    create: authenticated,
   },
   fields: [
     // Sidebar fields:
     {
       name: 'project',
       type: 'relationship',
-      relationTo: 'projects',
       admin: {
         position: 'sidebar',
       },
-      required: true,
       label: {
-        en: 'Project',
         de: 'Projekt',
+        en: 'Project',
       },
+      relationTo: 'projects',
+      required: true,
     },
 
     // Body fields:
@@ -51,20 +52,20 @@ const Testimonials: CollectionConfig = {
       // This title field is needed, because the nested author.name field cannot be used as a title field in payload.
       name: 'title',
       type: 'text',
-      label: 'Title',
-      required: true,
       admin: {
         components: {
           Field: '/fields/components/CopyAuthorNameToTitleField',
         },
       },
+      label: 'Title',
+      required: true,
     },
     {
       name: 'author',
       type: 'group',
       label: {
-        en: 'Author',
         de: 'Autor',
+        en: 'Author',
       },
       fields: [
         {
@@ -75,20 +76,20 @@ const Testimonials: CollectionConfig = {
         {
           name: 'image',
           type: 'upload',
-          relationTo: 'media',
-          required: true,
           label: {
-            en: 'Image',
             de: 'Bild',
+            en: 'Image',
           },
+          relationTo: 'images',
+          required: true,
         },
       ],
     },
     {
       name: 'text',
       type: 'textarea',
-      required: true,
       localized: true,
+      required: true,
     },
   ],
 }

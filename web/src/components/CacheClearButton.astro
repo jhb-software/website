@@ -1,0 +1,48 @@
+---
+// Cache clear button that only shows in development mode
+---
+
+<button
+  id="cache-clear-btn"
+  type="button"
+  class="fixed right-4 bottom-4 z-50 rounded-md bg-black px-2 py-1 text-xs font-medium text-white shadow-lg transition-all hover:bg-gray-800 active:scale-95 disabled:opacity-50"
+  title="Clear CMS cache"
+>
+  <span id="btn-text">Clear Cache</span>
+</button>
+
+<script>
+  const button = document.getElementById('cache-clear-btn') as HTMLButtonElement
+  const buttonText = document.getElementById('btn-text') as HTMLSpanElement
+
+  button.addEventListener('click', async () => {
+    // Disable button during request
+    button.disabled = true
+    buttonText.textContent = 'Clearing...'
+
+    try {
+      const response = await fetch('/api/clear-cache', {
+        method: 'POST',
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
+        buttonText.textContent = 'Cleared!'
+        setTimeout(() => {
+          buttonText.textContent = 'Clear Cache'
+          button.disabled = false
+        }, 2000)
+      } else {
+        throw new Error(result.message || 'Failed to clear cache')
+      }
+    } catch (error) {
+      buttonText.textContent = 'Error!'
+      console.error('Failed to clear cache:', error)
+      setTimeout(() => {
+        buttonText.textContent = 'Clear Cache'
+        button.disabled = false
+      }, 2000)
+    }
+  })
+</script>

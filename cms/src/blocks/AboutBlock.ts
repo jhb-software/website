@@ -4,13 +4,13 @@ export const AboutBlock: Block = {
   slug: 'about',
   interfaceName: 'AboutBlock',
   labels: {
-    singular: {
-      de: 'Über Mich Block',
-      en: 'About Me Block',
-    },
     plural: {
       de: 'Über Mich Blöcke',
       en: 'About Me Blocks',
+    },
+    singular: {
+      de: 'Über Mich Block',
+      en: 'About Me Block',
     },
   },
   fields: [
@@ -20,33 +20,33 @@ export const AboutBlock: Block = {
         {
           name: 'title',
           type: 'text',
-          required: false,
-          localized: false,
           admin: {
             width: '50%',
           },
+          localized: false,
+          required: false,
         },
         {
           name: 'name',
           type: 'text',
-          required: false,
-          localized: false,
           admin: {
             width: '50%',
           },
+          localized: false,
+          required: false,
         },
       ],
     },
     {
       name: 'text',
       type: 'richText',
-      required: true,
       localized: true,
+      required: true,
     },
     {
       name: 'image',
       type: 'upload',
-      relationTo: 'media',
+      relationTo: 'images',
       required: true,
     },
   ],

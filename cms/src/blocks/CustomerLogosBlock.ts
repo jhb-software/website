@@ -4,11 +4,11 @@ export const CustomerLogosBlock: Block = {
   slug: 'customer-logos',
   interfaceName: 'CustomerLogosBlock',
   labels: {
-    singular: {
+    plural: {
       de: 'Kundenlogos',
       en: 'Customer Logos',
     },
-    plural: {
+    singular: {
       de: 'Kundenlogos',
       en: 'Customer Logos',
     },
@@ -17,10 +17,10 @@ export const CustomerLogosBlock: Block = {
     {
       name: 'customers',
       type: 'relationship',
-      relationTo: 'customers',
       hasMany: true,
-      required: true,
       maxRows: 12,
+      relationTo: 'customers',
+      required: true,
     },
   ],
 }

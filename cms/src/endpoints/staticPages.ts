@@ -1,7 +1,9 @@
-import type { Config } from '@/payload-types'
-import { PageCollectionSlugs, pageCollectionsSlugs } from '@/payload.config'
 import { createHash } from 'crypto'
 import { PayloadRequest } from 'payload'
+
+import type { Config } from '@/payload-types'
+
+import { PageCollectionSlugs, pageCollectionsSlugs } from '@/payload.config'
 
 export type StaticPageProps = {
   id: string
@@ -12,20 +14,20 @@ export type StaticPageProps = {
 /**
  * Returns a list of all pages with the props the frontend needs to prerender them.
  */
-export async function getStatisPagesProps(req: PayloadRequest) {
+export async function getStaticPagesProps(req: PayloadRequest) {
   const collectionItems: StaticPageProps[] = []
 
   for (const collection of pageCollectionsSlugs) {
     const data = await req.payload.find({
       collection: collection,
-      limit: 1000,
-      locale: 'all',
       depth: 0, // do not fetch related docs
-      where: {
-        _status: { equals: 'published' },
-      },
+      limit: 0,
+      locale: 'all',
       select: {
         path: true,
+      },
+      where: {
+        _status: { equals: 'published' },
       },
     })
 
@@ -37,9 +39,9 @@ export async function getStatisPagesProps(req: PayloadRequest) {
 
     for (const doc of data.docs as Doc[]) {
       collectionItems.push({
+        collection: collection,
         id: doc.id,
         paths: doc.path,
-        collection: collection,
       })
     }
   }
@@ -55,9 +57,9 @@ export async function getStatisPagesProps(req: PayloadRequest) {
 
   return new Response(jsonString, {
     headers: {
+      'Cache-Control': 'no-cache',
       'Content-Type': 'application/json',
       ETag: etag,
-      'Cache-Control': 'no-cache',
     },
   })
 }

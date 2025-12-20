@@ -1,3 +1,5 @@
+import { PageCollectionConfig } from '@jhb.software/payload-pages-plugin'
+
 import { AboutBlock } from '@/blocks/AboutBlock'
 import { ArticlesBlock } from '@/blocks/ArticlesBlock'
 import { AuthorsBlock } from '@/blocks/AuthorsBlock'
@@ -13,90 +15,95 @@ import { heroSection } from '@/fields/heroSection'
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
-import { createPageCollectionConfig } from '@jhb.software/payload-pages-plugin'
-import { CollectionConfig } from 'payload'
+import { lazyLoadingLivePreviewComponent } from '@/shared/lazyLoadingLivePreviewComponent'
 
-const Pages: CollectionConfig = createPageCollectionConfig({
+const Pages: PageCollectionConfig = {
   slug: 'pages',
+  access: {
+    create: authenticated,
+    delete: authenticated,
+    read: anyone,
+    update: authenticated,
+  },
+  admin: {
+    ...lazyLoadingLivePreviewComponent,
+    defaultColumns: ['title', 'path', 'status', 'updatedAt'],
+    group: CollectionGroups.PagesCollections,
+    useAsTitle: 'title',
+  },
+  defaultPopulate: {
+    // only populate the fields that are required by the frontend (e.g. for breadcrumbs and navigation)
+    path: true,
+    title: true,
+  },
   labels: {
-    singular: {
-      de: 'Seite',
-      en: 'Page',
-    },
     plural: {
       de: 'Seiten',
       en: 'Pages',
     },
+    singular: {
+      de: 'Seite',
+      en: 'Page',
+    },
   },
-  admin: {
-    useAsTitle: 'title',
-    defaultColumns: ['title', 'path', 'status', 'updatedAt'],
-    group: CollectionGroups.PagesCollections,
+  page: {
+    isRootCollection: true,
+    parent: {
+      name: 'parent',
+      collection: 'pages',
+    },
   },
   versions: {
     drafts: true,
-  },
-  access: {
-    read: anyone,
-    update: authenticated,
-    delete: authenticated,
-    create: authenticated,
-  },
-  page: {
-    parent: {
-      collection: 'pages',
-      name: 'parent',
-    },
-    isRootCollection: true,
   },
   fields: [
     {
       name: 'title',
       type: 'text',
-      required: true,
       localized: true,
+      required: true,
     },
     heroSection(),
     {
       name: 'sections',
       type: 'array',
+      admin: {
+        components: {
+          RowLabel: '/fields/components/SectionRowTitle',
+        },
+      },
       label: {
         de: 'Inhalts Abschnitte',
         en: 'Content Sections',
       },
       labels: {
-        singular: {
-          de: 'Abschnitt',
-          en: 'Section',
-        },
         plural: {
           de: 'Abschnitte',
           en: 'Sections',
         },
-      },
-      admin: {
-        components: {
-          RowLabel: '/fields/components/SectionRowTitle',
+        singular: {
+          de: 'Abschnitt',
+          en: 'Section',
         },
       },
       fields: [
         {
           name: 'title',
           type: 'text',
-          localized: true,
           label: {
             de: 'Titel',
             en: 'Title',
           },
+          localized: true,
         },
         {
           name: 'subTitle',
           type: 'textarea',
-          localized: true,
           label: {
             de: 'Untertitel',
             en: 'Subtitle',
           },
+          localized: true,
         },
         {
           name: 'highlightBackground',
@@ -130,6 +137,6 @@ const Pages: CollectionConfig = createPageCollectionConfig({
       ],
     },
   ],
-})
+}
 
 export default Pages

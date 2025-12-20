@@ -1,5 +1,5 @@
 import { IsRootPageField as IsRootPageField_817212d6f65b4eb37176541413db3f8c } from '@jhb.software/payload-pages-plugin/server'
-import { SlugField as SlugField_e6458422044c3374e7ca411c92428566 } from '@jhb.software/payload-pages-plugin/client'
+import { SlugField as SlugField_817212d6f65b4eb37176541413db3f8c } from '@jhb.software/payload-pages-plugin/server'
 import { ParentField as ParentField_817212d6f65b4eb37176541413db3f8c } from '@jhb.software/payload-pages-plugin/server'
 import { PathField as PathField_e6458422044c3374e7ca411c92428566 } from '@jhb.software/payload-pages-plugin/client'
 import { BreadcrumbsField as BreadcrumbsField_e6458422044c3374e7ca411c92428566 } from '@jhb.software/payload-pages-plugin/client'
@@ -28,19 +28,17 @@ import { UnderlineFeatureClient as UnderlineFeatureClient_e70f5e05f09f93e00b997e
 import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { default as default_eee5cae852e1376fc85f7890fd0a8746 } from '../../../fields/components/SectionRowTitle'
-import { KeywordsFieldLabel as KeywordsFieldLabel_ee88c3772cf709a4f300fbed1eddb78c } from '@jhb.software/payload-seo-plugin/client'
-import { KeywordsFieldRowLabel as KeywordsFieldRowLabel_ee88c3772cf709a4f300fbed1eddb78c } from '@jhb.software/payload-seo-plugin/client'
 import { OverviewComponent as OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaTitleComponent as MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaImageComponent as MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
-import { PreviewButtonField as PreviewButtonField_e6458422044c3374e7ca411c92428566 } from '@jhb.software/payload-pages-plugin/client'
-import { CustomButtonWithTranslator as CustomButtonWithTranslator_0754f48e597a64286a6ec55277e0e245 } from '@payload-enchants/translator/client'
+import { CustomButtonWithTranslator as CustomButtonWithTranslator_9c055d96e8729a52a1783cd1a2e94e43 } from '@jhb.software/payload-content-translator-plugin/client'
+import { default as default_5e4c3a66c7a12c89ca9d2edef6fcff8e } from 'src/components/LazyLoadingLivePreview.tsx'
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { default as default_1b8d860059dbed4b3a90b2af97375475 } from '../../../fields/components/CopyAuthorNameToTitleField'
-import { default as default_e1ade08e4fbe8c63229c8e335587134e } from '../../../../plugins/llm-alt-text-generator/components/AltTextField'
-import { default as default_453db141d478a18290c119e535801c89 } from '../../../../plugins/llm-alt-text-generator/components/BulkUpdateAltTextsButton'
+import { AltTextField as AltTextField_0a0a871430f540863f89f94882312cf1 } from '@jhb.software/payload-alt-text-plugin/client'
+import { BulkGenerateAltTextsButton as BulkGenerateAltTextsButton_0a0a871430f540863f89f94882312cf1 } from '@jhb.software/payload-alt-text-plugin/client'
 import { LinkToDoc as LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
 import { ReindexButton as ReindexButton_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
 import { QueryPresetsAccessCell as QueryPresetsAccessCell_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
@@ -50,13 +48,13 @@ import { QueryPresetsColumnsCell as QueryPresetsColumnsCell_3817bf644402e67bfe65
 import { QueryPresetsColumnField as QueryPresetsColumnField_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
 import { default as default_a02a4abfb5c9da17149cbadc8057c129 } from '../../../components/Icon'
 import { default as default_919492c8e60179286a0f183c0a5b652e } from '../../../components/Logo'
-import { SearchButton as SearchButton_5400ac5ea24f4363783c781edd0c24e3 } from '@jhb.software/payload-admin-search/client'
-import { HetznerClientUploadHandler as HetznerClientUploadHandler_8ac97c7c3d1014cb6b64a5b50ca764f3 } from '@joneslloyd/payload-storage-hetzner/client'
+import { SearchWrapper as SearchWrapper_5400ac5ea24f4363783c781edd0c24e3 } from '@jhb.software/payload-admin-search/client'
+import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { DashboardView as DashboardView_b2b4ae8325c7d78b1c88c5f3f47f7333 } from '../../../plugins/jhb-dashboard/components/DashboardView'
 
 export const importMap = {
   "@jhb.software/payload-pages-plugin/server#IsRootPageField": IsRootPageField_817212d6f65b4eb37176541413db3f8c,
-  "@jhb.software/payload-pages-plugin/client#SlugField": SlugField_e6458422044c3374e7ca411c92428566,
+  "@jhb.software/payload-pages-plugin/server#SlugField": SlugField_817212d6f65b4eb37176541413db3f8c,
   "@jhb.software/payload-pages-plugin/server#ParentField": ParentField_817212d6f65b4eb37176541413db3f8c,
   "@jhb.software/payload-pages-plugin/client#PathField": PathField_e6458422044c3374e7ca411c92428566,
   "@jhb.software/payload-pages-plugin/client#BreadcrumbsField": BreadcrumbsField_e6458422044c3374e7ca411c92428566,
@@ -85,19 +83,17 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#BoldFeatureClient": BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "/fields/components/SectionRowTitle#default": default_eee5cae852e1376fc85f7890fd0a8746,
-  "@jhb.software/payload-seo-plugin/client#KeywordsFieldLabel": KeywordsFieldLabel_ee88c3772cf709a4f300fbed1eddb78c,
-  "@jhb.software/payload-seo-plugin/client#KeywordsFieldRowLabel": KeywordsFieldRowLabel_ee88c3772cf709a4f300fbed1eddb78c,
   "@payloadcms/plugin-seo/client#OverviewComponent": OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaTitleComponent": MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaImageComponent": MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
-  "@jhb.software/payload-pages-plugin/client#PreviewButtonField": PreviewButtonField_e6458422044c3374e7ca411c92428566,
-  "@payload-enchants/translator/client#CustomButtonWithTranslator": CustomButtonWithTranslator_0754f48e597a64286a6ec55277e0e245,
+  "@jhb.software/payload-content-translator-plugin/client#CustomButtonWithTranslator": CustomButtonWithTranslator_9c055d96e8729a52a1783cd1a2e94e43,
+  "src/components/LazyLoadingLivePreview.tsx#default": default_5e4c3a66c7a12c89ca9d2edef6fcff8e,
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "/fields/components/CopyAuthorNameToTitleField#default": default_1b8d860059dbed4b3a90b2af97375475,
-  "../plugins/llm-alt-text-generator/components/AltTextField#default": default_e1ade08e4fbe8c63229c8e335587134e,
-  "../plugins/llm-alt-text-generator/components/BulkUpdateAltTextsButton#default": default_453db141d478a18290c119e535801c89,
+  "@jhb.software/payload-alt-text-plugin/client#AltTextField": AltTextField_0a0a871430f540863f89f94882312cf1,
+  "@jhb.software/payload-alt-text-plugin/client#BulkGenerateAltTextsButton": BulkGenerateAltTextsButton_0a0a871430f540863f89f94882312cf1,
   "@payloadcms/plugin-search/client#LinkToDoc": LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634,
   "@payloadcms/plugin-search/client#ReindexButton": ReindexButton_aead06e4cbf6b2620c5c51c9ab283634,
   "@payloadcms/ui#QueryPresetsAccessCell": QueryPresetsAccessCell_3817bf644402e67bfe6577f60ef982de,
@@ -107,7 +103,7 @@ export const importMap = {
   "@payloadcms/ui#QueryPresetsColumnField": QueryPresetsColumnField_3817bf644402e67bfe6577f60ef982de,
   "/components/Icon#default": default_a02a4abfb5c9da17149cbadc8057c129,
   "/components/Logo#default": default_919492c8e60179286a0f183c0a5b652e,
-  "@jhb.software/payload-admin-search/client#SearchButton": SearchButton_5400ac5ea24f4363783c781edd0c24e3,
-  "@joneslloyd/payload-storage-hetzner/client#HetznerClientUploadHandler": HetznerClientUploadHandler_8ac97c7c3d1014cb6b64a5b50ca764f3,
+  "@jhb.software/payload-admin-search/client#SearchWrapper": SearchWrapper_5400ac5ea24f4363783c781edd0c24e3,
+  "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
   "/plugins/jhb-dashboard/components/DashboardView#DashboardView": DashboardView_b2b4ae8325c7d78b1c88c5f3f47f7333
 }

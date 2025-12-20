@@ -1,5 +1,5 @@
 ---
-import type { Media, Testimonial } from 'cms/src/payload-types'
+import type { Testimonial } from 'cms/src/payload-types'
 import Icon from '../icons/Icon.astro'
 import Img from '../Img.astro'
 import Card from './Card.astro'
@@ -20,11 +20,15 @@ if (!customer) {
 
 <Card class="space-y-4">
   <div class="flex flex-row items-center gap-5">
-    <Img
-      image={author.image as Media}
-      size="sm"
-      class="m-0 aspect-square !h-16 !w-16 rounded-full"
-    />
+    {
+      typeof author.image === 'object' && (
+        <Img
+          image={author.image}
+          size="sm"
+          class="m-0 aspect-square !h-16 !w-16 rounded-full object-cover"
+        />
+      )
+    }
 
     <div>
       <div class="font-bold">{author.name}</div>

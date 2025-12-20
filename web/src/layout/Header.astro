@@ -1,9 +1,7 @@
 ---
 import { defaultLocale } from '@/cms/locales'
 import { iconPath } from '@/constants'
-import { globalState } from '@/globalState'
 import type { Page, SeoMetadata } from 'cms/src/payload-types'
-import { payloadSDK } from '../cms/sdk'
 import Link from '../components/Link.astro'
 import { normalizePath } from '../utils/normalizePath'
 
@@ -12,20 +10,7 @@ type Props = {
 }
 
 const { alternatePaths } = Astro.props
-const { locale, preview, labels } = globalState
-
-const header = await payloadSDK.findGlobal(
-  {
-    slug: 'header',
-    locale: locale,
-    populate: {
-      pages: {
-        path: true,
-      },
-    },
-  },
-  !preview,
-)
+const { locale, preview, labels, header } = Astro.locals.globalState
 
 const currentPath = Astro.url.pathname
 
