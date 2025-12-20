@@ -1514,6 +1514,9 @@ export interface Labels {
     'written-by': string;
     'last-updated-at': string;
   };
+  testimonials: {
+    'testimonials-title': string;
+  };
   'not-found-page': {
     title: string;
     description: string;
@@ -1592,6 +1595,11 @@ export interface LabelsSelect<T extends boolean = true> {
     | {
         'written-by'?: T;
         'last-updated-at'?: T;
+      };
+  testimonials?:
+    | T
+    | {
+        'testimonials-title'?: T;
       };
   'not-found-page'?:
     | T
