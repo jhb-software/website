@@ -1,7 +1,7 @@
 ---
 import { payloadSDK } from '@/cms/sdk'
 import Icon from '@/components/icons/Icon.astro'
-import type { TestimonialsBlock } from 'cms/src/payload-types'
+import type { Testimonial, TestimonialsBlock } from 'cms/src/payload-types'
 import TestimonialCard from '../cards/TestimonialCard.astro'
 
 export type Props = TestimonialsBlock
@@ -31,42 +31,46 @@ const populatedTestimonials = await payloadSDK.find(
     },
   },
 )
+
+const useRowLayout = (populatedTestimonials.docs?.length ?? 0) <= 2
 ---
 
-<div class="group relative" id="testimonials-container" data-expanded={false}>
-  <div
-    class:list={[
-      'space-y-5',
-      ...(populatedTestimonials.docs?.length > 1
-        ? [
-            'group-data-[expanded=false]:mask-b-from-60%',
-            'group-data-[expanded=false]:h-[33rem]',
-            'overflow-y-hidden',
-          ]
-        : []),
-      'relative',
-    ]}
-  >
-    <div
-      class:list={[
-        'gap-5 space-y-5',
-        populatedTestimonials.docs?.length > 1
-          ? 'columns-1 sm:columns-2 lg:columns-3'
-          : 'mx-auto max-w-2xl columns-1',
-      ]}
-    >
-      {
-        populatedTestimonials.docs?.map((testimonial) => (
-          <div class="inline-block w-full break-inside-avoid">
+{
+  useRowLayout ? (
+    <div class="group relative" id="testimonials-container" data-expanded={false}>
+      <div class="flex flex-row justify-center gap-8">
+        {(populatedTestimonials.docs as Testimonial[] | undefined)?.map((testimonial, _, array) => (
+          <div
+            class:list={[
+              array.length === 1 ? 'w-full max-w-2xl min-w-xl' : 'max-w-md',
+              'flex-1 flex-shrink-0',
+            ]}
+          >
             <TestimonialCard {...testimonial} />
           </div>
-        ))
-      }
+        ))}
+      </div>
     </div>
-  </div>
+  ) : (
+    <div class="group relative" id="testimonials-container" data-expanded={false}>
+      <div
+        class:list={[
+          'space-y-5',
+          'relative',
+          'group-data-[expanded=false]:mask-b-from-60%',
+          'group-data-[expanded=false]:h-[33rem]',
+          'overflow-y-hidden',
+        ]}
+      >
+        <div class:list={['gap-5 space-y-5', 'columns-1 sm:columns-2 lg:columns-3']}>
+          {(populatedTestimonials.docs as Testimonial[]).map((testimonial) => (
+            <div class="inline-block w-full break-inside-avoid">
+              <TestimonialCard {...testimonial} />
+            </div>
+          ))}
+        </div>
+      </div>
 
-  {
-    populatedTestimonials.docs?.length > 1 && (
       <div
         class:list={[
           'pointer-events-none absolute inset-x-0 bottom-0 justify-center',
@@ -79,9 +83,9 @@ const populatedTestimonials = await payloadSDK.find(
           <Icon name="chevron-down" class:list={['h-3 w-3']} />
         </button>
       </div>
-    )
-  }
-</div>
+    </div>
+  )
+}
 
 <script>
   function setupTestimonials() {
