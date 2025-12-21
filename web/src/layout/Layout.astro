@@ -1,7 +1,7 @@
 ---
 import CacheClearButton from '@/components/CacheClearButton.astro'
 import PostHog from '@/components/PostHog.astro'
-import { plausibleDomain } from '@/constants'
+import { websiteConfig } from '@/config'
 import '@fontsource-variable/montserrat'
 import { VERCEL_ENV } from 'astro:env/server'
 import { ClientRouter } from 'astro:transitions'
@@ -40,7 +40,7 @@ const showCacheButton = import.meta.env.DEV && !preview
     {
       enableAnalytics && (
         <>
-          <script is:inline id="psbl" data-domain={plausibleDomain} src="/js/script.js" async />
+          <script is:inline id="psbl" data-domain={websiteConfig.domain} src="/js/script.js" async />
           <script
             is:inline
             set:html={`window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }`}

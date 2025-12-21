@@ -1,6 +1,6 @@
 ---
 import { defaultLocale } from '@/cms/locales'
-import { iconPath } from '@/constants'
+import { websiteConfig } from '@/config'
 import type { Page, SeoMetadata } from 'cms/src/payload-types'
 import Link from '../components/Link.astro'
 import { normalizePath } from '../utils/normalizePath'
@@ -23,7 +23,7 @@ const homePagePath = normalizePath(`/${locale ?? defaultLocale}`, preview)
   id="header"
 >
   <a href={homePagePath} class="flex items-center gap-2">
-    <img src={iconPath} alt={'JHB'} width={40} height={40} />
+    <img src={websiteConfig.icon} alt={'JHB'} width={40} height={40} />
     <span class="text-2xl font-bold">Software</span>
   </a>
 
