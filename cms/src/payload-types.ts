@@ -461,6 +461,10 @@ export interface SeoMetadata {
    * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
    */
   image?: (string | null) | Image;
+  /**
+   * If checked, a noindex meta tag will be added to the page and it will be excluded from the sitemap.
+   */
+  noIndex?: boolean | null;
   alternatePaths: {
     hreflang: string;
     path: string;
@@ -1133,6 +1137,7 @@ export interface SeoMetadataSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   image?: T;
+  noIndex?: T;
   alternatePaths?:
     | T
     | {

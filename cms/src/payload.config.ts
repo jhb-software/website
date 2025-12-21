@@ -336,6 +336,16 @@ export default buildConfig({
           }
           return field
         }),
+        {
+          name: 'noIndex',
+          type: 'checkbox',
+          index: true,
+          defaultValue: false,
+          admin: {
+            description:
+              'If checked, a noindex meta tag will be added to the page and it will be excluded from the sitemap.',
+          },
+        },
         alternatePathsField(),
       ],
       generateTitle: ({ collectionConfig, doc, locale }) => {

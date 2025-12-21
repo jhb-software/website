@@ -6,7 +6,7 @@ import type { SeoMetadata } from 'cms/src/payload-types'
 
 type Props = SeoMetadata
 
-const meta = Astro.props
+const { noIndex, ...meta } = Astro.props
 const { locale } = Astro.locals.globalState
 
 const canonicalUrl = new URL(Astro.url.pathname, SITE_URL)
@@ -19,6 +19,8 @@ const ogImageUrl =
 
 <title>{meta.title}</title>
 <meta name="description" content={meta.description} />
+
+{noIndex && <meta name="robots" content="noindex" />}
 
 <link rel="canonical" href={canonicalUrl} />
 

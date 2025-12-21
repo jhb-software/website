@@ -41,6 +41,7 @@ export async function getSitemap(req: PayloadRequest) {
       },
       where: {
         _status: { equals: 'published' },
+        'meta.noIndex': { not_equals: true },
       },
     })
 
