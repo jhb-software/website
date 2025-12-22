@@ -1,3 +1,11 @@
+# Deployment workflow for the JHB Software website.
+#
+# This workflow deploys the CMS before the Web frontend to ensure the frontend
+# always builds against the latest CMS schema and content. The Web frontend
+# fetches data from the CMS at build time, so the CMS must be deployed first.
+#
+# Disable automatic Vercel deployments for both projects to avoid race conditions.
+
 name: Deploy
 
 on:
