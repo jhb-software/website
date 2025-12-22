@@ -39,17 +39,15 @@ jobs:
       - name: Install Vercel CLI
         run: npm install -g vercel@latest
 
-      - name: Link Vercel Project
-        run: vercel link --yes --project=${{ secrets.VERCEL_CMS_PROJECT_ID }} --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: ./cms
-
       - name: Deploy to Vercel
         id: deploy
         run: |
-          DEPLOYMENT_URL=$(vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }})
+          DEPLOYMENT_URL=$(vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }})
           echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
           echo "CMS deployed to: $DEPLOYMENT_URL"
         working-directory: ./cms
+        env:
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_CMS_PROJECT_ID }}
 
       - name: Wait for CMS to be ready
         run: |
@@ -82,17 +80,15 @@ jobs:
       - name: Install Vercel CLI
         run: npm install -g vercel@latest
 
-      - name: Link Vercel Project
-        run: vercel link --yes --project=${{ secrets.VERCEL_WEB_PROJECT_ID }} --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: ./web
-
       - name: Deploy to Vercel
         id: deploy
         run: |
-          DEPLOYMENT_URL=$(vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }})
+          DEPLOYMENT_URL=$(vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }})
           echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
           echo "Web deployed to: $DEPLOYMENT_URL"
         working-directory: ./web
+        env:
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_WEB_PROJECT_ID }}
 
       - name: Deployment Summary
         run: |
