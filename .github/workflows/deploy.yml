@@ -68,8 +68,10 @@ jobs:
           PROD_FLAG=${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event.inputs.environment == 'production' && '--prod' || '' }}
           OUTPUT=$(npx vercel deploy $PROD_FLAG --yes --token=${{ secrets.VERCEL_TOKEN }} 2>&1)
           echo "$OUTPUT"
-          echo "deployment_url=$(echo "$OUTPUT" | grep -E '^https://' | tail -1)" >> $GITHUB_OUTPUT
-          echo "inspect_url=$(echo "$OUTPUT" | grep 'Inspect:' | awk '{print $2}')" >> $GITHUB_OUTPUT
+          DEPLOYMENT_URL=$(echo "$OUTPUT" | grep -oE 'https://[a-zA-Z0-9.-]+\.vercel\.app' | head -1)
+          INSPECT_URL=$(echo "$OUTPUT" | grep -oE 'https://vercel\.com/[^ ]+' | head -1)
+          echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+          echo "inspect_url=$INSPECT_URL" >> $GITHUB_OUTPUT
         env:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_CMS_PROJECT_ID }}
 
@@ -97,8 +99,10 @@ jobs:
               --env CMS_URL=${{ needs.deploy-cms.outputs.deployment_url }} 2>&1)
           fi
           echo "$OUTPUT"
-          echo "deployment_url=$(echo "$OUTPUT" | grep -E '^https://' | tail -1)" >> $GITHUB_OUTPUT
-          echo "inspect_url=$(echo "$OUTPUT" | grep 'Inspect:' | awk '{print $2}')" >> $GITHUB_OUTPUT
+          DEPLOYMENT_URL=$(echo "$OUTPUT" | grep -oE 'https://[a-zA-Z0-9.-]+\.vercel\.app' | head -1)
+          INSPECT_URL=$(echo "$OUTPUT" | grep -oE 'https://vercel\.com/[^ ]+' | head -1)
+          echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+          echo "inspect_url=$INSPECT_URL" >> $GITHUB_OUTPUT
         env:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_WEB_PROJECT_ID }}
 
