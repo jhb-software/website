@@ -125,7 +125,11 @@ jobs:
       - name: Deploy to Vercel
         id: deploy
         run: |
-          PROD_FLAG=${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event.inputs.environment == 'production' && '--prod' || '' }}
+          IS_PROD=${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event.inputs.environment == 'production' }}
+          PROD_FLAG=""
+          if [ "$IS_PROD" == "true" ]; then
+            PROD_FLAG="--prod"
+          fi
           DEPLOYMENT_URL=$(npx vercel deploy $PROD_FLAG --yes --token=${{ secrets.VERCEL_TOKEN }})
           echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
         env:
@@ -154,12 +158,19 @@ jobs:
         id: deploy
         run: |
           IS_PROD=${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event.inputs.environment == 'production' }}
+          CMS_URL="${{ needs.deploy-cms.outputs.deployment_url }}"
+
           if [ "$IS_PROD" == "true" ]; then
             DEPLOYMENT_URL=$(npx vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }})
-          else
+          elif [ -n "$CMS_URL" ]; then
+            # Preview with CMS preview URL
             DEPLOYMENT_URL=$(npx vercel deploy --yes --token=${{ secrets.VERCEL_TOKEN }} \
-              --build-env CMS_URL=${{ needs.deploy-cms.outputs.deployment_url }} \
-              --env CMS_URL=${{ needs.deploy-cms.outputs.deployment_url }})
+              --build-env CMS_URL=$CMS_URL \
+              --env CMS_URL=$CMS_URL)
+          else
+            # Preview without CMS override (uses production CMS from Vercel env vars)
+            echo "CMS deployment skipped, using production CMS from Vercel env vars"
+            DEPLOYMENT_URL=$(npx vercel deploy --yes --token=${{ secrets.VERCEL_TOKEN }})
           fi
           echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
         env:
