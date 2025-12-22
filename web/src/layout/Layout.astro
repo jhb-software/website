@@ -3,6 +3,7 @@ import CacheClearButton from '@/components/CacheClearButton.astro'
 import PostHog from '@/components/PostHog.astro'
 import { websiteConfig } from '@/config'
 import '@fontsource-variable/montserrat'
+import { CMS_URL } from 'astro:env/client'
 import { VERCEL_ENV } from 'astro:env/server'
 import { ClientRouter } from 'astro:transitions'
 import type { SeoMetadata } from 'cms/src/payload-types'
@@ -24,6 +25,10 @@ const { preview } = Astro.locals.globalState
 
 const enableAnalytics = VERCEL_ENV === 'production' && !preview
 const showCacheButton = import.meta.env.DEV && !preview
+const isPreviewDeployment = VERCEL_ENV === 'preview'
+
+console.log('[Preview Test] CMS_URL:', CMS_URL)
+console.log('[Preview Test] VERCEL_ENV:', VERCEL_ENV)
 ---
 
 <!doctype html>
@@ -59,6 +64,13 @@ const showCacheButton = import.meta.env.DEV && !preview
         "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(15 23 42 / 0.025)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e\")",
     }}
   >
+    {
+      isPreviewDeployment && (
+        <div class="bg-amber-500 text-black text-center py-2 text-sm font-medium">
+          Preview Deployment - CMS: {CMS_URL}
+        </div>
+      )
+    }
     <Header alternatePaths={meta.alternatePaths} />
     <main class="py-32">
       <slot />
