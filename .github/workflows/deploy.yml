@@ -1,0 +1,132 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      deploy_cms:
+        description: 'Deploy CMS'
+        required: false
+        default: true
+        type: boolean
+      deploy_web:
+        description: 'Deploy Web'
+        required: false
+        default: true
+        type: boolean
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+
+jobs:
+  deploy-cms:
+    name: Deploy CMS
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' || github.event.inputs.deploy_cms == 'true' }}
+    outputs:
+      deployment_url: ${{ steps.deploy.outputs.deployment_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      - name: Pull Vercel Environment
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./cms
+        env:
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_CMS_PROJECT_ID }}
+
+      - name: Build Project
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./cms
+        env:
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_CMS_PROJECT_ID }}
+
+      - name: Deploy to Vercel
+        id: deploy
+        run: |
+          DEPLOYMENT_URL=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
+          echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+          echo "CMS deployed to: $DEPLOYMENT_URL"
+        working-directory: ./cms
+        env:
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_CMS_PROJECT_ID }}
+
+      - name: Wait for CMS to be ready
+        run: |
+          echo "Waiting for CMS deployment to be ready..."
+          sleep 30
+          # Verify the deployment is accessible
+          for i in {1..10}; do
+            if curl -s -o /dev/null -w "%{http_code}" "${{ steps.deploy.outputs.deployment_url }}/admin" | grep -q "200\|301\|302"; then
+              echo "CMS is ready!"
+              exit 0
+            fi
+            echo "Attempt $i: CMS not ready yet, waiting..."
+            sleep 10
+          done
+          echo "Warning: Could not verify CMS readiness, proceeding anyway"
+
+  deploy-web:
+    name: Deploy Web
+    runs-on: ubuntu-latest
+    needs: deploy-cms
+    if: ${{ always() && (github.event_name == 'push' || github.event.inputs.deploy_web == 'true') && (needs.deploy-cms.result == 'success' || needs.deploy-cms.result == 'skipped') }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      - name: Pull Vercel Environment
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./web
+        env:
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_WEB_PROJECT_ID }}
+
+      - name: Build Project
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./web
+        env:
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_WEB_PROJECT_ID }}
+          CMS_URL: ${{ secrets.CMS_URL }}
+
+      - name: Deploy to Vercel
+        id: deploy
+        run: |
+          DEPLOYMENT_URL=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
+          echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+          echo "Web deployed to: $DEPLOYMENT_URL"
+        working-directory: ./web
+        env:
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_WEB_PROJECT_ID }}
+
+      - name: Deployment Summary
+        run: |
+          echo "## Deployment Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **CMS**: ${{ needs.deploy-cms.outputs.deployment_url || 'Skipped' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Web**: ${{ steps.deploy.outputs.deployment_url }}" >> $GITHUB_STEP_SUMMARY
