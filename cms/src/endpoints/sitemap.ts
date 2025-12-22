@@ -59,12 +59,6 @@ export async function getSitemap(req: PayloadRequest) {
     }
   }
 
-  // TODO: Remove this dummy entry - testing CMS-only deployment
-  pages.push({
-    path: '/dummy-test-entry',
-    updatedAt: new Date().toISOString(),
-  })
-
   const jsonString = JSON.stringify(pages)
   const etag = createHash('md5').update(jsonString).digest('hex')
 
