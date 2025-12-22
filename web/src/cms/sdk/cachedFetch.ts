@@ -1,3 +1,5 @@
+import { CMS_VERCEL_AUTOMATION_BYPASS_SECRET } from 'astro:env/server'
+import { addBypassHeader } from './bypassHeader'
 import { cache } from './cache'
 
 /**
@@ -20,6 +22,8 @@ export function createCachedFetch(baseFetch: typeof fetch): typeof fetch {
     input: RequestInfo | URL,
     init?: RequestInit,
   ): Promise<Response> {
+    // Add bypass header for Vercel Authentication
+    const initWithBypass = addBypassHeader(init, CMS_VERCEL_AUTOMATION_BYPASS_SECRET)
     // Convert input to URL string for caching
     const url =
       typeof input === 'string' ? input : input instanceof URL ? input.toString() : input.url
@@ -55,7 +59,7 @@ export function createCachedFetch(baseFetch: typeof fetch): typeof fetch {
       }
 
       // Make the actual request
-      const response = await baseFetch(input, init)
+      const response = await baseFetch(input, initWithBypass)
 
       if (response.ok) {
         // Clone the response so we can read it and still return it
@@ -72,6 +76,6 @@ export function createCachedFetch(baseFetch: typeof fetch): typeof fetch {
     }
 
     // For non-GET requests or when cache is not explicitly enabled, just forward the request
-    return baseFetch(input, init)
+    return baseFetch(input, initWithBypass)
   }
 }

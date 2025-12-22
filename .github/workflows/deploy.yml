@@ -1,0 +1,221 @@
+# Deployment workflow for the JHB Software website.
+#
+# This workflow deploys the CMS before the Web frontend to ensure the frontend
+# always builds against the latest CMS schema and content. The Web frontend
+# fetches data from the CMS at build time, so the CMS must be deployed first.
+#
+# Production: Triggered on push to main
+# Preview: Triggered on pull requests, uses CMS preview URL for Web build
+#
+# Skip builds by adding to commit message:
+# - [skip-cms] - Skip CMS deployment
+# - [skip-web] - Skip Web deployment
+#
+# For CMS-triggered web rebuilds (content updates), use Vercel's deployment hook:
+# Vercel → Web project → Settings → Git → Deploy Hooks
+#
+# Prerequisites:
+# - Disable automatic Vercel deployments for both projects to avoid race conditions
+# - Set up CMS_VERCEL_AUTOMATION_BYPASS_SECRET to allow Web builds to fetch from protected CMS previews
+
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+    inputs:
+      deploy_cms:
+        description: 'Deploy CMS'
+        required: false
+        default: true
+        type: boolean
+      deploy_web:
+        description: 'Deploy Web'
+        required: false
+        default: true
+        type: boolean
+      environment:
+        description: 'Environment'
+        required: false
+        default: 'preview'
+        type: choice
+        options:
+          - preview
+          - production
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+
+jobs:
+  detect-changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    outputs:
+      cms_changed: ${{ steps.changes.outputs.cms_changed }}
+      web_changed: ${{ steps.changes.outputs.web_changed }}
+      skip_cms: ${{ steps.skip.outputs.skip_cms }}
+      skip_web: ${{ steps.skip.outputs.skip_web }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check for skip tags
+        id: skip
+        run: |
+          COMMIT_MSG="${{ github.event.head_commit.message || github.event.pull_request.title || '' }}"
+          echo "skip_cms=$([[ "$COMMIT_MSG" == *"[skip-cms]"* ]] && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
+          echo "skip_web=$([[ "$COMMIT_MSG" == *"[skip-web]"* ]] && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
+
+      - name: Detect changed files
+        id: changes
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            # Manual trigger: use input values
+            echo "cms_changed=true" >> $GITHUB_OUTPUT
+            echo "web_changed=true" >> $GITHUB_OUTPUT
+          else
+            # Push/PR: detect actual changes
+            if [ "${{ github.event_name }}" == "pull_request" ]; then
+              BASE_SHA=${{ github.event.pull_request.base.sha }}
+              HEAD_SHA=${{ github.event.pull_request.head.sha }}
+            else
+              BASE_SHA=${{ github.event.before }}
+              HEAD_SHA=${{ github.sha }}
+            fi
+
+            CHANGED_FILES=$(git diff --name-only $BASE_SHA $HEAD_SHA 2>/dev/null || echo "")
+
+            # Check if cms/ or web/ folders have changes (or workflow file)
+            CMS_CHANGED=$([[ "$CHANGED_FILES" == *"cms/"* ]] || [[ "$CHANGED_FILES" == *".github/workflows/deploy.yml"* ]] && echo 'true' || echo 'false')
+            WEB_CHANGED=$([[ "$CHANGED_FILES" == *"web/"* ]] || [[ "$CHANGED_FILES" == *".github/workflows/deploy.yml"* ]] && echo 'true' || echo 'false')
+
+            echo "cms_changed=$CMS_CHANGED" >> $GITHUB_OUTPUT
+            echo "web_changed=$WEB_CHANGED" >> $GITHUB_OUTPUT
+            echo "Changed files: $CHANGED_FILES"
+          fi
+
+  deploy-cms:
+    name: Deploy CMS
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: |
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.deploy_cms == 'true') ||
+      (github.event_name != 'workflow_dispatch' &&
+       needs.detect-changes.outputs.cms_changed == 'true' &&
+       needs.detect-changes.outputs.skip_cms == 'false')
+    outputs:
+      deployment_url: ${{ steps.deploy.outputs.deployment_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+
+      - name: Deploy to Vercel
+        id: deploy
+        run: |
+          IS_PROD=${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event.inputs.environment == 'production' }}
+          PROD_FLAG=""
+          if [ "$IS_PROD" == "true" ]; then
+            PROD_FLAG="--prod"
+          fi
+          DEPLOYMENT_URL=$(vercel deploy $PROD_FLAG --yes --token=${{ secrets.VERCEL_TOKEN }})
+          echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+        env:
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_CMS_PROJECT_ID }}
+
+  deploy-web:
+    name: Deploy Web
+    runs-on: ubuntu-latest
+    needs: [detect-changes, deploy-cms]
+    if: |
+      always() &&
+      (needs.deploy-cms.result == 'success' || needs.deploy-cms.result == 'skipped') &&
+      (
+        (github.event_name == 'workflow_dispatch' && github.event.inputs.deploy_web == 'true') ||
+        (github.event_name != 'workflow_dispatch' &&
+         needs.detect-changes.outputs.web_changed == 'true' &&
+         needs.detect-changes.outputs.skip_web == 'false')
+      )
+    outputs:
+      deployment_url: ${{ steps.deploy.outputs.deployment_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+
+      - name: Deploy to Vercel
+        id: deploy
+        run: |
+          IS_PROD=${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event.inputs.environment == 'production' }}
+          CMS_URL="${{ needs.deploy-cms.outputs.deployment_url }}"
+
+          if [ "$IS_PROD" == "true" ]; then
+            DEPLOYMENT_URL=$(vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }})
+          elif [ -n "$CMS_URL" ]; then
+            # Preview with CMS preview URL and bypass secret for Vercel Authentication
+            DEPLOYMENT_URL=$(vercel deploy --yes --token=${{ secrets.VERCEL_TOKEN }} \
+              --build-env CMS_URL=$CMS_URL \
+              --build-env CMS_VERCEL_AUTOMATION_BYPASS_SECRET=${{ secrets.CMS_VERCEL_AUTOMATION_BYPASS_SECRET }} \
+              --env CMS_URL=$CMS_URL \
+              --env CMS_VERCEL_AUTOMATION_BYPASS_SECRET=${{ secrets.CMS_VERCEL_AUTOMATION_BYPASS_SECRET }})
+          else
+            # Preview without CMS override (uses production CMS from Vercel env vars)
+            echo "CMS deployment skipped, using production CMS from Vercel env vars"
+            DEPLOYMENT_URL=$(vercel deploy --yes --token=${{ secrets.VERCEL_TOKEN }})
+          fi
+          echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+        env:
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_WEB_PROJECT_ID }}
+
+      - name: Deployment Summary
+        run: |
+          echo "## Deployment Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Project | URL |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|-----|" >> $GITHUB_STEP_SUMMARY
+          echo "| CMS | ${{ needs.deploy-cms.outputs.deployment_url || 'Skipped' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Web | ${{ steps.deploy.outputs.deployment_url }} |" >> $GITHUB_STEP_SUMMARY
+
+  comment-preview:
+    name: Comment Preview URLs
+    runs-on: ubuntu-latest
+    needs: [deploy-cms, deploy-web]
+    if: ${{ github.event_name == 'pull_request' && needs.deploy-web.result == 'success' }}
+    steps:
+      - name: Find existing comment
+        uses: peter-evans/find-comment@v3
+        id: find-comment
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: '## Preview Deployment'
+
+      - name: Create or update comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          edit-mode: replace
+          body: |
+            ## Preview Deployment
+
+            | Project | URL |
+            |---------|-----|
+            | CMS | ${{ needs.deploy-cms.outputs.deployment_url || 'Skipped' }} |
+            | Web | ${{ needs.deploy-web.outputs.deployment_url }} |
+
+            The Web preview uses the CMS preview URL for content fetching.

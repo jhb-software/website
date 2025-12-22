@@ -2,13 +2,17 @@ import { PayloadSDK } from '@payloadcms/sdk'
 import type { RedirectConfig } from 'astro'
 import type { Config } from 'cms/src/payload-types'
 import 'dotenv/config'
+import { addBypassHeader } from './sdk/bypassHeader'
 
 /** Fetches the redirects from the CMS and converts them to the Astro `RedirectConfig` format. */
 export async function getRedirects(): Promise<Record<string, RedirectConfig>> {
   // Because import.meta.env and astro:env is not available in Astro config files and this method is called from
   // the Astro config file, use process.env to access the environment variable instead.
+  const bypassSecret = process.env.CMS_VERCEL_AUTOMATION_BYPASS_SECRET
+
   const payloadSDK = new PayloadSDK<Config>({
     baseURL: process.env.CMS_URL! + '/api',
+    fetch: (input, init) => fetch(input, addBypassHeader(init, bypassSecret)),
   })
 
   const redirectsCms = await payloadSDK.find({
