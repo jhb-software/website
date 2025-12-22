@@ -48,19 +48,6 @@ jobs:
         env:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_CMS_PROJECT_ID }}
 
-      - name: Wait for CMS to be ready
-        run: |
-          echo "Waiting for CMS deployment to be ready..."
-          sleep 30
-          for i in {1..10}; do
-            if curl -s -o /dev/null -w "%{http_code}" "${{ steps.deploy.outputs.deployment_url }}/admin" | grep -q "200\|301\|302"; then
-              echo "CMS is ready!"
-              exit 0
-            fi
-            echo "Attempt $i: CMS not ready yet, waiting..."
-            sleep 10
-          done
-          echo "Warning: Could not verify CMS readiness, proceeding anyway"
 
   deploy-web:
     name: Deploy Web
