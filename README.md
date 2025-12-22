@@ -51,6 +51,7 @@ Example: `fix(web): update styles [skip-cms]`
 | `VERCEL_ORG_ID` | Vercel Team ID (Settings → General) |
 | `VERCEL_CMS_PROJECT_ID` | CMS project ID (Project Settings → General) |
 | `VERCEL_WEB_PROJECT_ID` | Web project ID (Project Settings → General) |
+| `CMS_VERCEL_AUTOMATION_BYPASS_SECRET` | CMS bypass secret for preview builds (see below) |
 
 ### Preview Deployments
 
@@ -59,6 +60,13 @@ For pull requests, the workflow:
 2. Deploys Web to a preview URL, configured to use the CMS preview URL
 3. Posts a comment on the PR with both preview URLs
 
-**Note:** Disable Vercel Authentication for CMS preview deployments to allow the Web build to fetch data:
-- Go to **Vercel Dashboard** → **CMS Project** → **Settings** → **Deployment Protection**
-- Set Vercel Authentication to **Disabled** or **Only Production**
+#### CMS Authentication Bypass
+
+To allow the Web build to fetch data from protected CMS preview deployments:
+
+1. Go to **Vercel Dashboard** → **CMS Project** → **Settings** → **Deployment Protection**
+2. Enable **Vercel Authentication** (requires Pro plan with Advanced Deployment Protection)
+3. Copy the **Protection Bypass for Automation** secret
+4. Add it as `CMS_VERCEL_AUTOMATION_BYPASS_SECRET` in GitHub repository secrets
+
+This allows the Web build to authenticate with the CMS preview while keeping it protected from public access.

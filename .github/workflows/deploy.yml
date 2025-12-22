@@ -16,10 +16,7 @@
 #
 # Prerequisites:
 # - Disable automatic Vercel deployments for both projects to avoid race conditions
-# - Disable Vercel Authentication for CMS preview deployments (Settings → Deployment Protection)
-#
-# TODO: Migrate to using VERCEL_AUTOMATION_BYPASS_SECRET instead of disabling authentication.
-# This would require passing the bypass header in getRedirects.ts and the PayloadSDK.
+# - Set up CMS_VERCEL_AUTOMATION_BYPASS_SECRET to allow Web builds to fetch from protected CMS previews
 
 name: Deploy
 
@@ -169,10 +166,12 @@ jobs:
           if [ "$IS_PROD" == "true" ]; then
             DEPLOYMENT_URL=$(vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }})
           elif [ -n "$CMS_URL" ]; then
-            # Preview with CMS preview URL
+            # Preview with CMS preview URL and bypass secret for Vercel Authentication
             DEPLOYMENT_URL=$(vercel deploy --yes --token=${{ secrets.VERCEL_TOKEN }} \
               --build-env CMS_URL=$CMS_URL \
-              --env CMS_URL=$CMS_URL)
+              --build-env CMS_VERCEL_AUTOMATION_BYPASS_SECRET=${{ secrets.CMS_VERCEL_AUTOMATION_BYPASS_SECRET }} \
+              --env CMS_URL=$CMS_URL \
+              --env CMS_VERCEL_AUTOMATION_BYPASS_SECRET=${{ secrets.CMS_VERCEL_AUTOMATION_BYPASS_SECRET }})
           else
             # Preview without CMS override (uses production CMS from Vercel env vars)
             echo "CMS deployment skipped, using production CMS from Vercel env vars"
