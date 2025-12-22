@@ -45,7 +45,6 @@ jobs:
           DEPLOYMENT_URL=$(vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }})
           echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
           echo "CMS deployed to: $DEPLOYMENT_URL"
-        working-directory: ./cms
         env:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_CMS_PROJECT_ID }}
 
@@ -86,7 +85,6 @@ jobs:
           DEPLOYMENT_URL=$(vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }})
           echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
           echo "Web deployed to: $DEPLOYMENT_URL"
-        working-directory: ./web
         env:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_WEB_PROJECT_ID }}
 
