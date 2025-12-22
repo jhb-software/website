@@ -58,6 +58,7 @@ jobs:
     if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.deploy_cms == 'true' }}
     outputs:
       deployment_url: ${{ steps.deploy.outputs.deployment_url }}
+      inspect_url: ${{ steps.deploy.outputs.inspect_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -74,8 +75,11 @@ jobs:
         id: deploy-prod
         if: ${{ env.IS_PRODUCTION == 'true' }}
         run: |
-          DEPLOYMENT_URL=$(vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }})
+          OUTPUT=$(vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }} 2>&1)
+          DEPLOYMENT_URL=$(echo "$OUTPUT" | grep -E '^https://' | tail -1)
+          INSPECT_URL=$(echo "$OUTPUT" | grep 'Inspect:' | awk '{print $2}')
           echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+          echo "inspect_url=$INSPECT_URL" >> $GITHUB_OUTPUT
           echo "CMS deployed to: $DEPLOYMENT_URL"
         env:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_CMS_PROJECT_ID }}
@@ -84,8 +88,11 @@ jobs:
         id: deploy-preview
         if: ${{ env.IS_PRODUCTION != 'true' }}
         run: |
-          DEPLOYMENT_URL=$(vercel deploy --yes --token=${{ secrets.VERCEL_TOKEN }})
+          OUTPUT=$(vercel deploy --yes --token=${{ secrets.VERCEL_TOKEN }} 2>&1)
+          DEPLOYMENT_URL=$(echo "$OUTPUT" | grep -E '^https://' | tail -1)
+          INSPECT_URL=$(echo "$OUTPUT" | grep 'Inspect:' | awk '{print $2}')
           echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+          echo "inspect_url=$INSPECT_URL" >> $GITHUB_OUTPUT
           echo "CMS preview deployed to: $DEPLOYMENT_URL"
         env:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_CMS_PROJECT_ID }}
@@ -95,8 +102,10 @@ jobs:
         run: |
           if [ "${{ env.IS_PRODUCTION }}" == "true" ]; then
             echo "deployment_url=${{ steps.deploy-prod.outputs.deployment_url }}" >> $GITHUB_OUTPUT
+            echo "inspect_url=${{ steps.deploy-prod.outputs.inspect_url }}" >> $GITHUB_OUTPUT
           else
             echo "deployment_url=${{ steps.deploy-preview.outputs.deployment_url }}" >> $GITHUB_OUTPUT
+            echo "inspect_url=${{ steps.deploy-preview.outputs.inspect_url }}" >> $GITHUB_OUTPUT
           fi
 
   deploy-web:
@@ -106,6 +115,7 @@ jobs:
     if: ${{ always() && (github.event_name != 'workflow_dispatch' || github.event.inputs.deploy_web == 'true') && (needs.deploy-cms.result == 'success' || needs.deploy-cms.result == 'skipped') }}
     outputs:
       deployment_url: ${{ steps.deploy.outputs.deployment_url }}
+      inspect_url: ${{ steps.deploy.outputs.inspect_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -122,8 +132,11 @@ jobs:
         id: deploy-prod
         if: ${{ env.IS_PRODUCTION == 'true' }}
         run: |
-          DEPLOYMENT_URL=$(vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }})
+          OUTPUT=$(vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }} 2>&1)
+          DEPLOYMENT_URL=$(echo "$OUTPUT" | grep -E '^https://' | tail -1)
+          INSPECT_URL=$(echo "$OUTPUT" | grep 'Inspect:' | awk '{print $2}')
           echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+          echo "inspect_url=$INSPECT_URL" >> $GITHUB_OUTPUT
           echo "Web deployed to: $DEPLOYMENT_URL"
         env:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_WEB_PROJECT_ID }}
@@ -132,8 +145,11 @@ jobs:
         id: deploy-preview
         if: ${{ env.IS_PRODUCTION != 'true' }}
         run: |
-          DEPLOYMENT_URL=$(vercel deploy --yes --token=${{ secrets.VERCEL_TOKEN }} --build-env CMS_URL=${{ needs.deploy-cms.outputs.deployment_url }} -e CMS_URL=${{ needs.deploy-cms.outputs.deployment_url }})
+          OUTPUT=$(vercel deploy --yes --token=${{ secrets.VERCEL_TOKEN }} --build-env CMS_URL=${{ needs.deploy-cms.outputs.deployment_url }} --env CMS_URL=${{ needs.deploy-cms.outputs.deployment_url }} 2>&1)
+          DEPLOYMENT_URL=$(echo "$OUTPUT" | grep -E '^https://' | tail -1)
+          INSPECT_URL=$(echo "$OUTPUT" | grep 'Inspect:' | awk '{print $2}')
           echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+          echo "inspect_url=$INSPECT_URL" >> $GITHUB_OUTPUT
           echo "Web preview deployed to: $DEPLOYMENT_URL"
         env:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_WEB_PROJECT_ID }}
@@ -143,8 +159,10 @@ jobs:
         run: |
           if [ "${{ env.IS_PRODUCTION }}" == "true" ]; then
             echo "deployment_url=${{ steps.deploy-prod.outputs.deployment_url }}" >> $GITHUB_OUTPUT
+            echo "inspect_url=${{ steps.deploy-prod.outputs.inspect_url }}" >> $GITHUB_OUTPUT
           else
             echo "deployment_url=${{ steps.deploy-preview.outputs.deployment_url }}" >> $GITHUB_OUTPUT
+            echo "inspect_url=${{ steps.deploy-preview.outputs.inspect_url }}" >> $GITHUB_OUTPUT
           fi
 
       - name: Deployment Summary
@@ -181,9 +199,9 @@ jobs:
           body: |
             ## Preview Deployment
 
-            | Project | URL |
-            |---------|-----|
-            | CMS | ${{ needs.deploy-cms.outputs.deployment_url }} |
-            | Web | ${{ needs.deploy-web.outputs.deployment_url }} |
+            | Project | Preview | Inspect |
+            |---------|---------|---------|
+            | CMS | ${{ needs.deploy-cms.outputs.deployment_url }} | [View](${{ needs.deploy-cms.outputs.inspect_url }}) |
+            | Web | ${{ needs.deploy-web.outputs.deployment_url }} | [View](${{ needs.deploy-web.outputs.inspect_url }}) |
 
             The Web preview uses the CMS preview URL for content fetching.
