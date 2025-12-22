@@ -7,7 +7,12 @@
 # Production: Triggered on push to main
 # Preview: Triggered on pull requests, uses CMS preview URL for Web build
 #
-# Disable automatic Vercel deployments for both projects to avoid race conditions.
+# Prerequisites:
+# - Disable automatic Vercel deployments for both projects to avoid race conditions
+# - Disable Vercel Authentication for CMS preview deployments (Settings → Deployment Protection)
+#
+# TODO: Migrate to using VERCEL_AUTOMATION_BYPASS_SECRET instead of disabling authentication.
+# This would require passing the bypass header in getRedirects.ts and the PayloadSDK.
 
 name: Deploy
 
@@ -127,7 +132,7 @@ jobs:
         id: deploy-preview
         if: ${{ env.IS_PRODUCTION != 'true' }}
         run: |
-          DEPLOYMENT_URL=$(vercel deploy --yes --token=${{ secrets.VERCEL_TOKEN }} --build-env CMS_URL=${{ needs.deploy-cms.outputs.deployment_url }})
+          DEPLOYMENT_URL=$(vercel deploy --yes --token=${{ secrets.VERCEL_TOKEN }} --build-env CMS_URL=${{ needs.deploy-cms.outputs.deployment_url }} -e CMS_URL=${{ needs.deploy-cms.outputs.deployment_url }})
           echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
           echo "Web preview deployed to: $DEPLOYMENT_URL"
         env:
