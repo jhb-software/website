@@ -14,13 +14,13 @@
   "dependencies": {
     "@astrojs/vercel": "^8.2.0",
     "@fontsource-variable/montserrat": "^5.2.6",
-    "@payloadcms/live-preview": "3.65.0",
-    "@payloadcms/sdk": "3.65.0",
+    "@payloadcms/live-preview": "3.73.0",
+    "@payloadcms/sdk": "3.73.0",
     "astro": "^5.10.0",
     "astro-seo-schema": "^5.0.0",
     "cms": "workspace:*",
     "lucide-astro": "^0.519.0",
-    "payload": "3.65.0",
+    "payload": "3.73.0",
     "schema-dts": "^1.1.5"
   },
   "devDependencies": {

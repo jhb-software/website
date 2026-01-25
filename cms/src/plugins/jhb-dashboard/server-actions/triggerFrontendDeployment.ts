@@ -33,7 +33,7 @@ export async function triggerFrontendDeployment(): Promise<string> {
     teamId: process.env.FRONTEND_VERCEL_TEAM_ID!,
   })
 
-  revalidateTag('frontend-deployments')
+  revalidateTag('frontend-deployments', 'max')
 
   return deployment.id
 }
