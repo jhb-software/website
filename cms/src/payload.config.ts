@@ -142,10 +142,10 @@ export default buildConfig({
       ? ['https://cms.jhb.software']
       : ['http://localhost:3000', 'http://localhost:3001'],
   db: mongooseAdapter({
-    allowIDOnCreate: true,
-    url: process.env.MONGODB_URI!,
     // see https://vercel.com/guides/connection-pooling-with-functions
     afterOpenConnection: async (adapter) => attachDatabasePool(adapter.connection.getClient()),
+    allowIDOnCreate: true,
+    url: process.env.MONGODB_URI!,
   }),
   editor: lexicalEditor(),
   email: resendAdapter({
@@ -209,16 +209,16 @@ export default buildConfig({
     adminSearchPlugin({}),
     payloadAltTextPlugin({
       collections: ['images'],
-      resolver: altTextOpenAIResolver({
-        apiKey: process.env.OPENAI_API_KEY!,
-        model: 'gpt-4.1-mini',
-      }),
       getImageThumbnail: (doc) => {
         const image = doc as unknown as Image
 
         // use sm if possible to reduce token count and speed up the generation of the alt text
         return image.sizes?.sm?.url ?? image.sizes?.md?.url ?? image.sizes?.lg?.url ?? image.url!
       },
+      resolver: altTextOpenAIResolver({
+        apiKey: process.env.OPENAI_API_KEY!,
+        model: 'gpt-4.1-mini',
+      }),
     }),
     searchPlugin({
       beforeSync: ({ originalDoc, searchDoc }) => {
@@ -337,14 +337,14 @@ export default buildConfig({
           return field
         }),
         {
-          name: 'noIndex',
-          type: 'checkbox',
-          index: true,
-          defaultValue: false,
           admin: {
             description:
               'If checked, a noindex meta tag will be added to the page and it will be excluded from the sitemap.',
           },
+          defaultValue: false,
+          index: true,
+          name: 'noIndex',
+          type: 'checkbox',
         },
         alternatePathsField(),
       ],

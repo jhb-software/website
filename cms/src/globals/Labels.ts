@@ -68,13 +68,13 @@ const Labels: GlobalConfig = {
       fields: [labelField('written-by'), labelField('last-updated-at')],
     },
     {
-      type: 'group',
       name: 'testimonials',
+      type: 'group',
       fields: [labelField('testimonials-title', 'Testimonials section title')],
     },
     {
-      type: 'group',
       name: 'not-found-page',
+      type: 'group',
       label: 'Not found (404) page',
       fields: [
         labelField('title', 'Title'),

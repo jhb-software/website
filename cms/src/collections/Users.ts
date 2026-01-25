@@ -52,16 +52,13 @@ export const Users: CollectionConfig = {
     },
     {
       name: 'roles',
-      // Save this field to JWT so we can use from `req.user`
-      saveToJWT: true,
       type: 'select',
-      hasMany: true,
-      defaultValue: ['editor'],
-      required: true,
       access: {
         create: isAdmin,
         update: isAdmin,
       },
+      defaultValue: ['editor'],
+      hasMany: true,
       options: [
         // Editors can read, create, update and delete content
         {
@@ -79,6 +76,9 @@ export const Users: CollectionConfig = {
           value: 'developer',
         },
       ],
+      required: true,
+      // Save this field to JWT so we can use from `req.user`
+      saveToJWT: true,
     },
   ],
 }
