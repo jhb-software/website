@@ -33,14 +33,7 @@ export const Images: CollectionConfig = {
       // Specifying a function as adminThumbnail is the only way to fall back to different sizes.
       const image = doc as unknown as Image
 
-      // With the new Payload version, URLs are now stored in the DB and can be accessed directly
-      return (
-        image.sizes?.sm?.url ||
-        image.sizes?.md?.url ||
-        image.sizes?.lg?.url ||
-        image.url ||
-        undefined
-      )
+      return image.sizes?.sm?.url ?? image.sizes?.md?.url ?? image.sizes?.lg?.url ?? image.url!
     },
     hideRemoveFile: true, // disable this feature as it is not intuitive for the user what implications it has
     imageSizes: [
