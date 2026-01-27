@@ -18,29 +18,6 @@ export const Images: CollectionConfig = {
     defaultColumns: ['filename', 'title', 'alt', 'createdAt', 'updatedAt'],
     group: CollectionGroups.MediaCollections,
   },
-  hooks: {
-    beforeChange: [
-      ({ data }) => {
-        // There is a bug in Payload that the (normally virtual) url and thumbnailURL fields are not virtual fields.
-        // Therefore, when updating the image, the url and thumbnailURL fields whould be stored in the db. To avoid this,
-        // we delete them here.
-
-        const image = data as Partial<Image>
-
-        delete image.url
-        delete image.thumbnailURL
-
-        delete image.sizes?.xs?.url
-        delete image.sizes?.sm?.url
-        delete image.sizes?.md?.url
-        delete image.sizes?.lg?.url
-        delete image.sizes?.xl?.url
-        delete image.sizes?.og?.url
-
-        return data
-      },
-    ],
-  },
   labels: {
     plural: {
       de: 'Bilder',
@@ -54,15 +31,16 @@ export const Images: CollectionConfig = {
   upload: {
     adminThumbnail: ({ doc }) => {
       // Specifying a function as adminThumbnail is the only way to fall back to different sizes.
-      // Note that the doc object only contains the data stored in the db, meaning it won't contain any generated URLs.
       const image = doc as unknown as Image
 
-      return `https://nbg1.your-objectstorage.com/${process.env.HETZNER_BUCKET}/${encodeURIComponent(
-        image.sizes?.sm?.filename ||
-          image.sizes?.md?.filename ||
-          image.sizes?.lg?.filename ||
-          image.filename!,
-      )}`
+      // With the new Payload version, URLs are now stored in the DB and can be accessed directly
+      return (
+        image.sizes?.sm?.url ||
+        image.sizes?.md?.url ||
+        image.sizes?.lg?.url ||
+        image.url ||
+        undefined
+      )
     },
     hideRemoveFile: true, // disable this feature as it is not intuitive for the user what implications it has
     imageSizes: [
