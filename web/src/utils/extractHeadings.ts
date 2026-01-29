@@ -1,4 +1,4 @@
-import type { HeadingNode, LexicalNode, TextNode } from '@/components/blocks/RichTextBlock/types'
+import type { HeadingNode, LexicalNode, TextNode } from '@jhb.software/astro-payload-richtext-lexical'
 import type { TocItem } from '@/components/TableOfContents.astro'
 import slugifyId from './slugifyId'
 
