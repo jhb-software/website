@@ -220,6 +220,32 @@ export default buildConfig({
         model: 'gpt-4.1-mini',
       }),
     }),
+    // There is an issue that when the s3 plugin comes after the search plugin in the plugins list,
+    // and it includes the Images collection, image sizes uploads do not work. Therefore, the s3Storage plugin
+    // is added before the search plugin.
+    // see GitHub Issue: https://github.com/payloadcms/payload/issues/15431
+    s3Storage({
+      acl: 'public-read',
+      bucket: process.env.HETZNER_BUCKET!,
+      clientUploads: true,
+      collections: {
+        images: {
+          // serve files directly from hetzner object storage to improve performance
+          disablePayloadAccessControl: true,
+        },
+      },
+      config: {
+        credentials: {
+          accessKeyId: process.env.HETZNER_ACCESS_KEY_ID!,
+          secretAccessKey: process.env.HETZNER_SECRET_ACCESS_KEY!,
+        },
+        endpoint: 'https://nbg1.your-objectstorage.com',
+        region: 'nbg1',
+        // TODO: setting cache control is not (yet) supported by the s3 plugin
+        // see: https://github.com/payloadcms/payload/pull/14412
+        // cacheControl: 'public, max-age=2592000', // max age 30 days
+      },
+    }),
     searchPlugin({
       beforeSync: ({ originalDoc, searchDoc }) => {
         const getTitle = () => {
@@ -278,28 +304,6 @@ export default buildConfig({
     }),
     payloadPagesPlugin({
       generatePageURL,
-    }),
-    s3Storage({
-      acl: 'public-read',
-      bucket: process.env.HETZNER_BUCKET!,
-      clientUploads: true,
-      collections: {
-        images: {
-          // serve files directly from hetzner object storage to improve performance
-          disablePayloadAccessControl: true,
-        },
-      },
-      config: {
-        credentials: {
-          accessKeyId: process.env.HETZNER_ACCESS_KEY_ID!,
-          secretAccessKey: process.env.HETZNER_SECRET_ACCESS_KEY!,
-        },
-        endpoint: 'https://nbg1.your-objectstorage.com',
-        region: 'nbg1',
-        // TODO: setting cache control is not (yet) supported by the s3 plugin
-        // see: https://github.com/payloadcms/payload/pull/14412
-        // cacheControl: 'public, max-age=2592000', // max age 30 days
-      },
     }),
     seoPlugin({
       collections: pageCollectionsSlugs,

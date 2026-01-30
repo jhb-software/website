@@ -18,29 +18,6 @@ export const Images: CollectionConfig = {
     defaultColumns: ['filename', 'title', 'alt', 'createdAt', 'updatedAt'],
     group: CollectionGroups.MediaCollections,
   },
-  hooks: {
-    beforeChange: [
-      ({ data }) => {
-        // There is a bug in Payload that the (normally virtual) url and thumbnailURL fields are not virtual fields.
-        // Therefore, when updating the image, the url and thumbnailURL fields whould be stored in the db. To avoid this,
-        // we delete them here.
-
-        const image = data as Partial<Image>
-
-        delete image.url
-        delete image.thumbnailURL
-
-        delete image.sizes?.xs?.url
-        delete image.sizes?.sm?.url
-        delete image.sizes?.md?.url
-        delete image.sizes?.lg?.url
-        delete image.sizes?.xl?.url
-        delete image.sizes?.og?.url
-
-        return data
-      },
-    ],
-  },
   labels: {
     plural: {
       de: 'Bilder',
@@ -52,11 +29,13 @@ export const Images: CollectionConfig = {
     },
   },
   upload: {
+    // Specifying a function as adminThumbnail is the only way to fall back to different sizes.
     adminThumbnail: ({ doc }) => {
-      // Specifying a function as adminThumbnail is the only way to fall back to different sizes.
-      // Note that the doc object only contains the data stored in the db, meaning it won't contain any generated URLs.
       const image = doc as unknown as Image
 
+      // Due to the following bug (https://github.com/payloadcms/payload/issues/15382) in Payload 3.73, the doc
+      // object only contains the file path, but not the full URL. Therefore, we need to construct the URL manually.
+      // TODO: remove the URL construction once the bug is fixed and the database is updated.
       return `https://nbg1.your-objectstorage.com/${process.env.HETZNER_BUCKET}/${encodeURIComponent(
         image.sizes?.sm?.filename ||
           image.sizes?.md?.filename ||

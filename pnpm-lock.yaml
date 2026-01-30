@@ -12,8 +12,8 @@ importers:
         specifier: ^0.2.1
         version: 0.2.1(@payloadcms/translations@3.73.0)(@payloadcms/ui@3.73.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.0-canary.7(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.73.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.0-canary.7(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.73.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@jhb.software/payload-alt-text-plugin':
-        specifier: ^0.3.0
-        version: 0.3.0(@payloadcms/ui@3.73.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.0-canary.7(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.73.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.0-canary.7(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.73.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(ws@8.18.3)
+        specifier: 0.3.1
+        version: 0.3.1(@payloadcms/ui@3.73.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.0-canary.7(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.73.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.0-canary.7(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.73.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(ws@8.18.3)
       '@jhb.software/payload-content-translator-plugin':
         specifier: ^0.1.0
         version: 0.1.0(@payloadcms/translations@3.73.0)(@payloadcms/ui@3.73.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.0-canary.7(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.73.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.0-canary.7(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.73.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -1389,15 +1389,15 @@ packages:
       react: 19.2.0
       react-dom: 19.2.0
 
-  '@jhb.software/payload-alt-text-plugin@0.3.0':
-    resolution: {integrity: sha512-TTkYFM2iiOnYXe8aqPugo1V7k5+Jus45HwExAFsPkOZP+khw6NHB+oJVreaaD68KZXiC8K49x3/vm8/hkDiqAA==}
+  '@jhb.software/payload-alt-text-plugin@0.3.1':
+    resolution: {integrity: sha512-qBf79s0uf0euF8+X/w91wMvvCMsfWyj2ajkQgPBRj1fuuw2U5AsLWidmBDkb3NMPcYeiZZ0m0SaGNPwUSA6AFg==}
     engines: {node: ^18.20.2 || >=20.9.0}
     peerDependencies:
-      '@payloadcms/ui': ^3.65.0
-      next: 15.5.6
-      payload: ^3.65.0
-      react: 19.2.0
-      react-dom: 19.2.0
+      '@payloadcms/ui': ^3.72.0
+      next: 15.5.9
+      payload: ^3.72.0
+      react: 19.2.3
+      react-dom: 19.2.3
 
   '@jhb.software/payload-content-translator-plugin@0.1.0':
     resolution: {integrity: sha512-mRWF5pkMKg8ZNJRdDA02cQrhVPbzkOy3nuLEvoEr5r42LWGwWaGD1tHnHtQhq9y7eehpTt9YY7DXrC/smtpQrA==}
@@ -4733,8 +4733,8 @@ packages:
   oniguruma-to-es@4.3.3:
     resolution: {integrity: sha512-rPiZhzC3wXwE59YQMRDodUwwT9FZ9nNBwQQfsd1wfdtlKEyCdRV0avrTcSZ5xlIvGRVPd/cx6ZN45ECmS39xvg==}
 
-  openai@6.8.1:
-    resolution: {integrity: sha512-ACifslrVgf+maMz9vqwMP4+v9qvx5Yzssydizks8n+YUJ6YwUoxj51sKRQ8HYMfR6wgKLSIlaI108ZwCk+8yig==}
+  openai@6.17.0:
+    resolution: {integrity: sha512-NHRpPEUPzAvFOAFs9+9pC6+HCw/iWsYsKCMPXH5Kw7BpMxqd8g/A07/1o7Gx2TWtCnzevVRyKMRFqyiHyAlqcA==}
     hasBin: true
     peerDependencies:
       ws: ^8.18.0
@@ -4745,8 +4745,8 @@ packages:
       zod:
         optional: true
 
-  openai@6.9.1:
-    resolution: {integrity: sha512-vQ5Rlt0ZgB3/BNmTa7bIijYFhz3YBceAA3Z4JuoMSBftBF9YqFHIEhZakSs+O/Ad7EaoEimZvHxD5ylRjN11Lg==}
+  openai@6.8.1:
+    resolution: {integrity: sha512-ACifslrVgf+maMz9vqwMP4+v9qvx5Yzssydizks8n+YUJ6YwUoxj51sKRQ8HYMfR6wgKLSIlaI108ZwCk+8yig==}
     hasBin: true
     peerDependencies:
       ws: ^8.18.0
@@ -6174,6 +6174,9 @@ packages:
 
   zod@4.1.13:
     resolution: {integrity: sha512-AvvthqfqrAhNH9dnfmrfKzX5upOdjUVJYFqNSlkmGf64gRaTzlPwz99IHYnVs28qYAybvAlBV+H7pn0saFY4Ig==}
+
+  zod@4.3.6:
+    resolution: {integrity: sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -7619,16 +7622,16 @@ snapshots:
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
 
-  '@jhb.software/payload-alt-text-plugin@0.3.0(@payloadcms/ui@3.73.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.0-canary.7(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.73.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.0-canary.7(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.73.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(ws@8.18.3)':
+  '@jhb.software/payload-alt-text-plugin@0.3.1(@payloadcms/ui@3.73.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.0-canary.7(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.73.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.0-canary.7(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.73.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(ws@8.18.3)':
     dependencies:
       '@payloadcms/ui': 3.73.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.0-canary.7(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.73.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3)
       next: 16.2.0-canary.7(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4)
-      openai: 6.9.1(ws@8.18.3)(zod@4.1.13)
+      openai: 6.17.0(ws@8.18.3)(zod@4.3.6)
       p-map: 7.0.4
       payload: 3.73.0(graphql@16.12.0)(typescript@5.9.3)
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
-      zod: 4.1.13
+      zod: 4.3.6
     transitivePeerDependencies:
       - ws
 
@@ -11795,15 +11798,15 @@ snapshots:
       regex: 6.0.1
       regex-recursion: 6.0.2
 
+  openai@6.17.0(ws@8.18.3)(zod@4.3.6):
+    optionalDependencies:
+      ws: 8.18.3
+      zod: 4.3.6
+
   openai@6.8.1(ws@8.18.3)(zod@4.1.12):
     optionalDependencies:
       ws: 8.18.3
       zod: 4.1.12
-
-  openai@6.9.1(ws@8.18.3)(zod@4.1.13):
-    optionalDependencies:
-      ws: 8.18.3
-      zod: 4.1.13
 
   optionator@0.9.4:
     dependencies:
@@ -13353,5 +13356,7 @@ snapshots:
   zod@4.1.12: {}
 
   zod@4.1.13: {}
+
+  zod@4.3.6: {}
 
   zwitch@2.0.4: {}
