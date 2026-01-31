@@ -41,19 +41,19 @@ import { AltTextField as AltTextField_0a0a871430f540863f89f94882312cf1 } from '@
 import { BulkGenerateAltTextsButton as BulkGenerateAltTextsButton_0a0a871430f540863f89f94882312cf1 } from '@jhb.software/payload-alt-text-plugin/client'
 import { LinkToDoc as LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
 import { ReindexButton as ReindexButton_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
-import { QueryPresetsAccessCell as QueryPresetsAccessCell_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
-import { QueryPresetsWhereCell as QueryPresetsWhereCell_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
-import { QueryPresetsWhereField as QueryPresetsWhereField_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
-import { QueryPresetsColumnsCell as QueryPresetsColumnsCell_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
-import { QueryPresetsColumnField as QueryPresetsColumnField_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
-import { QueryPresetsGroupByCell as QueryPresetsGroupByCell_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
-import { QueryPresetsGroupByField as QueryPresetsGroupByField_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
+import { QueryPresetsAccessCell as QueryPresetsAccessCell_2b8867833a34864a02ddf429b0728a40 } from '@payloadcms/next/client'
+import { QueryPresetsWhereCell as QueryPresetsWhereCell_2b8867833a34864a02ddf429b0728a40 } from '@payloadcms/next/client'
+import { QueryPresetsWhereField as QueryPresetsWhereField_2b8867833a34864a02ddf429b0728a40 } from '@payloadcms/next/client'
+import { QueryPresetsColumnsCell as QueryPresetsColumnsCell_2b8867833a34864a02ddf429b0728a40 } from '@payloadcms/next/client'
+import { QueryPresetsColumnField as QueryPresetsColumnField_2b8867833a34864a02ddf429b0728a40 } from '@payloadcms/next/client'
+import { QueryPresetsGroupByCell as QueryPresetsGroupByCell_2b8867833a34864a02ddf429b0728a40 } from '@payloadcms/next/client'
+import { QueryPresetsGroupByField as QueryPresetsGroupByField_2b8867833a34864a02ddf429b0728a40 } from '@payloadcms/next/client'
 import { default as default_a02a4abfb5c9da17149cbadc8057c129 } from '../../../components/Icon'
 import { default as default_919492c8e60179286a0f183c0a5b652e } from '../../../components/Logo'
 import { SearchWrapper as SearchWrapper_5400ac5ea24f4363783c781edd0c24e3 } from '@jhb.software/payload-admin-search/client'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { DashboardView as DashboardView_b2b4ae8325c7d78b1c88c5f3f47f7333 } from '../../../plugins/jhb-dashboard/components/DashboardView'
-import { CollectionCards as CollectionCards_ab83ff7e88da8d3530831f296ec4756a } from '@payloadcms/ui/rsc'
+import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 export const importMap = {
   "@jhb.software/payload-pages-plugin/server#IsRootPageField": IsRootPageField_817212d6f65b4eb37176541413db3f8c,
@@ -99,17 +99,17 @@ export const importMap = {
   "@jhb.software/payload-alt-text-plugin/client#BulkGenerateAltTextsButton": BulkGenerateAltTextsButton_0a0a871430f540863f89f94882312cf1,
   "@payloadcms/plugin-search/client#LinkToDoc": LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634,
   "@payloadcms/plugin-search/client#ReindexButton": ReindexButton_aead06e4cbf6b2620c5c51c9ab283634,
-  "@payloadcms/ui#QueryPresetsAccessCell": QueryPresetsAccessCell_3817bf644402e67bfe6577f60ef982de,
-  "@payloadcms/ui#QueryPresetsWhereCell": QueryPresetsWhereCell_3817bf644402e67bfe6577f60ef982de,
-  "@payloadcms/ui#QueryPresetsWhereField": QueryPresetsWhereField_3817bf644402e67bfe6577f60ef982de,
-  "@payloadcms/ui#QueryPresetsColumnsCell": QueryPresetsColumnsCell_3817bf644402e67bfe6577f60ef982de,
-  "@payloadcms/ui#QueryPresetsColumnField": QueryPresetsColumnField_3817bf644402e67bfe6577f60ef982de,
-  "@payloadcms/ui#QueryPresetsGroupByCell": QueryPresetsGroupByCell_3817bf644402e67bfe6577f60ef982de,
-  "@payloadcms/ui#QueryPresetsGroupByField": QueryPresetsGroupByField_3817bf644402e67bfe6577f60ef982de,
+  "@payloadcms/next/client#QueryPresetsAccessCell": QueryPresetsAccessCell_2b8867833a34864a02ddf429b0728a40,
+  "@payloadcms/next/client#QueryPresetsWhereCell": QueryPresetsWhereCell_2b8867833a34864a02ddf429b0728a40,
+  "@payloadcms/next/client#QueryPresetsWhereField": QueryPresetsWhereField_2b8867833a34864a02ddf429b0728a40,
+  "@payloadcms/next/client#QueryPresetsColumnsCell": QueryPresetsColumnsCell_2b8867833a34864a02ddf429b0728a40,
+  "@payloadcms/next/client#QueryPresetsColumnField": QueryPresetsColumnField_2b8867833a34864a02ddf429b0728a40,
+  "@payloadcms/next/client#QueryPresetsGroupByCell": QueryPresetsGroupByCell_2b8867833a34864a02ddf429b0728a40,
+  "@payloadcms/next/client#QueryPresetsGroupByField": QueryPresetsGroupByField_2b8867833a34864a02ddf429b0728a40,
   "/components/Icon#default": default_a02a4abfb5c9da17149cbadc8057c129,
   "/components/Logo#default": default_919492c8e60179286a0f183c0a5b652e,
   "@jhb.software/payload-admin-search/client#SearchWrapper": SearchWrapper_5400ac5ea24f4363783c781edd0c24e3,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
   "/plugins/jhb-dashboard/components/DashboardView#DashboardView": DashboardView_b2b4ae8325c7d78b1c88c5f3f47f7333,
-  "@payloadcms/ui/rsc#CollectionCards": CollectionCards_ab83ff7e88da8d3530831f296ec4756a
+  "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

@@ -33,15 +33,18 @@ export const Images: CollectionConfig = {
     adminThumbnail: ({ doc }) => {
       const image = doc as unknown as Image
 
-      // Due to the following bug (https://github.com/payloadcms/payload/issues/15382) in Payload 3.73, the doc
-      // object only contains the file path, but not the full URL. Therefore, we need to construct the URL manually.
-      // TODO: remove the URL construction once the bug is fixed and the database is updated.
-      return `https://nbg1.your-objectstorage.com/${process.env.HETZNER_BUCKET}/${encodeURIComponent(
-        image.sizes?.sm?.filename ||
-          image.sizes?.md?.filename ||
-          image.sizes?.lg?.filename ||
-          image.filename!,
-      )}`
+      // Workaround for Bug https://github.com/payloadcms/payload/issues/15450
+      // TODO: remove once the bug is fixed (also ensure the DB entries are updated)
+      if (image.sizes) {
+        for (const key of Object.keys(image.sizes) as (keyof typeof image.sizes)[]) {
+          const size = image.sizes[key]
+          if (size?.url?.startsWith('/api')) {
+            delete image.sizes[key]
+          }
+        }
+      }
+
+      return image.sizes?.sm?.url || image.sizes?.md?.url || image.sizes?.lg?.url || image.url!
     },
     hideRemoveFile: true, // disable this feature as it is not intuitive for the user what implications it has
     imageSizes: [
