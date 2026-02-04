@@ -1,6 +1,5 @@
 ---
 import CacheClearButton from '@/components/CacheClearButton.astro'
-import PostHog from '@/components/PostHog.astro'
 import { websiteConfig } from '@/config'
 import '@fontsource-variable/montserrat'
 import { VERCEL_ENV } from 'astro:env/server'
@@ -48,8 +47,6 @@ const showCacheButton = import.meta.env.DEV && !preview
         </>
       )
     }
-
-    {enableAnalytics && <PostHog />}
 
     <ClientRouter />
   </head>
