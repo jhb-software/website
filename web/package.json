@@ -14,7 +14,7 @@
   "dependencies": {
     "@astrojs/vercel": "^8.2.0",
     "@fontsource-variable/montserrat": "^5.2.6",
-    "@jhb.software/astro-payload-richtext-lexical": "0.2.1",
+    "@jhb.software/astro-payload-richtext-lexical": "0.3.0",
     "@payloadcms/live-preview": "3.74.0",
     "@payloadcms/sdk": "3.74.0",
     "astro": "^5.10.0",
