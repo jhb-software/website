@@ -1,0 +1,124 @@
+---
+import { locales } from '@/cms/locales'
+import { buttonStyles } from '@/components/Link.astro'
+import { initGlobalState } from '@/globalState'
+import Layout from '@/layout/Layout.astro'
+import type { AstroGlobal } from 'astro'
+import { VERCEL_ENV } from 'astro:env/server'
+import { House, RefreshCw } from 'lucide-astro'
+
+
+// NOTE: It is important that the localized 500 pages are static to ensure no DB calls are made when requests
+//       to non-existing resources come in. This is especially important for handling spam bot requests.
+
+export async function getStaticPaths() {
+  return locales.map((locale) => ({ params: { lang: locale } }))
+}
+
+await initGlobalState(Astro as unknown as AstroGlobal)
+const { locale, preview } = Astro.locals.globalState
+
+const homePagePath = preview ? '/preview' : '/'
+const isProductionDeployment = VERCEL_ENV === 'production'
+
+// Hardcoded translations for 500 error page
+// These are not managed via CMS as they are only shown to team members,
+// not regular website visitors, and should remain consistent for debugging purposes
+const translations = {
+  de: {
+    title: 'Interner Serverfehler',
+    description: 'Es ist ein unerwarteter Fehler aufgetreten. Dies könnte folgende Ursachen haben:',
+    causes: [
+      'Erforderliche Felder im CMS wurden nicht ausgefüllt',
+      'Temporärer Ausfall des CMS',
+      'Ein Problem mit der Datenbankverbindung',
+    ],
+    reloadButton: 'Seite neu laden',
+    homeButton: 'Zur Startseite'
+  },
+  en: {
+    title: 'Internal Server Error',
+    description: 'An unexpected error has occurred. This could be caused by:',
+    causes: [
+      'Required fields in the CMS were not filled out',
+      'Temporary CMS outage',
+      'A database connection issue',
+    ],
+    reloadButton: 'Reload page',
+    homeButton: 'Go to homepage'
+  }
+}
+
+const t = translations[locale]
+---
+
+<Layout
+  meta={{
+    title: t.title,
+    description: t.description,
+    alternatePaths: [],
+  }}
+  lang={locale}
+>
+  <section class="boxed flex flex-col items-center gap-8 py-48 text-center max-w-2xl mx-auto">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="48"
+      height="48"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="text-red-500"
+    >
+      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+      <line x1="12" y1="9" x2="12" y2="13"/>
+      <line x1="12" y1="17" x2="12.01" y2="17"/>
+    </svg>
+
+    <h1 class="text-3xl font-bold">{t.title}</h1>
+
+    <div class="text-left space-y-4">
+      <p class="text-lg text-center">{t.description}</p>
+
+      <ul class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
+        {t.causes.map((cause) => (
+          <li>{cause}</li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="flex gap-4 flex-wrap justify-center">
+      <button
+        onclick="window.location.reload()"
+        class:list={[buttonStyles('primary'), 'cursor-pointer']}
+      >
+        {t.reloadButton}
+        <RefreshCw size={16} />
+      </button>
+
+      <a href={homePagePath} class:list={buttonStyles('light')}>
+        {t.homeButton}
+        <House size={16} />
+      </a>
+    </div>
+  </section>
+
+  {
+    !preview && isProductionDeployment && (
+      <script is:inline>
+        document.addEventListener('DOMContentLoaded', function () {
+          plausible('500', {
+            props: {
+              path: document.location.pathname,
+              userAgent: navigator.userAgent,
+              referrer: document.referrer,
+            }
+          });
+        });
+      </script>
+    )
+  }
+</Layout>

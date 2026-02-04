@@ -16,7 +16,7 @@ type Props =
       normalizePath?: boolean
     }
 
-function buttonStyles(style: Link['style']) {
+export function buttonStyles(style: Link['style']) {
   switch (style) {
     case 'primary':
       return 'bg-primary text-neutral-100 hover:bg-primary hover:bg-primaryDark'

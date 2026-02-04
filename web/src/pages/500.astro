@@ -1,0 +1,21 @@
+---
+import { defaultLocale } from '@/cms/locales'
+import { localeFromHeader } from '@/utils/localeFromHeader'
+import { localeFromPath } from '@/utils/localeFromPath'
+
+export const prerender = false // use SSR
+
+const locale =
+  localeFromPath(Astro.url.pathname) || localeFromHeader(Astro.request.headers) || defaultLocale
+
+// Since Astro.rewrite is not possible because the localized 500 pages are static, fetch the content and return it
+const response = await fetch(new URL(`/${locale}/500`, Astro.url))
+const content = await response.text()
+
+return new Response(content, {
+  status: 500,
+  headers: {
+    'content-type': 'text/html',
+  },
+})
+---
