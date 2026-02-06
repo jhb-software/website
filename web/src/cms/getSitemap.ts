@@ -6,7 +6,12 @@ import type { Locale } from './types'
 export async function getSitemap(locale: Locale): Promise<SitemapEntry[]> {
   const response = await payloadSDK.request({
     method: 'GET',
-    path: '/sitemap?locale=' + locale,
+    path: `/sitemap?locale=${locale}`,
+    init: {
+      headers: {
+        'X-Use-Cache': 'true',
+      },
+    },
   })
   const data = await response.json()
 

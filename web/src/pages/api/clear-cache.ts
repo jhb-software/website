@@ -1,4 +1,4 @@
-import { clearCache } from '@/cms/sdk/cache'
+import { clearCache } from '@/cms/cache'
 import type { APIRoute } from 'astro'
 
 export const prerender = false
