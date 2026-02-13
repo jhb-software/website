@@ -12,7 +12,7 @@ import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
 import { searchPlugin } from '@payloadcms/plugin-search'
 import { seoPlugin } from '@payloadcms/plugin-seo'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { FixedToolbarFeature, lexicalEditor, LinkFeature } from '@payloadcms/richtext-lexical'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { de } from '@payloadcms/translations/languages/de'
 import { en } from '@payloadcms/translations/languages/en'
@@ -147,7 +147,13 @@ export default buildConfig({
     allowIDOnCreate: true,
     url: process.env.MONGODB_URI!,
   }),
-  editor: lexicalEditor(),
+  editor: lexicalEditor({
+    features: ({ defaultFeatures }) => [
+      ...defaultFeatures.filter((feature) => feature.key !== 'relationship'),
+      FixedToolbarFeature(),
+      LinkFeature({ enabledCollections: pageCollectionsSlugs }),
+    ],
+  }),
   email: resendAdapter({
     apiKey: process.env.RESEND_API_KEY!,
     defaultFromAddress: 'cms@jhb.software',
