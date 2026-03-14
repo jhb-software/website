@@ -3,6 +3,7 @@ import { PageCollectionConfig } from '@jhb.software/payload-pages-plugin'
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
+import { restrictMcpToDraft } from '@/shared/hooks/restrictMcpToDraft'
 import { lazyLoadingLivePreviewComponent } from '@/shared/lazyLoadingLivePreviewComponent'
 
 // TODO: add an AI-functionality to generate a project page from notes. Here are some informations on what to include in the prompt:
@@ -39,6 +40,9 @@ const Projects: PageCollectionConfig = {
     updatedAt: true,
   },
   enableQueryPresets: true,
+  hooks: {
+    beforeChange: [restrictMcpToDraft],
+  },
   labels: {
     plural: {
       de: 'Projekte',
