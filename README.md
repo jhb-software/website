@@ -2,6 +2,54 @@
 
 Monorepository of the JHB Website frontend and content management system (CMS)
 
+## MCP (Model Context Protocol) Setup
+
+The CMS includes the [Payload MCP plugin](https://payloadcms.com/docs/plugins/mcp), which allows AI coding assistants (like GitHub Copilot and Claude Code) to read and edit content directly.
+
+### Step 1: Create an API Key
+
+1. Start the CMS (locally or use the production URL)
+2. Open the admin panel (e.g. `http://localhost:3000/admin`)
+3. Navigate to **MCP → API Keys**
+4. Click **Create New**, enable the desired operations for each collection, and save
+5. Copy the generated API key
+
+### Step 2: Configure GitHub Copilot (VS Code)
+
+Add the following to your VS Code `settings.json` (or `.vscode/mcp.json`):
+
+```json
+{
+  "mcp.servers": {
+    "Payload": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://cms.jhb.software/api/mcp",
+        "--header",
+        "Authorization: Bearer YOUR_API_KEY"
+      ]
+    }
+  }
+}
+```
+
+Replace `YOUR_API_KEY` with the key created in Step 1. For local development, replace the URL with `http://localhost:3000/api/mcp`.
+
+### Step 3: Configure Claude Code
+
+Run the following command in your terminal:
+
+```sh
+claude mcp add --transport http Payload https://cms.jhb.software/api/mcp \
+  --header "Authorization: Bearer YOUR_API_KEY"
+```
+
+Replace `YOUR_API_KEY` with the key created in Step 1. For local development, replace the URL with `http://localhost:3000/api/mcp`.
+
+---
+
 ## Deployment
 
 This repository uses a GitHub Actions workflow to deploy both the CMS and Web frontend to Vercel. The workflow ensures the CMS is always deployed before the Web frontend, as the frontend fetches data from the CMS at build time.

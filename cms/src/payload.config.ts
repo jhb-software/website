@@ -10,6 +10,7 @@ import {
 import { alternatePathsField, payloadPagesPlugin } from '@jhb.software/payload-pages-plugin'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
+import { mcpPlugin } from '@payloadcms/plugin-mcp'
 import { searchPlugin } from '@payloadcms/plugin-search'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { FixedToolbarFeature, lexicalEditor, LinkFeature } from '@payloadcms/richtext-lexical'
@@ -211,6 +212,23 @@ export default buildConfig({
         url: process.env.NEXT_PUBLIC_FRONTEND_URL!,
       },
       title: websiteName + ' CMS',
+    }),
+    mcpPlugin({
+      collections: {
+        'article-tags': { enabled: true },
+        articles: { enabled: true },
+        authors: { enabled: true },
+        customers: { enabled: true },
+        images: { enabled: true },
+        pages: { enabled: true },
+        projects: { enabled: true },
+        testimonials: { enabled: true },
+      },
+      globals: {
+        footer: { enabled: true },
+        header: { enabled: true },
+        labels: { enabled: true },
+      },
     }),
     adminSearchPlugin({}),
     payloadAltTextPlugin({
