@@ -15,6 +15,7 @@ import { heroSection } from '@/fields/heroSection'
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
+import { restrictMcpToDraft } from '@/shared/hooks/restrictMcpToDraft'
 import { lazyLoadingLivePreviewComponent } from '@/shared/lazyLoadingLivePreviewComponent'
 
 const Pages: PageCollectionConfig = {
@@ -35,6 +36,9 @@ const Pages: PageCollectionConfig = {
     // only populate the fields that are required by the frontend (e.g. for breadcrumbs and navigation)
     path: true,
     title: true,
+  },
+  hooks: {
+    beforeChange: [restrictMcpToDraft],
   },
   labels: {
     plural: {

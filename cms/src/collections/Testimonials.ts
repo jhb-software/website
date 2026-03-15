@@ -3,6 +3,7 @@ import { CollectionConfig } from 'payload'
 import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
+import { restrictMcpToDraft } from '@/shared/hooks/restrictMcpToDraft'
 
 const Testimonials: CollectionConfig = {
   slug: 'testimonials',
@@ -16,6 +17,9 @@ const Testimonials: CollectionConfig = {
     defaultColumns: ['title', 'author', 'project', 'updatedAt', 'status'],
     group: CollectionGroups.ContentCollections,
     useAsTitle: 'title',
+  },
+  hooks: {
+    beforeChange: [restrictMcpToDraft],
   },
   labels: {
     plural: {
