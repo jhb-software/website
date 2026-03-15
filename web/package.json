@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/html-to-markdown.mjs",
     "check": "astro check",
     "lint": "eslint --config eslint.config.js src",
     "preview": "astro preview",
@@ -33,12 +33,14 @@
     "eslint": "^9.29.0",
     "eslint-plugin-astro": "^1.3.1",
     "eslint-plugin-jsx-a11y": "^6.10.2",
+    "node-html-parser": "^7.1.0",
     "prettier": "^3.5.3",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-astro-organize-imports": "^0.4.11",
     "prettier-plugin-organize-imports": "^4.1.0",
     "prettier-plugin-tailwindcss": "^0.6.13",
     "tailwindcss": "^4.1.10",
+    "turndown": "^7.2.2",
     "tw-animate-css": "^1.3.4",
     "typescript-eslint": "^8.34.1"
   }
