@@ -33,6 +33,17 @@
   ],
   "rewrites": [
     {
+      "source": "/:lang(de|en)/:slug(.*)",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "text/markdown"
+        }
+      ],
+      "destination": "/:lang/:slug.md"
+    },
+    {
       "source": "/js/script.js",
       "destination": "https://plausible.io/js/plausible.js"
     },
