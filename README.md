@@ -6,38 +6,28 @@ Monorepository of the JHB Website frontend and content management system (CMS)
 
 The CMS includes the [Payload MCP plugin](https://payloadcms.com/docs/plugins/mcp), which allows AI coding assistants (like GitHub Copilot and Claude Code) to read and edit content directly.
 
-### Step 1: Create an API Key
+### Configure GitHub Copilot Coding Agent
 
-1. Start the CMS (locally or use the production URL)
-2. Open the admin panel (e.g. `http://localhost:3000/admin`)
-3. Navigate to **MCP → API Keys**
-4. Click **Create New**, enable the desired operations for each collection, and save
-5. Copy the generated API key
-
-### Step 2: Configure GitHub Copilot (VS Code)
-
-Add the following to your VS Code `settings.json` (or `.vscode/mcp.json`):
+Add the following MCP configuration in the [repository's Copilot coding agent settings](https://github.com/jhb-software/website/settings/copilot/coding_agent):
 
 ```json
 {
-  "mcp.servers": {
-    "Payload": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "https://cms.jhb.software/api/mcp",
-        "--header",
-        "Authorization: Bearer YOUR_API_KEY"
-      ]
+  "mcpServers": {
+    "JHB_CMS": {
+      "type": "http",
+      "url": "https://cms.jhb.software/api/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_API_KEY"
+      },
+      "tools": ["*"]
     }
   }
 }
 ```
 
-Replace `YOUR_API_KEY` with the key created in Step 1. For local development, replace the URL with `http://localhost:3000/api/mcp`.
+Replace `YOUR_API_KEY` with the key created in Step 1.
 
-### Step 3: Configure Claude Code
+### Configure Claude Code
 
 Run the following command in your terminal:
 
@@ -45,8 +35,6 @@ Run the following command in your terminal:
 claude mcp add --transport http Payload https://cms.jhb.software/api/mcp \
   --header "Authorization: Bearer YOUR_API_KEY"
 ```
-
-Replace `YOUR_API_KEY` with the key created in Step 1. For local development, replace the URL with `http://localhost:3000/api/mcp`.
 
 ---
 
@@ -56,12 +44,12 @@ This repository uses a GitHub Actions workflow to deploy both the CMS and Web fr
 
 ### How It Works
 
-| Trigger | CMS | Web | Environment |
-|---------|-----|-----|-------------|
-| Push to `main` | If `cms/` changed | If `web/` changed | Production |
-| Pull request | If `cms/` changed | If `web/` changed | Preview |
-| Manual dispatch | Configurable | Configurable | Configurable |
-| Vercel Deploy Hook | No | Yes | Production |
+| Trigger            | CMS               | Web               | Environment  |
+| ------------------ | ----------------- | ----------------- | ------------ |
+| Push to `main`     | If `cms/` changed | If `web/` changed | Production   |
+| Pull request       | If `cms/` changed | If `web/` changed | Preview      |
+| Manual dispatch    | Configurable      | Configurable      | Configurable |
+| Vercel Deploy Hook | No                | Yes               | Production   |
 
 ### Vercel Setup
 
@@ -93,17 +81,18 @@ Example: `fix(web): update styles [skip-cms]`
 
 ### Required GitHub Secrets
 
-| Secret | Description |
-|--------|-------------|
-| `VERCEL_TOKEN` | Vercel API token ([create here](https://vercel.com/account/tokens)) |
-| `VERCEL_ORG_ID` | Vercel Team ID (Settings → General) |
-| `VERCEL_CMS_PROJECT_ID` | CMS project ID (Project Settings → General) |
-| `VERCEL_WEB_PROJECT_ID` | Web project ID (Project Settings → General) |
-| `CMS_VERCEL_AUTOMATION_BYPASS_SECRET` | CMS bypass secret for preview builds (see below) |
+| Secret                                | Description                                                         |
+| ------------------------------------- | ------------------------------------------------------------------- |
+| `VERCEL_TOKEN`                        | Vercel API token ([create here](https://vercel.com/account/tokens)) |
+| `VERCEL_ORG_ID`                       | Vercel Team ID (Settings → General)                                 |
+| `VERCEL_CMS_PROJECT_ID`               | CMS project ID (Project Settings → General)                         |
+| `VERCEL_WEB_PROJECT_ID`               | Web project ID (Project Settings → General)                         |
+| `CMS_VERCEL_AUTOMATION_BYPASS_SECRET` | CMS bypass secret for preview builds (see below)                    |
 
 ### Preview Deployments
 
 For pull requests, the workflow:
+
 1. Deploys CMS to a preview URL
 2. Deploys Web to a preview URL, configured to use the CMS preview URL
 3. Posts a comment on the PR with both preview URLs
