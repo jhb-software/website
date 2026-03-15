@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/html-to-markdown.mjs",
+    "build": "astro build",
     "check": "astro check",
     "lint": "eslint --config eslint.config.js src",
     "preview": "astro preview",
@@ -29,8 +29,8 @@
     "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.1.10",
     "@typescript-eslint/parser": "^8.34.1",
+    "@types/turndown": "^5.0.6",
     "dotenv": "^16.5.0",
-    "eslint": "^9.29.0",
     "eslint-plugin-astro": "^1.3.1",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "node-html-parser": "^7.1.0",
