@@ -178,3 +178,6 @@ dist
 # Vercel
 **/.vercel/*
 !**/.vercel/project.json
+
+# Husky
+.husky/_
