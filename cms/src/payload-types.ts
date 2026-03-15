@@ -759,6 +759,96 @@ export interface PayloadMcpApiKey {
    * The purpose of the API key.
    */
   description?: string | null;
+  articleTags?: {
+    /**
+     * Allow clients to find article-tags.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create article-tags.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update article-tags.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete article-tags.
+     */
+    delete?: boolean | null;
+  };
+  articles?: {
+    /**
+     * Allow clients to find articles.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create articles.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update articles.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete articles.
+     */
+    delete?: boolean | null;
+  };
+  authors?: {
+    /**
+     * Allow clients to find authors.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create authors.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update authors.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete authors.
+     */
+    delete?: boolean | null;
+  };
+  customers?: {
+    /**
+     * Allow clients to find customers.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create customers.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update customers.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete customers.
+     */
+    delete?: boolean | null;
+  };
+  images?: {
+    /**
+     * Allow clients to find images.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create images.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update images.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete images.
+     */
+    delete?: boolean | null;
+  };
   pages?: {
     /**
      * Allow clients to find pages.
@@ -795,60 +885,6 @@ export interface PayloadMcpApiKey {
      */
     delete?: boolean | null;
   };
-  articles?: {
-    /**
-     * Allow clients to find articles.
-     */
-    find?: boolean | null;
-    /**
-     * Allow clients to create articles.
-     */
-    create?: boolean | null;
-    /**
-     * Allow clients to update articles.
-     */
-    update?: boolean | null;
-    /**
-     * Allow clients to delete articles.
-     */
-    delete?: boolean | null;
-  };
-  customers?: {
-    /**
-     * Allow clients to find customers.
-     */
-    find?: boolean | null;
-    /**
-     * Allow clients to create customers.
-     */
-    create?: boolean | null;
-    /**
-     * Allow clients to update customers.
-     */
-    update?: boolean | null;
-    /**
-     * Allow clients to delete customers.
-     */
-    delete?: boolean | null;
-  };
-  authors?: {
-    /**
-     * Allow clients to find authors.
-     */
-    find?: boolean | null;
-    /**
-     * Allow clients to create authors.
-     */
-    create?: boolean | null;
-    /**
-     * Allow clients to update authors.
-     */
-    update?: boolean | null;
-    /**
-     * Allow clients to delete authors.
-     */
-    delete?: boolean | null;
-  };
   testimonials?: {
     /**
      * Allow clients to find testimonials.
@@ -867,41 +903,15 @@ export interface PayloadMcpApiKey {
      */
     delete?: boolean | null;
   };
-  articleTags?: {
+  footer?: {
     /**
-     * Allow clients to find article-tags.
+     * Allow clients to find footer global.
      */
     find?: boolean | null;
     /**
-     * Allow clients to create article-tags.
-     */
-    create?: boolean | null;
-    /**
-     * Allow clients to update article-tags.
+     * Allow clients to update footer global.
      */
     update?: boolean | null;
-    /**
-     * Allow clients to delete article-tags.
-     */
-    delete?: boolean | null;
-  };
-  images?: {
-    /**
-     * Allow clients to find images.
-     */
-    find?: boolean | null;
-    /**
-     * Allow clients to create images.
-     */
-    create?: boolean | null;
-    /**
-     * Allow clients to update images.
-     */
-    update?: boolean | null;
-    /**
-     * Allow clients to delete images.
-     */
-    delete?: boolean | null;
   };
   header?: {
     /**
@@ -910,16 +920,6 @@ export interface PayloadMcpApiKey {
     find?: boolean | null;
     /**
      * Allow clients to update header global.
-     */
-    update?: boolean | null;
-  };
-  footer?: {
-    /**
-     * Allow clients to find footer global.
-     */
-    find?: boolean | null;
-    /**
-     * Allow clients to update footer global.
      */
     update?: boolean | null;
   };
@@ -1627,6 +1627,46 @@ export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
   user?: T;
   label?: T;
   description?: T;
+  articleTags?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  articles?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  authors?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  customers?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  images?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
   pages?:
     | T
     | {
@@ -1643,30 +1683,6 @@ export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
         update?: T;
         delete?: T;
       };
-  articles?:
-    | T
-    | {
-        find?: T;
-        create?: T;
-        update?: T;
-        delete?: T;
-      };
-  customers?:
-    | T
-    | {
-        find?: T;
-        create?: T;
-        update?: T;
-        delete?: T;
-      };
-  authors?:
-    | T
-    | {
-        find?: T;
-        create?: T;
-        update?: T;
-        delete?: T;
-      };
   testimonials?:
     | T
     | {
@@ -1675,29 +1691,13 @@ export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
         update?: T;
         delete?: T;
       };
-  articleTags?:
+  footer?:
     | T
     | {
         find?: T;
-        create?: T;
         update?: T;
-        delete?: T;
-      };
-  images?:
-    | T
-    | {
-        find?: T;
-        create?: T;
-        update?: T;
-        delete?: T;
       };
   header?:
-    | T
-    | {
-        find?: T;
-        update?: T;
-      };
-  footer?:
     | T
     | {
         find?: T;
