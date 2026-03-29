@@ -1,6 +1,5 @@
 import { CollectionConfig } from 'payload'
 
-import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
 import { isValidURL } from '@/utils/isValidURL'
@@ -10,7 +9,7 @@ const Customers: CollectionConfig = {
   access: {
     create: authenticated,
     delete: authenticated,
-    read: anyone,
+    read: authenticated,
     update: authenticated,
   },
   admin: {

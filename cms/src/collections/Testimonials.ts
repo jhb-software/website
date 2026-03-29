@@ -1,6 +1,5 @@
 import { CollectionConfig } from 'payload'
 
-import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
 import { restrictMcpToDraft } from '@/shared/hooks/restrictMcpToDraft'
@@ -10,7 +9,7 @@ const Testimonials: CollectionConfig = {
   access: {
     create: authenticated,
     delete: authenticated,
-    read: anyone,
+    read: authenticated,
     update: authenticated,
   },
   admin: {

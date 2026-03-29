@@ -1,6 +1,5 @@
 import { RedirectsCollectionConfig } from '@jhb.software/payload-pages-plugin'
 
-import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
 
@@ -9,7 +8,7 @@ export const Redirects: RedirectsCollectionConfig = {
   access: {
     create: authenticated,
     delete: authenticated,
-    read: anyone,
+    read: authenticated,
     update: authenticated,
   },
   admin: {

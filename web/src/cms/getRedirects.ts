@@ -12,6 +12,11 @@ export async function getRedirects(): Promise<Record<string, RedirectConfig>> {
 
   const payloadSDK = new PayloadSDK<Config>({
     baseURL: process.env.CMS_URL! + '/api',
+    baseInit: {
+      headers: {
+        Authorization: `api-keys API-Key ${process.env.CMS_API_KEY!}`,
+      },
+    },
     fetch: (input, init) => fetch(input, addBypassHeader(init, bypassSecret)),
   })
 

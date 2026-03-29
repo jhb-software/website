@@ -83,6 +83,7 @@ export type SupportedTimezones =
 export interface Config {
   auth: {
     users: UserAuthOperations;
+    'api-keys': ApiKeyAuthOperations;
     'payload-mcp-api-keys': PayloadMcpApiKeyAuthOperations;
   };
   blocks: {
@@ -99,6 +100,7 @@ export interface Config {
     images: Image;
     redirects: Redirect;
     users: User;
+    'api-keys': ApiKey;
     'payload-mcp-api-keys': PayloadMcpApiKey;
     search: Search;
     'payload-kv': PayloadKv;
@@ -123,6 +125,7 @@ export interface Config {
     images: ImagesSelect<false> | ImagesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    'api-keys': ApiKeysSelect<false> | ApiKeysSelect<true>;
     'payload-mcp-api-keys': PayloadMcpApiKeysSelect<false> | PayloadMcpApiKeysSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -149,13 +152,31 @@ export interface Config {
   widgets: {
     collections: CollectionsWidget;
   };
-  user: User | PayloadMcpApiKey;
+  user: User | ApiKey | PayloadMcpApiKey;
   jobs: {
     tasks: unknown;
     workflows: unknown;
   };
 }
 export interface UserAuthOperations {
+  forgotPassword: {
+    email: string;
+    password: string;
+  };
+  login: {
+    email: string;
+    password: string;
+  };
+  registerFirstUser: {
+    email: string;
+    password: string;
+  };
+  unlock: {
+    email: string;
+    password: string;
+  };
+}
+export interface ApiKeyAuthOperations {
   forgotPassword: {
     email: string;
     password: string;
@@ -740,6 +761,20 @@ export interface User {
   collection: 'users';
 }
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "api-keys".
+ */
+export interface ApiKey {
+  id: string;
+  type: 'website' | 'agent';
+  updatedAt: string;
+  createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
+  collection: 'api-keys';
+}
+/**
  * API keys control which collections, resources, tools, and prompts MCP clients can access
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -990,6 +1025,10 @@ export interface Search {
     | {
         relationTo: 'users';
         value: string | User;
+      }
+    | {
+        relationTo: 'api-keys';
+        value: string | ApiKey;
       };
   updatedAt: string;
   createdAt: string;
@@ -1059,6 +1098,10 @@ export interface PayloadLockedDocument {
         value: string | User;
       } | null)
     | ({
+        relationTo: 'api-keys';
+        value: string | ApiKey;
+      } | null)
+    | ({
         relationTo: 'payload-mcp-api-keys';
         value: string | PayloadMcpApiKey;
       } | null)
@@ -1071,6 +1114,10 @@ export interface PayloadLockedDocument {
     | {
         relationTo: 'users';
         value: string | User;
+      }
+    | {
+        relationTo: 'api-keys';
+        value: string | ApiKey;
       }
     | {
         relationTo: 'payload-mcp-api-keys';
@@ -1089,6 +1136,10 @@ export interface PayloadPreference {
     | {
         relationTo: 'users';
         value: string | User;
+      }
+    | {
+        relationTo: 'api-keys';
+        value: string | ApiKey;
       }
     | {
         relationTo: 'payload-mcp-api-keys';
@@ -1618,6 +1669,18 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "api-keys_select".
+ */
+export interface ApiKeysSelect<T extends boolean = true> {
+  type?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  enableAPIKey?: T;
+  apiKey?: T;
+  apiKeyIndex?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

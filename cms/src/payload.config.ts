@@ -35,6 +35,7 @@ import type {
 } from './payload-types'
 
 import CodeBlock from './blocks/CodeBlock'
+import ApiKeys from './collections/ApiKeys'
 import Articles from './collections/Articles'
 import ArticleTags from './collections/ArticleTags'
 import Authors from './collections/Authors'
@@ -53,7 +54,6 @@ import Footer from './globals/Footer'
 import Header from './globals/Header'
 import Labels from './globals/Labels'
 import { jhbDashboardPlugin } from './plugins/jhb-dashboard/plugin'
-import { anyone } from './shared/access/anyone'
 import { authenticated } from './shared/access/authenticated'
 import { CollectionGroups } from './shared/CollectionGroups'
 import { customTranslations } from './shared/customTranslations'
@@ -79,6 +79,7 @@ export const collections: CollectionConfig[] = [
   // System Collections
   Redirects,
   Users,
+  ApiKeys,
 ]
 
 export const locales = ['de', 'en']
@@ -307,7 +308,7 @@ export default buildConfig({
         access: {
           create: authenticated,
           delete: authenticated,
-          read: anyone,
+          read: authenticated,
           update: authenticated,
         },
         admin: {
