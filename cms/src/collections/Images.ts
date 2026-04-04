@@ -2,7 +2,6 @@ import { CollectionConfig } from 'payload'
 
 import type { Image } from '@/payload-types'
 
-import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
 
@@ -11,7 +10,7 @@ export const Images: CollectionConfig = {
   access: {
     create: authenticated,
     delete: authenticated,
-    read: anyone,
+    read: authenticated,
     update: authenticated,
   },
   admin: {

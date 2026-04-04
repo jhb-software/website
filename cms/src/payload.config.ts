@@ -10,6 +10,7 @@ import {
 import { alternatePathsField, payloadPagesPlugin } from '@jhb.software/payload-pages-plugin'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
+import { mcpPlugin } from '@payloadcms/plugin-mcp'
 import { searchPlugin } from '@payloadcms/plugin-search'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { FixedToolbarFeature, lexicalEditor, LinkFeature } from '@payloadcms/richtext-lexical'
@@ -34,6 +35,7 @@ import type {
 } from './payload-types'
 
 import CodeBlock from './blocks/CodeBlock'
+import ApiKeys from './collections/ApiKeys'
 import Articles from './collections/Articles'
 import ArticleTags from './collections/ArticleTags'
 import Authors from './collections/Authors'
@@ -52,7 +54,6 @@ import Footer from './globals/Footer'
 import Header from './globals/Header'
 import Labels from './globals/Labels'
 import { jhbDashboardPlugin } from './plugins/jhb-dashboard/plugin'
-import { anyone } from './shared/access/anyone'
 import { authenticated } from './shared/access/authenticated'
 import { CollectionGroups } from './shared/CollectionGroups'
 import { customTranslations } from './shared/customTranslations'
@@ -78,6 +79,7 @@ export const collections: CollectionConfig[] = [
   // System Collections
   Redirects,
   Users,
+  ApiKeys,
 ]
 
 export const locales = ['de', 'en']
@@ -212,6 +214,23 @@ export default buildConfig({
       },
       title: websiteName + ' CMS',
     }),
+    mcpPlugin({
+      collections: {
+        'article-tags': { enabled: true },
+        articles: { enabled: true },
+        authors: { enabled: true },
+        customers: { enabled: true },
+        images: { enabled: true },
+        pages: { enabled: true },
+        projects: { enabled: true },
+        testimonials: { enabled: true },
+      },
+      globals: {
+        footer: { enabled: true },
+        header: { enabled: true },
+        labels: { enabled: true },
+      },
+    }),
     adminSearchPlugin({}),
     payloadAltTextPlugin({
       collections: ['images'],
@@ -289,7 +308,7 @@ export default buildConfig({
         access: {
           create: authenticated,
           delete: authenticated,
-          read: anyone,
+          read: authenticated,
           update: authenticated,
         },
         admin: {

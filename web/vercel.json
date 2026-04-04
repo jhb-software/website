@@ -45,5 +45,42 @@
       "destination": "https://jhb-software.nbg1.your-objectstorage.com/$1"
     }
   ],
+  "redirects": [
+    {
+      "source": "/payload-pages-plugin",
+      "destination": "https://www.npmjs.com/package/@jhb.software/payload-pages-plugin",
+      "statusCode": 302
+    },
+    {
+      "source": "/payload-content-translator-plugin",
+      "destination": "https://www.npmjs.com/package/@jhb.software/payload-content-translator-plugin",
+      "statusCode": 302
+    },
+    {
+      "source": "/astro-payload-richtext-lexical",
+      "destination": "https://www.npmjs.com/package/@jhb.software/astro-payload-richtext-lexical",
+      "statusCode": 302
+    },
+    {
+      "source": "/payload-cloudinary-plugin",
+      "destination": "https://www.npmjs.com/package/@jhb.software/payload-cloudinary-plugin",
+      "statusCode": 302
+    },
+    {
+      "source": "/payload-admin-search",
+      "destination": "https://www.npmjs.com/package/@jhb.software/payload-admin-search",
+      "statusCode": 302
+    },
+    {
+      "source": "/payload-alt-text-plugin",
+      "destination": "https://www.npmjs.com/package/@jhb.software/payload-alt-text-plugin",
+      "statusCode": 302
+    },
+    {
+      "source": "/payload-geocoding-plugin",
+      "destination": "https://www.npmjs.com/package/@jhb.software/payload-geocoding-plugin",
+      "statusCode": 302
+    }
+  ],
   "trailingSlash": false
 }

@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "scripts": {
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0"
+  },
+  "lint-staged": {
+    "cms/src/**/*.{ts,tsx,js,jsx,json}": "pnpm --filter cms exec prettier --write",
+    "web/src/**/*.{ts,tsx,js,jsx,json,astro}": "pnpm --filter web exec prettier --write"
+  }
+}

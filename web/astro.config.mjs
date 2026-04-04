@@ -28,6 +28,10 @@ export default defineConfig({
         context: 'server',
         access: 'public',
       }),
+      CMS_API_KEY: envField.string({
+        context: 'server',
+        access: 'secret',
+      }),
       CMS_VERCEL_AUTOMATION_BYPASS_SECRET: envField.string({
         context: 'server',
         access: 'secret',

@@ -1,9 +1,9 @@
 import { PageCollectionConfig } from '@jhb.software/payload-pages-plugin'
 
 import { socialLinksField } from '@/fields/socialLinks'
-import { anyone } from '@/shared/access/anyone'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
+import { restrictMcpToDraft } from '@/shared/hooks/restrictMcpToDraft'
 import { lazyLoadingLivePreviewComponent } from '@/shared/lazyLoadingLivePreviewComponent'
 
 const Authors: PageCollectionConfig = {
@@ -11,7 +11,7 @@ const Authors: PageCollectionConfig = {
   access: {
     create: authenticated,
     delete: authenticated,
-    read: anyone,
+    read: authenticated,
     update: authenticated,
   },
   admin: {
@@ -19,6 +19,9 @@ const Authors: PageCollectionConfig = {
     defaultColumns: ['name', 'path', 'updatedAt', 'status'],
     group: CollectionGroups.PagesCollections,
     useAsTitle: 'name',
+  },
+  hooks: {
+    beforeChange: [restrictMcpToDraft],
   },
   labels: {
     plural: {
