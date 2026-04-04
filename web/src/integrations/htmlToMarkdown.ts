@@ -1,8 +1,10 @@
+import type { AstroIntegration } from 'astro'
 import { existsSync } from 'fs'
 import { readFile, readdir, writeFile } from 'fs/promises'
+import { parse } from 'node-html-parser'
 import { join, relative } from 'path'
+import TurndownService from 'turndown'
 import { fileURLToPath } from 'url'
-import type { AstroIntegration } from 'astro'
 
 // Error / system pages to skip
 const SKIP_FILES = new Set(['404.html', '500.html'])
@@ -44,9 +46,6 @@ export function htmlToMarkdown(): AstroIntegration {
     name: 'html-to-markdown',
     hooks: {
       'astro:build:done': async ({ dir, logger }) => {
-        const { default: TurndownService } = await import('turndown')
-        const { parse } = await import('node-html-parser')
-
         const td = new TurndownService({
           headingStyle: 'atx',
           hr: '---',
