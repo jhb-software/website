@@ -1,5 +1,6 @@
 import { getSitemap } from '@/cms/getSitemap'
 import { locales } from '@/cms/locales'
+import type { Locale } from '@/cms/types'
 import { websiteConfig } from '@/config'
 import { SITE_URL } from 'astro:env/client'
 
@@ -7,7 +8,7 @@ export async function GET() {
   const sitemapEntries = await Promise.all(
     locales.map(async (locale) => ({
       locale,
-      entries: await getSitemap(locale),
+      entries: await getSitemap(locale as Locale),
     })),
   )
 
