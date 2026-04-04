@@ -15,23 +15,16 @@ import { rewrite } from '@vercel/functions'
 export default function middleware(request: Request) {
   const url = new URL(request.url)
   const path = url.pathname
-  const method = request.method
   const accept = request.headers.get('accept') || ''
 
   const hasFileExtension = /\.[a-zA-Z0-9]+$/.test(path)
   const wantsMarkdown = accept.includes('text/markdown')
 
-  if (hasFileExtension) {
-    console.warn(`[middleware] ⚠ matcher should have excluded file path: ${path}`)
+  if (hasFileExtension || !wantsMarkdown) {
     return
   }
 
-  if (wantsMarkdown) {
-    console.log(
-      `[middleware] ${method} ${path} | accept: ${accept.slice(0, 80)} | rewriting to ${path}.md`,
-    )
-    return rewrite(new URL(path + '.md', request.url))
-  }
+  return rewrite(new URL(path + '.md', request.url))
 }
 
 export const config = {
