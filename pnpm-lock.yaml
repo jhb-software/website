@@ -156,6 +156,9 @@ importers:
       '@payloadcms/sdk':
         specifier: 3.74.0
         version: 3.74.0(graphql@16.12.0)(typescript@5.9.3)
+      '@vercel/functions':
+        specifier: ^3.3.2
+        version: 3.3.2(@aws-sdk/credential-provider-web-identity@3.930.0)
       astro:
         specifier: ^5.10.0
         version: 5.18.1(@types/node@24.10.1)(@vercel/functions@3.3.2(@aws-sdk/credential-provider-web-identity@3.930.0))(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.44.0)(sass@1.77.4)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
@@ -184,6 +187,9 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.1.10
         version: 4.1.10(vite@6.4.1(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(sass@1.77.4)(tsx@4.21.0)(yaml@2.8.2))
+      '@types/turndown':
+        specifier: ^5.0.6
+        version: 5.0.6
       '@typescript-eslint/parser':
         specifier: ^8.34.1
         version: 8.34.1(eslint@9.29.0(jiti@2.6.1))(typescript@5.9.3)
@@ -199,6 +205,9 @@ importers:
       eslint-plugin-jsx-a11y:
         specifier: ^6.10.2
         version: 6.10.2(eslint@9.29.0(jiti@2.6.1))
+      node-html-parser:
+        specifier: ^7.1.0
+        version: 7.1.0
       prettier:
         specifier: ^3.5.3
         version: 3.5.3
@@ -217,6 +226,9 @@ importers:
       tailwindcss:
         specifier: ^4.1.10
         version: 4.1.10
+      turndown:
+        specifier: ^7.2.2
+        version: 7.2.4
       tw-animate-css:
         specifier: ^1.3.4
         version: 1.3.4
@@ -1418,6 +1430,9 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
+  '@mixmark-io/domino@2.2.0':
+    resolution: {integrity: sha512-Y28PR25bHXUg88kCV7nivXrP2Nj2RueZ3/l/jdx6J9f8J4nsEGcgX0Qe6lt7Pa+J79+kPiJU3LguR6O/6zrLOw==}
+
   '@modelcontextprotocol/sdk@1.25.2':
     resolution: {integrity: sha512-LZFeo4F9M5qOhC/Uc1aQSrBHxMrvxett+9KLHt7OhcExtoiRN9DKgbZffMP/nxjutWDQpfMDfP3nkHI4X9ijww==}
     engines: {node: '>=18'}
@@ -2333,6 +2348,9 @@ packages:
 
   '@types/react@19.2.4':
     resolution: {integrity: sha512-tBFxBp9Nfyy5rsmefN+WXc1JeW/j2BpBHFdLZbEVfs9wn3E3NRFxwV0pJg8M1qQAexFpvz73hJXFofV0ZAu92A==}
+
+  '@types/turndown@5.0.6':
+    resolution: {integrity: sha512-ru00MoyeeouE5BX4gRL+6m/BsDfbRayOskWqUvh7CLGW+UXxHQItqALa38kKnOiZPqJrtzJUgAC2+F0rL1S4Pg==}
 
   '@types/unist@2.0.11':
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
@@ -4880,6 +4898,9 @@ packages:
     resolution: {integrity: sha512-LA4ZjwlnUblHVgq0oBF3Jl/6h/Nvs5fzBLwdEF4nuxnFdsfajde4WfxtJr3CaiH+F6ewcIB/q4jQ4UzPyid+CQ==}
     hasBin: true
 
+  node-html-parser@7.1.0:
+    resolution: {integrity: sha512-iJo8b2uYGT40Y8BTyy5ufL6IVbN8rbm/1QK2xffXU/1a/v3AAa0d1YAoqBNYqaS4R/HajkWIpIfdE6KcyFh1AQ==}
+
   node-mock-http@1.0.4:
     resolution: {integrity: sha512-8DY+kFsDkNXy1sJglUfuODx1/opAGJGyrTuFqEoN90oRc2Vk0ZbD4K2qmKXBBEhZQzdKHIVfEJpDU8Ak2NJEvQ==}
 
@@ -5930,6 +5951,10 @@ packages:
     resolution: {integrity: sha512-5C1sg4USs1lfG0GFb2RLXsdpXqBSEhAaA/0kPL01wxzpMqLILNxIxIOKiILz+cdg/pLnOUxFYOR5yhHU666wbw==}
     engines: {node: '>=18.0.0'}
     hasBin: true
+
+  turndown@7.2.4:
+    resolution: {integrity: sha512-I8yFsfRzmzK0WV1pNNOA4A7y4RDfFxPRxb3t+e3ui14qSGOxGtiSP6GjeX+Y6CHb7HYaFj7ECUD7VE5kQMZWGQ==}
+    engines: {node: '>=18', npm: '>=9'}
 
   tw-animate-css@1.3.4:
     resolution: {integrity: sha512-dd1Ht6/YQHcNbq0znIT6dG8uhO7Ce+VIIhZUhjsryXsMPJQz3bZg7Q2eNzLwipb25bRZslGb2myio5mScd1TFg==}
@@ -8034,6 +8059,8 @@ snapshots:
       - encoding
       - supports-color
 
+  '@mixmark-io/domino@2.2.0': {}
+
   '@modelcontextprotocol/sdk@1.25.2(hono@4.12.8)(zod@4.1.12)':
     dependencies:
       '@hono/node-server': 1.19.11(hono@4.12.8)
@@ -9085,6 +9112,8 @@ snapshots:
   '@types/react@19.2.4':
     dependencies:
       csstype: 3.2.3
+
+  '@types/turndown@5.0.6': {}
 
   '@types/unist@2.0.11': {}
 
@@ -12190,6 +12219,11 @@ snapshots:
 
   node-gyp-build@4.8.4: {}
 
+  node-html-parser@7.1.0:
+    dependencies:
+      css-select: 5.2.2
+      he: 1.2.0
+
   node-mock-http@1.0.4: {}
 
   node-releases@2.0.27: {}
@@ -13396,6 +13430,10 @@ snapshots:
       get-tsconfig: 4.13.0
     optionalDependencies:
       fsevents: 2.3.3
+
+  turndown@7.2.4:
+    dependencies:
+      '@mixmark-io/domino': 2.2.0
 
   tw-animate-css@1.3.4: {}
 
