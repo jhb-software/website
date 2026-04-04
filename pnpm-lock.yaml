@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      undici:
+        specifier: ^8.0.2
+        version: 8.0.2
     devDependencies:
       husky:
         specifier: ^9.1.7
@@ -6010,6 +6014,10 @@ packages:
   undici@7.18.2:
     resolution: {integrity: sha512-y+8YjDFzWdQlSE9N5nzKMT3g4a5UBX1HKowfdXh0uvAnTaqqwqB92Jt4UXBAeKekDs5IaDKyJFR4X1gYVCgXcw==}
     engines: {node: '>=20.18.1'}
+
+  undici@8.0.2:
+    resolution: {integrity: sha512-B9MeU5wuFhkFAuNeA19K2GDFcQXZxq33fL0nRy2Aq30wdufZbyyvxW3/ChaeipXVfy/wUweZyzovQGk39+9k2w==}
+    engines: {node: '>=22.19.0'}
 
   unified@11.0.5:
     resolution: {integrity: sha512-xKvGhPWw3k84Qjh8bI3ZeJjqnyadK+GEFtazSfZv/rKeTkTjOJho6mFqh2SM96iIcZokxiOpg78GazTSg8+KHA==}
@@ -13491,6 +13499,8 @@ snapshots:
   undici-types@7.16.0: {}
 
   undici@7.18.2: {}
+
+  undici@8.0.2: {}
 
   unified@11.0.5:
     dependencies:

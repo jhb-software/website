@@ -10,5 +10,8 @@
   "lint-staged": {
     "cms/src/**/*.{ts,tsx,js,jsx,json}": "pnpm --filter cms exec prettier --write",
     "web/src/**/*.{ts,tsx,js,jsx,json,astro}": "pnpm --filter web exec prettier --write"
+  },
+  "dependencies": {
+    "undici": "^8.0.2"
   }
 }
