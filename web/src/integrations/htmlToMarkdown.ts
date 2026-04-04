@@ -1,16 +1,19 @@
 import { existsSync } from 'fs'
 import { readFile, readdir, writeFile } from 'fs/promises'
-import { fileURLToPath } from 'url'
 import { join, relative } from 'path'
-import { parse } from 'node-html-parser'
-import TurndownService from 'turndown'
+import { fileURLToPath } from 'url'
 import type { AstroIntegration } from 'astro'
 
 // Error / system pages to skip
 const SKIP_FILES = new Set(['404.html', '500.html'])
 
 function escapeYaml(str: string): string {
-  return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"')
+  return str
+    .replace(/\\/g, '\\\\')
+    .replace(/"/g, '\\"')
+    .replace(/\n/g, '\\n')
+    .replace(/\r/g, '\\r')
+    .replace(/\t/g, '\\t')
 }
 
 /** Recursively collect all .html file paths under `dir`. */
@@ -28,19 +31,9 @@ async function findHtmlFiles(dir: string): Promise<string[]> {
   return files
 }
 
-const td = new TurndownService({
-  headingStyle: 'atx',
-  hr: '---',
-  bulletListMarker: '-',
-  codeBlockStyle: 'fenced',
-})
-
-// Remove non-content elements that pollute the Markdown output
-td.remove(['script', 'style', 'nav', 'aside', 'header', 'footer'])
-
 /**
  * Astro integration that converts every built HTML page to a Markdown file
- * (.md) at the same path, so that the edge middleware can serve it when the
+ * (.md) at the same path, so that the Vercel middleware can serve it when the
  * client sends `Accept: text/markdown`.
  *
  * Runs in the `astro:build:done` hook, after all static HTML files have been
@@ -51,6 +44,19 @@ export function htmlToMarkdown(): AstroIntegration {
     name: 'html-to-markdown',
     hooks: {
       'astro:build:done': async ({ dir, logger }) => {
+        const { default: TurndownService } = await import('turndown')
+        const { parse } = await import('node-html-parser')
+
+        const td = new TurndownService({
+          headingStyle: 'atx',
+          hr: '---',
+          bulletListMarker: '-',
+          codeBlockStyle: 'fenced',
+        })
+
+        // Remove non-content elements that pollute the Markdown output
+        td.remove(['script', 'style', 'nav', 'aside', 'header', 'footer'])
+
         const staticDir = fileURLToPath(dir)
 
         if (!existsSync(staticDir)) {

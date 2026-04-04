@@ -8,9 +8,7 @@ import { htmlToMarkdown } from './src/integrations/htmlToMarkdown'
 export default defineConfig({
   redirects: await getRedirects(),
   integrations: [htmlToMarkdown()],
-  adapter: vercel({
-    edgeMiddleware: true,
-  }),
+  adapter: vercel(),
   vite: {
     plugins: [tailwindcss()],
   },
