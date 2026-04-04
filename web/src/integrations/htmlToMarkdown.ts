@@ -34,66 +34,84 @@ async function findHtmlFiles(dir: string): Promise<string[]> {
 }
 
 /**
- * Astro integration that converts every built HTML page to a Markdown file
- * (.md) at the same path, so that the Vercel middleware can serve it when the
- * client sends `Accept: text/markdown`.
+ * Converts every HTML page in a directory to a Markdown file (.md) at the same
+ * path, so that the Vercel middleware can serve it when the client sends
+ * `Accept: text/markdown`.
+ */
+export async function convertHtmlToMarkdown(staticDir: string) {
+  const td = new TurndownService({
+    headingStyle: 'atx',
+    hr: '---',
+    bulletListMarker: '-',
+    codeBlockStyle: 'fenced',
+  })
+
+  // Remove non-content elements that pollute the Markdown output
+  td.remove(['script', 'style', 'nav', 'aside', 'header', 'footer'])
+
+  if (!existsSync(staticDir)) {
+    console.warn(`[html-to-markdown] Output directory not found: ${staticDir}`)
+    return
+  }
+
+  const htmlFiles = await findHtmlFiles(staticDir)
+  let count = 0
+
+  for (const htmlPath of htmlFiles) {
+    const html = await readFile(htmlPath, 'utf-8')
+    const root = parse(html)
+
+    const main = root.querySelector('main')
+    if (!main) {
+      console.log(`[html-to-markdown] Skipping ${relative(staticDir, htmlPath)} (no <main>)`)
+      continue
+    }
+
+    const title = root.querySelector('title')?.text?.trim() ?? ''
+    const description =
+      root.querySelector('meta[name="description"]')?.getAttribute('content') ?? ''
+
+    const frontmatterParts = ['---']
+    if (title) frontmatterParts.push(`title: "${escapeYaml(title)}"`)
+    if (description) frontmatterParts.push(`description: "${escapeYaml(description)}"`)
+    frontmatterParts.push('---', '', '')
+
+    const content = td.turndown(main.innerHTML)
+    const markdown = frontmatterParts.join('\n') + content
+
+    const mdPath = htmlPath.replace(/\.html$/, '.md')
+    await writeFile(mdPath, markdown, 'utf-8')
+    count++
+  }
+
+  console.log(`[html-to-markdown] Generated ${count} .md file(s)`)
+}
+
+/**
+ * Astro integration that converts HTML pages to Markdown after build.
  *
- * Runs in the `astro:build:done` hook, after all static HTML files have been
- * written to the output directory.
+ * Writes .md files to both the Astro output directory (dir) and the Vercel
+ * static output directory (.vercel/output/static/) if it exists, since the
+ * Vercel adapter copies files before this hook runs and won't include .md
+ * files written only to the Astro output dir.
  */
 export function htmlToMarkdown(): AstroIntegration {
   return {
     name: 'html-to-markdown',
     hooks: {
       'astro:build:done': async ({ dir, logger }) => {
-        const td = new TurndownService({
-          headingStyle: 'atx',
-          hr: '---',
-          bulletListMarker: '-',
-          codeBlockStyle: 'fenced',
-        })
+        const astroDir = fileURLToPath(dir)
 
-        // Remove non-content elements that pollute the Markdown output
-        td.remove(['script', 'style', 'nav', 'aside', 'header', 'footer'])
+        // Always process the Astro output directory
+        await convertHtmlToMarkdown(astroDir)
 
-        const staticDir = fileURLToPath(dir)
-
-        if (!existsSync(staticDir)) {
-          logger.warn(`Output directory not found: ${staticDir}`)
-          return
+        // Also process the Vercel output directory if it exists,
+        // since the Vercel adapter may have already copied files there
+        const vercelStaticDir = join(process.cwd(), '.vercel', 'output', 'static')
+        if (existsSync(vercelStaticDir) && vercelStaticDir !== astroDir) {
+          logger.info(`Also generating .md files in Vercel output: ${vercelStaticDir}`)
+          await convertHtmlToMarkdown(vercelStaticDir)
         }
-
-        const htmlFiles = await findHtmlFiles(staticDir)
-        let count = 0
-
-        for (const htmlPath of htmlFiles) {
-          const html = await readFile(htmlPath, 'utf-8')
-          const root = parse(html)
-
-          const main = root.querySelector('main')
-          if (!main) {
-            logger.info(`Skipping ${relative(staticDir, htmlPath)} (no <main> element)`)
-            continue
-          }
-
-          const title = root.querySelector('title')?.text?.trim() ?? ''
-          const description =
-            root.querySelector('meta[name="description"]')?.getAttribute('content') ?? ''
-
-          const frontmatterParts = ['---']
-          if (title) frontmatterParts.push(`title: "${escapeYaml(title)}"`)
-          if (description) frontmatterParts.push(`description: "${escapeYaml(description)}"`)
-          frontmatterParts.push('---', '', '')
-
-          const content = td.turndown(main.innerHTML)
-          const markdown = frontmatterParts.join('\n') + content
-
-          const mdPath = htmlPath.replace(/\.html$/, '.md')
-          await writeFile(mdPath, markdown, 'utf-8')
-          count++
-        }
-
-        logger.info(`Generated ${count} .md file(s)`)
       },
     },
   }
