@@ -3,12 +3,12 @@ import vercel from '@astrojs/vercel'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, envField } from 'astro/config'
 import { getRedirects } from './src/cms/getRedirects'
+import { htmlToMarkdown } from './src/integrations/htmlToMarkdown'
 
 export default defineConfig({
   redirects: await getRedirects(),
-  adapter: vercel({
-    edgeMiddleware: true,
-  }),
+  integrations: [htmlToMarkdown()],
+  adapter: vercel(),
   vite: {
     plugins: [tailwindcss()],
   },
