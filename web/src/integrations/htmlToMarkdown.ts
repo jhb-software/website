@@ -2,7 +2,7 @@ import type { AstroIntegration } from 'astro'
 import { existsSync } from 'fs'
 import { readFile, readdir, writeFile } from 'fs/promises'
 import { parse } from 'node-html-parser'
-import { join, relative } from 'path'
+import { basename, dirname, join, relative } from 'path'
 import TurndownService from 'turndown'
 import { fileURLToPath } from 'url'
 
@@ -79,7 +79,18 @@ export async function convertHtmlToMarkdown(staticDir: string) {
     const content = td.turndown(main.innerHTML)
     const markdown = frontmatterParts.join('\n') + content
 
-    const mdPath = htmlPath.replace(/\.html$/, '.md')
+    // For index.html files, place the .md file in the parent directory
+    // e.g., /de/index.html → /de.md (matching the middleware rewrite path)
+    // For non-index files, replace the extension in place
+    let mdPath: string
+    if (basename(htmlPath) === 'index.html') {
+      const parentDir = dirname(htmlPath)
+      const parentParentDir = dirname(parentDir)
+      const dirName = basename(parentDir)
+      mdPath = join(parentParentDir, `${dirName}.md`)
+    } else {
+      mdPath = htmlPath.replace(/\.html$/, '.md')
+    }
     await writeFile(mdPath, markdown, 'utf-8')
     count++
   }
