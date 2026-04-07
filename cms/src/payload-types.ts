@@ -150,6 +150,7 @@ export interface Config {
   };
   locale: 'de' | 'en';
   widgets: {
+    'vercel-deployments': VercelDeploymentsWidget;
     'alt-text-health': AltTextHealthWidget;
     collections: CollectionsWidget;
   };
@@ -2030,6 +2031,16 @@ export interface LabelsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vercel-deployments_widget".
+ */
+export interface VercelDeploymentsWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'medium' | 'large' | 'x-large' | 'full';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

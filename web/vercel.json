@@ -102,6 +102,11 @@
       "source": "/payload-geocoding-plugin",
       "destination": "https://www.npmjs.com/package/@jhb.software/payload-geocoding-plugin",
       "statusCode": 302
+    },
+    {
+      "source": "/payload-vercel-deployments",
+      "destination": "https://www.npmjs.com/package/@jhb.software/payload-vercel-deployments",
+      "statusCode": 302
     }
   ],
   "trailingSlash": false

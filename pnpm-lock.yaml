@@ -29,6 +29,9 @@ importers:
       '@jhb.software/payload-pages-plugin':
         specifier: 0.6.0
         version: 0.6.0(@payloadcms/ui@3.81.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@jhb.software/payload-vercel-deployments':
+        specifier: ^0.1.0
+        version: 0.1.0(@payloadcms/translations@3.81.0)(@payloadcms/ui@3.81.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@payloadcms/db-mongodb':
         specifier: 3.81.0
         version: 3.81.0(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))
@@ -1322,6 +1325,17 @@ packages:
       payload: ^3.72.0
       react: 19.2.3
       react-dom: 19.2.3
+
+  '@jhb.software/payload-vercel-deployments@0.1.0':
+    resolution: {integrity: sha512-JY8pFiZltbhpcj4o2PFthfVr9fVf86vVTHhGqY7G/QG5ykOpasNErdiIbGB4XIy3BgRhbThvxkNEl+s+VplOug==}
+    engines: {node: ^18.20.2 || >=20.9.0}
+    peerDependencies:
+      '@payloadcms/translations': ^3.81.0
+      '@payloadcms/ui': ^3.81.0
+      next: 15.4.11
+      payload: ^3.81.0
+      react: 19.2.4
+      react-dom: 19.2.4
 
   '@jridgewell/gen-mapping@0.3.12':
     resolution: {integrity: sha512-OuLGC46TjB5BbN1dH8JULVVZY4WTdkF7tV9Ys6wLL1rubZnCMstOhNHueU5bLCrnRuDhKPDM4g6sw4Bel5Gzqg==}
@@ -7806,6 +7820,15 @@ snapshots:
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
 
+  '@jhb.software/payload-vercel-deployments@0.1.0(@payloadcms/translations@3.81.0)(@payloadcms/ui@3.81.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+    dependencies:
+      '@payloadcms/translations': 3.81.0
+      '@payloadcms/ui': 3.81.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3)
+      next: 16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4)
+      payload: 3.81.0(graphql@16.12.0)(typescript@5.9.3)
+      react: 19.2.3
+      react-dom: 19.2.3(react@19.2.3)
+
   '@jridgewell/gen-mapping@0.3.12':
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
@@ -8196,7 +8219,7 @@ snapshots:
       '@modelcontextprotocol/sdk': 1.27.1(zod@3.25.76)
       '@types/json-schema': 7.0.15
       json-schema-to-zod: 2.6.1
-      mcp-handler: 1.0.7(@modelcontextprotocol/sdk@1.27.1(zod@4.1.12))(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))
+      mcp-handler: 1.0.7(@modelcontextprotocol/sdk@1.27.1(zod@3.25.76))(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))
       payload: 3.81.0(graphql@16.12.0)(typescript@5.9.3)
       zod: 3.25.76
     transitivePeerDependencies:
@@ -11641,7 +11664,7 @@ snapshots:
 
   math-intrinsics@1.1.0: {}
 
-  mcp-handler@1.0.7(@modelcontextprotocol/sdk@1.27.1(zod@4.1.12))(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4)):
+  mcp-handler@1.0.7(@modelcontextprotocol/sdk@1.27.1(zod@3.25.76))(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4)):
     dependencies:
       '@modelcontextprotocol/sdk': 1.27.1(zod@3.25.76)
       chalk: 5.4.1

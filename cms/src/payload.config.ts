@@ -8,6 +8,7 @@ import {
   payloadContentTranslatorPlugin,
 } from '@jhb.software/payload-content-translator-plugin'
 import { alternatePathsField, payloadPagesPlugin } from '@jhb.software/payload-pages-plugin'
+import { vercelDeploymentsPlugin } from '@jhb.software/payload-vercel-deployments'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
 import { mcpPlugin } from '@payloadcms/plugin-mcp'
@@ -219,6 +220,13 @@ export default buildConfig({
         footer: { enabled: true },
         header: { enabled: true },
         labels: { enabled: true },
+      },
+    }),
+    vercelDeploymentsPlugin({
+      vercel: {
+        apiToken: process.env.VERCEL_API_TOKEN!,
+        projectId: process.env.FRONTEND_VERCEL_PROJECT_ID!,
+        teamId: process.env.FRONTEND_VERCEL_TEAM_ID,
       },
     }),
     adminSearchPlugin({}),
