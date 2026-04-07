@@ -53,7 +53,6 @@ import { getStaticPagesProps } from './endpoints/staticPages'
 import Footer from './globals/Footer'
 import Header from './globals/Header'
 import Labels from './globals/Labels'
-import { jhbDashboardPlugin } from './plugins/jhb-dashboard/plugin'
 import { authenticated } from './shared/access/authenticated'
 import { CollectionGroups } from './shared/CollectionGroups'
 import { customTranslations } from './shared/customTranslations'
@@ -205,15 +204,6 @@ export default buildConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   plugins: [
-    jhbDashboardPlugin({
-      features: {
-        deploymentInfo: true,
-      },
-      frontend: {
-        url: process.env.NEXT_PUBLIC_FRONTEND_URL!,
-      },
-      title: websiteName + ' CMS',
-    }),
     mcpPlugin({
       collections: {
         'article-tags': { enabled: true },
