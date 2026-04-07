@@ -150,6 +150,7 @@ export interface Config {
   };
   locale: 'de' | 'en';
   widgets: {
+    'alt-text-health': AltTextHealthWidget;
     collections: CollectionsWidget;
   };
   user: User | ApiKey | PayloadMcpApiKey;
@@ -2029,6 +2030,16 @@ export interface LabelsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "alt-text-health_widget".
+ */
+export interface AltTextHealthWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'medium' | 'large' | 'x-large' | 'full';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
