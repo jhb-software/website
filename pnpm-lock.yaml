@@ -21,8 +21,8 @@ importers:
         specifier: ^0.2.1
         version: 0.2.1(@payloadcms/translations@3.81.0)(@payloadcms/ui@3.81.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@jhb.software/payload-alt-text-plugin':
-        specifier: 0.4.2
-        version: 0.4.2(@payloadcms/ui@3.81.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(ws@8.18.3)
+        specifier: 0.4.3
+        version: 0.4.3(@payloadcms/translations@3.81.0)(@payloadcms/ui@3.81.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(ws@8.18.3)
       '@jhb.software/payload-content-translator-plugin':
         specifier: ^0.1.0
         version: 0.1.0(@payloadcms/translations@3.81.0)(@payloadcms/ui@3.81.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -30,8 +30,8 @@ importers:
         specifier: 0.6.0
         version: 0.6.0(@payloadcms/ui@3.81.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@jhb.software/payload-vercel-deployments':
-        specifier: ^0.1.0
-        version: 0.1.0(@payloadcms/translations@3.81.0)(@payloadcms/ui@3.81.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        specifier: ^0.2.0
+        version: 0.2.0(@payloadcms/translations@3.81.0)(@payloadcms/ui@3.81.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@payloadcms/db-mongodb':
         specifier: 3.81.0
         version: 3.81.0(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))
@@ -1295,10 +1295,11 @@ packages:
       react: 19.2.0
       react-dom: 19.2.0
 
-  '@jhb.software/payload-alt-text-plugin@0.4.2':
-    resolution: {integrity: sha512-/7ImunmreKpUSu0ey3NfqtoaqrahY0XhRKS6+9t6BlZr29mmrJc6mDKLb35/NE9W68PF6lZeug6LIZFvKpchZA==}
+  '@jhb.software/payload-alt-text-plugin@0.4.3':
+    resolution: {integrity: sha512-0wGbAt/hL/9PKkHS8DLHp78SCCE1yUXTdosGm+g2gZPCr/AP9mApTm2mbgC/fRS4MJc9m2S2RGjpuSqHPUsKmQ==}
     engines: {node: ^18.20.2 || >=20.9.0}
     peerDependencies:
+      '@payloadcms/translations': ^3.81.0
       '@payloadcms/ui': ^3.81.0
       next: 15.4.11
       payload: ^3.81.0
@@ -1326,8 +1327,8 @@ packages:
       react: 19.2.3
       react-dom: 19.2.3
 
-  '@jhb.software/payload-vercel-deployments@0.1.0':
-    resolution: {integrity: sha512-JY8pFiZltbhpcj4o2PFthfVr9fVf86vVTHhGqY7G/QG5ykOpasNErdiIbGB4XIy3BgRhbThvxkNEl+s+VplOug==}
+  '@jhb.software/payload-vercel-deployments@0.2.0':
+    resolution: {integrity: sha512-OTDWQW+HiB3Hi6SGfspx1snCrHtiO/WBfHCFs/EqpaHoYD7Hw5kNQ6TMWVejzGZYsfDg4X9NTE/l80/KzdAu7w==}
     engines: {node: ^18.20.2 || >=20.9.0}
     peerDependencies:
       '@payloadcms/translations': ^3.81.0
@@ -4945,8 +4946,8 @@ packages:
   oniguruma-to-es@4.3.4:
     resolution: {integrity: sha512-3VhUGN3w2eYxnTzHn+ikMI+fp/96KoRSVK9/kMTcFqj1NRDh2IhQCKvYxDnWePKRXY/AqH+Fuiyb7VHSzBjHfA==}
 
-  openai@6.33.0:
-    resolution: {integrity: sha512-xAYN1W3YsDXJWA5F277135YfkEk6H7D3D6vWwRhJ3OEkzRgcyK8z/P5P9Gyi/wB4N8kK9kM5ZjprfvyHagKmpw==}
+  openai@6.34.0:
+    resolution: {integrity: sha512-yEr2jdGf4tVFYG6ohmr3pF6VJuveP0EA/sS8TBx+4Eq5NT10alu5zg2dmxMXMgqpihRDQlFGpRt2XwsGj+Fyxw==}
     hasBin: true
     peerDependencies:
       ws: ^8.18.0
@@ -7787,11 +7788,12 @@ snapshots:
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
 
-  '@jhb.software/payload-alt-text-plugin@0.4.2(@payloadcms/ui@3.81.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(ws@8.18.3)':
+  '@jhb.software/payload-alt-text-plugin@0.4.3(@payloadcms/translations@3.81.0)(@payloadcms/ui@3.81.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(ws@8.18.3)':
     dependencies:
+      '@payloadcms/translations': 3.81.0
       '@payloadcms/ui': 3.81.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3)
       next: 16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4)
-      openai: 6.33.0(ws@8.18.3)(zod@4.3.6)
+      openai: 6.34.0(ws@8.18.3)(zod@4.3.6)
       p-map: 7.0.4
       payload: 3.81.0(graphql@16.12.0)(typescript@5.9.3)
       react: 19.2.3
@@ -7820,7 +7822,7 @@ snapshots:
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
 
-  '@jhb.software/payload-vercel-deployments@0.1.0(@payloadcms/translations@3.81.0)(@payloadcms/ui@3.81.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+  '@jhb.software/payload-vercel-deployments@0.2.0(@payloadcms/translations@3.81.0)(@payloadcms/ui@3.81.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
     dependencies:
       '@payloadcms/translations': 3.81.0
       '@payloadcms/ui': 3.81.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.81.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3)
@@ -8219,7 +8221,7 @@ snapshots:
       '@modelcontextprotocol/sdk': 1.27.1(zod@3.25.76)
       '@types/json-schema': 7.0.15
       json-schema-to-zod: 2.6.1
-      mcp-handler: 1.0.7(@modelcontextprotocol/sdk@1.27.1(zod@3.25.76))(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))
+      mcp-handler: 1.0.7(@modelcontextprotocol/sdk@1.27.1(zod@4.1.12))(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))
       payload: 3.81.0(graphql@16.12.0)(typescript@5.9.3)
       zod: 3.25.76
     transitivePeerDependencies:
@@ -11664,7 +11666,7 @@ snapshots:
 
   math-intrinsics@1.1.0: {}
 
-  mcp-handler@1.0.7(@modelcontextprotocol/sdk@1.27.1(zod@3.25.76))(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4)):
+  mcp-handler@1.0.7(@modelcontextprotocol/sdk@1.27.1(zod@4.1.12))(next@16.2.2(@babel/core@7.28.6)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4)):
     dependencies:
       '@modelcontextprotocol/sdk': 1.27.1(zod@3.25.76)
       chalk: 5.4.1
@@ -12280,7 +12282,7 @@ snapshots:
       regex: 6.0.1
       regex-recursion: 6.0.2
 
-  openai@6.33.0(ws@8.18.3)(zod@4.3.6):
+  openai@6.34.0(ws@8.18.3)(zod@4.3.6):
     optionalDependencies:
       ws: 8.18.3
       zod: 4.3.6
