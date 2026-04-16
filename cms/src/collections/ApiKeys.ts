@@ -1,37 +1,38 @@
+import { CollectionConfig } from 'payload'
+
 import { isAdmin } from '@/shared/access/isAdmin'
 import { isSelfOrAdmin } from '@/shared/access/isSelfOrAdmin'
 import { CollectionGroups } from '@/shared/CollectionGroups'
-import { CollectionConfig } from 'payload'
 
 const ApiKeys: CollectionConfig = {
   slug: 'api-keys',
-  labels: {
-    singular: 'API Key',
-    plural: 'API Keys',
-  },
-  admin: {
-    useAsTitle: 'type',
-    group: CollectionGroups.SystemCollections,
-  },
-  auth: {
-    useAPIKey: true,
-    disableLocalStrategy: true,
-  },
   access: {
     create: isAdmin,
+    delete: isAdmin,
     read: isSelfOrAdmin,
     update: isAdmin,
-    delete: isAdmin,
+  },
+  admin: {
+    group: CollectionGroups.SystemCollections,
+    useAsTitle: 'type',
+  },
+  auth: {
+    disableLocalStrategy: true,
+    useAPIKey: true,
+  },
+  labels: {
+    plural: 'API Keys',
+    singular: 'API Key',
   },
   fields: [
     {
       name: 'type',
       type: 'select',
-      required: true,
       options: [
         { label: 'Website', value: 'website' },
         { label: 'Agent', value: 'agent' },
       ],
+      required: true,
     },
   ],
 }

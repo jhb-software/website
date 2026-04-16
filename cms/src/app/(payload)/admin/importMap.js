@@ -56,6 +56,7 @@ import { VercelDeploymentWidget as VercelDeploymentWidget_7f7b3eb7b26a673ca6c827
 import { AltTextHealthWidget as AltTextHealthWidget_a35949d21b38efe8500764b5b0b3638b } from '@jhb.software/payload-alt-text-plugin/server'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
+/** @type import('payload').ImportMap */
 export const importMap = {
   "@jhb.software/payload-pages-plugin/server#IsRootPageField": IsRootPageField_817212d6f65b4eb37176541413db3f8c,
   "@jhb.software/payload-pages-plugin/server#SlugField": SlugField_817212d6f65b4eb37176541413db3f8c,

@@ -101,8 +101,8 @@ export interface Config {
     redirects: Redirect;
     users: User;
     'api-keys': ApiKey;
-    'payload-mcp-api-keys': PayloadMcpApiKey;
     search: Search;
+    'payload-mcp-api-keys': PayloadMcpApiKey;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -126,8 +126,8 @@ export interface Config {
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'api-keys': ApiKeysSelect<false> | ApiKeysSelect<true>;
-    'payload-mcp-api-keys': PayloadMcpApiKeysSelect<false> | PayloadMcpApiKeysSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
+    'payload-mcp-api-keys': PayloadMcpApiKeysSelect<false> | PayloadMcpApiKeysSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -777,6 +777,64 @@ export interface ApiKey {
   collection: 'api-keys';
 }
 /**
+ * This is a collection of automatically created search results. These results are used by the global site search and will be updated automatically as documents in the CMS are created or updated.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "search".
+ */
+export interface Search {
+  id: string;
+  title?: string | null;
+  priority?: number | null;
+  doc:
+    | {
+        relationTo: 'pages';
+        value: string | Page;
+      }
+    | {
+        relationTo: 'projects';
+        value: string | Project;
+      }
+    | {
+        relationTo: 'articles';
+        value: string | Article;
+      }
+    | {
+        relationTo: 'customers';
+        value: string | Customer;
+      }
+    | {
+        relationTo: 'authors';
+        value: string | Author;
+      }
+    | {
+        relationTo: 'testimonials';
+        value: string | Testimonial;
+      }
+    | {
+        relationTo: 'article-tags';
+        value: string | ArticleTag;
+      }
+    | {
+        relationTo: 'images';
+        value: string | Image;
+      }
+    | {
+        relationTo: 'redirects';
+        value: string | Redirect;
+      }
+    | {
+        relationTo: 'users';
+        value: string | User;
+      }
+    | {
+        relationTo: 'api-keys';
+        value: string | ApiKey;
+      };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * API keys control which collections, resources, tools, and prompts MCP clients can access
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -978,64 +1036,6 @@ export interface PayloadMcpApiKey {
   collection: 'payload-mcp-api-keys';
 }
 /**
- * This is a collection of automatically created search results. These results are used by the global site search and will be updated automatically as documents in the CMS are created or updated.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "search".
- */
-export interface Search {
-  id: string;
-  title?: string | null;
-  priority?: number | null;
-  doc:
-    | {
-        relationTo: 'pages';
-        value: string | Page;
-      }
-    | {
-        relationTo: 'projects';
-        value: string | Project;
-      }
-    | {
-        relationTo: 'articles';
-        value: string | Article;
-      }
-    | {
-        relationTo: 'customers';
-        value: string | Customer;
-      }
-    | {
-        relationTo: 'authors';
-        value: string | Author;
-      }
-    | {
-        relationTo: 'testimonials';
-        value: string | Testimonial;
-      }
-    | {
-        relationTo: 'article-tags';
-        value: string | ArticleTag;
-      }
-    | {
-        relationTo: 'images';
-        value: string | Image;
-      }
-    | {
-        relationTo: 'redirects';
-        value: string | Redirect;
-      }
-    | {
-        relationTo: 'users';
-        value: string | User;
-      }
-    | {
-        relationTo: 'api-keys';
-        value: string | ApiKey;
-      };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -1104,12 +1104,12 @@ export interface PayloadLockedDocument {
         value: string | ApiKey;
       } | null)
     | ({
-        relationTo: 'payload-mcp-api-keys';
-        value: string | PayloadMcpApiKey;
-      } | null)
-    | ({
         relationTo: 'search';
         value: string | Search;
+      } | null)
+    | ({
+        relationTo: 'payload-mcp-api-keys';
+        value: string | PayloadMcpApiKey;
       } | null);
   globalSlug?: string | null;
   user:
@@ -1686,6 +1686,17 @@ export interface ApiKeysSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "search_select".
+ */
+export interface SearchSelect<T extends boolean = true> {
+  title?: T;
+  priority?: T;
+  doc?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-mcp-api-keys_select".
  */
 export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
@@ -1779,17 +1790,6 @@ export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
   enableAPIKey?: T;
   apiKey?: T;
   apiKeyIndex?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "search_select".
- */
-export interface SearchSelect<T extends boolean = true> {
-  title?: T;
-  priority?: T;
-  doc?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -113,6 +113,13 @@ export default buildConfig({
         Logo: '/components/Logo',
       },
     },
+    dashboard: {
+      defaultLayout: [
+        { widgetSlug: 'vercel-deployments', width: 'medium' },
+        { widgetSlug: 'alt-text-health', width: 'medium' },
+      ],
+      widgets: [],
+    },
     dateFormat: "dd. MMM yyyy HH:mm 'Uhr'",
     importMap: {
       baseDir: path.resolve(dirname),
