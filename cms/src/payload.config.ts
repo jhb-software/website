@@ -1,8 +1,10 @@
+import { createAnthropic } from '@ai-sdk/anthropic'
 import { adminSearchPlugin } from '@jhb.software/payload-admin-search'
 import {
   openAIResolver as altTextOpenAIResolver,
   payloadAltTextPlugin,
 } from '@jhb.software/payload-alt-text-plugin'
+import { chatAgentPlugin, createPayloadBudget } from '@jhb.software/payload-chat-agent'
 import {
   openAIResolver,
   payloadContentTranslatorPlugin,
@@ -63,6 +65,12 @@ const dirname = path.dirname(filename)
 
 export const websiteName = 'JHB Software'
 
+const { budget: chatBudget, collection: chatTokenUsageCollection } = createPayloadBudget({
+  limit: 2_000_000,
+  period: 'daily',
+  scope: 'user',
+})
+
 export const collections: CollectionConfig[] = [
   // Pages Collections
   Pages,
@@ -80,6 +88,7 @@ export const collections: CollectionConfig[] = [
   Redirects,
   Users,
   ApiKeys,
+  chatTokenUsageCollection,
 ]
 
 export const locales = ['de', 'en']
@@ -406,6 +415,44 @@ export default buildConfig({
       generateURL: ({ doc }) => generatePageURL({ path: doc.path, preview: false }) ?? '',
       interfaceName: 'SeoMetadata',
       uploadsCollection: 'images',
+    }),
+    // Adds `custom.description` to endpoints registered by other plugins so the
+    // chat agent's `callEndpoint` tool can discover them. Must run before
+    // chatAgentPlugin and after the plugins whose endpoints are described.
+    // TODO: update the plugins to add descriptions and release new versions
+    (config) => ({
+      ...config,
+      endpoints: (config.endpoints ?? []).map((endpoint) => {
+        const key = `${endpoint.method?.toUpperCase()} ${endpoint.path}`
+        const descriptions: Record<string, string> = {
+          'GET /alt-text-plugin/health':
+            'Get alt-text coverage health: total images vs. images missing alt text per locale.',
+          'GET /vercel-deployments':
+            'List recent Vercel deployments of the frontend project with status and timestamps.',
+          'POST /alt-text-plugin/generate':
+            'Generate an AI alt text for a single image. Body: { id: string, locale?: string, keywords?: string }.',
+          'POST /alt-text-plugin/generate/bulk':
+            'Bulk-generate AI alt texts for multiple images. Body: { ids: string[], locale?: string }.',
+          'POST /translator/translate':
+            'Translate a document or global from the default locale to another locale using AI. Body: { collection?: string, global?: string, id?: string, sourceLocale: string, targetLocale: string }.',
+          'POST /vercel-deployments': 'Trigger a new Vercel deployment of the frontend project.',
+        }
+        const description = descriptions[key]
+        if (!description) return endpoint
+        return {
+          ...endpoint,
+          custom: { ...(endpoint.custom ?? {}), description },
+        }
+      }),
+    }),
+    chatAgentPlugin({
+      availableModels: [
+        { id: 'claude-haiku-4-5', label: 'Claude Haiku 4.5' },
+        { id: 'claude-sonnet-4-5', label: 'Claude Sonnet 4.5' },
+      ],
+      budget: chatBudget,
+      defaultModel: 'claude-haiku-4-5',
+      model: (id) => createAnthropic({ apiKey: process.env.ANTHROPIC_API_KEY })(id),
     }),
   ],
 })

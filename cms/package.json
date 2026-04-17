@@ -16,8 +16,10 @@
     "format": "prettier --write src"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^3.0.71",
     "@jhb.software/payload-admin-search": "^0.2.1",
     "@jhb.software/payload-alt-text-plugin": "^0.4.4",
+    "@jhb.software/payload-chat-agent": "0.1.0-beta.3",
     "@jhb.software/payload-content-translator-plugin": "^0.1.2",
     "@jhb.software/payload-pages-plugin": "0.6.0",
     "@jhb.software/payload-vercel-deployments": "^0.2.1",

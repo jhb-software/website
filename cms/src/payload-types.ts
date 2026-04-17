@@ -101,7 +101,9 @@ export interface Config {
     redirects: Redirect;
     users: User;
     'api-keys': ApiKey;
+    'chat-token-usage': ChatTokenUsage;
     search: Search;
+    'chat-conversations': ChatConversation;
     'payload-mcp-api-keys': PayloadMcpApiKey;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -126,7 +128,9 @@ export interface Config {
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'api-keys': ApiKeysSelect<false> | ApiKeysSelect<true>;
+    'chat-token-usage': ChatTokenUsageSelect<false> | ChatTokenUsageSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
+    'chat-conversations': ChatConversationsSelect<false> | ChatConversationsSelect<true>;
     'payload-mcp-api-keys': PayloadMcpApiKeysSelect<false> | PayloadMcpApiKeysSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -777,6 +781,21 @@ export interface ApiKey {
   collection: 'api-keys';
 }
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "chat-token-usage".
+ */
+export interface ChatTokenUsage {
+  id: string;
+  scope: string;
+  period: string;
+  model: string;
+  inputTokens?: number | null;
+  outputTokens?: number | null;
+  totalTokens?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This is a collection of automatically created search results. These results are used by the global site search and will be updated automatically as documents in the CMS are created or updated.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -830,7 +849,34 @@ export interface Search {
     | {
         relationTo: 'api-keys';
         value: string | ApiKey;
+      }
+    | {
+        relationTo: 'chat-token-usage';
+        value: string | ChatTokenUsage;
       };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "chat-conversations".
+ */
+export interface ChatConversation {
+  id: string;
+  title: string;
+  messages:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  user: string | User;
+  model?: string | null;
+  mode?: ('read' | 'ask' | 'read-write' | 'superuser') | null;
+  totalTokens?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1104,8 +1150,16 @@ export interface PayloadLockedDocument {
         value: string | ApiKey;
       } | null)
     | ({
+        relationTo: 'chat-token-usage';
+        value: string | ChatTokenUsage;
+      } | null)
+    | ({
         relationTo: 'search';
         value: string | Search;
+      } | null)
+    | ({
+        relationTo: 'chat-conversations';
+        value: string | ChatConversation;
       } | null)
     | ({
         relationTo: 'payload-mcp-api-keys';
@@ -1686,12 +1740,40 @@ export interface ApiKeysSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "chat-token-usage_select".
+ */
+export interface ChatTokenUsageSelect<T extends boolean = true> {
+  scope?: T;
+  period?: T;
+  model?: T;
+  inputTokens?: T;
+  outputTokens?: T;
+  totalTokens?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "search_select".
  */
 export interface SearchSelect<T extends boolean = true> {
   title?: T;
   priority?: T;
   doc?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "chat-conversations_select".
+ */
+export interface ChatConversationsSelect<T extends boolean = true> {
+  title?: T;
+  messages?: T;
+  user?: T;
+  model?: T;
+  mode?: T;
+  totalTokens?: T;
   updatedAt?: T;
   createdAt?: T;
 }

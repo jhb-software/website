@@ -51,7 +51,9 @@ import { QueryPresetsGroupByField as QueryPresetsGroupByField_2b8867833a34864a02
 import { default as default_a02a4abfb5c9da17149cbadc8057c129 } from '../../../components/Icon'
 import { default as default_919492c8e60179286a0f183c0a5b652e } from '../../../components/Logo'
 import { SearchWrapper as SearchWrapper_5400ac5ea24f4363783c781edd0c24e3 } from '@jhb.software/payload-admin-search/client'
+import { ChatNavLinkServer as ChatNavLinkServer_48b989653b39a67494f0d80b0f9fbeb0 } from '@jhb.software/payload-chat-agent/server'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
+import { ChatViewServer as ChatViewServer_48b989653b39a67494f0d80b0f9fbeb0 } from '@jhb.software/payload-chat-agent/server'
 import { VercelDeploymentWidget as VercelDeploymentWidget_7f7b3eb7b26a673ca6c8271b81a390dc } from '@jhb.software/payload-vercel-deployments/client'
 import { AltTextHealthWidget as AltTextHealthWidget_a35949d21b38efe8500764b5b0b3638b } from '@jhb.software/payload-alt-text-plugin/server'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
@@ -111,7 +113,9 @@ export const importMap = {
   "/components/Icon#default": default_a02a4abfb5c9da17149cbadc8057c129,
   "/components/Logo#default": default_919492c8e60179286a0f183c0a5b652e,
   "@jhb.software/payload-admin-search/client#SearchWrapper": SearchWrapper_5400ac5ea24f4363783c781edd0c24e3,
+  "@jhb.software/payload-chat-agent/server#ChatNavLinkServer": ChatNavLinkServer_48b989653b39a67494f0d80b0f9fbeb0,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
+  "@jhb.software/payload-chat-agent/server#ChatViewServer": ChatViewServer_48b989653b39a67494f0d80b0f9fbeb0,
   "@jhb.software/payload-vercel-deployments/client#VercelDeploymentWidget": VercelDeploymentWidget_7f7b3eb7b26a673ca6c8271b81a390dc,
   "@jhb.software/payload-alt-text-plugin/server#AltTextHealthWidget": AltTextHealthWidget_a35949d21b38efe8500764b5b0b3638b,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
