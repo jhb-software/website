@@ -1,8 +1,10 @@
 import type { PayloadRequest } from 'payload'
 
+import { Resvg } from '@resvg/resvg-js'
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import sharp from 'sharp'
-
-import { MONTSERRAT_LATIN_WGHT_NORMAL_WOFF2_BASE64 } from './montserratFont'
 
 type BackgroundPattern = 'blobs' | 'gradient'
 type BackgroundPresetName = 'blue' | 'dark' | 'purple' | 'sunset' | 'teal'
@@ -148,25 +150,81 @@ const LOGO_SVG_CONTENT = `
   <path d="M17.23 69.59C14.48 69.59 11.94 69.09 9.61 68.08C7.62 67.22 5.54 64.62 5.54 64.62L10.15 58.62C11.54 60 11.54 60 12.75 60.75C13.99 61.49 15.33 61.86 16.76 61.86C20.6 61.86 22.52 59.61 22.52 55.11V35.73H8.21V28.17H31.89V54.58C31.89 59.62 30.65 63.39 28.17 65.87C25.69 68.35 22.04 69.59 17.23 69.59Z" fill="white"/>
 `
 
-// Embed the website's Montserrat Variable font directly in every SVG so
-// sharp/librsvg renders with the site's typeface. The font bytes are pulled
-// from a base64 constant rather than disk — Vercel's Next.js runtime doesn't
-// reliably trace node_modules font assets into the function bundle, which was
-// causing EBADF at runtime.
-const FONT_DATA_URI = `data:font/woff2;base64,${MONTSERRAT_LATIN_WGHT_NORMAL_WOFF2_BASE64}`
+// Google Fonts serves single-weight Montserrat TTFs from its static CDN. resvg
+// only understands static TTFs (not woff2 or variable axes in v2.6), and we
+// only need regular + bold, so we fetch them on demand and cache them in /tmp
+// — on Vercel /tmp persists across invocations within the same function
+// instance, so this cost is paid once per cold start.
+//
+// To refresh the URLs (Google re-versions the CSS API periodically):
+//   curl -sA 'Mozilla/4.0' 'https://fonts.googleapis.com/css?family=Montserrat:400,700'
+const MONTSERRAT_TTF_URLS: Record<'400' | '700', string> = {
+  '400':
+    'https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw5aX8.ttf',
+  '700':
+    'https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM73w5aX8.ttf',
+}
+
+const FONT_CACHE_DIR = join(tmpdir(), 'jhb-thumbnail-fonts')
+let fontPathsPromise: null | Promise<string[]> = null
+
+async function ensureFonts(): Promise<string[]> {
+  if (fontPathsPromise) return fontPathsPromise
+  fontPathsPromise = (async () => {
+    if (!existsSync(FONT_CACHE_DIR)) mkdirSync(FONT_CACHE_DIR, { recursive: true })
+    const paths: string[] = []
+    for (const [weight, url] of Object.entries(MONTSERRAT_TTF_URLS)) {
+      const p = join(FONT_CACHE_DIR, `montserrat-${weight}.ttf`)
+      if (!existsSync(p)) {
+        const res = await fetch(url, { signal: AbortSignal.timeout(10_000) })
+        if (!res.ok) throw new Error(`Montserrat ${weight} fetch failed: ${res.status}`)
+        writeFileSync(p, Buffer.from(await res.arrayBuffer()))
+      }
+      paths.push(p)
+    }
+    return paths
+  })().catch((err) => {
+    // Allow the next request to retry after a transient fetch failure.
+    fontPathsPromise = null
+    throw err
+  })
+  return fontPathsPromise
+}
+
+// Pre-generate a 256×256 tileable noise PNG once; sharp composites it over the
+// rendered thumbnail with `tile: true` to reproduce the feTurbulence look that
+// resvg doesn't implement.
+let noiseTilePromise: null | Promise<Buffer> = null
+
+function getNoiseTile(): Promise<Buffer> {
+  if (noiseTilePromise) return noiseTilePromise
+  noiseTilePromise = (async () => {
+    const size = 256
+    const pixels = Buffer.alloc(size * size * 4)
+    for (let i = 0; i < pixels.length; i += 4) {
+      const keep = Math.random() < 0.2
+      pixels[i] = 255
+      pixels[i + 1] = 255
+      pixels[i + 2] = 255
+      pixels[i + 3] = keep ? Math.floor(Math.random() * 24) + 8 : 0
+    }
+    return sharp(pixels, { raw: { channels: 4, height: size, width: size } })
+      .png()
+      .toBuffer()
+  })()
+  return noiseTilePromise
+}
 
 function buildThumbnailSvg({
   pattern,
   preset,
   subtitle,
   title,
-  useNoise,
 }: {
   pattern: BackgroundPattern
   preset: Preset
   subtitle: string
   title: string
-  useNoise: boolean
 }): string {
   const titleLines = wrapText(title, 26, 3)
   const subtitleLines = wrapText(subtitle, 72, 2)
@@ -213,19 +271,12 @@ function buildThumbnailSvg({
   </g>`
       : ''
 
-  // Noise intentionally sits on top of everything so film-grain survives the
-  // lossy webp encoder; alpha is tuned to still read as "slight texture".
-  const noiseLayer = useNoise
-    ? `<rect width="${WIDTH}" height="${HEIGHT}" filter="url(#noise)" opacity="0.75"/>`
-    : ''
-
   const logoX = PADDING_X - 4
   const logoScale = logoSize / 96
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}">
   <defs>
-    <style type="text/css">@font-face{font-family:'Montserrat';font-style:normal;font-weight:100 900;src:url(${FONT_DATA_URI}) format('woff2');}</style>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="${preset.gradient[0]}"/>
       <stop offset="100%" stop-color="${preset.gradient[1]}"/>
@@ -233,16 +284,11 @@ function buildThumbnailSvg({
     <filter id="softBlur" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur stdDeviation="225"/>
     </filter>
-    <filter id="noise" x="0%" y="0%" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
-      <feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.3 0"/>
-    </filter>
   </defs>
   <rect width="${WIDTH}" height="${HEIGHT}" fill="url(#bg)"/>
   ${blobsLayer}
-  ${noiseLayer}
-  <text font-family="Montserrat, sans-serif" font-size="${titleFontSize}" font-weight="700" fill="${preset.textColor}" y="${titleFirstBaseline}" style="letter-spacing:-0.02em">${titleTspans}</text>
-  <text font-family="Montserrat, sans-serif" font-size="${subtitleFontSize}" font-weight="400" fill="${preset.subtitleColor}" y="${subtitleFirstBaseline}">${subtitleTspans}</text>
+  <text font-family="Montserrat" font-size="${titleFontSize}" font-weight="700" fill="${preset.textColor}" y="${titleFirstBaseline}">${titleTspans}</text>
+  <text font-family="Montserrat" font-size="${subtitleFontSize}" font-weight="400" fill="${preset.subtitleColor}" y="${subtitleFirstBaseline}">${subtitleTspans}</text>
   <g transform="translate(${logoX} ${logoY}) scale(${logoScale})">${LOGO_SVG_CONTENT}</g>
 </svg>`
 }
@@ -275,15 +321,29 @@ export async function generateThumbnail(req: PayloadRequest) {
   const pattern: BackgroundPattern = body.background?.pattern === 'gradient' ? 'gradient' : 'blobs'
   const preset = resolvePreset(body.background)
 
-  const svg = buildThumbnailSvg({ pattern, preset, subtitle, title, useNoise })
+  const svg = buildThumbnailSvg({ pattern, preset, subtitle, title })
 
   let buffer: Buffer
   try {
-    const pipeline = sharp(Buffer.from(svg))
+    const [fontPaths, noiseTile] = await Promise.all([
+      ensureFonts(),
+      useNoise ? getNoiseTile() : Promise.resolve(null),
+    ])
+    const basePng = new Resvg(svg, {
+      font: {
+        defaultFontFamily: 'Montserrat',
+        fontFiles: fontPaths,
+        loadSystemFonts: false,
+      },
+    })
+      .render()
+      .asPng()
+    let pipeline = sharp(basePng)
+    if (noiseTile) pipeline = pipeline.composite([{ blend: 'over', input: noiseTile, tile: true }])
     buffer =
       format === 'png'
         ? await pipeline.png({ compressionLevel: 9 }).toBuffer()
-        : await pipeline.webp({ quality: 92 }).toBuffer()
+        : await pipeline.webp({ quality: 95 }).toBuffer()
   } catch (error) {
     req.payload.logger.error({ err: error, msg: 'Failed to render thumbnail SVG' })
     return new Response('Failed to render thumbnail', { status: 500 })
