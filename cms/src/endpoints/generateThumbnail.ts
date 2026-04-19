@@ -1,8 +1,8 @@
 import type { PayloadRequest } from 'payload'
 
-import { readFileSync } from 'node:fs'
-import { createRequire } from 'node:module'
 import sharp from 'sharp'
+
+import { MONTSERRAT_LATIN_WGHT_NORMAL_WOFF2_BASE64 } from './montserratFont'
 
 type BackgroundPattern = 'blobs' | 'gradient'
 type BackgroundPresetName = 'blue' | 'dark' | 'purple' | 'sunset' | 'teal'
@@ -148,18 +148,12 @@ const LOGO_SVG_CONTENT = `
   <path d="M17.23 69.59C14.48 69.59 11.94 69.09 9.61 68.08C7.62 67.22 5.54 64.62 5.54 64.62L10.15 58.62C11.54 60 11.54 60 12.75 60.75C13.99 61.49 15.33 61.86 16.76 61.86C20.6 61.86 22.52 59.61 22.52 55.11V35.73H8.21V28.17H31.89V54.58C31.89 59.62 30.65 63.39 28.17 65.87C25.69 68.35 22.04 69.59 17.23 69.59Z" fill="white"/>
 `
 
-// Load the website's Montserrat Variable font once and embed it in every SVG
-// so sharp/librsvg renders with the same typeface the site uses.
-const require = createRequire(import.meta.url)
-let fontDataUri: null | string = null
-function getFontDataUri(): string {
-  if (fontDataUri) return fontDataUri
-  const fontPath = require.resolve(
-    '@fontsource-variable/montserrat/files/montserrat-latin-wght-normal.woff2',
-  )
-  fontDataUri = `data:font/woff2;base64,${readFileSync(fontPath).toString('base64')}`
-  return fontDataUri
-}
+// Embed the website's Montserrat Variable font directly in every SVG so
+// sharp/librsvg renders with the site's typeface. The font bytes are pulled
+// from a base64 constant rather than disk — Vercel's Next.js runtime doesn't
+// reliably trace node_modules font assets into the function bundle, which was
+// causing EBADF at runtime.
+const FONT_DATA_URI = `data:font/woff2;base64,${MONTSERRAT_LATIN_WGHT_NORMAL_WOFF2_BASE64}`
 
 function buildThumbnailSvg({
   pattern,
@@ -231,7 +225,7 @@ function buildThumbnailSvg({
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}">
   <defs>
-    <style type="text/css">@font-face{font-family:'Montserrat';font-style:normal;font-weight:100 900;src:url(${getFontDataUri()}) format('woff2');}</style>
+    <style type="text/css">@font-face{font-family:'Montserrat';font-style:normal;font-weight:100 900;src:url(${FONT_DATA_URI}) format('woff2');}</style>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="${preset.gradient[0]}"/>
       <stop offset="100%" stop-color="${preset.gradient[1]}"/>
