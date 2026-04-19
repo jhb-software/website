@@ -254,7 +254,7 @@ function buildThumbnailSvg({
 }
 
 /**
- * Generates a branded article thumbnail (1200×630 OG size), uploads it to the
+ * Generates a branded article thumbnail (1920×1080 16:9 HD), uploads it to the
  * `images` collection, and optionally sets it as the `image` of an article.
  *
  * Intended to be invoked by the content agent to speed up article creation.
