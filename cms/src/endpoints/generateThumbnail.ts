@@ -1,7 +1,10 @@
 import type { PayloadRequest } from 'payload'
 
+import { readFileSync } from 'node:fs'
+import { createRequire } from 'node:module'
 import sharp from 'sharp'
 
+type BackgroundPattern = 'blobs' | 'gradient'
 type BackgroundPresetName = 'blue' | 'dark' | 'purple' | 'sunset' | 'teal'
 
 type BackgroundInput = {
@@ -11,6 +14,12 @@ type BackgroundInput = {
   colors?: [string, string]
   /** Toggle the noisy film-grain overlay. Defaults to true. */
   noise?: boolean
+  /**
+   * Background pattern variant.
+   * - `blobs` (default): gradient + blurred colored blobs for a rich look
+   * - `gradient`: clean linear gradient, no blobs
+   */
+  pattern?: BackgroundPattern
   /** Named preset. Defaults to `blue` (brand). */
   preset?: BackgroundPresetName
 }
@@ -139,12 +148,27 @@ const LOGO_SVG_CONTENT = `
   <path d="M17.23 69.59C14.48 69.59 11.94 69.09 9.61 68.08C7.62 67.22 5.54 64.62 5.54 64.62L10.15 58.62C11.54 60 11.54 60 12.75 60.75C13.99 61.49 15.33 61.86 16.76 61.86C20.6 61.86 22.52 59.61 22.52 55.11V35.73H8.21V28.17H31.89V54.58C31.89 59.62 30.65 63.39 28.17 65.87C25.69 68.35 22.04 69.59 17.23 69.59Z" fill="white"/>
 `
 
+// Load the website's Montserrat Variable font once and embed it in every SVG
+// so sharp/librsvg renders with the same typeface the site uses.
+const require = createRequire(import.meta.url)
+let fontDataUri: null | string = null
+function getFontDataUri(): string {
+  if (fontDataUri) return fontDataUri
+  const fontPath = require.resolve(
+    '@fontsource-variable/montserrat/files/montserrat-latin-wght-normal.woff2',
+  )
+  fontDataUri = `data:font/woff2;base64,${readFileSync(fontPath).toString('base64')}`
+  return fontDataUri
+}
+
 function buildThumbnailSvg({
+  pattern,
   preset,
   subtitle,
   title,
   useNoise,
 }: {
+  pattern: BackgroundPattern
   preset: Preset
   subtitle: string
   title: string
@@ -158,9 +182,18 @@ function buildThumbnailSvg({
   const subtitleFontSize = 30
   const subtitleLineHeight = Math.round(subtitleFontSize * 1.3)
 
-  const textBlockHeight =
-    titleLines.length * titleLineHeight + 28 + subtitleLines.length * subtitleLineHeight
-  const textStartY = Math.round((HEIGHT - textBlockHeight) / 2) + titleFontSize
+  // Anchor text from the bottom: keep a generous gap between the subtitle and
+  // the logo regardless of how many lines the subtitle/title wrap to.
+  const logoSize = 72
+  const logoBottomMargin = 56
+  const logoY = HEIGHT - logoSize - logoBottomMargin
+  const subtitleToLogoGap = 96
+  const titleToSubtitleGap = 36
+
+  const subtitleFirstBaseline =
+    logoY - subtitleToLogoGap - (subtitleLines.length - 1) * subtitleLineHeight
+  const titleLastBaseline = subtitleFirstBaseline - subtitleFontSize - titleToSubtitleGap
+  const titleFirstBaseline = titleLastBaseline - (titleLines.length - 1) * titleLineHeight
 
   const titleTspans = titleLines
     .map(
@@ -176,20 +209,29 @@ function buildThumbnailSvg({
     )
     .join('')
 
-  const subtitleY = textStartY + titleLines.length * titleLineHeight + 16
+  const blobsLayer =
+    pattern === 'blobs'
+      ? `<g filter="url(#softBlur)">
+    <circle cx="180" cy="140" r="260" fill="${preset.accents[0]}" opacity="0.75"/>
+    <circle cx="1030" cy="480" r="320" fill="${preset.accents[1]}" opacity="0.65"/>
+    <circle cx="720" cy="80" r="180" fill="${preset.accents[0]}" opacity="0.45"/>
+    <circle cx="520" cy="560" r="220" fill="${preset.accents[1]}" opacity="0.35"/>
+  </g>`
+      : ''
 
+  // Noise intentionally sits on top of everything so film-grain survives the
+  // lossy webp encoder; alpha is tuned to still read as "slight texture".
   const noiseLayer = useNoise
-    ? `<rect width="${WIDTH}" height="${HEIGHT}" filter="url(#noise)" opacity="0.55"/>`
+    ? `<rect width="${WIDTH}" height="${HEIGHT}" filter="url(#noise)" opacity="0.75"/>`
     : ''
 
-  const logoSize = 72
   const logoX = PADDING_X - 4
-  const logoY = HEIGHT - logoSize - 56
   const logoScale = logoSize / 96
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}">
   <defs>
+    <style type="text/css">@font-face{font-family:'Montserrat';font-style:normal;font-weight:100 900;src:url(${getFontDataUri()}) format('woff2');}</style>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="${preset.gradient[0]}"/>
       <stop offset="100%" stop-color="${preset.gradient[1]}"/>
@@ -198,20 +240,15 @@ function buildThumbnailSvg({
       <feGaussianBlur stdDeviation="140"/>
     </filter>
     <filter id="noise" x="0%" y="0%" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
-      <feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.2 0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.32 0"/>
     </filter>
   </defs>
   <rect width="${WIDTH}" height="${HEIGHT}" fill="url(#bg)"/>
-  <g filter="url(#softBlur)">
-    <circle cx="180" cy="140" r="260" fill="${preset.accents[0]}" opacity="0.75"/>
-    <circle cx="1030" cy="480" r="320" fill="${preset.accents[1]}" opacity="0.65"/>
-    <circle cx="720" cy="80" r="180" fill="${preset.accents[0]}" opacity="0.45"/>
-    <circle cx="520" cy="560" r="220" fill="${preset.accents[1]}" opacity="0.35"/>
-  </g>
+  ${blobsLayer}
   ${noiseLayer}
-  <text font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="${titleFontSize}" font-weight="700" fill="${preset.textColor}" y="${textStartY}" style="letter-spacing:-0.02em">${titleTspans}</text>
-  <text font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="${subtitleFontSize}" font-weight="400" fill="${preset.subtitleColor}" y="${subtitleY}">${subtitleTspans}</text>
+  <text font-family="Montserrat, sans-serif" font-size="${titleFontSize}" font-weight="700" fill="${preset.textColor}" y="${titleFirstBaseline}" style="letter-spacing:-0.02em">${titleTspans}</text>
+  <text font-family="Montserrat, sans-serif" font-size="${subtitleFontSize}" font-weight="400" fill="${preset.subtitleColor}" y="${subtitleFirstBaseline}">${subtitleTspans}</text>
   <g transform="translate(${logoX} ${logoY}) scale(${logoScale})">${LOGO_SVG_CONTENT}</g>
 </svg>`
 }
@@ -241,9 +278,10 @@ export async function generateThumbnail(req: PayloadRequest) {
 
   const format: 'png' | 'webp' = body.format === 'png' ? 'png' : 'webp'
   const useNoise = body.background?.noise !== false
+  const pattern: BackgroundPattern = body.background?.pattern === 'gradient' ? 'gradient' : 'blobs'
   const preset = resolvePreset(body.background)
 
-  const svg = buildThumbnailSvg({ preset, subtitle, title, useNoise })
+  const svg = buildThumbnailSvg({ pattern, preset, subtitle, title, useNoise })
 
   let buffer: Buffer
   try {

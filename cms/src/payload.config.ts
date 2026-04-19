@@ -202,7 +202,7 @@ export default buildConfig({
     {
       custom: {
         description:
-          'Generate a branded 1200x630 article thumbnail with gradient + blurred accent blobs, optional noise overlay, title, subtitle and the JHB logo in the bottom-left. The image is uploaded to the `images` collection and (if `articleId` is provided) set as the article`s `image`. Body: { title: string, subtitle: string, background?: { preset?: "blue"|"purple"|"dark"|"teal"|"sunset", colors?: [hex, hex], accents?: [hex, hex], noise?: boolean }, format?: "webp"|"png", articleId?: string }. Returns: { id, url, filename, linkedToArticle }.',
+          'Generate a branded 1200x630 article thumbnail (Montserrat typeface, matching the website) with title, subtitle and the JHB logo in the bottom-left. Backgrounds come as either `blobs` (gradient with blurred accent colors) or `gradient` (plain linear gradient), with an optional film-grain noise overlay. The image is uploaded to the `images` collection and (if `articleId` is provided) set as the article`s `image`. Body: { title: string, subtitle: string, background?: { preset?: "blue"|"purple"|"dark"|"teal"|"sunset", pattern?: "blobs"|"gradient", colors?: [hex, hex], accents?: [hex, hex], noise?: boolean }, format?: "webp"|"png", articleId?: string }. Returns: { id, url, filename, linkedToArticle }.',
       },
       handler: generateThumbnail,
       method: 'post',
