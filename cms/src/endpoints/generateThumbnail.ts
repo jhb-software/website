@@ -74,9 +74,9 @@ const PRESETS: Record<BackgroundPresetName, Preset> = {
   },
 }
 
-const WIDTH = 1200
-const HEIGHT = 630
-const PADDING_X = 80
+const WIDTH = 1920
+const HEIGHT = 1080
+const PADDING_X = 128
 
 const HEX_REGEX = /^#(?:[0-9a-fA-F]{3}){1,2}$/
 
@@ -174,21 +174,21 @@ function buildThumbnailSvg({
   title: string
   useNoise: boolean
 }): string {
-  const titleLines = wrapText(title, 24, 3)
-  const subtitleLines = wrapText(subtitle, 60, 2)
+  const titleLines = wrapText(title, 26, 3)
+  const subtitleLines = wrapText(subtitle, 72, 2)
 
-  const titleFontSize = titleLines.length > 2 ? 60 : 72
+  const titleFontSize = titleLines.length > 2 ? 96 : 116
   const titleLineHeight = Math.round(titleFontSize * 1.15)
-  const subtitleFontSize = 30
+  const subtitleFontSize = 46
   const subtitleLineHeight = Math.round(subtitleFontSize * 1.3)
 
   // Anchor text from the bottom: keep a generous gap between the subtitle and
   // the logo regardless of how many lines the subtitle/title wrap to.
-  const logoSize = 72
-  const logoBottomMargin = 56
+  const logoSize = 112
+  const logoBottomMargin = 88
   const logoY = HEIGHT - logoSize - logoBottomMargin
-  const subtitleToLogoGap = 96
-  const titleToSubtitleGap = 36
+  const subtitleToLogoGap = 148
+  const titleToSubtitleGap = 56
 
   const subtitleFirstBaseline =
     logoY - subtitleToLogoGap - (subtitleLines.length - 1) * subtitleLineHeight
@@ -212,10 +212,10 @@ function buildThumbnailSvg({
   const blobsLayer =
     pattern === 'blobs'
       ? `<g filter="url(#softBlur)">
-    <circle cx="180" cy="140" r="260" fill="${preset.accents[0]}" opacity="0.75"/>
-    <circle cx="1030" cy="480" r="320" fill="${preset.accents[1]}" opacity="0.65"/>
-    <circle cx="720" cy="80" r="180" fill="${preset.accents[0]}" opacity="0.45"/>
-    <circle cx="520" cy="560" r="220" fill="${preset.accents[1]}" opacity="0.35"/>
+    <circle cx="290" cy="240" r="420" fill="${preset.accents[0]}" opacity="0.75"/>
+    <circle cx="1650" cy="820" r="520" fill="${preset.accents[1]}" opacity="0.65"/>
+    <circle cx="1150" cy="140" r="290" fill="${preset.accents[0]}" opacity="0.45"/>
+    <circle cx="830" cy="960" r="360" fill="${preset.accents[1]}" opacity="0.35"/>
   </g>`
       : ''
 
@@ -237,11 +237,11 @@ function buildThumbnailSvg({
       <stop offset="100%" stop-color="${preset.gradient[1]}"/>
     </linearGradient>
     <filter id="softBlur" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="140"/>
+      <feGaussianBlur stdDeviation="225"/>
     </filter>
     <filter id="noise" x="0%" y="0%" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/>
-      <feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.32 0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.3 0"/>
     </filter>
   </defs>
   <rect width="${WIDTH}" height="${HEIGHT}" fill="url(#bg)"/>
