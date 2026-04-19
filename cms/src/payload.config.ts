@@ -1,4 +1,5 @@
 import { createAnthropic } from '@ai-sdk/anthropic'
+import { createOpenAI } from '@ai-sdk/openai'
 import { adminSearchPlugin } from '@jhb.software/payload-admin-search'
 import {
   openAIResolver as altTextOpenAIResolver,
@@ -459,10 +460,14 @@ export default buildConfig({
       availableModels: [
         { id: 'claude-haiku-4-5', label: 'Claude Haiku 4.5' },
         { id: 'claude-sonnet-4-5', label: 'Claude Sonnet 4.5' },
+        { id: 'gpt-5-mini', label: 'GPT-5 mini' },
       ],
       budget: chatBudget,
       defaultModel: 'claude-haiku-4-5',
-      model: (id) => createAnthropic({ apiKey: process.env.ANTHROPIC_API_KEY })(id),
+      model: (id) =>
+        id.startsWith('gpt-')
+          ? createOpenAI({ apiKey: process.env.OPENAI_API_KEY })(id)
+          : createAnthropic({ apiKey: process.env.ANTHROPIC_API_KEY })(id),
     }),
   ],
 })
