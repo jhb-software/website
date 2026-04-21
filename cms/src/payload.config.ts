@@ -73,6 +73,9 @@ const { budget: chatBudget, collection: chatTokenUsageCollection } = createPaylo
   scope: 'user',
 })
 
+const openai = createOpenAI({ apiKey: process.env.OPENAI_API_KEY })
+const anthropicClient = createAnthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+
 export const collections: CollectionConfig[] = [
   // Pages Collections
   Pages,
@@ -536,10 +539,7 @@ export default buildConfig({
       ],
       budget: chatBudget,
       defaultModel: 'claude-haiku-4-5',
-      model: (id) =>
-        id.startsWith('gpt-')
-          ? createOpenAI({ apiKey: process.env.OPENAI_API_KEY })(id)
-          : createAnthropic({ apiKey: process.env.ANTHROPIC_API_KEY })(id),
+      model: (id) => (id.startsWith('gpt-') ? openai(id) : anthropicClient(id)),
       tools: ({ defaultTools }) => ({
         ...defaultTools,
         webFetch: anthropic.tools.webFetch_20250910({ maxUses: 5 }),
