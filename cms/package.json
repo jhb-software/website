@@ -19,7 +19,7 @@
     "@ai-sdk/anthropic": "^3.0.71",
     "@jhb.software/payload-admin-search": "^0.2.1",
     "@jhb.software/payload-alt-text-plugin": "^0.4.4",
-    "@jhb.software/payload-chat-agent": "0.1.0-beta.3",
+    "@jhb.software/payload-chat-agent": "0.1.0-beta.4",
     "@jhb.software/payload-content-translator-plugin": "^0.1.2",
     "@jhb.software/payload-pages-plugin": "0.6.0",
     "@jhb.software/payload-vercel-deployments": "^0.2.1",
@@ -48,7 +48,7 @@
     "react-dom": "19.2.3",
     "sharp": "^0.34.5",
     "tailwindcss": "^4.1.17",
-    "zod": "^4.1.12"
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",

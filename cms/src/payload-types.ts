@@ -101,9 +101,9 @@ export interface Config {
     redirects: Redirect;
     users: User;
     'api-keys': ApiKey;
-    'chat-token-usage': ChatTokenUsage;
+    'agent-token-usage': AgentTokenUsage;
     search: Search;
-    'chat-conversations': ChatConversation;
+    'agent-conversations': AgentConversation;
     'payload-mcp-api-keys': PayloadMcpApiKey;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -128,9 +128,9 @@ export interface Config {
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'api-keys': ApiKeysSelect<false> | ApiKeysSelect<true>;
-    'chat-token-usage': ChatTokenUsageSelect<false> | ChatTokenUsageSelect<true>;
+    'agent-token-usage': AgentTokenUsageSelect<false> | AgentTokenUsageSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
-    'chat-conversations': ChatConversationsSelect<false> | ChatConversationsSelect<true>;
+    'agent-conversations': AgentConversationsSelect<false> | AgentConversationsSelect<true>;
     'payload-mcp-api-keys': PayloadMcpApiKeysSelect<false> | PayloadMcpApiKeysSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -782,9 +782,9 @@ export interface ApiKey {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "chat-token-usage".
+ * via the `definition` "agent-token-usage".
  */
-export interface ChatTokenUsage {
+export interface AgentTokenUsage {
   id: string;
   scope: string;
   period: string;
@@ -851,17 +851,17 @@ export interface Search {
         value: string | ApiKey;
       }
     | {
-        relationTo: 'chat-token-usage';
-        value: string | ChatTokenUsage;
+        relationTo: 'agent-token-usage';
+        value: string | AgentTokenUsage;
       };
   updatedAt: string;
   createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "chat-conversations".
+ * via the `definition` "agent-conversations".
  */
-export interface ChatConversation {
+export interface AgentConversation {
   id: string;
   title: string;
   messages:
@@ -1150,16 +1150,16 @@ export interface PayloadLockedDocument {
         value: string | ApiKey;
       } | null)
     | ({
-        relationTo: 'chat-token-usage';
-        value: string | ChatTokenUsage;
+        relationTo: 'agent-token-usage';
+        value: string | AgentTokenUsage;
       } | null)
     | ({
         relationTo: 'search';
         value: string | Search;
       } | null)
     | ({
-        relationTo: 'chat-conversations';
-        value: string | ChatConversation;
+        relationTo: 'agent-conversations';
+        value: string | AgentConversation;
       } | null)
     | ({
         relationTo: 'payload-mcp-api-keys';
@@ -1740,9 +1740,9 @@ export interface ApiKeysSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "chat-token-usage_select".
+ * via the `definition` "agent-token-usage_select".
  */
-export interface ChatTokenUsageSelect<T extends boolean = true> {
+export interface AgentTokenUsageSelect<T extends boolean = true> {
   scope?: T;
   period?: T;
   model?: T;
@@ -1765,9 +1765,9 @@ export interface SearchSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "chat-conversations_select".
+ * via the `definition` "agent-conversations_select".
  */
-export interface ChatConversationsSelect<T extends boolean = true> {
+export interface AgentConversationsSelect<T extends boolean = true> {
   title?: T;
   messages?: T;
   user?: T;

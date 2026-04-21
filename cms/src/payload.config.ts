@@ -1,4 +1,4 @@
-import { createAnthropic } from '@ai-sdk/anthropic'
+import { anthropic, createAnthropic } from '@ai-sdk/anthropic'
 import { adminSearchPlugin } from '@jhb.software/payload-admin-search'
 import {
   openAIResolver as altTextOpenAIResolver,
@@ -202,7 +202,36 @@ export default buildConfig({
     {
       custom: {
         description:
-          'Generate a branded 1920x1080 article thumbnail (Montserrat typeface, matching the website) with title, subtitle and the JHB logo in the bottom-left. Backgrounds come as either `blobs` (gradient with blurred accent colors) or `gradient` (plain linear gradient), with an optional film-grain noise overlay. The image is uploaded to the `images` collection and (if `articleId` is provided) set as the article`s `image`. Body: { title: string, subtitle: string, background?: { preset?: "blue"|"purple"|"dark"|"teal"|"sunset", pattern?: "blobs"|"gradient", colors?: [hex, hex], accents?: [hex, hex], noise?: boolean }, format?: "webp"|"png", articleId?: string }. Returns: { id, url, filename, linkedToArticle }.',
+          'Generate a branded 1920x1080 article thumbnail (Montserrat typeface, matching the website) with title, subtitle and the JHB logo in the bottom-left. Backgrounds come as either `blobs` (gradient with blurred accent colors) or `gradient` (plain linear gradient), with an optional film-grain noise overlay. The image is uploaded to the `images` collection and (if `articleId` is provided) set as the article`s `image`.',
+        schema: {
+          body: {
+            articleId: { required: false, type: 'string' },
+            background: {
+              properties: {
+                accents: { items: { type: 'string' }, required: false, type: 'array' },
+                colors: { items: { type: 'string' }, required: false, type: 'array' },
+                noise: { required: false, type: 'boolean' },
+                pattern: { enum: ['blobs', 'gradient'], required: false, type: 'string' },
+                preset: {
+                  enum: ['blue', 'purple', 'dark', 'teal', 'sunset'],
+                  required: false,
+                  type: 'string',
+                },
+              },
+              required: false,
+              type: 'object',
+            },
+            format: { enum: ['webp', 'png'], required: false, type: 'string' },
+            subtitle: { required: true, type: 'string' },
+            title: { required: true, type: 'string' },
+          },
+          response: {
+            filename: { type: 'string' },
+            id: { type: 'string' },
+            linkedToArticle: { nullable: true, type: 'string' },
+            url: { type: 'string' },
+          },
+        },
       },
       handler: generateThumbnail,
       method: 'post',
@@ -426,32 +455,75 @@ export default buildConfig({
       interfaceName: 'SeoMetadata',
       uploadsCollection: 'images',
     }),
-    // Adds `custom.description` to endpoints registered by other plugins so the
-    // chat agent's `callEndpoint` tool can discover them. Must run before
-    // chatAgentPlugin and after the plugins whose endpoints are described.
+    // Adds `custom.description` and `custom.schema` to endpoints registered by
+    // other plugins so the chat agent's `callEndpoint` tool can discover them
+    // and construct valid calls. Must run before chatAgentPlugin and after the
+    // plugins whose endpoints are described.
     // TODO: update the plugins to add descriptions and release new versions
     (config) => ({
       ...config,
       endpoints: (config.endpoints ?? []).map((endpoint) => {
         const key = `${endpoint.method?.toUpperCase()} ${endpoint.path}`
-        const descriptions: Record<string, string> = {
-          'GET /alt-text-plugin/health':
-            'Get alt-text coverage health: total images vs. images missing alt text per locale.',
-          'GET /vercel-deployments':
-            'List recent Vercel deployments of the frontend project with status and timestamps.',
-          'POST /alt-text-plugin/generate':
-            'Generate an AI alt text for a single image. Body: { id: string, locale?: string, keywords?: string }.',
-          'POST /alt-text-plugin/generate/bulk':
-            'Bulk-generate AI alt texts for multiple images. Body: { ids: string[], locale?: string }.',
-          'POST /translator/translate':
-            'Translate a document or global from the default locale to another locale using AI. Body: { collection?: string, global?: string, id?: string, sourceLocale: string, targetLocale: string }.',
-          'POST /vercel-deployments': 'Trigger a new Vercel deployment of the frontend project.',
+        const endpointMeta: Record<
+          string,
+          {
+            description: string
+            schema?: {
+              body?: Record<string, unknown>
+              query?: Record<string, unknown>
+              response?: Record<string, unknown>
+            }
+          }
+        > = {
+          'GET /alt-text-plugin/health': {
+            description:
+              'Get alt-text coverage health: total images vs. images missing alt text per locale.',
+          },
+          'GET /vercel-deployments': {
+            description:
+              'List recent Vercel deployments of the frontend project with status and timestamps.',
+          },
+          'POST /alt-text-plugin/generate': {
+            description: 'Generate an AI alt text for a single image.',
+            schema: {
+              body: {
+                id: { required: true, type: 'string' },
+                keywords: { required: false, type: 'string' },
+                locale: { required: false, type: 'string' },
+              },
+            },
+          },
+          'POST /alt-text-plugin/generate/bulk': {
+            description: 'Bulk-generate AI alt texts for multiple images.',
+            schema: {
+              body: {
+                ids: { items: { type: 'string' }, required: true, type: 'array' },
+                locale: { required: false, type: 'string' },
+              },
+            },
+          },
+          'POST /translator/translate': {
+            description:
+              'Translate a document or global from the default locale to another locale using AI.',
+            schema: {
+              body: {
+                collection: { required: false, type: 'string' },
+                global: { required: false, type: 'string' },
+                id: { required: false, type: 'string' },
+                sourceLocale: { required: true, type: 'string' },
+                targetLocale: { required: true, type: 'string' },
+              },
+            },
+          },
+          'POST /vercel-deployments': {
+            description: 'Trigger a new Vercel deployment of the frontend project.',
+          },
         }
-        const description = descriptions[key]
-        if (!description) return endpoint
+        const meta = endpointMeta[key]
+        if (!meta) return endpoint
         return {
           ...endpoint,
-          custom: { ...(endpoint.custom ?? {}), description },
+          custom: { ...(endpoint.custom ?? {}), ...meta },
         }
       }),
     }),
@@ -463,6 +535,11 @@ export default buildConfig({
       budget: chatBudget,
       defaultModel: 'claude-haiku-4-5',
       model: (id) => createAnthropic({ apiKey: process.env.ANTHROPIC_API_KEY })(id),
+      tools: ({ defaultTools }) => ({
+        ...defaultTools,
+        webFetch: anthropic.tools.webFetch_20250910({ maxUses: 5 }),
+        webSearch: anthropic.tools.webSearch_20250305({ maxUses: 5 }),
+      }),
     }),
   ],
 })
