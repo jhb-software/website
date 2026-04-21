@@ -1,4 +1,5 @@
 import { anthropic, createAnthropic } from '@ai-sdk/anthropic'
+import { createOpenAI } from '@ai-sdk/openai'
 import { adminSearchPlugin } from '@jhb.software/payload-admin-search'
 import {
   openAIResolver as altTextOpenAIResolver,
@@ -71,6 +72,9 @@ const { budget: chatBudget, collection: chatTokenUsageCollection } = createPaylo
   period: 'daily',
   scope: 'user',
 })
+
+const openai = createOpenAI({ apiKey: process.env.OPENAI_API_KEY })
+const anthropicClient = createAnthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
 export const collections: CollectionConfig[] = [
   // Pages Collections
@@ -531,10 +535,11 @@ export default buildConfig({
       availableModels: [
         { id: 'claude-haiku-4-5', label: 'Claude Haiku 4.5' },
         { id: 'claude-sonnet-4-5', label: 'Claude Sonnet 4.5' },
+        { id: 'gpt-5-mini', label: 'GPT-5 mini' },
       ],
       budget: chatBudget,
       defaultModel: 'claude-haiku-4-5',
-      model: (id) => createAnthropic({ apiKey: process.env.ANTHROPIC_API_KEY })(id),
+      model: (id) => (id.startsWith('gpt-') ? openai(id) : anthropicClient(id)),
       tools: ({ defaultTools }) => ({
         ...defaultTools,
         webFetch: anthropic.tools.webFetch_20250910({ maxUses: 5 }),
