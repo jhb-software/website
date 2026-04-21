@@ -399,6 +399,7 @@ export async function generateThumbnail(req: PayloadRequest) {
         draft: true,
         id: body.articleId,
         req,
+        select: { _status: true },
       })
 
       await req.payload.update({
