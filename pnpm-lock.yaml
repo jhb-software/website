@@ -19,10 +19,10 @@ importers:
     dependencies:
       '@ai-sdk/anthropic':
         specifier: ^3.0.71
-        version: 3.0.71(zod@4.1.12)
+        version: 3.0.71(zod@4.3.6)
       '@ai-sdk/openai':
         specifier: ^3.0.53
-        version: 3.0.53(zod@4.1.12)
+        version: 3.0.53(zod@4.3.6)
       '@jhb.software/payload-admin-search':
         specifier: ^0.2.1
         version: 0.2.1(@payloadcms/translations@3.83.0)(@payloadcms/ui@3.83.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.83.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.83.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -30,8 +30,8 @@ importers:
         specifier: ^0.4.4
         version: 0.4.4(@payloadcms/translations@3.83.0)(@payloadcms/ui@3.83.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.83.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.83.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(ws@8.18.3)
       '@jhb.software/payload-chat-agent':
-        specifier: 0.1.0-beta.3
-        version: 0.1.0-beta.3(@payloadcms/next@3.83.0(@types/react@19.2.4)(graphql@16.12.0)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.83.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(@payloadcms/ui@3.83.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.83.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(@types/react@19.2.4)(next@16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.83.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        specifier: 0.1.0-beta.4
+        version: 0.1.0-beta.4(@payloadcms/next@3.83.0(@types/react@19.2.4)(graphql@16.12.0)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.83.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(@payloadcms/ui@3.83.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.83.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(@types/react@19.2.4)(next@16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.83.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@jhb.software/payload-content-translator-plugin':
         specifier: ^0.1.2
         version: 0.1.2(@payloadcms/translations@3.83.0)(@payloadcms/ui@3.83.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.83.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(next@16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.83.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -94,7 +94,7 @@ importers:
         version: 16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4)
       openai:
         specifier: ^6.8.1
-        version: 6.8.1(ws@8.18.3)(zod@4.1.12)
+        version: 6.8.1(ws@8.18.3)(zod@4.3.6)
       p-map:
         specifier: ^7.0.4
         version: 7.0.4
@@ -117,8 +117,8 @@ importers:
         specifier: ^4.1.17
         version: 4.1.17
       zod:
-        specifier: ^4.1.12
-        version: 4.1.12
+        specifier: ^4.3.6
+        version: 4.3.6
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3.3.1
@@ -1352,16 +1352,16 @@ packages:
       react: 19.2.4
       react-dom: 19.2.4
 
-  '@jhb.software/payload-chat-agent@0.1.0-beta.3':
-    resolution: {integrity: sha512-IQ0vC8SPd8fKo5EETl10gzJ87VzbHn7EOfHpHgDcy6SqXLXxODQA7NqCcQE6n7LCkfgbQoNKy5JuMXqf0+MsVw==}
+  '@jhb.software/payload-chat-agent@0.1.0-beta.4':
+    resolution: {integrity: sha512-4ChAl2I5VsRBewB+sXSlz9WdDmwvOSamd930YJ7Evkbmx5T4Gxk4Vu6Y4mVeVjGwGtMRVTbUiK/WqrwQpduldQ==}
     engines: {node: ^18.20.2 || >=20.9.0}
     peerDependencies:
-      '@payloadcms/next': ^3.81.0
-      '@payloadcms/ui': ^3.81.0
+      '@payloadcms/next': ^3.83.0
+      '@payloadcms/ui': ^3.83.0
       next: 15.4.11
-      payload: ^3.81.0
-      react: 19.2.4
-      react-dom: 19.2.4
+      payload: ^3.83.0
+      react: 19.2.5
+      react-dom: 19.2.5
 
   '@jhb.software/payload-content-translator-plugin@0.1.2':
     resolution: {integrity: sha512-eUEw1vfYUb/s3igqf3GYvzJmoIMcv8K23ObJFauJ94EwmDykAhoRVpNz/TfjyjTdIpa3l24Teyk/+FOJgigspQ==}
@@ -6676,9 +6676,6 @@ packages:
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
-  zod@4.1.12:
-    resolution: {integrity: sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ==}
-
   zod@4.3.6:
     resolution: {integrity: sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==}
 
@@ -6687,47 +6684,40 @@ packages:
 
 snapshots:
 
-  '@ai-sdk/anthropic@3.0.71(zod@4.1.12)':
+  '@ai-sdk/anthropic@3.0.71(zod@4.3.6)':
     dependencies:
       '@ai-sdk/provider': 3.0.8
-      '@ai-sdk/provider-utils': 4.0.23(zod@4.1.12)
-      zod: 4.1.12
+      '@ai-sdk/provider-utils': 4.0.23(zod@4.3.6)
+      zod: 4.3.6
 
-  '@ai-sdk/gateway@3.0.104(zod@3.25.76)':
+  '@ai-sdk/gateway@3.0.104(zod@4.3.6)':
     dependencies:
       '@ai-sdk/provider': 3.0.8
-      '@ai-sdk/provider-utils': 4.0.23(zod@3.25.76)
+      '@ai-sdk/provider-utils': 4.0.23(zod@4.3.6)
       '@vercel/oidc': 3.2.0
-      zod: 3.25.76
+      zod: 4.3.6
 
-  '@ai-sdk/openai@3.0.53(zod@4.1.12)':
+  '@ai-sdk/openai@3.0.53(zod@4.3.6)':
     dependencies:
       '@ai-sdk/provider': 3.0.8
-      '@ai-sdk/provider-utils': 4.0.23(zod@4.1.12)
-      zod: 4.1.12
+      '@ai-sdk/provider-utils': 4.0.23(zod@4.3.6)
+      zod: 4.3.6
 
-  '@ai-sdk/provider-utils@4.0.23(zod@3.25.76)':
-    dependencies:
-      '@ai-sdk/provider': 3.0.8
-      '@standard-schema/spec': 1.1.0
-      eventsource-parser: 3.0.6
-      zod: 3.25.76
-
-  '@ai-sdk/provider-utils@4.0.23(zod@4.1.12)':
+  '@ai-sdk/provider-utils@4.0.23(zod@4.3.6)':
     dependencies:
       '@ai-sdk/provider': 3.0.8
       '@standard-schema/spec': 1.1.0
       eventsource-parser: 3.0.6
-      zod: 4.1.12
+      zod: 4.3.6
 
   '@ai-sdk/provider@3.0.8':
     dependencies:
       json-schema: 0.4.0
 
-  '@ai-sdk/react@3.0.170(react@19.2.3)(zod@3.25.76)':
+  '@ai-sdk/react@3.0.170(react@19.2.3)(zod@4.3.6)':
     dependencies:
-      '@ai-sdk/provider-utils': 4.0.23(zod@3.25.76)
-      ai: 6.0.168(zod@3.25.76)
+      '@ai-sdk/provider-utils': 4.0.23(zod@4.3.6)
+      ai: 6.0.168(zod@4.3.6)
       react: 19.2.3
       swr: 2.4.1(react@19.2.3)
       throttleit: 2.1.0
@@ -8052,19 +8042,19 @@ snapshots:
     transitivePeerDependencies:
       - ws
 
-  '@jhb.software/payload-chat-agent@0.1.0-beta.3(@payloadcms/next@3.83.0(@types/react@19.2.4)(graphql@16.12.0)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.83.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(@payloadcms/ui@3.83.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.83.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(@types/react@19.2.4)(next@16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.83.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+  '@jhb.software/payload-chat-agent@0.1.0-beta.4(@payloadcms/next@3.83.0(@types/react@19.2.4)(graphql@16.12.0)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.83.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(@payloadcms/ui@3.83.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.83.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(@types/react@19.2.4)(next@16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.83.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
     dependencies:
-      '@ai-sdk/react': 3.0.170(react@19.2.3)(zod@3.25.76)
+      '@ai-sdk/react': 3.0.170(react@19.2.3)(zod@4.3.6)
       '@payloadcms/next': 3.83.0(@types/react@19.2.4)(graphql@16.12.0)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.83.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3)
       '@payloadcms/ui': 3.83.0(@types/react@19.2.4)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.83.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3)
-      ai: 6.0.168(zod@3.25.76)
+      ai: 6.0.168(zod@4.3.6)
       next: 16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4)
       payload: 3.83.0(graphql@16.12.0)(typescript@5.9.3)
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
       react-markdown: 10.1.0(@types/react@19.2.4)(react@19.2.3)
       remark-gfm: 4.0.1
-      zod: 3.25.76
+      zod: 4.3.6
     transitivePeerDependencies:
       - '@types/react'
       - supports-color
@@ -9829,13 +9819,13 @@ snapshots:
 
   agent-base@7.1.3: {}
 
-  ai@6.0.168(zod@3.25.76):
+  ai@6.0.168(zod@4.3.6):
     dependencies:
-      '@ai-sdk/gateway': 3.0.104(zod@3.25.76)
+      '@ai-sdk/gateway': 3.0.104(zod@4.3.6)
       '@ai-sdk/provider': 3.0.8
-      '@ai-sdk/provider-utils': 4.0.23(zod@3.25.76)
+      '@ai-sdk/provider-utils': 4.0.23(zod@4.3.6)
       '@opentelemetry/api': 1.9.0
-      zod: 3.25.76
+      zod: 4.3.6
 
   ajv-formats@3.0.1(ajv@8.18.0):
     optionalDependencies:
@@ -12669,10 +12659,10 @@ snapshots:
       ws: 8.18.3
       zod: 4.3.6
 
-  openai@6.8.1(ws@8.18.3)(zod@4.1.12):
+  openai@6.8.1(ws@8.18.3)(zod@4.3.6):
     optionalDependencies:
       ws: 8.18.3
-      zod: 4.1.12
+      zod: 4.3.6
 
   optionator@0.9.4:
     dependencies:
@@ -14369,8 +14359,6 @@ snapshots:
       zod: 4.3.6
 
   zod@3.25.76: {}
-
-  zod@4.1.12: {}
 
   zod@4.3.6: {}
 

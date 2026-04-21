@@ -106,25 +106,38 @@ function escapeXml(str: string): string {
 
 function wrapText(text: string, maxCharsPerLine: number, maxLines: number): string[] {
   const words = text.trim().split(/\s+/)
-  const lines: string[] = []
+  const allLines: string[] = []
   let current = ''
   for (const word of words) {
     const trial = current ? `${current} ${word}` : word
     if (trial.length > maxCharsPerLine && current) {
-      lines.push(current)
+      allLines.push(current)
       current = word
-      if (lines.length === maxLines - 1) break
     } else {
       current = trial
     }
   }
-  if (current && lines.length < maxLines) lines.push(current)
-  // If we truncated, append ellipsis to last line.
-  const joined = lines.join(' ')
-  if (joined.length < text.length) {
-    lines[lines.length - 1] = `${lines[lines.length - 1]!.replace(/[.,;:!?]+$/, '')}…`
+  if (current) allLines.push(current)
+
+  if (allLines.length <= maxLines) return allLines
+
+  // Title is longer than maxLines — keep the first (maxLines - 1) lines and
+  // fit as many of the remaining words as possible on the last line, followed
+  // by an ellipsis.
+  const result = allLines.slice(0, maxLines - 1)
+  const remainingWords = allLines
+    .slice(maxLines - 1)
+    .join(' ')
+    .split(/\s+/)
+  const ellipsisBudget = 1 // leave room for the trailing "…"
+  let last = ''
+  for (const word of remainingWords) {
+    const trial = last ? `${last} ${word}` : word
+    if (trial.length + ellipsisBudget > maxCharsPerLine && last) break
+    last = trial
   }
-  return lines
+  result.push(`${last.replace(/[.,;:!?]+$/, '')}…`)
+  return result
 }
 
 // Scaled-down inline of /web/public/icon.svg — the brand mark.
