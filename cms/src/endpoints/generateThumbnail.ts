@@ -339,6 +339,31 @@ export async function generateThumbnail(req: PayloadRequest) {
   const pattern: BackgroundPattern = body.background?.pattern === 'gradient' ? 'gradient' : 'blobs'
   const preset = resolvePreset(body.background)
 
+  // Resolve the target article before rendering so bad IDs fail fast with 404
+  // and don't leave an orphan thumbnail behind. `_status` drives the draft-aware
+  // update further down.
+  let articleStatus: 'draft' | 'published' | undefined
+  if (body.articleId) {
+    try {
+      const existing = await req.payload.findByID({
+        collection: 'articles',
+        depth: 0,
+        draft: true,
+        id: body.articleId,
+        req,
+        select: { _status: true },
+      })
+      articleStatus = existing._status ?? 'published'
+    } catch (error) {
+      req.payload.logger.warn({
+        articleId: body.articleId,
+        err: error,
+        msg: 'Article lookup failed — treating as not found',
+      })
+      return new Response(`Article ${body.articleId} not found`, { status: 404 })
+    }
+  }
+
   const svg = buildThumbnailSvg({ pattern, preset, subtitle, title })
 
   let buffer: Buffer
@@ -391,21 +416,12 @@ export async function generateThumbnail(req: PayloadRequest) {
 
   if (body.articleId) {
     try {
-      // Match the article's current draft/published state so we don't
-      // accidentally publish a pending draft by writing to the main table.
-      const existing = await req.payload.findByID({
-        collection: 'articles',
-        depth: 0,
-        draft: true,
-        id: body.articleId,
-        req,
-        select: { _status: true },
-      })
-
+      // Match the article's current draft/published state (resolved above)
+      // so we don't accidentally publish a pending draft.
       await req.payload.update({
         collection: 'articles',
         data: { image: image.id },
-        draft: existing._status === 'draft',
+        draft: articleStatus === 'draft',
         id: body.articleId,
         req,
       })
