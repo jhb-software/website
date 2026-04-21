@@ -30,6 +30,11 @@ type GenerateThumbnailBody = {
   /** If provided, the new image is set as the article's thumbnail. */
   articleId?: string
   background?: BackgroundInput
+  /**
+   * Custom filename (without extension). Sanitized to `[a-z0-9-]` and clamped
+   * to 60 chars. If omitted, the filename is derived from `title`.
+   */
+  filename?: string
   /** Output format. Defaults to `webp`. */
   format?: 'png' | 'webp'
   subtitle: string
@@ -362,12 +367,15 @@ export async function generateThumbnail(req: PayloadRequest) {
     return new Response('Failed to render thumbnail', { status: 500 })
   }
 
-  const slug = title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 48)
-  const filename = `thumbnail-${slug || 'article'}-${Date.now()}.${format}`
+  const slugify = (value: string) =>
+    value
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 60)
+  const customName = typeof body.filename === 'string' ? slugify(body.filename) : ''
+  const nameStem = customName || slugify(title) || 'article'
+  const filename = `${nameStem}.${format}`
 
   const image = await req.payload.create({
     collection: 'images',
@@ -383,9 +391,20 @@ export async function generateThumbnail(req: PayloadRequest) {
 
   if (body.articleId) {
     try {
+      // Match the article's current draft/published state so we don't
+      // accidentally publish a pending draft by writing to the main table.
+      const existing = await req.payload.findByID({
+        collection: 'articles',
+        depth: 0,
+        draft: true,
+        id: body.articleId,
+        req,
+      })
+
       await req.payload.update({
         collection: 'articles',
         data: { image: image.id },
+        draft: existing._status === 'draft',
         id: body.articleId,
         req,
       })
