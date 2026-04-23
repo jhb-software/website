@@ -230,7 +230,6 @@ export default buildConfig({
             subtitle: { required: true, type: 'string' },
             title: { required: true, type: 'string' },
           },
-          query: {},
           response: {
             filename: { type: 'string' },
             id: { type: 'string' },
