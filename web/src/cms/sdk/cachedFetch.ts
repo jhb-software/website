@@ -1,6 +1,6 @@
 import { CMS_VERCEL_AUTOMATION_BYPASS_SECRET } from 'astro:env/server'
-import { addBypassHeader } from './bypassHeader'
 import { cache } from '../cache'
+import { addBypassHeader } from './bypassHeader'
 
 /**
  * Creates a cache key from the URL and init options

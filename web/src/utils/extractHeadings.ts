@@ -1,5 +1,9 @@
-import type { HeadingNode, LexicalNode, TextNode } from '@jhb.software/astro-payload-richtext-lexical'
 import type { TocItem } from '@/components/TableOfContents.astro'
+import type {
+  HeadingNode,
+  LexicalNode,
+  TextNode,
+} from '@jhb.software/astro-payload-richtext-lexical'
 import slugifyId from './slugifyId'
 
 export function extractHeadings(nodes: LexicalNode[]): TocItem[] {
