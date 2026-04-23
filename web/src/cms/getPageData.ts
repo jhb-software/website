@@ -1,10 +1,10 @@
-import type { CollectionSlug } from 'payload'
+import type { Config } from 'cms/src/payload-types'
 import { payloadSDK } from './sdk'
 import type { Locale } from './types'
 
 /** Fetches a single page document from the CMS. */
 export async function getPageData<T>(
-  collection: CollectionSlug,
+  collection: keyof Config['collections'],
   id: string,
   locale: Locale,
   options?: { preview?: boolean },
