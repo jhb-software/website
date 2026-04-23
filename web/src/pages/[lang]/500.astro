@@ -7,7 +7,6 @@ import type { AstroGlobal } from 'astro'
 import { VERCEL_ENV } from 'astro:env/server'
 import { House, RefreshCw } from 'lucide-astro'
 
-
 // NOTE: It is important that the localized 500 pages are static to ensure no DB calls are made when requests
 //       to non-existing resources come in. This is especially important for handling spam bot requests.
 
@@ -34,7 +33,7 @@ const translations = {
       'Ein Problem mit der Datenbankverbindung',
     ],
     reloadButton: 'Seite neu laden',
-    homeButton: 'Zur Startseite'
+    homeButton: 'Zur Startseite',
   },
   en: {
     title: 'Internal Server Error',
@@ -45,8 +44,8 @@ const translations = {
       'A database connection issue',
     ],
     reloadButton: 'Reload page',
-    homeButton: 'Go to homepage'
-  }
+    homeButton: 'Go to homepage',
+  },
 }
 
 const t = translations[locale]
@@ -60,7 +59,7 @@ const t = translations[locale]
   }}
   lang={locale}
 >
-  <section class="boxed flex flex-col items-center gap-8 py-48 text-center max-w-2xl mx-auto">
+  <section class="boxed mx-auto flex max-w-2xl flex-col items-center gap-8 py-48 text-center">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="48"
@@ -73,24 +72,24 @@ const t = translations[locale]
       stroke-linejoin="round"
       class="text-red-500"
     >
-      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-      <line x1="12" y1="9" x2="12" y2="13"/>
-      <line x1="12" y1="17" x2="12.01" y2="17"/>
+      <path
+        d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+      ></path>
+      <line x1="12" y1="9" x2="12" y2="13"></line>
+      <line x1="12" y1="17" x2="12.01" y2="17"></line>
     </svg>
 
     <h1 class="text-3xl font-bold">{t.title}</h1>
 
-    <div class="text-left space-y-4">
-      <p class="text-lg text-center">{t.description}</p>
+    <div class="space-y-4 text-left">
+      <p class="text-center text-lg">{t.description}</p>
 
-      <ul class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
-        {t.causes.map((cause) => (
-          <li>{cause}</li>
-        ))}
+      <ul class="list-inside list-disc space-y-2 text-gray-700 dark:text-gray-300">
+        {t.causes.map((cause) => <li>{cause}</li>)}
       </ul>
     </div>
 
-    <div class="flex gap-4 flex-wrap justify-center">
+    <div class="flex flex-wrap justify-center gap-4">
       <button
         onclick="window.location.reload()"
         class:list={[buttonStyles('primary'), 'cursor-pointer']}
@@ -108,17 +107,20 @@ const t = translations[locale]
 
   {
     !preview && isProductionDeployment && (
-      <script is:inline>
-        document.addEventListener('DOMContentLoaded', function () {
-          plausible('500', {
-            props: {
-              path: document.location.pathname,
-              userAgent: navigator.userAgent,
-              referrer: document.referrer,
-            }
+      <script
+        is:inline
+        set:html={`
+          document.addEventListener('DOMContentLoaded', function () {
+            plausible('500', {
+              props: {
+                path: document.location.pathname,
+                userAgent: navigator.userAgent,
+                referrer: document.referrer,
+              },
+            });
           });
-        });
-      </script>
+        `}
+      />
     )
   }
 </Layout>

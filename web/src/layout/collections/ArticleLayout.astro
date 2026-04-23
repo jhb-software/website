@@ -1,7 +1,6 @@
 ---
 import ArticleTagsList from '@/components/ArticleTagsList.astro'
 import RichTextBlock from '@/components/blocks/RichTextBlock/RichTextBlock.astro'
-import type { LexicalNode } from '@jhb.software/astro-payload-richtext-lexical'
 import BreadcrumbsBlock from '@/components/Breadcrumbs.astro'
 import Img from '@/components/Img.astro'
 import TableOfContents from '@/components/TableOfContents.astro'
@@ -9,6 +8,7 @@ import SectionShell from '@/layout/SectionShell.astro'
 import { articleSchema } from '@/schema/article'
 import { extractHeadings } from '@/utils/extractHeadings'
 import { normalizePath } from '@/utils/normalizePath'
+import type { LexicalNode } from '@jhb.software/astro-payload-richtext-lexical'
 import { Schema } from 'astro-seo-schema'
 import type { Article, Author, Breadcrumbs } from 'cms/src/payload-types'
 
