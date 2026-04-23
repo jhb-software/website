@@ -10,11 +10,17 @@ export async function getRedirects(): Promise<Record<string, RedirectConfig>> {
   // the Astro config file, use process.env to access the environment variable instead.
   const bypassSecret = process.env.CMS_VERCEL_AUTOMATION_BYPASS_SECRET
 
+  // Skip the CMS fetch when credentials are not available (e.g. CI type checks, local dev without CMS).
+  if (!process.env.CMS_URL || !process.env.CMS_API_KEY) {
+    console.warn('[getRedirects] CMS_URL or CMS_API_KEY not set — skipping redirects fetch.')
+    return {}
+  }
+
   const payloadSDK = new PayloadSDK<Config>({
-    baseURL: process.env.CMS_URL! + '/api',
+    baseURL: process.env.CMS_URL + '/api',
     baseInit: {
       headers: {
-        Authorization: `api-keys API-Key ${process.env.CMS_API_KEY!}`,
+        Authorization: `api-keys API-Key ${process.env.CMS_API_KEY}`,
       },
     },
     fetch: (input, init) => fetch(input, addBypassHeader(init, bypassSecret)),
