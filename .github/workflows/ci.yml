@@ -25,9 +25,9 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
       - name: Check formatting (cms)
-        run: pnpm --filter cms exec prettier --check src
+        run: pnpm --filter cms run format:check
       - name: Check formatting (web)
-        run: pnpm --filter web exec prettier --check src
+        run: pnpm --filter web run format:check
 
   lint:
     name: Lint
@@ -60,9 +60,7 @@ jobs:
           node-version: 22
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
-      - name: Generate Payload types (cms)
-        run: pnpm --filter cms run generate:types
       - name: Type check (cms)
-        run: pnpm --filter cms exec tsc --noEmit
+        run: pnpm --filter cms run check
       - name: Astro check (web)
         run: pnpm --filter web run check
