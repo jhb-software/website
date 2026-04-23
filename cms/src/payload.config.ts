@@ -225,6 +225,7 @@ export default buildConfig({
               required: false,
               type: 'object',
             },
+            filename: { required: false, type: 'string' },
             format: { enum: ['webp', 'png'], required: false, type: 'string' },
             subtitle: { required: true, type: 'string' },
             title: { required: true, type: 'string' },
