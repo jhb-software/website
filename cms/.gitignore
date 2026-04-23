@@ -4,3 +4,6 @@
 
 # Environment
 .env*.local
+
+# TypeScript incremental build cache
+*.tsbuildinfo
