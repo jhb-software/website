@@ -166,11 +166,11 @@ importers:
         specifier: 0.3.1
         version: 0.3.1(astro@5.18.1(@types/node@24.10.1)(@vercel/functions@3.4.3(@aws-sdk/credential-provider-web-identity@3.930.0))(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.44.0)(sass@1.77.4)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2))
       '@payloadcms/live-preview':
-        specifier: 3.82.0
-        version: 3.82.0
+        specifier: 3.83.0
+        version: 3.83.0
       '@payloadcms/sdk':
-        specifier: 3.82.0
-        version: 3.82.0(graphql@16.12.0)(typescript@5.9.3)
+        specifier: 3.83.0
+        version: 3.83.0(graphql@16.12.0)(typescript@5.9.3)
       '@vercel/functions':
         specifier: ^3.3.2
         version: 3.4.3(@aws-sdk/credential-provider-web-identity@3.930.0)
@@ -187,8 +187,8 @@ importers:
         specifier: ^0.519.0
         version: 0.519.0(astro@5.18.1(@types/node@24.10.1)(@vercel/functions@3.4.3(@aws-sdk/credential-provider-web-identity@3.930.0))(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.44.0)(sass@1.77.4)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2))
       payload:
-        specifier: 3.82.0
-        version: 3.82.0(graphql@16.12.0)(typescript@5.9.3)
+        specifier: 3.83.0
+        version: 3.83.0(graphql@16.12.0)(typescript@5.9.3)
       schema-dts:
         specifier: ^1.1.5
         version: 1.1.5
@@ -1636,8 +1636,8 @@ packages:
       graphql: ^16.8.1
       payload: 3.83.0
 
-  '@payloadcms/live-preview@3.82.0':
-    resolution: {integrity: sha512-RJoc+uWY0sBz9fHwKGxd6znrIW/IzDepNAjHtHeJ0zR5KYZUm6H8AeWkGzWZRpzpe7Rkq50y4/REl2vdVGMMaQ==}
+  '@payloadcms/live-preview@3.83.0':
+    resolution: {integrity: sha512-dzGQxUhEZ9SjQ0L3aZkWNsV0o8vHyBOcS3Qk/ULMf8Fuc7jOzKJfvXyjE0vNxWVKNrpuZOekUhXouPOY/XXX1w==}
 
   '@payloadcms/next@3.83.0':
     resolution: {integrity: sha512-N4pmZSfVEylajGxTXc/69EGJT4tZWgVIA4U6rV9rGqD7FkHTXVut4tz/WyR2gZuSryHsFP0OobMEACCPs5YLIA==}
@@ -1684,17 +1684,14 @@ packages:
       react: ^19.0.1 || ^19.1.2 || ^19.2.1
       react-dom: ^19.0.1 || ^19.1.2 || ^19.2.1
 
-  '@payloadcms/sdk@3.82.0':
-    resolution: {integrity: sha512-7GlB5EOLtkfZKYrpazqVc3KhGnWjHU/z30eCqIQC2f9sUyhaBQLyNdFFS4fyoLWmH1RH4pwoR8RjOqkGOXFCQA==}
+  '@payloadcms/sdk@3.83.0':
+    resolution: {integrity: sha512-gubizEkCk0ubTJOnM+FAV2o+Ue6RobDub3oFYzYvu8VAbTVeLxIvnXL+Hyjvv0j57tEsJmsSud3jQE+2vfiU+g==}
 
   '@payloadcms/storage-s3@3.83.0':
     resolution: {integrity: sha512-HzhCJvEk4E49gvTAUjG2XZEiuAGg/X4sUllUQCZS5Rv/SBrDxVsWkzyVha6cXcnDo+lbz7aLfJOfp5C45iredA==}
     engines: {node: ^18.20.2 || >=20.9.0}
     peerDependencies:
       payload: 3.83.0
-
-  '@payloadcms/translations@3.82.0':
-    resolution: {integrity: sha512-6mgFZE1sKGQg/dwU3wX+Yz7HLHaOcBixJ9vMQ+LlV+LPIk60fsU7LFAcbcUaCektv2/X4LTt05VFtKK0D2zufA==}
 
   '@payloadcms/translations@3.83.0':
     resolution: {integrity: sha512-Ie7Ty9Myb75wQ/gEedal+1PInrOtCeJJxjQAfG8C6hg9tBKYtwnW1IoRp4HrN7vHyYVyG15LKhXC40TevQU9Zw==}
@@ -3247,10 +3244,6 @@ packages:
 
   croner@10.0.1:
     resolution: {integrity: sha512-ixNtAJndqh173VQ4KodSdJEI6nuioBWI0V1ITNKhZZsO0pEMoDxz539T4FTTbSZ/xIOSuDnzxLVRqBVSvPNE2g==}
-    engines: {node: '>=18.0'}
-
-  croner@9.1.0:
-    resolution: {integrity: sha512-p9nwwR4qyT5W996vBZhdvBCnMhicY5ytZkR4D1Xj0wuTDEiMnjwR57Q3RXYY/s0EpX6Ay3vgIcfaR+ewGHsi+g==}
     engines: {node: '>=18.0'}
 
   cross-env@10.1.0:
@@ -5235,13 +5228,6 @@ packages:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
 
-  payload@3.82.0:
-    resolution: {integrity: sha512-wUPyi39vxdMUAil/O8egIOAqOjSB8bTEbpWassftUkfiwYN9KufegO0YNOcIPk28fjZizzDZHzrPJaTcV3jTRQ==}
-    engines: {node: ^18.20.2 || >=20.9.0}
-    hasBin: true
-    peerDependencies:
-      graphql: ^16.8.1
-
   payload@3.83.0:
     resolution: {integrity: sha512-3DMcqYVn2pg6b1tqfFtkpuDKgHiqDXLKEDYg3kGAYucqa0AYo2E+EPA1QGNNQ2AIduLf9vbn43nmSMAEq/QC/g==}
     engines: {node: ^18.20.2 || >=20.9.0}
@@ -6328,10 +6314,6 @@ packages:
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
-
-  uuid@10.0.0:
-    resolution: {integrity: sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==}
-    hasBin: true
 
   uuid@11.1.0:
     resolution: {integrity: sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==}
@@ -8429,7 +8411,7 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@payloadcms/live-preview@3.82.0': {}
+  '@payloadcms/live-preview@3.83.0': {}
 
   '@payloadcms/next@3.83.0(@types/react@19.2.4)(graphql@16.12.0)(monaco-editor@0.52.2)(next@16.2.2(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.77.4))(payload@3.83.0(graphql@16.12.0)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3)':
     dependencies:
@@ -8562,9 +8544,9 @@ snapshots:
       - utf-8-validate
       - yjs
 
-  '@payloadcms/sdk@3.82.0(graphql@16.12.0)(typescript@5.9.3)':
+  '@payloadcms/sdk@3.83.0(graphql@16.12.0)(typescript@5.9.3)':
     dependencies:
-      payload: 3.82.0(graphql@16.12.0)(typescript@5.9.3)
+      payload: 3.83.0(graphql@16.12.0)(typescript@5.9.3)
       qs-esm: 8.0.1
       ts-essentials: 10.0.3(typescript@5.9.3)
     transitivePeerDependencies:
@@ -8590,10 +8572,6 @@ snapshots:
       - react-dom
       - supports-color
       - typescript
-
-  '@payloadcms/translations@3.82.0':
-    dependencies:
-      date-fns: 4.1.0
 
   '@payloadcms/translations@3.83.0':
     dependencies:
@@ -10324,8 +10302,6 @@ snapshots:
       yaml: 1.10.2
 
   croner@10.0.1: {}
-
-  croner@9.1.0: {}
 
   cross-env@10.1.0:
     dependencies:
@@ -12763,46 +12739,6 @@ snapshots:
 
   path-type@4.0.0: {}
 
-  payload@3.82.0(graphql@16.12.0)(typescript@5.9.3):
-    dependencies:
-      '@next/env': 15.5.9
-      '@payloadcms/translations': 3.82.0
-      '@types/busboy': 1.5.4
-      ajv: 8.18.0
-      bson-objectid: 2.0.4
-      busboy: 1.6.0
-      ci-info: 4.3.1
-      console-table-printer: 2.12.1
-      croner: 9.1.0
-      dataloader: 2.2.3
-      deepmerge: 4.3.1
-      file-type: 21.3.4
-      get-tsconfig: 4.8.1
-      graphql: 16.12.0
-      http-status: 2.1.0
-      image-size: 2.0.2
-      ipaddr.js: 2.2.0
-      jose: 5.10.0
-      json-schema-to-typescript: 15.0.3
-      minimist: 1.2.8
-      path-to-regexp: 6.3.0
-      pino: 9.14.0
-      pino-pretty: 13.1.2
-      pluralize: 8.0.0
-      qs-esm: 8.0.1
-      range-parser: 1.2.1
-      sanitize-filename: 1.6.3
-      ts-essentials: 10.0.3(typescript@5.9.3)
-      tsx: 4.21.0
-      undici: 7.24.4
-      uuid: 10.0.0
-      ws: 8.18.3
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - typescript
-      - utf-8-validate
-
   payload@3.83.0(graphql@16.12.0)(typescript@5.9.3):
     dependencies:
       '@next/env': 15.5.9
@@ -14033,8 +13969,6 @@ snapshots:
   utf8-byte-length@1.0.5: {}
 
   util-deprecate@1.0.2: {}
-
-  uuid@10.0.0: {}
 
   uuid@11.1.0: {}
 
