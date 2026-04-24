@@ -24,7 +24,7 @@
     "@jhb.software/payload-alt-text-plugin": "^0.4.4",
     "@jhb.software/payload-chat-agent": "0.1.0-beta.4",
     "@jhb.software/payload-content-translator-plugin": "^0.1.2",
-    "@jhb.software/payload-pages-plugin": "0.6.0",
+    "@jhb.software/payload-pages-plugin": "0.7.0",
     "@jhb.software/payload-vercel-deployments": "^0.2.1",
     "@payloadcms/db-mongodb": "3.83.0",
     "@payloadcms/email-resend": "3.83.0",
