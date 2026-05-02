@@ -15,12 +15,37 @@ const { locale } = Astro.locals.globalState
 const isRootPage = 'isRootPage' in pageData && Boolean(pageData.isRootPage)
 
 const schema = isRootPage ? organizationSchema() : pageSchema(pageData, locale)
+
+// Render-time split: a section that contains both an `about` and a `philosophy`
+// block is shown as two sections with their own eyebrow number. CMS still
+// stores them in one section while the redesign settles.
+const philosophySectionTitle: Record<string, string> = {
+  de: 'Philosophie',
+  en: 'Philosophy',
+}
+type SectionData = NonNullable<Page['sections']>[number]
+const sections: SectionData[] = (pageData.sections ?? []).flatMap((section) => {
+  const blocks = section.blocks ?? []
+  const hasAbout = blocks.some((b) => b.blockType === 'about')
+  const hasPhilosophy = blocks.some((b) => b.blockType === 'philosophy')
+  if (!hasAbout || !hasPhilosophy) return [section]
+  return [
+    { ...section, blocks: blocks.filter((b) => b.blockType !== 'philosophy') },
+    {
+      ...section,
+      id: section.id ? `${section.id}-philosophy` : null,
+      title: philosophySectionTitle[locale] ?? philosophySectionTitle.en,
+      subTitle: '',
+      blocks: blocks.filter((b) => b.blockType === 'philosophy'),
+    },
+  ]
+})
 ---
 
 <HeroSection {...pageData.hero} breadcrumbs={pageData.breadcrumbs} />
 
 {
-  pageData.sections?.map((section, index) => (
+  sections.map((section, index) => (
     <Section {...section} index={index + 2} withoutTopSpace={index === 0 && !pageData.isRootPage} />
   ))
 }
