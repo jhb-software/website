@@ -12,23 +12,48 @@ for (const customer of customers ?? []) {
     logos.push(customer.logo)
   }
 }
+
+const mid = Math.ceil(logos.length / 2)
+const row1 = logos.slice(0, mid)
+const row2 = logos.slice(mid)
+
+const logoCellClass = 'flex h-12 min-w-[7rem] shrink-0 items-center justify-center sm:min-w-[8rem]'
+const logoImgClass =
+  'ease-standard max-h-12 w-auto opacity-60 grayscale [filter:brightness(0)] transition-opacity duration-200 hover:opacity-100'
 ---
 
 <div class="border-hairline-strong border-y py-12">
-  <ul
-    class="grid grid-cols-2 items-center justify-items-center gap-x-8 gap-y-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
-  >
+  <div class="flex flex-col gap-y-10">
     {
-      logos.map((logo) => (
-        <li class="flex h-12 w-full items-center justify-center">
-          <Img
-            image={logo}
-            size="original"
-            width={120}
-            class="ease-standard max-h-12 w-auto opacity-60 grayscale [filter:brightness(0)] transition-opacity duration-200 hover:opacity-100"
-          />
-        </li>
-      ))
+      row1.length > 0 && (
+        <div class="overflow-x-clip px-1 sm:px-2">
+          <ul
+            class:list={[
+              'flex flex-wrap items-center justify-center gap-x-8 gap-y-6 sm:gap-x-10 md:flex-nowrap',
+              row2.length > 0 && 'customer-logos-row--drift-left',
+            ]}
+          >
+            {row1.map((logo) => (
+              <li class={logoCellClass}>
+                <Img image={logo} size="original" width={120} class={logoImgClass} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
     }
-  </ul>
+    {
+      row2.length > 0 && (
+        <div class="overflow-x-clip px-1 sm:px-2">
+          <ul class="customer-logos-row--drift-right flex flex-wrap items-center justify-center gap-x-8 gap-y-6 sm:gap-x-10 md:flex-nowrap">
+            {row2.map((logo) => (
+              <li class={logoCellClass}>
+                <Img image={logo} size="original" width={120} class={logoImgClass} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+  </div>
 </div>

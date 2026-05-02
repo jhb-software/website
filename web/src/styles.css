@@ -129,3 +129,34 @@
 @utility hyphenate-none {
   hyphens: none;
 }
+
+/* Customer logo strip — two rows drift in opposite directions (subtle, paused when reduced motion). */
+@keyframes customer-logos-drift-left {
+  from {
+    transform: translate3d(6px, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-6px, 0, 0);
+  }
+}
+
+@keyframes customer-logos-drift-right {
+  from {
+    transform: translate3d(-6px, 0, 0);
+  }
+
+  to {
+    transform: translate3d(6px, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .customer-logos-row--drift-left {
+    animation: customer-logos-drift-left 36s ease-in-out infinite alternate;
+  }
+
+  .customer-logos-row--drift-right {
+    animation: customer-logos-drift-right 42s ease-in-out infinite alternate;
+  }
+}
