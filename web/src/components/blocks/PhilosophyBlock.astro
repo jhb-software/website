@@ -1,6 +1,7 @@
 ---
 import type { PhilosophyBlock } from 'cms/src/payload-types'
-import Card from '../cards/Card.astro'
+import FrameCell from '../../layout/FrameCell.astro'
+import SectionFrame from '../../layout/SectionFrame.astro'
 import RichTextBlock from './RichTextBlock/RichTextBlock.astro'
 
 export type Props = PhilosophyBlock
@@ -8,23 +9,53 @@ export type Props = PhilosophyBlock
 const { title, text, items } = Astro.props
 ---
 
-<div class="my-16">
-  <div class="flex flex-col gap-8 lg:flex-row">
-    <div class="w-full space-y-6 lg:w-1/3">
-      <h3 class="text-lg font-bold">{title}</h3>
+<div class="space-y-10">
+  {
+    (title || text) && (
+      <header class="max-w-2xl space-y-4">
+        {title && (
+          <h3 class="text-cobalt-900 font-sans text-2xl font-semibold tracking-tight">{title}</h3>
+        )}
+        {text && (
+          <div class="text-ink-700 prose-redesign">
+            <RichTextBlock text={text} />
+          </div>
+        )}
+      </header>
+    )
+  }
 
-      <RichTextBlock text={text} />
-    </div>
-
-    <div class="w-full space-y-4 lg:w-2/3">
-      {
-        items.map((item) => (
-          <Card>
-            <h3 class="text-md mb-2 font-semibold">{item.title}</h3>
-            <p>{item.text}</p>
-          </Card>
-        ))
-      }
-    </div>
-  </div>
+  <SectionFrame class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" corners={false}>
+    {
+      items.map((item, idx) => (
+        <FrameCell
+          class:list={[
+            'p-6',
+            idx > 0 && 'border-t border-t-[var(--color-hairline-strong)]',
+            idx > 0 && 'sm:border-t-0',
+            idx % 2 === 1 && 'sm:border-l sm:border-l-[var(--color-hairline-strong)]',
+            idx >= 2 && 'sm:border-t sm:border-t-[var(--color-hairline-strong)]',
+            idx % 4 !== 0 && 'lg:border-l lg:border-l-[var(--color-hairline-strong)]',
+            'lg:border-t-0',
+          ]}
+        >
+          <div class="flex h-8 w-8 items-center justify-center" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <rect
+                x="1"
+                y="1"
+                width="18"
+                height="18"
+                stroke="var(--color-cobalt-900)"
+                stroke-width="1.5"
+              />
+              <circle cx="10" cy="10" r="2.5" fill="var(--color-orange-600)" />
+            </svg>
+          </div>
+          <h4 class="text-cobalt-900 mt-4 font-sans text-base font-semibold">{item.title}</h4>
+          <p class="text-ink-700 mt-2 font-sans text-sm leading-[1.55]">{item.text}</p>
+        </FrameCell>
+      ))
+    }
+  </SectionFrame>
 </div>

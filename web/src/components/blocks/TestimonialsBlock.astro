@@ -1,13 +1,14 @@
 ---
 import { payloadSDK } from '@/cms/sdk'
-import Icon from '@/components/icons/Icon.astro'
 import type { Testimonial, TestimonialsBlock } from 'cms/src/payload-types'
+import FrameCell from '../../layout/FrameCell.astro'
+import SectionFrame from '../../layout/SectionFrame.astro'
 import TestimonialCard from '../cards/TestimonialCard.astro'
 
 export type Props = TestimonialsBlock
 
 const { testimonials } = Astro.props
-const { labels, locale, preview } = Astro.locals.globalState
+const { locale, preview, labels } = Astro.locals.globalState
 
 // Fetch the testimonials with depth 2 to ensure all related fields are populated
 const populatedTestimonials = await payloadSDK.find(
@@ -32,75 +33,93 @@ const populatedTestimonials = await payloadSDK.find(
   },
 )
 
-const useRowLayout = (populatedTestimonials.docs?.length ?? 0) <= 2
+const docs = (populatedTestimonials.docs as Testimonial[] | undefined) ?? []
+const useRowLayout = docs.length <= 2
+const initialVisibleCount = 6
+const showSeeMore = !useRowLayout && docs.length > initialVisibleCount
 ---
 
 {
   useRowLayout ? (
-    <div class="group relative" id="testimonials-container" data-expanded={false}>
-      <div class="flex flex-row justify-center gap-8">
-        {(populatedTestimonials.docs as Testimonial[] | undefined)?.map((testimonial, _, array) => (
-          <div
+    <SectionFrame class:list={['grid', docs.length === 1 ? 'grid-cols-1' : 'sm:grid-cols-2']}>
+      {docs.map((testimonial, idx) => (
+        <FrameCell
+          class:list={[
+            idx > 0 && 'border-t border-t-[var(--color-hairline-strong)]',
+            idx > 0 &&
+              docs.length > 1 &&
+              'sm:border-t-0 sm:border-l sm:border-l-[var(--color-hairline-strong)]',
+          ]}
+        >
+          <TestimonialCard {...testimonial} />
+        </FrameCell>
+      ))}
+    </SectionFrame>
+  ) : (
+    <div class="testimonials-grid group relative" id="testimonials-container" data-expanded="false">
+      <SectionFrame class="grid sm:grid-cols-2 lg:grid-cols-3">
+        {docs.map((testimonial, idx) => (
+          <FrameCell
+            data-testimonial-index={idx}
             class:list={[
-              array.length === 1 ? 'w-full max-w-2xl min-w-xl' : 'max-w-md',
-              'flex-1 flex-shrink-0',
+              idx > 0 && 'border-t border-t-[var(--color-hairline-strong)]',
+              idx % 2 === 1 && 'sm:border-l sm:border-l-[var(--color-hairline-strong)]',
+              idx >= 2 && 'sm:border-t sm:border-t-[var(--color-hairline-strong)]',
+              idx % 3 !== 0 && 'lg:border-l lg:border-l-[var(--color-hairline-strong)]',
+              idx >= 3 && 'lg:border-t lg:border-t-[var(--color-hairline-strong)]',
             ]}
           >
             <TestimonialCard {...testimonial} />
-          </div>
+          </FrameCell>
         ))}
-      </div>
-    </div>
-  ) : (
-    <div class="group relative" id="testimonials-container" data-expanded={false}>
-      <div
-        class:list={[
-          'space-y-5',
-          'relative',
-          'group-data-[expanded=false]:mask-b-from-60%',
-          'group-data-[expanded=false]:h-[33rem]',
-          'overflow-y-hidden',
-        ]}
-      >
-        <div class:list={['gap-5 space-y-5', 'columns-1 sm:columns-2 lg:columns-3']}>
-          {(populatedTestimonials.docs as Testimonial[]).map((testimonial) => (
-            <div class="inline-block w-full break-inside-avoid">
-              <TestimonialCard {...testimonial} />
-            </div>
-          ))}
-        </div>
-      </div>
+      </SectionFrame>
 
-      <div
-        class:list={[
-          'pointer-events-none absolute inset-x-0 bottom-0 justify-center',
-          'flex group-data-[expanded=true]:hidden',
-          'pt-32 pb-8',
-        ]}
-      >
-        <button class="bg-primary pointer-events-auto relative flex translate-y-4 cursor-pointer items-center gap-3 rounded-md px-4 py-3 text-sm font-semibold text-white no-underline">
-          {labels.global['show-more']}
-          <Icon name="chevron-down" class:list={['h-3 w-3']} />
-        </button>
-      </div>
+      {showSeeMore && (
+        <div class="see-more-fade pointer-events-none absolute inset-x-0 bottom-0 flex justify-center pt-32 pb-6 group-data-[expanded=true]:hidden">
+          <button
+            type="button"
+            class="bg-cobalt-900 hover:bg-cobalt-800 ease-standard pointer-events-auto inline-flex translate-y-3 cursor-pointer items-center gap-2 rounded-sm px-5 py-3 font-sans text-sm font-medium text-white transition-colors duration-150"
+            data-testimonials-toggle
+          >
+            {labels.global['show-more']}
+            <span class="font-mono text-xs opacity-70" aria-hidden="true">
+              ↓
+            </span>
+          </button>
+        </div>
+      )}
     </div>
   )
 }
 
-<script>
-  function setupTestimonials() {
-    const container = document.querySelector('#testimonials-container')
-    const button = container?.querySelector('button')
-
-    if (container && button) {
-      button.addEventListener('click', () => {
-        const isExpanded = container.getAttribute('data-expanded') === 'true'
-        container.setAttribute('data-expanded', (!isExpanded).toString())
-      })
-    }
+<style>
+  .testimonials-grid[data-expanded='false'] :global(.frame-cell[data-testimonial-index]) {
+    /* leave inline; mask handled by gradient overlay below */
   }
 
-  // Run setup function on the initial and any subsequent page loads due to navigation
-  // https://docs.astro.build/en/guides/view-transitions/#astropage-load
+  .testimonials-grid[data-expanded='false'] :global(> [class*='SectionFrame']),
+  .testimonials-grid[data-expanded='false'] :global(> div:first-child) {
+    max-height: 33rem;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+</style>
+
+<script>
+  function setupTestimonials() {
+    const container = document.getElementById('testimonials-container')
+    if (!container) return
+    const button = container.querySelector<HTMLButtonElement>('[data-testimonials-toggle]')
+    if (!button) return
+
+    const toggle = () => {
+      const isExpanded = container.dataset.expanded === 'true'
+      container.dataset.expanded = (!isExpanded).toString()
+    }
+
+    button.addEventListener('click', toggle)
+  }
+
   document.addEventListener('astro:page-load', setupTestimonials)
 </script>

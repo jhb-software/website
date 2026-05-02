@@ -8,24 +8,35 @@ export type Props = AboutBlock
 const { title, name, text, image } = Astro.props
 ---
 
-<div class="my-16">
-  <div class="flex flex-col items-start gap-8 md:flex-row">
-    <div class="w-full md:w-1/3">
-      <div class="flex flex-col items-center gap-4">
-        {
-          typeof image === 'object' && (
-            <Img image={image} size="md" class="w-full rounded-lg shadow-lg" />
-          )
-        }
+<div class="grid grid-cols-1 gap-10 md:grid-cols-[280px_1fr] md:gap-12">
+  {
+    typeof image === 'object' && (
+      <div class="border-hairline-strong overflow-hidden rounded-sm border">
+        <Img image={image} size="md" class="block aspect-square w-full object-cover" />
       </div>
-    </div>
+    )
+  }
 
-    <div class="w-full space-y-4 md:w-2/3">
-      <h3 class="flex items-center gap-2">
-        <span class="text-md text-slate-500">{title}</span>
-        <span class="text-lg font-semibold">{name}</span>
-      </h3>
+  <div class="space-y-6">
+    <header class="space-y-2">
+      {
+        title && (
+          <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
+            <span class="text-orange-600" aria-hidden="true">
+              \
+            </span>
+            <span class="ml-1.5">{title}</span>
+          </p>
+        )
+      }
+      {
+        name && (
+          <h3 class="text-cobalt-900 font-sans text-2xl font-semibold tracking-tight">{name}</h3>
+        )
+      }
+    </header>
 
+    <div class="prose-redesign text-ink-700 max-w-prose">
       <RichTextBlock text={text} />
     </div>
   </div>

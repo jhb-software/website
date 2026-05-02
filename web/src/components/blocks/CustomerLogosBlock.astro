@@ -1,49 +1,34 @@
 ---
 import Img from '@/components/Img.astro'
-import type { CustomerLogosBlock } from 'cms/src/payload-types'
+import type { CustomerLogosBlock, Image as ImageType } from 'cms/src/payload-types'
 
 export type Props = CustomerLogosBlock
 
 const { customers } = Astro.props
+
+const logos: ImageType[] = []
+for (const customer of customers ?? []) {
+  if (typeof customer === 'object' && typeof customer.logo === 'object' && customer.logo) {
+    logos.push(customer.logo)
+  }
+}
 ---
 
-<div class="relative -mx-4 w-[calc(100%+2rem)] overflow-hidden md:mx-0 md:w-full">
-  <div
-    class="flex animate-[scroll_20s_linear_infinite] flex-row gap-12 md:animate-none md:flex-col"
+<div class="border-hairline-strong border-y py-12">
+  <ul
+    class="grid grid-cols-2 items-center justify-items-center gap-x-8 gap-y-10 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
   >
     {
-      [customers?.slice(0, 5), customers?.slice(5, 9), customers?.slice(9, 12)].map(
-        (rowCustomers) => (
-          <div class="flex flex-row items-center justify-center gap-8 md:gap-12">
-            {rowCustomers?.filter(Boolean).map((customer) => {
-              const logo =
-                typeof customer === 'object' && typeof customer.logo === 'object'
-                  ? customer.logo
-                  : undefined
-
-              return logo ? (
-                <Img
-                  image={logo}
-                  size="original"
-                  width={100}
-                  class="max-w-[100px] overflow-hidden opacity-75 grayscale [filter:brightness(0)]"
-                />
-              ) : undefined
-            })}
-          </div>
-        ),
-      )
+      logos.map((logo) => (
+        <li class="flex h-12 w-full items-center justify-center">
+          <Img
+            image={logo}
+            size="original"
+            width={120}
+            class="ease-standard max-h-12 w-auto opacity-60 grayscale [filter:brightness(0)] transition-opacity duration-200 hover:opacity-100"
+          />
+        </li>
+      ))
     }
-  </div>
+  </ul>
 </div>
-
-<style>
-  @keyframes scroll {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
-  }
-</style>

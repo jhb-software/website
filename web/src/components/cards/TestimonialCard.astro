@@ -1,8 +1,6 @@
 ---
 import type { Testimonial } from 'cms/src/payload-types'
-import Icon from '../icons/Icon.astro'
 import Img from '../Img.astro'
-import Card from './Card.astro'
 
 export type Props = Testimonial
 
@@ -18,31 +16,42 @@ if (!customer) {
 }
 ---
 
-<Card class="space-y-4">
-  <div class="flex flex-row items-center gap-5">
+<figure class="flex h-full flex-col gap-6 p-6">
+  <blockquote class="text-ink-950 max-w-prose flex-1 font-sans text-base leading-[1.55]">
+    {text}
+  </blockquote>
+
+  <figcaption class="border-hairline mt-auto flex items-center gap-4 border-t pt-5">
     {
       typeof author.image === 'object' && (
         <Img
           image={author.image}
           size="sm"
-          class="m-0 aspect-square !h-16 !w-16 rounded-full object-cover"
+          class="aspect-square h-10 w-10 shrink-0 rounded-full object-cover"
         />
       )
     }
 
-    <div>
-      <div class="font-bold">{author.name}</div>
-      <div class="not-prose">
-        <a
-          href={customer.websiteUrl}
-          class="flex flex-row items-center gap-2 text-sm text-gray-500"
-        >
-          <Icon name="building" class:list={['h-3 w-3 fill-gray-500']} />
-          {customer.name}
-        </a>
+    <div class="min-w-0">
+      <div class="text-cobalt-900 truncate font-sans text-sm font-medium">
+        {author.name}
       </div>
+      {
+        customer.websiteUrl ? (
+          <a
+            href={customer.websiteUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-ink-500 ease-standard tracking-eyebrow truncate font-mono text-xs uppercase transition-colors duration-150 hover:text-orange-600"
+          >
+            {customer.name}
+          </a>
+        ) : (
+          <span class="text-ink-500 tracking-eyebrow truncate font-mono text-xs uppercase">
+            {customer.name}
+          </span>
+        )
+      }
     </div>
-  </div>
-
-  <p class="mb-0">{text}</p>
-</Card>
+  </figcaption>
+</figure>
