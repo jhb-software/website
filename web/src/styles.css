@@ -19,6 +19,28 @@
   font-display: swap;
 }
 
+/* Hoisted with @theme --animate-* so Tailwind v4 keeps keyframes in the build output.
+   Each row duplicates its logo strip; -50% == one copy width for a seamless loop. */
+@keyframes customer-logos-marquee-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes customer-logos-marquee-right {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 @theme {
   /* Typography */
   --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, sans-serif;
@@ -87,6 +109,10 @@
 
   /* Easing */
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Customer logos — infinite marquee (see CustomerLogosBlock.astro). */
+  --animate-customer-logos-marquee-left: customer-logos-marquee-left 54s linear infinite;
+  --animate-customer-logos-marquee-right: customer-logos-marquee-right 68s linear infinite;
 }
 
 @layer base {
@@ -130,33 +156,21 @@
   hyphens: none;
 }
 
-/* Customer logo strip — two rows drift in opposite directions (subtle, paused when reduced motion). */
-@keyframes customer-logos-drift-left {
-  from {
-    transform: translate3d(6px, 0, 0);
-  }
-
-  to {
-    transform: translate3d(-6px, 0, 0);
-  }
+/* Soft edge vignette on customer logo marquee (mask, not box-shadow). */
+.customer-logos-marquee-fade {
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 7%,
+    #000 93%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
 }
 
-@keyframes customer-logos-drift-right {
-  from {
-    transform: translate3d(-6px, 0, 0);
-  }
-
-  to {
-    transform: translate3d(6px, 0, 0);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .customer-logos-row--drift-left {
-    animation: customer-logos-drift-left 36s ease-in-out infinite alternate;
-  }
-
-  .customer-logos-row--drift-right {
-    animation: customer-logos-drift-right 42s ease-in-out infinite alternate;
+@media (prefers-reduced-motion: reduce) {
+  .animate-customer-logos-marquee-left,
+  .animate-customer-logos-marquee-right {
+    animation: none !important;
   }
 }

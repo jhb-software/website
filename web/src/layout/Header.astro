@@ -35,8 +35,13 @@ const isCurrentLink = (link: { page?: { value: string | Page } }) =>
         height={32}
         class="brand-mark block shrink-0"
       />
-      <span class="wordmark text-cobalt-900 tracking-wordmark font-sans text-base font-medium">
-        JHB Software
+      <span
+        class="wordmark text-cobalt-900 tracking-wordmark font-sans text-base font-medium"
+        aria-hidden="true"
+      >
+        <span class="wordmark-core">JHB</span><span class="wordmark-suffix"
+          ><span class="wordmark-suffix-inner">Software</span></span
+        >
       </span>
     </a>
 
@@ -198,22 +203,40 @@ const isCurrentLink = (link: { page?: { value: string | Page } }) =>
     border-bottom-color: var(--color-hairline);
   }
 
-  /* Wordmark fades + collapses on scroll */
+  /* Wordmark: “JHB” stays; “ Software” clips away on scroll with a smooth lockup */
   .wordmark {
-    overflow: hidden;
+    --wordmark-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --wordmark-duration: 400ms;
+    display: inline-flex;
+    align-items: baseline;
+    flex-wrap: nowrap;
     white-space: nowrap;
-    max-width: 12rem;
-    opacity: 1;
-    transition:
-      max-width 200ms var(--ease-standard),
-      opacity 200ms var(--ease-standard),
-      margin-left 200ms var(--ease-standard);
+    column-gap: 0.35em;
   }
 
-  :global(.site-header[data-collapsed='true']) .wordmark {
+  .wordmark-suffix {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: baseline;
+    max-width: 7rem;
+    opacity: 1;
+    transition:
+      max-width var(--wordmark-duration) var(--wordmark-ease),
+      opacity 260ms var(--wordmark-ease);
+  }
+
+  .wordmark-suffix-inner {
+    display: inline-block;
+    transition: transform var(--wordmark-duration) var(--wordmark-ease);
+  }
+
+  :global(.site-header[data-collapsed='true']) .wordmark-suffix {
     max-width: 0;
     opacity: 0;
-    margin-left: -0.75rem; /* collapse the gap left by the lockup */
+  }
+
+  :global(.site-header[data-collapsed='true']) .wordmark-suffix-inner {
+    transform: translate3d(-0.35rem, 0, 0);
   }
 
   /* Wordmark always hidden on mobile; mark + hamburger only */
@@ -244,9 +267,14 @@ const isCurrentLink = (link: { page?: { value: string | Page } }) =>
 
   @media (prefers-reduced-motion: reduce) {
     .site-header,
-    .wordmark,
+    .wordmark-suffix,
+    .wordmark-suffix-inner,
     .nav-link::before {
       transition: none;
+    }
+
+    :global(.site-header[data-collapsed='true']) .wordmark-suffix-inner {
+      transform: none;
     }
   }
 </style>

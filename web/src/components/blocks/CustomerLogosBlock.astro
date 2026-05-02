@@ -17,25 +17,28 @@ const mid = Math.ceil(logos.length / 2)
 const row1 = logos.slice(0, mid)
 const row2 = logos.slice(mid)
 
-const logoCellClass = 'flex h-12 min-w-[7rem] shrink-0 items-center justify-center sm:min-w-[8rem]'
+/** One continuous strip: duplicated in the same <ul> so flex gap is uniform across the loop join. */
+const marqueeListClass =
+  'flex w-max shrink-0 flex-row items-center gap-x-8 sm:gap-x-10 md:gap-x-12 [will-change:transform]'
+const logoCellClass = 'flex h-12 w-28 shrink-0 items-center justify-center sm:w-32'
 const logoImgClass =
-  'ease-standard max-h-12 w-auto opacity-60 grayscale [filter:brightness(0)] transition-opacity duration-200 hover:opacity-100'
+  'ease-standard block h-12 w-full max-h-12 max-w-full object-contain opacity-60 grayscale [filter:brightness(0)] transition-opacity duration-200 hover:opacity-100'
 ---
 
 <div class="border-hairline-strong border-y py-12">
   <div class="flex flex-col gap-y-10">
     {
       row1.length > 0 && (
-        <div class="overflow-x-clip px-1 sm:px-2">
-          <ul
-            class:list={[
-              'flex flex-wrap items-center justify-center gap-x-8 gap-y-6 sm:gap-x-10 md:flex-nowrap',
-              row2.length > 0 && 'customer-logos-row--drift-left',
-            ]}
-          >
+        <div class="customer-logos-marquee-fade overflow-x-clip px-1 sm:px-2">
+          <ul class:list={[marqueeListClass, 'animate-customer-logos-marquee-left']}>
             {row1.map((logo) => (
               <li class={logoCellClass}>
-                <Img image={logo} size="original" width={120} class={logoImgClass} />
+                <Img image={logo} size="original" class={logoImgClass} />
+              </li>
+            ))}
+            {row1.map((logo) => (
+              <li class={logoCellClass} aria-hidden="true">
+                <Img image={logo} size="original" class={logoImgClass} />
               </li>
             ))}
           </ul>
@@ -44,11 +47,16 @@ const logoImgClass =
     }
     {
       row2.length > 0 && (
-        <div class="overflow-x-clip px-1 sm:px-2">
-          <ul class="customer-logos-row--drift-right flex flex-wrap items-center justify-center gap-x-8 gap-y-6 sm:gap-x-10 md:flex-nowrap">
+        <div class="customer-logos-marquee-fade overflow-x-clip px-1 sm:px-2">
+          <ul class:list={[marqueeListClass, 'animate-customer-logos-marquee-right']}>
             {row2.map((logo) => (
               <li class={logoCellClass}>
-                <Img image={logo} size="original" width={120} class={logoImgClass} />
+                <Img image={logo} size="original" class={logoImgClass} />
+              </li>
+            ))}
+            {row2.map((logo) => (
+              <li class={logoCellClass} aria-hidden="true">
+                <Img image={logo} size="original" class={logoImgClass} />
               </li>
             ))}
           </ul>
