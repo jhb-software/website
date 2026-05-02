@@ -3,11 +3,83 @@
 
 @plugin "@tailwindcss/typography";
 
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/GeistMono-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
-  --font-sans: 'Montserrat Variable', ui-sans-serif, system-ui, -apple-system;
-  --color-primary: #1e3a8a;
-  --color-primary-dark: #162d6e;
-  --color-neutral-150: #ededed;
+  /* Typography */
+  --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.4;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.55;
+  --text-base: 1rem;
+  --text-base--line-height: 1.55;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.55;
+  --text-xl: 1.5rem;
+  --text-xl--line-height: 1.2;
+  --text-2xl: 2rem;
+  --text-2xl--line-height: 1.1;
+  --text-3xl: 2.75rem;
+  --text-3xl--line-height: 1.05;
+  --text-4xl: 3.5rem;
+  --text-4xl--line-height: 1.05;
+  --text-5xl: 4.5rem;
+  --text-5xl--line-height: 1.05;
+
+  --tracking-tight: -0.025em;
+  --tracking-wordmark: -0.01em;
+  --tracking-eyebrow: 0.12em;
+
+  /* Color — cobalt anchor */
+  --color-cobalt-950: #050e1f;
+  --color-cobalt-900: #0a2540;
+  --color-cobalt-800: #14365c;
+  --color-cobalt-100: #e8eef7;
+
+  /* Color — orange accent */
+  --color-orange-600: #ff5c00;
+  --color-orange-100: #fff1e8;
+
+  /* Color — ink (text on light) */
+  --color-ink-950: #0a0a0a;
+  --color-ink-700: #404040;
+  --color-ink-500: #737373;
+  --color-ink-300: #a3a3a3;
+
+  /* Color — surface */
+  --color-paper: #fafafa;
+  --color-paper-pure: #ffffff;
+
+  /* Color — hairlines */
+  --color-hairline: #ececec;
+  --color-hairline-strong: #d4d4d4;
+
+  /* Radii */
+  --radius-none: 0;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
+
+  /* Easing */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @layer base {
@@ -16,56 +88,16 @@
     @apply scroll-pt-26 md:scroll-pt-22;
   }
 
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink-950);
+    font-family: var(--font-sans);
+  }
+
   h1,
   h2 {
     @apply sm:hyphenate-none hyphenate;
-  }
-}
-
-@layer components {
-  .header-solid {
-    @apply bg-white;
-  }
-
-  .header-scrolled {
-    @apply bg-white shadow-sm;
-  }
-
-  .header-transparent {
-    @apply bg-transparent;
-  }
-
-  .menu-icon {
-    @apply relative h-12 w-12 cursor-pointer;
-  }
-
-  .menu-icon div {
-    @apply absolute top-0 right-0 bottom-0 left-0 m-auto h-4 w-7;
-  }
-
-  .menu-icon span {
-    @apply absolute block h-[3px] w-full rounded-sm bg-slate-700;
-    transition: all 0.2s cubic-bezier(0.1, 0.82, 0.76, 0.965);
-  }
-
-  .menu-icon span:first-of-type {
-    @apply top-0;
-  }
-
-  .menu-icon span:last-of-type {
-    @apply bottom-0 left-[1/5] w-[4/5];
-  }
-
-  .menu-icon[data-state='open'] span:first-of-type,
-  .menu-icon.active span:first-of-type {
-    @apply top-[4px];
-    transform: rotate(45deg);
-  }
-
-  .menu-icon[data-state='open'] span:last-of-type,
-  .menu-icon.active span:last-of-type {
-    @apply bottom-[9px] left-0 w-full;
-    transform: rotate(-45deg);
+    letter-spacing: var(--tracking-tight);
   }
 }
 
