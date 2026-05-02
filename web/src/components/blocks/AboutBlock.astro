@@ -11,8 +11,8 @@ const { title, name, text, image } = Astro.props
 <div class="grid grid-cols-1 gap-10 md:grid-cols-[280px_1fr] md:gap-12">
   {
     typeof image === 'object' && (
-      <div class="border-hairline-strong overflow-hidden rounded-sm border">
-        <Img image={image} size="md" class="block aspect-square w-full object-cover" />
+      <div class="border-hairline-strong aspect-square overflow-hidden rounded-sm border">
+        <Img image={image} size="md" class="block h-full w-full object-cover" />
       </div>
     )
   }

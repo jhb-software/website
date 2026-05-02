@@ -1,8 +1,6 @@
 ---
 import { payloadSDK } from '@/cms/sdk'
 import type { Testimonial, TestimonialsBlock } from 'cms/src/payload-types'
-import FrameCell from '../../layout/FrameCell.astro'
-import SectionFrame from '../../layout/SectionFrame.astro'
 import TestimonialCard from '../cards/TestimonialCard.astro'
 
 export type Props = TestimonialsBlock
@@ -35,71 +33,51 @@ const populatedTestimonials = await payloadSDK.find(
 )
 
 const docs = (populatedTestimonials.docs as Testimonial[] | undefined) ?? []
-const useRowLayout = docs.length <= 2
-const initialVisibleCount = 6
-const showSeeMore = !useRowLayout && docs.length > initialVisibleCount
+
+/**
+ * Testimonials use a masonry-style CSS column flow rather than a SectionFrame,
+ * because the quotes vary wildly in length and a uniform grid leaves big
+ * empty cells. Each testimonial is rendered as a standalone hairline card
+ * with the author/customer pinned to the top — that way the see-more fade
+ * (which crops the bottom) never hides who said what.
+ */
+const collapseThreshold = 6
+const showSeeMore = docs.length > collapseThreshold
 ---
 
-{
-  useRowLayout ? (
-    <SectionFrame class:list={['grid', docs.length === 1 ? 'grid-cols-1' : 'sm:grid-cols-2']}>
-      {docs.map((testimonial, idx) => (
-        <FrameCell
-          class:list={[
-            idx > 0 && 'border-t border-t-[var(--color-hairline-strong)]',
-            idx > 0 &&
-              docs.length > 1 &&
-              'sm:border-t-0 sm:border-l sm:border-l-[var(--color-hairline-strong)]',
-          ]}
-        >
+<div class="testimonials-block group relative" id="testimonials-container" data-expanded="false">
+  <ul class="testimonials-list gap-5 space-y-5 sm:columns-2 lg:columns-3">
+    {
+      docs.map((testimonial) => (
+        <li class="mb-5 inline-block w-full break-inside-avoid">
           <TestimonialCard {...testimonial} />
-        </FrameCell>
-      ))}
-    </SectionFrame>
-  ) : (
-    <div class="testimonials-grid group relative" id="testimonials-container" data-expanded="false">
-      <SectionFrame class="grid sm:grid-cols-2 lg:grid-cols-3">
-        {docs.map((testimonial, idx) => (
-          <FrameCell
-            data-testimonial-index={idx}
-            class:list={[
-              idx > 0 && 'border-t border-t-[var(--color-hairline-strong)]',
-              idx % 2 === 1 && 'sm:border-l sm:border-l-[var(--color-hairline-strong)]',
-              idx >= 2 && 'sm:border-t sm:border-t-[var(--color-hairline-strong)]',
-              idx % 3 !== 0 && 'lg:border-l lg:border-l-[var(--color-hairline-strong)]',
-              idx >= 3 && 'lg:border-t lg:border-t-[var(--color-hairline-strong)]',
-            ]}
-          >
-            <TestimonialCard {...testimonial} />
-          </FrameCell>
-        ))}
-      </SectionFrame>
+        </li>
+      ))
+    }
+  </ul>
 
-      {showSeeMore && (
-        <div class="see-more-fade pointer-events-none absolute inset-x-0 bottom-0 flex justify-center pt-32 pb-6 group-data-[expanded=true]:hidden">
-          <button
-            type="button"
-            class="bg-cobalt-900 hover:bg-cobalt-800 ease-standard pointer-events-auto inline-flex translate-y-3 cursor-pointer items-center gap-2 rounded-sm px-5 py-3 font-sans text-sm font-medium text-white transition-colors duration-150"
-            data-testimonials-toggle
-          >
-            {labels.global['show-more']}
-            <span class="font-mono text-xs opacity-70" aria-hidden="true">
-              ↓
-            </span>
-          </button>
-        </div>
-      )}
-    </div>
-  )
-}
+  {
+    showSeeMore && (
+      <div class="see-more-fade pointer-events-none absolute inset-x-0 bottom-0 flex justify-center pt-32 pb-6 group-data-[expanded=true]:hidden">
+        <button
+          type="button"
+          class="bg-cobalt-900 hover:bg-cobalt-800 ease-standard pointer-events-auto inline-flex translate-y-3 cursor-pointer items-center gap-2 rounded-sm px-5 py-3 font-sans text-sm font-medium text-white transition-colors duration-150"
+          data-testimonials-toggle
+        >
+          {labels.global['show-more']}
+          <span class="font-mono text-xs opacity-70" aria-hidden="true">
+            ↓
+          </span>
+        </button>
+      </div>
+    )
+  }
+</div>
 
 <style>
-  .testimonials-grid[data-expanded='false'] :global(.frame-cell[data-testimonial-index]) {
-    /* leave inline; mask handled by gradient overlay below */
-  }
-
-  .testimonials-grid[data-expanded='false'] :global(> [class*='SectionFrame']),
-  .testimonials-grid[data-expanded='false'] :global(> div:first-child) {
+  /* Crop & fade the column flow when collapsed; expanded state shows everything. */
+  .testimonials-block[data-expanded='false']:has(button[data-testimonials-toggle])
+    .testimonials-list {
     max-height: 33rem;
     overflow: hidden;
     -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
