@@ -44,9 +44,9 @@ const isCurrentLink = (link: { page?: { value: string | Page } }) =>
       <ul class="flex list-none items-center gap-1">
         {
           header.links?.map(({ link }) => (
-            <li>
+            <li class:list={[link.style === 'primary' && 'mx-3']}>
               {link.style === 'primary' ? (
-                <Link {...link} uppercase={false} />
+                <Link {...link} uppercase={false} class="!px-4 !py-2" />
               ) : (
                 <a
                   href={normalizePath((link.page?.value as Page)?.path, preview)}

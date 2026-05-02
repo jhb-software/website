@@ -11,11 +11,26 @@ export type Props = NonNullable<Page['sections']>[number] & {
 
 const { title, subTitle, blocks, index, withoutTopSpace = false } = Astro.props
 const eyebrowNumber = index !== undefined ? String(index).padStart(2, '0') : null
+
+/**
+ * Per-section copy overrides for the redesign. The CMS subtitles were authored
+ * for the old layout (long descriptive sentences) and don't fit the new
+ * eyebrow + heading rhythm. Keyed by section `title` so editors don't need to
+ * change anything in the CMS while we iterate.
+ *
+ * TODO(cms-content): once the redesign settles, write these back to the
+ * `pages.sections[].subTitle` field in the CMS and remove this override map.
+ * Affects: home page section 04 ("Über JHB Software").
+ */
+const subTitleOverrides: Record<string, string> = {
+  'Über JHB Software': 'zukunftsorientierte Individualsoftware, um Dein Unternehmen voranzubringen',
+}
+const effectiveSubTitle = (title && subTitleOverrides[title]) || subTitle
 ---
 
 <SectionShell class:list={[withoutTopSpace ? 'mb-24 pt-8 pb-16' : 'my-24 py-16']}>
   {
-    (title || subTitle) && (
+    (title || effectiveSubTitle) && (
       <header class="mb-12 max-w-3xl space-y-4">
         {title && (
           <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
@@ -33,9 +48,9 @@ const eyebrowNumber = index !== undefined ? String(index).padStart(2, '0') : nul
             <span>{title}</span>
           </p>
         )}
-        {subTitle && (
+        {effectiveSubTitle && (
           <h2 class="text-cobalt-900 font-sans text-xl leading-[1.4] font-medium text-balance md:text-2xl">
-            {subTitle}
+            {effectiveSubTitle}
           </h2>
         )}
       </header>
