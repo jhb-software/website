@@ -1,5 +1,5 @@
 ---
-import CacheClearButton from '@/components/CacheClearButton.astro'
+// import CacheClearButton from '@/components/CacheClearButton.astro'
 import { websiteConfig } from '@/config'
 import { VERCEL_ENV } from 'astro:env/server'
 import { ClientRouter } from 'astro:transitions'
@@ -21,7 +21,7 @@ await initGlobalState(Astro)
 const { preview } = Astro.locals.globalState
 
 const enableAnalytics = VERCEL_ENV === 'production' && !preview
-const showCacheButton = import.meta.env.DEV && !preview
+// const showCacheButton = import.meta.env.DEV && !preview
 ---
 
 <!doctype html>
@@ -61,6 +61,6 @@ const showCacheButton = import.meta.env.DEV && !preview
       <slot />
     </main>
     <Footer />
-    {showCacheButton && <CacheClearButton />}
+    {/* {showCacheButton && <CacheClearButton />} */}
   </body>
 </html>
