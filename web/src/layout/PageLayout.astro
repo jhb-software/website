@@ -21,7 +21,7 @@ const schema = isRootPage ? organizationSchema() : pageSchema(pageData, locale)
 
 {
   pageData.sections?.map((section, index) => (
-    <Section {...section} withoutTopSpace={index === 0 && !pageData.isRootPage} />
+    <Section {...section} index={index + 2} withoutTopSpace={index === 0 && !pageData.isRootPage} />
   ))
 }
 

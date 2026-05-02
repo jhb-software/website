@@ -3,23 +3,46 @@ import type { Page } from 'cms/src/payload-types'
 import SectionShell from '../layout/SectionShell.astro'
 import SectionBlock from './SectionBlock.astro'
 
-export type Props = NonNullable<Page['sections']>[number] & { withoutTopSpace?: boolean }
+export type Props = NonNullable<Page['sections']>[number] & {
+  /** 1-based ordinal used to render the eyebrow number (`\ 02 / TITLE`). */
+  index?: number
+  withoutTopSpace?: boolean
+}
 
-const { title, subTitle, blocks, highlightBackground, withoutTopSpace = false } = Astro.props
+const { title, subTitle, blocks, index, withoutTopSpace = false } = Astro.props
+const eyebrowNumber = index !== undefined ? String(index).padStart(2, '0') : null
 ---
 
-<SectionShell
-  class:list={[withoutTopSpace ? 'mb-16 space-y-6 py-16' : 'my-16 space-y-6 py-16']}
-  sectionClass={highlightBackground ? 'bg-gray-200/20' : undefined}
->
+<SectionShell class:list={[withoutTopSpace ? 'mb-24 pt-8 pb-16' : 'my-24 py-16']}>
   {
     (title || subTitle) && (
-      <div class="space-y-2">
-        {title && <h2 class="text-center text-2xl font-bold">{title}</h2>}
-        {subTitle && <p class="text-center text-balance">{subTitle}</p>}
-      </div>
+      <header class="mb-12 max-w-3xl space-y-4">
+        {title && (
+          <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
+            <span class="text-orange-600" aria-hidden="true">
+              \
+            </span>
+            {eyebrowNumber && (
+              <>
+                <span class="ml-1.5">{eyebrowNumber}</span>
+                <span class="text-ink-300 mx-1.5" aria-hidden="true">
+                  /
+                </span>
+              </>
+            )}
+            <span>{title}</span>
+          </p>
+        )}
+        {subTitle && (
+          <h2 class="text-cobalt-900 font-sans text-xl leading-[1.4] font-medium text-balance md:text-2xl">
+            {subTitle}
+          </h2>
+        )}
+      </header>
     )
   }
 
-  {blocks?.map((block) => <SectionBlock {...block} />)}
+  <div class="space-y-16">
+    {blocks?.map((block) => <SectionBlock {...block} />)}
+  </div>
 </SectionShell>

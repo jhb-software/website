@@ -419,8 +419,10 @@ compact cards.
   - Mono eyebrow with orange `\` prefix (`\ MOBILE`, `\ WEB`, `\ WEBAPP`)
   - `h3` — sans, weight 600, `--color-cobalt-900`
   - One-line description, sans, `--color-ink-700`, `line-height 1.55`
-  - `Mehr erfahren →` link (sans, `--color-ink-950`, arrow nudges +2px
-    on hover)
+  - Arrow-only affordance — the **whole card is the link** (`<a>`-wraps
+    the cell content). Bottom-right arrow glyph (`→`, mono, `--color-ink-700`)
+    nudges +2px on hover (`cta-arrow-nudge`). **No "Mehr erfahren" text**
+    (per §11.11).
 
 **Frame pattern (important — not floating cards):** the bento is rendered
 as **one continuous outer frame** with **shared interior hairlines**
@@ -808,6 +810,13 @@ without explicit user approval.
    are the icon system. If a UI surface needs another glyph, ask first.
 10. **No second accent color.** If something looks like it needs a
     "second accent," it doesn't — use ink scale.
+11. **No "Read more" / "Mehr erfahren" / "Click here" / "Learn more" CTA
+    copy.** Action affordances on tiles, cards, and tile-like blocks are
+    signalled by an arrow glyph (`→`) only — the title or surrounding
+    context carries the meaning. Make the whole tile the link target.
+    Reserve text labels for buttons that act on something specific
+    ("Kontakt aufnehmen", "Projekt starten") — never for "go look at this
+    other thing" links.
 
 ---
 
@@ -925,6 +934,30 @@ homepage stays as-is. New pieces:
 Deferred to phase 2 — see §10.
 
 ---
+
+## 12.11 Overriding CMS content during redesign
+
+Some CMS content (`title`, `subTitle`, descriptions, labels) was authored
+for the old layout and doesn't fit the new patterns — e.g. a section
+"subtitle" that's a full descriptive sentence won't work as the short
+heading the redesign §7.4 calls for. **It is acceptable to hardcode an
+override in the corresponding Astro component** rather than block on a
+CMS migration.
+
+Rules:
+
+- Mark every override with a `// TODO(cms-content): …` comment that
+  describes (a) what was overridden, (b) the proposed CMS field
+  shape, and (c) the affected pages, so we can reconcile in a later
+  CMS pass.
+- Prefer **layout overrides** (e.g. render `subTitle` as a smaller
+  lede instead of a giant heading) over **content overrides** when
+  possible — they don't drift from the source of truth.
+- When you must override copy, render it from a per-block constant
+  near the top of the component, not inline, so future CMS migration
+  is a search-and-replace.
+- Do **not** override hero copy (`HeroSection.title`, `subtitle`) —
+  those are user-facing brand copy and need user judgment per §12.10.
 
 ## 12.10 Still genuinely open (flag to user during implementation)
 

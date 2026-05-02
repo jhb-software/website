@@ -1,0 +1,32 @@
+---
+/**
+ * A single cell inside a <SectionFrame>. No border or radius of its own —
+ * dividers come from utility classes (`border-l`, `border-t` on the second
+ * and subsequent cells) so the frame's hairlines are shared, not stacked.
+ *
+ * Hover lights up the cell with a 5 % orange wash per redesign §7.7.
+ */
+type Props = {
+  class?: string
+  /** If true, the cell behaves as a link target (cursor + hover wash). */
+  interactive?: boolean
+}
+
+const { class: className, interactive = false } = Astro.props
+---
+
+<div
+  class:list={[
+    'frame-cell ease-standard relative transition-colors duration-150',
+    interactive && 'frame-cell--interactive cursor-pointer',
+    className,
+  ]}
+>
+  <slot />
+</div>
+
+<style>
+  .frame-cell--interactive:hover {
+    background-color: var(--color-orange-100);
+  }
+</style>

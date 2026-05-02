@@ -1,32 +1,126 @@
 ---
 import type { Page, ServicesBlock } from 'cms/src/payload-types'
-import Card from '../cards/Card.astro'
-import Icon from '../icons/Icon.astro'
-import Link from '../Link.astro'
+import FrameCell from '../../layout/FrameCell.astro'
+import SectionFrame from '../../layout/SectionFrame.astro'
+import { normalizePath } from '../../utils/normalizePath'
+import ServiceVisual from './ServiceVisual.astro'
 
 export type Props = ServicesBlock
 
 const { services } = Astro.props
-const { labels } = Astro.locals.globalState
+const { preview } = Astro.locals.globalState
+
+/**
+ * The bento layout assumes services follow the redesign §7.5 ordering: two
+ * compact cells first (mobile, websites/CMS), one hero last (web apps). The
+ * existing Payload data is already in this order; re-ordering in CMS would
+ * break this map.
+ *
+ * TODO(cms-content): expose an explicit `isHero: boolean` (or `slot: 'hero' |
+ * 'compact'`) on ServicesBlock service items so the order isn't load-bearing.
+ * Affects: ServicesBlock CMS schema and any service-block usage.
+ */
+const compactServices = (services ?? []).slice(0, 2)
+const heroService = (services ?? [])[2]
+
+const eyebrowFor = (title: string | undefined): string => {
+  if (!title) return 'SERVICE'
+  const t = title.toLowerCase()
+  if (t.includes('mobil')) return 'MOBILE'
+  if (t.includes('webanwend')) return 'WEBAPP'
+  if (t.includes('website') || t.includes('cms')) return 'WEB'
+  return title.toUpperCase().slice(0, 12)
+}
+
+const linkFor = (page: unknown): string => normalizePath((page as Page)?.path, preview)
 ---
 
-<div class="grid gap-5 md:grid-cols-3">
-  {
-    services?.map(({ title, description, page, icon }) => (
-      <Card class="flex flex-col items-start justify-between gap-4">
-        <div class="flex flex-row items-center gap-3">
-          <Icon name={icon} class:list={['h-6 w-6 text-black/80']} />
-          <h3 class="m-0 text-lg font-semibold">{title}</h3>
-        </div>
+{
+  heroService && services && services.length >= 3 ? (
+    <SectionFrame class="grid md:grid-cols-[1.4fr_1fr] md:grid-rows-2">
+      <FrameCell
+        interactive
+        class="md:row-span-2 md:border-r md:border-r-[var(--color-hairline-strong)]"
+      >
+        <a href={linkFor(heroService.page)} class="block h-full" aria-label={heroService.title}>
+          <ServiceVisual kind={eyebrowFor(heroService.title)} size="hero" />
+          <div class="flex flex-col gap-3 p-8">
+            <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
+              <span class="text-orange-600" aria-hidden="true">
+                \
+              </span>
+              <span class="ml-1.5">{eyebrowFor(heroService.title)}</span>
+            </p>
+            <h3 class="text-cobalt-900 font-sans text-2xl font-semibold tracking-tight">
+              {heroService.title}
+            </h3>
+            <p class="text-ink-700 max-w-prose font-sans leading-[1.55]">
+              {heroService.description}
+            </p>
+            <span class="text-ink-700 mt-2 self-end font-mono text-base" aria-hidden="true">
+              &rarr;
+            </span>
+          </div>
+        </a>
+      </FrameCell>
 
-        <p>{description}</p>
-        <Link
-          page={{ relationTo: 'pages', value: page as Page }}
-          label={labels.global['learn-more']}
-          style="text-primary"
-          icon="chevron-right"
-        />
-      </Card>
-    ))
-  }
-</div>
+      {compactServices.map((service, idx) => (
+        <FrameCell
+          interactive
+          class:list={[idx === 1 && 'md:border-t md:border-t-[var(--color-hairline-strong)]']}
+        >
+          <a href={linkFor(service.page)} class="block h-full" aria-label={service.title}>
+            <ServiceVisual kind={eyebrowFor(service.title)} size="compact" />
+            <div class="flex flex-col gap-2 p-6">
+              <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
+                <span class="text-orange-600" aria-hidden="true">
+                  \
+                </span>
+                <span class="ml-1.5">{eyebrowFor(service.title)}</span>
+              </p>
+              <h3 class="text-cobalt-900 font-sans text-lg font-semibold tracking-tight">
+                {service.title}
+              </h3>
+              <p class="text-ink-700 line-clamp-2 font-sans text-sm leading-[1.55]">
+                {service.description}
+              </p>
+              <span class="text-ink-700 mt-1 self-end font-mono text-sm" aria-hidden="true">
+                &rarr;
+              </span>
+            </div>
+          </a>
+        </FrameCell>
+      ))}
+    </SectionFrame>
+  ) : (
+    <SectionFrame class="grid md:grid-cols-3">
+      {services?.map((service, idx) => (
+        <FrameCell
+          interactive
+          class:list={[idx > 0 && 'md:border-l md:border-l-[var(--color-hairline-strong)]']}
+        >
+          <a href={linkFor(service.page)} class="block h-full" aria-label={service.title}>
+            <ServiceVisual kind={eyebrowFor(service.title)} size="compact" />
+            <div class="flex flex-col gap-2 p-6">
+              <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
+                <span class="text-orange-600" aria-hidden="true">
+                  \
+                </span>
+                <span class="ml-1.5">{eyebrowFor(service.title)}</span>
+              </p>
+              <h3 class="text-cobalt-900 font-sans text-lg font-semibold tracking-tight">
+                {service.title}
+              </h3>
+              <p class="text-ink-700 line-clamp-2 font-sans text-sm leading-[1.55]">
+                {service.description}
+              </p>
+              <span class="text-ink-700 mt-1 self-end font-mono text-sm" aria-hidden="true">
+                &rarr;
+              </span>
+            </div>
+          </a>
+        </FrameCell>
+      ))}
+    </SectionFrame>
+  )
+}

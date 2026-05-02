@@ -1,0 +1,29 @@
+---
+/**
+ * Section eyebrow per redesign §7.4.
+ *
+ * Renders `\ 02 / LEISTUNGEN` — orange backslash, mono number (zero-padded),
+ * neutral separator, mono uppercase label. The leading number is optional.
+ */
+type Props = {
+  /** Section ordinal (1, 2, 3…). Rendered zero-padded to two digits. */
+  index?: number
+  label: string
+  class?: string
+}
+
+const { index, label, class: className } = Astro.props
+const numStr = index !== undefined ? String(index).padStart(2, '0') : null
+---
+
+<p class:list={['text-ink-500 tracking-eyebrow font-mono text-xs uppercase', className]}>
+  <span class="text-orange-600" aria-hidden="true">\</span>
+  {
+    numStr && (
+      <>
+        <span class="ml-1.5">{numStr}</span>
+        <span class="text-ink-300 mx-1.5">/</span>
+      </>
+    )
+  }<span>{!numStr && <span class="ml-1.5" />}{label}</span>
+</p>
