@@ -53,6 +53,7 @@ const normalizePathValue = 'normalizePath' in Astro.props ? Astro.props.normaliz
 const href = normalizePathValue ? normalizePath(rawPath, preview) : rawPath
 
 const isPrimary = Astro.props.style === 'primary'
+const hasIcon = 'icon' in Astro.props && Boolean(Astro.props.icon)
 ---
 
 <a
@@ -66,7 +67,7 @@ const isPrimary = Astro.props.style === 'primary'
   {'label' in Astro.props ? Astro.props.label : <slot />}
   {'icon' in Astro.props && Astro.props.icon && <Icon name={Astro.props.icon} />}
   {
-    isPrimary && (
+    isPrimary && !hasIcon && (
       <span class="font-mono text-xs opacity-70" aria-hidden="true">
         &rarr;
       </span>
