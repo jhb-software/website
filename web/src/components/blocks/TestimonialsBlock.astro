@@ -34,27 +34,27 @@ const populatedTestimonials = await payloadSDK.find(
 
 const docs = (populatedTestimonials.docs as Testimonial[] | undefined) ?? []
 
-/**
- * Testimonials use a masonry-style CSS column flow rather than a SectionFrame,
- * because the quotes vary wildly in length and a uniform grid leaves big
- * empty cells. Each testimonial is rendered as a standalone hairline card
- * with the author/customer pinned to the top — that way the see-more fade
- * (which crops the bottom) never hides who said what.
- */
 const collapseThreshold = 6
 const showSeeMore = docs.length > collapseThreshold
 ---
 
 <div class="testimonials-block group relative" id="testimonials-container" data-expanded="false">
-  <ul class="testimonials-list gap-5 space-y-5 sm:columns-2 lg:columns-3">
-    {
-      docs.map((testimonial) => (
-        <li class="mb-5 inline-block w-full break-inside-avoid">
-          <TestimonialCard {...testimonial} />
-        </li>
-      ))
-    }
-  </ul>
+  {
+    /* The crop lives on this wrapper, not on the column list — so CSS columns
+      always balance against the full content height and the cards don't
+      reshuffle when expanding. */
+  }
+  <div class="testimonials-crop">
+    <ul class="testimonials-list gap-x-10 sm:columns-2 lg:columns-3">
+      {
+        docs.map((testimonial) => (
+          <li class="mb-2 inline-block w-full break-inside-avoid">
+            <TestimonialCard {...testimonial} />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
 
   {
     showSeeMore && (
@@ -75,9 +75,8 @@ const showSeeMore = docs.length > collapseThreshold
 </div>
 
 <style>
-  /* Crop & fade the column flow when collapsed; expanded state shows everything. */
   .testimonials-block[data-expanded='false']:has(button[data-testimonials-toggle])
-    .testimonials-list {
+    .testimonials-crop {
     max-height: 33rem;
     overflow: hidden;
     -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
