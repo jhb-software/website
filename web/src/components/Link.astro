@@ -22,12 +22,12 @@ export function buttonStyles(style: Link['style']) {
   switch (style) {
     // Primary — filled cobalt button (the page's main conversion CTA)
     case 'primary':
-      return 'inline-flex items-center gap-2 bg-cobalt-900 text-white hover:bg-cobalt-800 rounded-sm px-5 py-3 font-sans text-sm font-medium ease-standard transition-colors duration-150 no-underline'
+      return 'inline-flex items-center gap-2 bg-cobalt-900 text-white hover:bg-cobalt-800 rounded-none px-5 py-3 font-sans text-sm font-medium ease-standard transition-colors duration-150 no-underline'
 
     // Ghost — transparent button with hairline border
     case 'light':
     case 'light-primary':
-      return 'inline-flex items-center gap-2 border border-hairline-strong text-ink-950 hover:text-orange-600 rounded-sm px-5 py-3 font-sans text-sm font-medium ease-standard transition-colors duration-150 no-underline'
+      return 'inline-flex items-center gap-2 border border-hairline-strong text-ink-950 hover:text-orange-600 rounded-none px-5 py-3 font-sans text-sm font-medium ease-standard transition-colors duration-150 no-underline'
 
     // In-prose link — underlined, hover turns orange
     case 'text':
