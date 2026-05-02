@@ -71,6 +71,9 @@
   --color-hairline: #ececec;
   --color-hairline-strong: #d4d4d4;
 
+  /* Container — site-wide content max width per §7.1 */
+  --container-page: 1200px;
+
   /* Radii */
   --radius-none: 0;
   --radius-xs: 2px;

@@ -1,25 +1,108 @@
 ---
-import Link from '../components/Link.astro'
+import { defaultLocale } from '@/cms/locales'
+import { websiteConfig } from '@/config'
+import type { Page } from 'cms/src/payload-types'
+import Icon from '../components/icons/Icon.astro'
+import { normalizePath } from '../utils/normalizePath'
+import CornerMark from './CornerMark.astro'
 
-const { footer } = Astro.locals.globalState
+const { locale, preview, footer } = Astro.locals.globalState
+
+const homePagePath = normalizePath(`/${locale ?? defaultLocale}`, preview)
+
+const socialAccessibleNames: Record<string, string> = {
+  github: 'GitHub',
+  linkedin: 'LinkedIn',
+  whatsapp: 'WhatsApp',
+  instagram: 'Instagram',
+  facebook: 'Facebook',
+  youtube: 'YouTube',
+  x: 'X',
+}
+
+// Only some social platforms have rendered icons; the rest fall back to a label.
+const iconAvailable = new Set(['github', 'linkedin', 'whatsapp'])
 ---
 
-<footer
-  class:list={[
-    'bg-white-100 z-40 flex w-full flex-col items-center justify-between border-t border-gray-300 bg-white p-2 px-12 md:flex-row',
-  ]}
->
-  <p class="font-semibold">JHB Software © {new Date().getFullYear()}</p>
+<footer class="bg-cobalt-900 relative mt-32 text-white">
+  <div class="absolute inset-x-0 top-0 h-px bg-orange-600" aria-hidden="true"></div>
 
-  <nav>
-    <ul class="flex list-none gap-4">
-      {
-        footer.links?.map(({ link }) => (
-          <li>
-            <Link {...link} />
-          </li>
-        ))
-      }
-    </ul>
-  </nav>
+  <CornerMark position="top-left" />
+  <CornerMark position="top-right" />
+
+  <div class="max-w-page mx-auto px-5 py-16 md:px-8">
+    <div class="grid grid-cols-2 gap-12 md:grid-cols-3 md:gap-8">
+      <div>
+        <h2 class="text-cobalt-100 tracking-eyebrow font-mono text-xs uppercase">
+          <span class="text-orange-600" aria-hidden="true">\</span> Navigation
+        </h2>
+        <ul class="mt-4 flex flex-col gap-3">
+          {
+            footer.links?.map(({ link }) => (
+              <li>
+                <a
+                  href={normalizePath((link.page?.value as Page)?.path, preview)}
+                  class="ease-standard text-sm font-medium transition-colors duration-150 hover:text-orange-600"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-cobalt-100 tracking-eyebrow font-mono text-xs uppercase">
+          <span class="text-orange-600" aria-hidden="true">\</span> Social
+        </h2>
+        <ul class="mt-4 flex flex-col gap-3">
+          {
+            footer.socialLinks?.map(({ url, icon }) => (
+              <li>
+                <a
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={socialAccessibleNames[icon] ?? icon}
+                  class="ease-standard inline-flex items-center gap-2 text-sm font-medium transition-colors duration-150 hover:text-orange-600"
+                >
+                  {iconAvailable.has(icon) ? (
+                    <Icon name={icon as 'github' | 'linkedin' | 'whatsapp'} class="h-4 w-4" />
+                  ) : null}
+                  <span>{socialAccessibleNames[icon] ?? icon}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="col-span-2 md:col-span-1">
+        <h2 class="text-cobalt-100 tracking-eyebrow font-mono text-xs uppercase">
+          <span class="text-orange-600" aria-hidden="true">\</span> Kontakt
+        </h2>
+        <p class="mt-4 text-sm leading-[1.55]">
+          {websiteConfig.name}
+          <br />
+          <a
+            href={`https://${websiteConfig.domain}`}
+            class="ease-standard transition-colors duration-150 hover:text-orange-600"
+          >
+            {websiteConfig.domain}
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <div class="border-cobalt-800 mt-16 flex items-center justify-between border-t pt-8">
+      <a href={homePagePath} class="flex items-center gap-3" aria-label="JHB Software">
+        <img src={websiteConfig.icon} alt="" width={24} height={24} />
+        <span class="text-cobalt-100 tracking-eyebrow font-mono text-xs uppercase">
+          <span class="text-orange-600" aria-hidden="true">\</span>
+          {' '}© {new Date().getFullYear()}
+        </span>
+      </a>
+    </div>
+  </div>
 </footer>
