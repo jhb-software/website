@@ -6,7 +6,7 @@ import Icon from '../components/icons/Icon.astro'
 import { normalizePath } from '../utils/normalizePath'
 import CornerMark from './CornerMark.astro'
 
-const { locale, preview, footer } = Astro.locals.globalState
+const { locale, preview, footer, header } = Astro.locals.globalState
 
 const homePagePath = normalizePath(`/${locale ?? defaultLocale}`, preview)
 
@@ -22,23 +22,35 @@ const socialAccessibleNames: Record<string, string> = {
 
 // Only some social platforms have rendered icons; the rest fall back to a label.
 const iconAvailable = new Set(['github', 'linkedin', 'whatsapp'])
+
+// Top-level site pages — pulled from the header so editors curate one nav.
+// The primary CTA (Kontakt button) is excluded; it lives in its own column.
+const sitePages = header.links?.filter(({ link }) => link.style !== 'primary') ?? []
 ---
 
-<footer class="bg-cobalt-900 relative mt-32 text-white">
+<footer class="bg-cobalt-900 relative mt-32 overflow-hidden text-white">
   <div class="absolute inset-x-0 top-0 h-px bg-orange-600" aria-hidden="true"></div>
 
   <CornerMark position="top-left" />
   <CornerMark position="top-right" />
 
-  <div class="max-w-page mx-auto px-5 py-16 md:px-8">
+  <div
+    class="watermark-stack pointer-events-none absolute inset-x-0 bottom-0 text-center font-sans font-bold tracking-tight select-none"
+    aria-hidden="true"
+  >
+    <div class="watermark watermark-base">JHB</div>
+    <div class="watermark watermark-glow">JHB</div>
+  </div>
+
+  <div class="max-w-page relative mx-auto px-5 pt-12 pb-6 md:px-8">
     <div class="grid grid-cols-2 gap-12 md:grid-cols-3 md:gap-8">
       <div>
         <h2 class="text-cobalt-100 tracking-eyebrow font-mono text-xs uppercase">
-          <span class="text-orange-600" aria-hidden="true">\</span> Navigation
+          <span class="text-orange-600" aria-hidden="true">\</span> Site
         </h2>
         <ul class="mt-4 flex flex-col gap-3">
           {
-            footer.links?.map(({ link }) => (
+            sitePages.map(({ link }) => (
               <li>
                 <a
                   href={normalizePath((link.page?.value as Page)?.path, preview)}
@@ -54,7 +66,7 @@ const iconAvailable = new Set(['github', 'linkedin', 'whatsapp'])
 
       <div>
         <h2 class="text-cobalt-100 tracking-eyebrow font-mono text-xs uppercase">
-          <span class="text-orange-600" aria-hidden="true">\</span> Social
+          <span class="text-orange-600" aria-hidden="true">\</span> Sozial
         </h2>
         <ul class="mt-4 flex flex-col gap-3">
           {
@@ -95,14 +107,121 @@ const iconAvailable = new Set(['github', 'linkedin', 'whatsapp'])
       </div>
     </div>
 
-    <div class="border-cobalt-800 mt-16 flex items-center justify-between border-t pt-8">
-      <a href={homePagePath} class="flex items-center gap-3" aria-label="JHB Software">
-        <img src={websiteConfig.icon} alt="" width={24} height={24} />
-        <span class="text-cobalt-100 tracking-eyebrow font-mono text-xs uppercase">
-          <span class="text-orange-600" aria-hidden="true">\</span>
-          {' '}© {new Date().getFullYear()}
+    <div
+      class="border-cobalt-800 relative mt-12 flex flex-col gap-4 border-t pt-6 md:flex-row md:items-center md:justify-between"
+    >
+      <a
+        href={homePagePath}
+        class="ease-standard text-cobalt-100 inline-flex items-center gap-3 text-xs transition-colors duration-150 hover:text-orange-600"
+        aria-label="JHB Software"
+      >
+        <img src={websiteConfig.icon} alt="" width={20} height={20} />
+        <span class="tracking-eyebrow font-mono uppercase">
+          © {new Date().getFullYear()} JHB Software
         </span>
       </a>
+
+      {
+        footer.links && footer.links.length > 0 && (
+          <ul class="text-cobalt-100/60 flex flex-wrap items-center gap-x-1.5 gap-y-2 font-mono text-xs">
+            {footer.links.map(({ link }, index) => (
+              <>
+                {index > 0 && (
+                  <li class="text-cobalt-800" aria-hidden="true">
+                    \
+                  </li>
+                )}
+                <li>
+                  <a
+                    href={normalizePath((link.page?.value as Page)?.path, preview)}
+                    class="ease-standard transition-colors duration-150 hover:text-orange-600"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              </>
+            ))}
+          </ul>
+        )
+      }
     </div>
   </div>
 </footer>
+
+<style>
+  /* Decorative brand watermark — fluid display type sized to the footer
+     width, deliberately outside the §4.2 body type scale. The bottom half
+     is hidden behind the footer edge via translateY.
+
+     Two layers: a faint base, plus a brighter "glow" copy revealed by a
+     radial mask that follows the cursor (--mx, --my). With no pointer or
+     reduced motion, only the base shows. */
+  .watermark-stack {
+    --mx: 50%;
+    --my: 50%;
+  }
+  .watermark {
+    font-size: clamp(10rem, 34vw, 30rem);
+    line-height: 0.85;
+    color: var(--color-cobalt-800);
+    transform: translateY(35%);
+  }
+  .watermark-glow {
+    position: absolute;
+    inset: 0;
+    color: var(--color-cobalt-100);
+    opacity: 0.18;
+    -webkit-mask-image: radial-gradient(
+      circle 320px at var(--mx) var(--my),
+      black 0%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(circle 320px at var(--mx) var(--my), black 0%, transparent 100%);
+  }
+  .watermark-base {
+    opacity: 0.45;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .watermark-glow {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  function setupWatermark() {
+    const stack = document.querySelector('.watermark-stack') as HTMLElement | null
+    if (!stack) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    let raf = 0
+    let pendingX = 0
+    let pendingY = 0
+
+    const onMove = (event: PointerEvent) => {
+      const rect = stack.getBoundingClientRect()
+      pendingX = event.clientX - rect.left
+      pendingY = event.clientY - rect.top
+      if (raf) return
+      raf = requestAnimationFrame(() => {
+        stack.style.setProperty('--mx', `${pendingX}px`)
+        stack.style.setProperty('--my', `${pendingY}px`)
+        raf = 0
+      })
+    }
+
+    window.addEventListener('pointermove', onMove)
+
+    document.addEventListener(
+      'astro:before-swap',
+      () => {
+        window.removeEventListener('pointermove', onMove)
+        if (raf) cancelAnimationFrame(raf)
+      },
+      { once: true },
+    )
+  }
+
+  document.addEventListener('astro:page-load', setupWatermark)
+</script>
