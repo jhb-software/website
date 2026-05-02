@@ -25,35 +25,30 @@ const { title, text, items } = Astro.props
     )
   }
 
-  <SectionFrame class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" corners={false}>
+  <SectionFrame class="grid grid-cols-1 sm:grid-cols-2" corners={false}>
     {
       items.map((item, idx) => (
         <FrameCell
           class:list={[
-            'p-6',
+            'philosophy-cell group p-8',
             idx > 0 && 'border-t border-t-[var(--color-hairline-strong)]',
-            idx > 0 && 'sm:border-t-0',
             idx % 2 === 1 && 'sm:border-l sm:border-l-[var(--color-hairline-strong)]',
+            idx === 1 && 'sm:border-t-0',
             idx >= 2 && 'sm:border-t sm:border-t-[var(--color-hairline-strong)]',
-            idx % 4 !== 0 && 'lg:border-l lg:border-l-[var(--color-hairline-strong)]',
-            'lg:border-t-0',
           ]}
         >
-          <div class="flex h-8 w-8 items-center justify-center" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <rect
-                x="1"
-                y="1"
-                width="18"
-                height="18"
-                stroke="var(--color-cobalt-900)"
-                stroke-width="1.5"
-              />
-              <circle cx="10" cy="10" r="2.5" fill="var(--color-orange-600)" />
-            </svg>
+          <div class="flex items-baseline gap-5">
+            <span
+              class="text-ink-300 font-mono text-2xl leading-none transition-colors duration-150 group-hover:text-orange-600"
+              aria-hidden="true"
+            >
+              {String(idx + 1).padStart(2, '0')}
+            </span>
+            <div>
+              <h4 class="text-cobalt-900 font-sans text-base font-semibold">{item.title}</h4>
+              <p class="text-ink-700 mt-2 font-sans text-sm leading-[1.55]">{item.text}</p>
+            </div>
           </div>
-          <h4 class="text-cobalt-900 mt-4 font-sans text-base font-semibold">{item.title}</h4>
-          <p class="text-ink-700 mt-2 font-sans text-sm leading-[1.55]">{item.text}</p>
         </FrameCell>
       ))
     }
