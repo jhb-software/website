@@ -53,9 +53,13 @@
   --color-cobalt-800: #14365c;
   --color-cobalt-100: #e8eef7;
 
-  /* Color — orange accent */
-  --color-orange-600: #ff5c00;
-  --color-orange-100: #fff1e8;
+  /* Color — teal accent */
+  --color-orange-600: #0f766e;
+  --color-orange-100: #ccfbf1;
+
+  /* Original orange accent — kept for A/B testing */
+  /* --color-orange-600: #ff5c00; */
+  /* --color-orange-100: #fff1e8; */
 
   /* Color — ink (text on light) */
   --color-ink-950: #0a0a0a;
