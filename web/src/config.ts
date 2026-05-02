@@ -21,7 +21,7 @@ export const websiteConfig: WebsiteConfig = {
   url: SITE_URL,
   name: 'JHB Software',
   domain: 'jhb.software',
-  icon: '/icon.png',
+  icon: '/icon.svg',
   logo: {
     path: '/logo.webp',
     url: new URL('/logo.webp', SITE_URL).toString(),
