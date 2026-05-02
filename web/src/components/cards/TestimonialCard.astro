@@ -14,6 +14,8 @@ const customer =
 if (!customer) {
   throw new Error(`Customer not populated, got: ${JSON.stringify(Astro.props)}`)
 }
+
+const customerLogo = typeof customer.logo === 'object' ? customer.logo : undefined
 ---
 
 <figure class="flex h-full flex-col gap-6 p-6">
@@ -32,25 +34,42 @@ if (!customer) {
       )
     }
 
-    <div class="min-w-0">
+    <div class="min-w-0 flex-1">
       <div class="text-cobalt-900 truncate font-sans text-sm font-medium">
         {author.name}
       </div>
+
       {
-        customer.websiteUrl ? (
-          <a
-            href={customer.websiteUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-ink-500 ease-standard tracking-eyebrow truncate font-mono text-xs uppercase transition-colors duration-150 hover:text-orange-600"
-          >
-            {customer.name}
-          </a>
-        ) : (
-          <span class="text-ink-500 tracking-eyebrow truncate font-mono text-xs uppercase">
-            {customer.name}
-          </span>
-        )
+        (() => {
+          const companyContent = (
+            <span class="inline-flex items-center gap-2 truncate">
+              {customerLogo && (
+                <Img
+                  image={customerLogo}
+                  size="original"
+                  width={48}
+                  class="h-4 w-auto max-w-[48px] shrink-0 opacity-60 grayscale [filter:brightness(0)]"
+                />
+              )}
+              <span class="tracking-eyebrow truncate font-mono text-xs uppercase">
+                {customer.name}
+              </span>
+            </span>
+          )
+
+          return customer.websiteUrl ? (
+            <a
+              href={customer.websiteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-ink-500 ease-standard inline-flex items-center transition-colors duration-150 hover:text-orange-600"
+            >
+              {companyContent}
+            </a>
+          ) : (
+            <span class="text-ink-500 inline-flex items-center">{companyContent}</span>
+          )
+        })()
       }
     </div>
   </figcaption>

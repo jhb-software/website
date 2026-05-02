@@ -10,14 +10,15 @@ export type Props = TestimonialsBlock
 const { testimonials } = Astro.props
 const { locale, preview, labels } = Astro.locals.globalState
 
-// Fetch the testimonials with depth 2 to ensure all related fields are populated
+// Fetch the testimonials with depth 3 so the customer logo (testimonial →
+// project → customer → logo) resolves to an Image object, not just an id.
 const populatedTestimonials = await payloadSDK.find(
   {
     collection: 'testimonials',
     locale: locale,
     draft: false,
     pagination: false,
-    depth: 2,
+    depth: 3,
     where: {
       id: {
         in: testimonials.map((testimonial) =>
