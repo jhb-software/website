@@ -66,9 +66,9 @@ const sitePages = header.links?.filter(({ link }) => link.style !== 'primary') ?
 
       <div>
         <h2 class="text-cobalt-100 tracking-eyebrow font-mono text-xs uppercase">
-          <span class="text-orange-600" aria-hidden="true">\</span> Sozial
+          <span class="text-orange-600" aria-hidden="true">\</span> Social
         </h2>
-        <ul class="mt-4 flex flex-col gap-3">
+        <ul class="mt-4 flex flex-wrap gap-2">
           {
             footer.socialLinks?.map(({ url, icon }) => (
               <li>
@@ -77,12 +77,13 @@ const sitePages = header.links?.filter(({ link }) => link.style !== 'primary') ?
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={socialAccessibleNames[icon] ?? icon}
-                  class="ease-standard inline-flex items-center gap-2 text-sm font-medium transition-colors duration-150 hover:text-orange-600"
+                  class="bg-cobalt-900/20 text-cobalt-100 ease-standard inline-flex h-10 w-10 items-center justify-center border border-white/20 backdrop-blur-md transition-colors duration-150 hover:border-orange-600 hover:text-orange-600"
                 >
                   {iconAvailable.has(icon) ? (
                     <Icon name={icon as 'github' | 'linkedin' | 'whatsapp'} class="h-4 w-4" />
-                  ) : null}
-                  <span>{socialAccessibleNames[icon] ?? icon}</span>
+                  ) : (
+                    <span class="font-mono text-xs uppercase">{icon}</span>
+                  )}
                 </a>
               </li>
             ))
@@ -94,16 +95,25 @@ const sitePages = header.links?.filter(({ link }) => link.style !== 'primary') ?
         <h2 class="text-cobalt-100 tracking-eyebrow font-mono text-xs uppercase">
           <span class="text-orange-600" aria-hidden="true">\</span> Kontakt
         </h2>
-        <p class="mt-4 text-sm leading-[1.55]">
-          {websiteConfig.name}
-          <br />
-          <a
-            href={`https://${websiteConfig.domain}`}
-            class="ease-standard transition-colors duration-150 hover:text-orange-600"
+        <a
+          href={`mailto:${websiteConfig.email}`}
+          class="bg-cobalt-900/20 ease-standard group mt-4 flex items-center justify-between gap-4 border border-white/20 p-4 backdrop-blur-md transition-colors duration-150 hover:border-orange-600"
+        >
+          <span class="flex flex-col gap-1.5">
+            <span class="text-cobalt-100/70 tracking-eyebrow font-mono text-[0.6875rem] uppercase">
+              Schreib uns
+            </span>
+            <span class="font-mono text-sm break-all text-white group-hover:text-orange-600">
+              {websiteConfig.email}
+            </span>
+          </span>
+          <span
+            class="ease-standard text-cobalt-100 font-mono text-base transition group-hover:translate-x-0.5 group-hover:text-orange-600 motion-safe:duration-150"
+            aria-hidden="true"
           >
-            {websiteConfig.domain}
-          </a>
-        </p>
+            →
+          </span>
+        </a>
       </div>
     </div>
 
