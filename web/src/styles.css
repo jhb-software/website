@@ -77,7 +77,8 @@
 
   /* Color — teal accent */
   --color-orange-600: #0f766e;
-  --color-orange-100: #ccfbf1;
+  /* Muted teal (SVG fills, etc.): darker + greener than cyan mint #ccfbf1 */
+  --color-orange-100: #a8d4c8;
 
   /* Original orange accent — kept for A/B testing */
   /* --color-orange-600: #ff5c00; */

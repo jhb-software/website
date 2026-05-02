@@ -4,7 +4,8 @@
  * dividers come from utility classes (`border-l`, `border-t` on the second
  * and subsequent cells) so the frame's hairlines are shared, not stacked.
  *
- * Hover lights up the cell with a 5 % orange wash per redesign §7.7.
+ * Interactive cells use `group` for child `group-hover:*` accents; hover itself
+ * is a light tint plus a bottom accent bar (not a full wash).
  */
 type Props = {
   class?: string
@@ -17,8 +18,8 @@ const { class: className, interactive = false } = Astro.props
 
 <div
   class:list={[
-    'frame-cell ease-standard relative transition-colors duration-150',
-    interactive && 'frame-cell--interactive cursor-pointer',
+    'frame-cell relative',
+    interactive && 'frame-cell--interactive group cursor-pointer',
     className,
   ]}
 >
@@ -26,7 +27,34 @@ const { class: className, interactive = false } = Astro.props
 </div>
 
 <style>
+  .frame-cell--interactive {
+    transition: background-color 200ms var(--ease-standard);
+  }
+
+  .frame-cell--interactive::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 2px;
+    background-color: var(--color-orange-600);
+    opacity: 0;
+    transition: opacity 200ms var(--ease-standard);
+    pointer-events: none;
+  }
+
   .frame-cell--interactive:hover {
-    background-color: var(--color-orange-100);
+    background-color: color-mix(in srgb, var(--color-orange-600) 6%, transparent);
+  }
+
+  .frame-cell--interactive:hover::after {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .frame-cell--interactive,
+    .frame-cell--interactive::after {
+      transition-duration: 0.01ms;
+    }
   }
 </style>

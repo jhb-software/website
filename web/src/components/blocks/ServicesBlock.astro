@@ -46,7 +46,10 @@ const linkFor = (page: unknown): string => normalizePath((page as Page)?.path, p
           <ServiceVisual kind={eyebrowFor(heroService.title)} size="hero" />
           <div class="flex flex-col gap-3 p-8">
             <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
-              <span class="text-orange-600" aria-hidden="true">
+              <span
+                class="ease-standard inline-block text-orange-600 transition-transform duration-200 group-hover:translate-x-0.5"
+                aria-hidden="true"
+              >
                 \
               </span>
               <span class="ml-1.5">{eyebrowFor(heroService.title)}</span>
@@ -57,7 +60,10 @@ const linkFor = (page: unknown): string => normalizePath((page as Page)?.path, p
             <p class="text-ink-700 max-w-prose font-sans leading-[1.55]">
               {heroService.description}
             </p>
-            <span class="text-ink-700 mt-2 self-end font-mono text-base" aria-hidden="true">
+            <span
+              class="text-ink-700 ease-standard mt-2 self-end font-mono text-base transition-colors duration-200 group-hover:text-orange-600"
+              aria-hidden="true"
+            >
               &rarr;
             </span>
           </div>
@@ -73,7 +79,10 @@ const linkFor = (page: unknown): string => normalizePath((page as Page)?.path, p
             <ServiceVisual kind={eyebrowFor(service.title)} size="compact" />
             <div class="flex flex-col gap-2 p-6">
               <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
-                <span class="text-orange-600" aria-hidden="true">
+                <span
+                  class="ease-standard inline-block text-orange-600 transition-transform duration-200 group-hover:translate-x-0.5"
+                  aria-hidden="true"
+                >
                   \
                 </span>
                 <span class="ml-1.5">{eyebrowFor(service.title)}</span>
@@ -84,7 +93,10 @@ const linkFor = (page: unknown): string => normalizePath((page as Page)?.path, p
               <p class="text-ink-700 line-clamp-2 font-sans text-sm leading-[1.55]">
                 {service.description}
               </p>
-              <span class="text-ink-700 mt-1 self-end font-mono text-sm" aria-hidden="true">
+              <span
+                class="text-ink-700 ease-standard mt-1 self-end font-mono text-sm transition-colors duration-200 group-hover:text-orange-600"
+                aria-hidden="true"
+              >
                 &rarr;
               </span>
             </div>
@@ -103,7 +115,10 @@ const linkFor = (page: unknown): string => normalizePath((page as Page)?.path, p
             <ServiceVisual kind={eyebrowFor(service.title)} size="compact" />
             <div class="flex flex-col gap-2 p-6">
               <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
-                <span class="text-orange-600" aria-hidden="true">
+                <span
+                  class="ease-standard inline-block text-orange-600 transition-transform duration-200 group-hover:translate-x-0.5"
+                  aria-hidden="true"
+                >
                   \
                 </span>
                 <span class="ml-1.5">{eyebrowFor(service.title)}</span>
@@ -114,7 +129,10 @@ const linkFor = (page: unknown): string => normalizePath((page as Page)?.path, p
               <p class="text-ink-700 line-clamp-2 font-sans text-sm leading-[1.55]">
                 {service.description}
               </p>
-              <span class="text-ink-700 mt-1 self-end font-mono text-sm" aria-hidden="true">
+              <span
+                class="text-ink-700 ease-standard mt-1 self-end font-mono text-sm transition-colors duration-200 group-hover:text-orange-600"
+                aria-hidden="true"
+              >
                 &rarr;
               </span>
             </div>
