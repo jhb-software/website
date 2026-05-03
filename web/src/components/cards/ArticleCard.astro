@@ -4,6 +4,7 @@ import Eyebrow from '@/layout/Eyebrow.astro'
 import type { Article, Author } from 'cms/src/payload-types'
 import { normalizePath } from '../../utils/normalizePath'
 import ArticleTagsList from '../ArticleTagsList.astro'
+import Icon from '../icons/Icon.astro'
 import Img from '../Img.astro'
 
 type Props = Article & {
@@ -97,12 +98,10 @@ if (variant === 'featured' && article.authors?.length) {
                 <span class="font-medium">{author.name}</span>,
               ])}
             </p>
-            <span
-              class="text-ink-700 ease-standard ml-auto font-mono text-base transition-colors duration-200 group-hover:text-orange-600"
-              aria-hidden="true"
-            >
-              &rarr;
-            </span>
+            <Icon
+              name="arrow-right"
+              class="text-ink-700 ease-standard ml-auto h-5 w-5 transition-colors duration-200 group-hover:text-orange-600"
+            />
           </div>
         )}
       </div>
@@ -131,12 +130,10 @@ if (variant === 'featured' && article.authors?.length) {
 
         <div class="mt-auto flex items-end justify-between gap-3 pt-4">
           <ArticleTagsList tags={article.tags} />
-          <span
-            class="text-ink-700 ease-standard font-mono text-base transition-colors duration-200 group-hover:text-orange-600"
-            aria-hidden="true"
-          >
-            &rarr;
-          </span>
+          <Icon
+            name="arrow-right"
+            class="text-ink-700 ease-standard h-5 w-5 transition-colors duration-200 group-hover:text-orange-600"
+          />
         </div>
       </div>
     </a>

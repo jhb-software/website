@@ -65,12 +65,6 @@ const hasIcon = 'icon' in Astro.props && Boolean(Astro.props.icon)
   ]}
 >
   {'label' in Astro.props ? Astro.props.label : <slot />}
-  {'icon' in Astro.props && Astro.props.icon && <Icon name={Astro.props.icon} />}
-  {
-    isPrimary && !hasIcon && (
-      <span class="font-mono text-xs opacity-70" aria-hidden="true">
-        &rarr;
-      </span>
-    )
-  }
+  {'icon' in Astro.props && Astro.props.icon && <Icon name={Astro.props.icon} class="h-4 w-4" />}
+  {isPrimary && !hasIcon && <Icon name="arrow-right" class="h-4 w-4 opacity-70" />}
 </a>

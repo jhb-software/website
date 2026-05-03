@@ -4,6 +4,7 @@ import FrameCell from '../../layout/FrameCell.astro'
 import Heading from '../../layout/Heading.astro'
 import SectionFrame from '../../layout/SectionFrame.astro'
 import { normalizePath } from '../../utils/normalizePath'
+import Icon from '../icons/Icon.astro'
 import ServiceVisual from './ServiceVisual.astro'
 
 export type Props = ServicesBlock
@@ -59,12 +60,10 @@ const linkFor = (page: unknown): string => normalizePath((page as Page)?.path, p
             <p class="text-ink-700 max-w-prose font-sans leading-[1.55]">
               {heroService.description}
             </p>
-            <span
-              class="text-ink-700 ease-standard mt-2 self-end font-mono text-base transition-colors duration-200 group-hover:text-orange-600"
-              aria-hidden="true"
-            >
-              &rarr;
-            </span>
+            <Icon
+              name="arrow-right"
+              class="text-ink-700 ease-standard mt-2 h-5 w-5 self-end transition-colors duration-200 group-hover:text-orange-600"
+            />
           </div>
         </a>
       </FrameCell>
@@ -92,12 +91,10 @@ const linkFor = (page: unknown): string => normalizePath((page as Page)?.path, p
               <p class="text-ink-700 line-clamp-2 font-sans text-sm leading-[1.55]">
                 {service.description}
               </p>
-              <span
-                class="text-ink-700 ease-standard mt-1 self-end font-mono text-sm transition-colors duration-200 group-hover:text-orange-600"
-                aria-hidden="true"
-              >
-                &rarr;
-              </span>
+              <Icon
+                name="arrow-right"
+                class="text-ink-700 ease-standard mt-1 h-4 w-4 self-end transition-colors duration-200 group-hover:text-orange-600"
+              />
             </div>
           </a>
         </FrameCell>
@@ -128,12 +125,10 @@ const linkFor = (page: unknown): string => normalizePath((page as Page)?.path, p
               <p class="text-ink-700 line-clamp-2 font-sans text-sm leading-[1.55]">
                 {service.description}
               </p>
-              <span
-                class="text-ink-700 ease-standard mt-1 self-end font-mono text-sm transition-colors duration-200 group-hover:text-orange-600"
-                aria-hidden="true"
-              >
-                &rarr;
-              </span>
+              <Icon
+                name="arrow-right"
+                class="text-ink-700 ease-standard mt-1 h-4 w-4 self-end transition-colors duration-200 group-hover:text-orange-600"
+              />
             </div>
           </a>
         </FrameCell>

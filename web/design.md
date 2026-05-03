@@ -108,6 +108,30 @@ multi-color illustrations, drop shadows on images.
 
 All images via the `Img` component. `loading="lazy"` below the fold.
 
+## Iconography
+
+**One library: Geist Icons.** Every glyph in the UI — social marks, nav,
+buttons, card affordances, error pages — is a Geist icon. No mixing with
+Lucide, Font Awesome, Heroicons, or one-off custom SVGs. If a concept isn't
+in Geist, pick the closest Geist glyph rather than introduce a second style.
+
+Visually: thin outlined strokes, square endcaps rounded, `currentColor` so
+icons inherit text color. Never filled, never two-tone, never colored
+outside the ink + cobalt + orange palette.
+
+Conventions:
+
+- Contact / messaging affordances use the chat-bubble glyph (Geist
+  `messageSquare`). This is the icon next to "Kontakt".
+- Social marks use Geist's brand glyphs. WhatsApp has no dedicated Geist
+  mark — it falls back to the same chat bubble. Acceptable trade for a
+  single-library system.
+- Tile and CTA "go-to" affordances use the Geist `arrow-right` glyph (see
+  Anti-slop #7).
+- Disclosure controls use Geist `chevron-*`.
+- Service category icons use the closest literal Geist glyph
+  (`smartphone`, `monitor`, `code`) rather than ornamental illustrations.
+
 ## Motion
 
 State changes ≤200ms. Default ease `cubic-bezier(0.4, 0, 0.2, 1)`. No bouncy
@@ -129,4 +153,6 @@ Named interactions (the entire catalog — don't add motion outside this list):
 5. **No emoji in UI. No stock photography. No hero illustrations.**
 6. **No second accent color.** Use the ink scale.
 7. **No "Read more" / "Mehr erfahren" / "Click here".** Action affordances on
-   tiles are an arrow glyph (`→`) only — make the whole tile the link.
+   tiles are the Geist `arrow-right` icon only — make the whole tile the link.
+8. **No icons outside Geist.** See [Iconography](#iconography). No mixing
+   libraries, no one-off inline SVG glyphs, no emoji-as-icon.

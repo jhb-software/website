@@ -21,8 +21,7 @@ const socialAccessibleNames: Record<string, string> = {
   x: 'X',
 }
 
-// Only some social platforms have rendered icons; the rest fall back to a label.
-const iconAvailable = new Set(['github', 'linkedin', 'whatsapp'])
+type SocialIcon = 'github' | 'linkedin' | 'whatsapp' | 'instagram' | 'facebook' | 'youtube' | 'x'
 
 // Top-level site pages — pulled from the header so editors curate one nav.
 // The primary CTA (Kontakt button) is excluded; it lives in its own column.
@@ -76,11 +75,7 @@ const sitePages = header.links?.filter(({ link }) => link.style !== 'primary') ?
                   aria-label={socialAccessibleNames[icon] ?? icon}
                   class="bg-cobalt-900/20 text-cobalt-100 ease-standard inline-flex h-10 w-10 items-center justify-center border border-white/20 backdrop-blur-md transition-colors duration-150 hover:border-orange-600 hover:text-orange-600"
                 >
-                  {iconAvailable.has(icon) ? (
-                    <Icon name={icon as 'github' | 'linkedin' | 'whatsapp'} class="h-4 w-4" />
-                  ) : (
-                    <span class="font-mono text-xs uppercase">{icon}</span>
-                  )}
+                  <Icon name={icon as SocialIcon} class="h-4 w-4" />
                 </a>
               </li>
             ))
@@ -102,12 +97,10 @@ const sitePages = header.links?.filter(({ link }) => link.style !== 'primary') ?
               {websiteConfig.email}
             </span>
           </span>
-          <span
-            class="ease-standard text-cobalt-100 font-mono text-base transition group-hover:translate-x-0.5 group-hover:text-orange-600 motion-safe:duration-150"
-            aria-hidden="true"
-          >
-            →
-          </span>
+          <Icon
+            name="arrow-right"
+            class="ease-standard text-cobalt-100 h-5 w-5 shrink-0 transition group-hover:translate-x-0.5 group-hover:text-orange-600 motion-safe:duration-150"
+          />
         </a>
       </div>
     </div>

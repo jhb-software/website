@@ -3,6 +3,7 @@ import { payloadSDK } from '@/cms/sdk'
 import type { Testimonial, TestimonialsBlock } from 'cms/src/payload-types'
 import Eyebrow from '../../layout/Eyebrow.astro'
 import TestimonialCard from '../cards/TestimonialCard.astro'
+import Icon from '../icons/Icon.astro'
 
 export type Props = TestimonialsBlock & {
   /** Optional section heading. When omitted, the block renders without its own header. */
@@ -87,9 +88,7 @@ const listColumns =
           data-testimonials-toggle
         >
           {labels.global['show-more']}
-          <span class="font-mono text-xs opacity-70" aria-hidden="true">
-            ↓
-          </span>
+          <Icon name="chevron-down" class="h-4 w-4 opacity-70" />
         </button>
       </div>
     )

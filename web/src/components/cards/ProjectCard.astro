@@ -1,6 +1,7 @@
 ---
 import type { Project } from 'cms/src/payload-types'
 import { normalizePath } from '../../utils/normalizePath'
+import Icon from '../icons/Icon.astro'
 import Img from '../Img.astro'
 import ProjectDate from '../ProjectDate.astro'
 import ProjectTagsList from '../ProjectTagsList.astro'
@@ -46,12 +47,10 @@ const href = normalizePath(project.path, preview)
 
         <ProjectTagsList tags={project.tags} class="mt-2" />
 
-        <span
-          class="text-ink-700 ease-standard mt-auto self-end pt-4 font-mono text-base transition-colors duration-200 group-hover:text-orange-600"
-          aria-hidden="true"
-        >
-          &rarr;
-        </span>
+        <Icon
+          name="arrow-right"
+          class="text-ink-700 ease-standard mt-auto h-5 w-5 self-end transition-colors duration-200 group-hover:text-orange-600"
+        />
       </div>
     </a>
   ) : (
@@ -78,12 +77,10 @@ const href = normalizePath(project.path, preview)
         <ProjectDate startDate={project.startDate} endDate={project.endDate} class="mt-1" />
       </div>
 
-      <span
-        class="text-ink-700 ease-standard hidden flex-none font-mono text-base transition-colors duration-200 group-hover:text-orange-600 md:inline"
-        aria-hidden="true"
-      >
-        &rarr;
-      </span>
+      <Icon
+        name="arrow-right"
+        class="text-ink-700 ease-standard hidden h-5 w-5 flex-none transition-colors duration-200 group-hover:text-orange-600 md:inline-block"
+      />
     </a>
   )
 }
