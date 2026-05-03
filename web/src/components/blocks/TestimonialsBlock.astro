@@ -5,16 +5,15 @@ import Eyebrow from '../../layout/Eyebrow.astro'
 import TestimonialCard from '../cards/TestimonialCard.astro'
 
 export type Props = TestimonialsBlock & {
-  /** Override the section heading. Defaults to `labels.testimonials.testimonials-title`. */
+  /** Optional section heading. When omitted, the block renders without its own header. */
   heading?: string
-  /** Override the eyebrow label above the heading. */
+  /** Optional eyebrow above the heading. Defaults to STIMMEN/VOICES when `heading` is provided. */
   eyebrow?: string
 }
 
 const { testimonials, heading, eyebrow } = Astro.props
 const { locale, preview, labels } = Astro.locals.globalState
 
-const sectionHeading = heading ?? labels.testimonials['testimonials-title']
 const sectionEyebrow = eyebrow ?? (locale === 'en' ? 'VOICES' : 'STIMMEN')
 
 // Fetch the testimonials with depth 3 so the customer logo (testimonial →
@@ -45,22 +44,30 @@ const docs = (populatedTestimonials.docs as Testimonial[] | undefined) ?? []
 
 const collapseThreshold = 6
 const showSeeMore = docs.length > collapseThreshold
+
+// Pick a column count that doesn't strand a single card in a narrow column.
+const listColumns =
+  docs.length <= 1 ? 'max-w-2xl' : docs.length === 2 ? 'sm:columns-2' : 'sm:columns-2 lg:columns-3'
 ---
 
 <div class="testimonials-block group relative" id="testimonials-container" data-expanded="false">
-  <header class="mb-8 space-y-3 md:mb-12">
-    <Eyebrow label={sectionEyebrow} />
-    <h2 class="text-cobalt-900 font-sans text-2xl font-semibold tracking-tight md:text-3xl">
-      {sectionHeading}
-    </h2>
-  </header>
+  {
+    heading && (
+      <header class="mb-8 space-y-3 md:mb-12">
+        <Eyebrow label={sectionEyebrow} />
+        <h2 class="text-cobalt-900 font-sans text-2xl font-semibold tracking-tight md:text-3xl">
+          {heading}
+        </h2>
+      </header>
+    )
+  }
   {
     /* The crop lives on this wrapper, not on the column list — so CSS columns
       always balance against the full content height and the cards don't
       reshuffle when expanding. */
   }
   <div class="testimonials-crop">
-    <ul class="testimonials-list gap-x-10 sm:columns-2 lg:columns-3">
+    <ul class:list={['testimonials-list gap-x-10', listColumns]}>
       {
         docs.map((testimonial) => (
           <li class="mb-2 inline-block w-full break-inside-avoid">
