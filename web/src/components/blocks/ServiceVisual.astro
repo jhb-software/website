@@ -1,18 +1,14 @@
 ---
-/**
- * Schematic visualization for a service card per redesign §7.5.
- *
- * Three kinds — `MOBILE`, `WEB`, `WEBAPP` — each a functional metaphor for
- * the service. Strokes only or strokes + flat fills, no gradients/shadows.
- * Size is driven by the surrounding cell; the visualization centers itself
- * inside a pure surface with a masked grid background.
- */
+import type { ServicesBlock } from 'cms/src/payload-types'
+
+type Service = NonNullable<ServicesBlock['services']>[number]
+
 type Props = {
-  kind: string
+  visualization: Service['visualization']
   size?: 'hero' | 'compact'
 }
 
-const { kind, size = 'compact' } = Astro.props
+const { visualization, size = 'compact' } = Astro.props
 const heightClass = size === 'hero' ? 'h-72' : 'h-36'
 ---
 
@@ -31,7 +27,7 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
     aria-hidden="true"
   >
     {
-      kind === 'MOBILE' && (
+      visualization === 'mobile' && (
         <>
           <rect
             x="85"
@@ -97,7 +93,7 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
     }
 
     {
-      kind === 'WEB' && (
+      visualization === 'web' && (
         <>
           {/* Editor (top) */}
           <rect
@@ -190,7 +186,7 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
     }
 
     {
-      kind === 'WEBAPP' && (
+      visualization === 'webapp' && (
         <>
           {/* Bars */}
           <rect x="14" y="84" width="14" height="36" fill="var(--color-primary)" />

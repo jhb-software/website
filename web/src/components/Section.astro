@@ -15,21 +15,6 @@ const { title, subTitle, blocks, index, withoutTopSpace = false } = Astro.props
 const { locale } = Astro.locals.globalState
 
 /**
- * Per-section copy overrides for the redesign. The CMS subtitles were authored
- * for the old layout (long descriptive sentences) and don't fit the new
- * eyebrow + heading rhythm. Keyed by section `title` so editors don't need to
- * change anything in the CMS while we iterate.
- *
- * TODO(cms-content): once the redesign settles, write these back to the
- * `pages.sections[].subTitle` field in the CMS and remove this override map.
- * Affects: home page section 04 ("Über JHB Software").
- */
-const subTitleOverrides: Record<string, string> = {
-  'Über JHB Software': 'zukunftsorientierte Individualsoftware, um Dein Unternehmen voranzubringen',
-}
-const effectiveSubTitle = (title && subTitleOverrides[title]) || subTitle
-
-/**
  * Eyebrow hint per block type — used when a section promotes its title to h2
  * and would otherwise leave a number-only eyebrow. Falls back to no hint when
  * a section mixes block types.
@@ -46,13 +31,13 @@ const promotedHint = dominantBlockType
 
 <SectionShell class:list={[withoutTopSpace ? 'mb-24 pt-8 pb-16' : 'my-24 py-16']}>
   {
-    (title || effectiveSubTitle) && (
+    (title || subTitle) && (
       <header class="mb-12 max-w-3xl space-y-3">
-        {effectiveSubTitle ? (
+        {subTitle ? (
           <>
             {title && <Eyebrow label={title} index={index} />}
             <Heading as="h2" class="leading-[1.4] text-balance">
-              {effectiveSubTitle}
+              {subTitle}
             </Heading>
           </>
         ) : (

@@ -18,23 +18,12 @@ type Props = {
 }
 
 const { project: pageData, breadcrumbs } = Astro.props
-const { locale } = Astro.locals.globalState
+const { labels } = Astro.locals.globalState
 
 const schema = projectSchema(pageData)
 
 const testimonials =
   pageData.testimonials?.docs?.filter((testimonial) => typeof testimonial === 'object') || []
-
-// TODO(cms-content): expose testimonials + metadata-strip labels on the
-// Projects collection (or a global `Labels.projects` group) so editors can
-// localise. Hardcoded here per redesign §12.11 because no CMS surface exists.
-// Affects: every project detail page.
-const testimonialsEyebrow = locale === 'en' ? 'VOICES' : 'STIMMEN'
-const testimonialsHeading =
-  locale === 'en' ? 'What clients say about this project' : 'Was Kunden zu diesem Projekt sagen'
-const periodLabel = locale === 'en' ? 'Period' : 'Zeitraum'
-const tagsLabel = locale === 'en' ? 'Tags' : 'Themen'
-const customerLabel = locale === 'en' ? 'Client' : 'Kunde'
 
 const customer = typeof pageData.customer === 'object' ? (pageData.customer as Customer) : null
 ---
@@ -74,7 +63,7 @@ const customer = typeof pageData.customer === 'object' ? (pageData.customer as C
   <MetaStrip class="mt-12">
     {
       customer && (
-        <MetaField label={customerLabel}>
+        <MetaField label={labels.projects.customer}>
           {customer.websiteUrl ? (
             <a
               href={customer.websiteUrl}
@@ -91,7 +80,7 @@ const customer = typeof pageData.customer === 'object' ? (pageData.customer as C
       )
     }
 
-    <MetaField label={periodLabel}>
+    <MetaField label={labels.projects.period}>
       <ProjectDate
         startDate={pageData.startDate}
         endDate={pageData.endDate}
@@ -101,7 +90,7 @@ const customer = typeof pageData.customer === 'object' ? (pageData.customer as C
 
     {
       pageData.tags && pageData.tags.length > 0 && (
-        <MetaField label={tagsLabel} class="ml-auto !gap-1.5">
+        <MetaField label={labels.projects.tags} class="ml-auto !gap-1.5">
           <ProjectTagsList tags={pageData.tags} />
         </MetaField>
       )
@@ -118,8 +107,8 @@ const customer = typeof pageData.customer === 'object' ? (pageData.customer as C
         <TestimonialsBlock
           blockType="testimonials"
           testimonials={testimonials}
-          eyebrow={testimonialsEyebrow}
-          heading={testimonialsHeading}
+          eyebrow={labels.projects['testimonials-eyebrow']}
+          heading={labels.projects['testimonials-heading']}
         />
       </section>
     )

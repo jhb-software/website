@@ -1,102 +1,38 @@
 ---
-import type { Page, ServicesBlock } from 'cms/src/payload-types'
+import type { ServicesBlock } from 'cms/src/payload-types'
 import FrameCell from '../../layout/FrameCell.astro'
-import Heading from '../../layout/Heading.astro'
 import SectionFrame from '../../layout/SectionFrame.astro'
-import { normalizePath } from '../../utils/normalizePath'
-import Icon from '../icons/Icon.astro'
-import ServiceVisual from './ServiceVisual.astro'
+import ServiceCard from './ServiceCard.astro'
 
 export type Props = ServicesBlock
 
 const { services } = Astro.props
 const { preview } = Astro.locals.globalState
 
-/**
- * The bento layout assumes services follow the redesign §7.5 ordering: two
- * compact cells first (mobile, websites/CMS), one hero last (web apps). The
- * existing Payload data is already in this order; re-ordering in CMS would
- * break this map.
- *
- * TODO(cms-content): expose an explicit `isHero: boolean` (or `slot: 'hero' |
- * 'compact'`) on ServicesBlock service items so the order isn't load-bearing.
- * Affects: ServicesBlock CMS schema and any service-block usage.
- */
-const compactServices = (services ?? []).slice(0, 2)
-const heroService = (services ?? [])[2]
-
-const eyebrowFor = (title: string | undefined): string => {
-  if (!title) return 'SERVICE'
-  const t = title.toLowerCase()
-  if (t.includes('mobil')) return 'MOBILE'
-  if (t.includes('webanwend')) return 'WEBAPP'
-  if (t.includes('website') || t.includes('cms')) return 'WEB'
-  return title.toUpperCase().slice(0, 12)
-}
-
-const linkFor = (page: unknown): string => normalizePath((page as Page)?.path, preview)
+// The bento layout (one large hero cell + two compact cells) is used when a
+// services array contains exactly one item flagged `isHero` and at least two
+// non-hero items. Anything else falls back to a 3-up grid of compact cells.
+const heroService = services?.find((s) => s.isHero)
+const compactServices = (services ?? []).filter((s) => !s.isHero)
+const useBento = heroService && compactServices.length >= 2
 ---
 
 {
-  heroService && services && services.length >= 3 ? (
+  useBento ? (
     <SectionFrame class="grid md:grid-cols-[1.4fr_1fr] md:grid-rows-2">
       <FrameCell
         interactive
         class="md:row-span-2 md:border-r md:border-r-[var(--color-border-strong)]"
       >
-        <a href={linkFor(heroService.page)} class="block h-full" aria-label={heroService.title}>
-          <ServiceVisual kind={eyebrowFor(heroService.title)} size="hero" />
-          <div class="flex flex-col gap-3 p-8">
-            <p class="text-neutral-subtle tracking-eyebrow font-mono text-xs uppercase">
-              <span
-                class="ease-standard text-tertiary inline-block transition-transform duration-200 group-hover:translate-x-0.5"
-                aria-hidden="true"
-              >
-                \
-              </span>
-              <span class="ml-1.5">{eyebrowFor(heroService.title)}</span>
-            </p>
-            <Heading as="h3">{heroService.title}</Heading>
-            <p class="text-neutral-muted max-w-prose font-sans leading-[1.55]">
-              {heroService.description}
-            </p>
-            <Icon
-              name="arrow-right"
-              class="text-neutral-muted ease-standard group-hover:text-tertiary mt-2 h-5 w-5 self-end transition-colors duration-200"
-            />
-          </div>
-        </a>
+        <ServiceCard service={heroService} size="hero" preview={preview} />
       </FrameCell>
 
-      {compactServices.map((service, idx) => (
+      {compactServices.slice(0, 2).map((service, idx) => (
         <FrameCell
           interactive
           class:list={[idx === 1 && 'md:border-t md:border-t-[var(--color-border-strong)]']}
         >
-          <a href={linkFor(service.page)} class="block h-full" aria-label={service.title}>
-            <ServiceVisual kind={eyebrowFor(service.title)} size="compact" />
-            <div class="flex flex-col gap-2 p-6">
-              <p class="text-neutral-subtle tracking-eyebrow font-mono text-xs uppercase">
-                <span
-                  class="ease-standard text-tertiary inline-block transition-transform duration-200 group-hover:translate-x-0.5"
-                  aria-hidden="true"
-                >
-                  \
-                </span>
-                <span class="ml-1.5">{eyebrowFor(service.title)}</span>
-              </p>
-              <Heading as="h3" size="md">
-                {service.title}
-              </Heading>
-              <p class="text-neutral-muted line-clamp-2 font-sans text-sm leading-[1.55]">
-                {service.description}
-              </p>
-              <Icon
-                name="arrow-right"
-                class="text-neutral-muted ease-standard group-hover:text-tertiary mt-1 h-4 w-4 self-end transition-colors duration-200"
-              />
-            </div>
-          </a>
+          <ServiceCard service={service} size="compact" preview={preview} />
         </FrameCell>
       ))}
     </SectionFrame>
@@ -107,30 +43,7 @@ const linkFor = (page: unknown): string => normalizePath((page as Page)?.path, p
           interactive
           class:list={[idx > 0 && 'md:border-l md:border-l-[var(--color-border-strong)]']}
         >
-          <a href={linkFor(service.page)} class="block h-full" aria-label={service.title}>
-            <ServiceVisual kind={eyebrowFor(service.title)} size="compact" />
-            <div class="flex flex-col gap-2 p-6">
-              <p class="text-neutral-subtle tracking-eyebrow font-mono text-xs uppercase">
-                <span
-                  class="ease-standard text-tertiary inline-block transition-transform duration-200 group-hover:translate-x-0.5"
-                  aria-hidden="true"
-                >
-                  \
-                </span>
-                <span class="ml-1.5">{eyebrowFor(service.title)}</span>
-              </p>
-              <Heading as="h3" size="md">
-                {service.title}
-              </Heading>
-              <p class="text-neutral-muted line-clamp-2 font-sans text-sm leading-[1.55]">
-                {service.description}
-              </p>
-              <Icon
-                name="arrow-right"
-                class="text-neutral-muted ease-standard group-hover:text-tertiary mt-1 h-4 w-4 self-end transition-colors duration-200"
-              />
-            </div>
-          </a>
+          <ServiceCard service={service} size="compact" preview={preview} />
         </FrameCell>
       ))}
     </SectionFrame>

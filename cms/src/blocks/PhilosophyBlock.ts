@@ -18,7 +18,7 @@ export const PhilosophyBlock: Block = {
       name: 'title',
       type: 'text',
       localized: true,
-      required: true,
+      required: false,
     },
     {
       name: 'text',

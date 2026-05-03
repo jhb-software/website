@@ -60,12 +60,27 @@ const Labels: GlobalConfig = {
         ...(['web-app', 'website', 'app', 'seo', 'cms'] satisfies Project['tags']).map((tag) =>
           labelField(tag),
         ),
+        labelField('period'),
+        labelField('tags'),
+        labelField('customer'),
+        labelField('testimonials-eyebrow'),
+        labelField('testimonials-heading'),
       ],
     },
     {
       name: 'articles',
       type: 'group',
-      fields: [labelField('written-by'), labelField('last-updated-at')],
+      fields: [
+        labelField('written-by'),
+        labelField('last-updated-at'),
+        labelField('published-at'),
+        labelField('tags'),
+      ],
+    },
+    {
+      name: 'authors',
+      type: 'group',
+      fields: [labelField('profession'), labelField('social')],
     },
     {
       name: 'testimonials',

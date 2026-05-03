@@ -39,12 +39,6 @@ const updatedLabel = new Date(article.updatedAt).toLocaleDateString(locale, {
   month: 'long',
   day: 'numeric',
 })
-
-// TODO(cms-content): expose `published-at` and `tags` labels on the Articles
-// collection (or a `Labels.articles` group) so editors can localise. Hardcoded
-// here per redesign §12.11. Affects: every article detail page.
-const publishedAtLabel = locale === 'en' ? 'Published' : 'Veröffentlicht am'
-const tagsLabel = locale === 'en' ? 'Tags' : 'Themen'
 ---
 
 <SectionShell class="pt-8 pb-24 md:pt-12">
@@ -118,12 +112,12 @@ const tagsLabel = locale === 'en' ? 'Tags' : 'Themen'
       )
     }
 
-    <MetaField label={publishedAtLabel} value={dateLabel} />
+    <MetaField label={labels.articles['published-at']} value={dateLabel} />
     <MetaField label={labels.articles['last-updated-at']} value={updatedLabel} />
 
     {
       article.tags && article.tags.length > 0 && (
-        <MetaField label={tagsLabel} class="ml-auto !gap-1.5">
+        <MetaField label={labels.articles.tags} class="ml-auto !gap-1.5">
           <ArticleTagsList tags={article.tags} />
         </MetaField>
       )

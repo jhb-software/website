@@ -1,0 +1,58 @@
+---
+/**
+ * Inner card for `ServicesBlock` — schematic visual, eyebrow, heading,
+ * description, arrow. Wrapped by `<FrameCell>` which controls the cell's
+ * borders within the bento or 3-up grid.
+ */
+import type { Page, ServicesBlock } from 'cms/src/payload-types'
+import Heading from '../../layout/Heading.astro'
+import { normalizePath } from '../../utils/normalizePath'
+import Icon from '../icons/Icon.astro'
+import ServiceVisual from './ServiceVisual.astro'
+
+type Service = NonNullable<ServicesBlock['services']>[number]
+
+type Props = {
+  service: Service
+  size: 'hero' | 'compact'
+  preview: boolean
+}
+
+const { service, size, preview } = Astro.props
+const isHero = size === 'hero'
+
+const href = normalizePath((service.page as Page)?.path, preview)
+---
+
+<a href={href} class="block h-full" aria-label={service.title}>
+  <ServiceVisual visualization={service.visualization} size={size} />
+  <div class:list={['flex flex-col', isHero ? 'gap-3 p-8' : 'gap-2 p-6']}>
+    <p class="text-neutral-subtle tracking-eyebrow font-mono text-xs uppercase">
+      <span
+        class="ease-standard text-tertiary inline-block transition-transform duration-200 group-hover:translate-x-0.5"
+        aria-hidden="true"
+      >
+        \
+      </span>
+      <span class="ml-1.5">{service.eyebrow}</span>
+    </p>
+    <Heading as="h3" size={isHero ? undefined : 'md'}>
+      {service.title}
+    </Heading>
+    <p
+      class:list={[
+        'text-neutral-muted font-sans leading-[1.55]',
+        isHero ? 'max-w-prose' : 'line-clamp-2 text-sm',
+      ]}
+    >
+      {service.description}
+    </p>
+    <Icon
+      name="arrow-right"
+      class:list={[
+        'text-neutral-muted ease-standard group-hover:text-tertiary self-end transition-colors duration-200',
+        isHero ? 'mt-2 h-5 w-5' : 'mt-1 h-4 w-4',
+      ]}
+    />
+  </div>
+</a>

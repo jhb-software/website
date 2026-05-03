@@ -16,15 +16,9 @@ type Props = {
 }
 
 const { author, breadcrumbs } = Astro.props
-const { locale, labels } = Astro.locals.globalState
+const { labels } = Astro.locals.globalState
 
 const schema = authorSchema(author)
-
-// TODO(cms-content): expose `profession`/`social` labels under a
-// `Labels.authors` group so editors can localise. Hardcoded here per
-// redesign §12.11. Affects: every author detail page.
-const professionLabel = locale === 'en' ? 'Role' : 'Rolle'
-const socialLabel = locale === 'en' ? 'Social' : 'Social'
 
 const SUPPORTED_SOCIAL_ICONS = ['github', 'linkedin', 'whatsapp'] as const
 type SupportedSocialIcon = (typeof SUPPORTED_SOCIAL_ICONS)[number]
@@ -71,11 +65,11 @@ const socialLinks = (author.socialLinks ?? []).filter(
   </header>
 
   <MetaStrip class="mt-12">
-    {author.profession && <MetaField label={professionLabel} value={author.profession} />}
+    {author.profession && <MetaField label={labels.authors.profession} value={author.profession} />}
 
     {
       socialLinks.length > 0 && (
-        <MetaField label={socialLabel} class="ml-auto !gap-1.5">
+        <MetaField label={labels.authors.social} class="ml-auto !gap-1.5">
           <div class="flex flex-wrap items-center gap-3">
             {socialLinks.map((link) => (
               <a

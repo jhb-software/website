@@ -12,10 +12,6 @@ type Props = ContactBlock
 const { name, image, phone, email, socialLinks } = Astro.props
 const { labels } = Astro.locals.globalState
 
-// TODO(cms-content): expose `phoneLabel`, `emailLabel`, `socialLabel` on
-// ContactBlock so editors can localise/override. Hardcoded here because the
-// existing Labels global has no contact channel keys. Affects: ContactBlock
-// CMS schema and any contact-block usage.
 const TEL_LABEL = 'TEL'
 const MAIL_LABEL = 'E-MAIL'
 const SOCIAL_LABEL = 'SOCIAL'

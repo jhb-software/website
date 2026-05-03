@@ -329,9 +329,11 @@ export interface ServicesBlock {
   services?:
     | {
         title: string;
-        icon: 'mobile-phone' | 'laptop' | 'laptop-code';
+        eyebrow: string;
+        visualization: 'mobile' | 'web' | 'webapp';
         description: string;
         page: string | Page;
+        isHero?: boolean | null;
         id?: string | null;
       }[]
     | null;
@@ -682,7 +684,7 @@ export interface AboutBlock {
  * via the `definition` "PhilosophyBlock".
  */
 export interface PhilosophyBlock {
-  title: string;
+  title?: string | null;
   text: {
     root: {
       type: string;
@@ -1366,9 +1368,11 @@ export interface ServicesBlockSelect<T extends boolean = true> {
     | T
     | {
         title?: T;
-        icon?: T;
+        eyebrow?: T;
+        visualization?: T;
         description?: T;
         page?: T;
+        isHero?: T;
         id?: T;
       };
   id?: T;
@@ -2010,10 +2014,21 @@ export interface Labels {
     app: string;
     seo: string;
     cms: string;
+    period: string;
+    tags: string;
+    customer: string;
+    'testimonials-eyebrow': string;
+    'testimonials-heading': string;
   };
   articles: {
     'written-by': string;
     'last-updated-at': string;
+    'published-at': string;
+    tags: string;
+  };
+  authors: {
+    profession: string;
+    social: string;
   };
   testimonials: {
     'testimonials-title': string;
@@ -2091,12 +2106,25 @@ export interface LabelsSelect<T extends boolean = true> {
         app?: T;
         seo?: T;
         cms?: T;
+        period?: T;
+        tags?: T;
+        customer?: T;
+        'testimonials-eyebrow'?: T;
+        'testimonials-heading'?: T;
       };
   articles?:
     | T
     | {
         'written-by'?: T;
         'last-updated-at'?: T;
+        'published-at'?: T;
+        tags?: T;
+      };
+  authors?:
+    | T
+    | {
+        profession?: T;
+        social?: T;
       };
   testimonials?:
     | T

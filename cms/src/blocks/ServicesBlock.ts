@@ -29,7 +29,7 @@ export const ServicesBlock: Block = {
               name: 'title',
               type: 'text',
               admin: {
-                width: '70%',
+                width: '60%',
               },
               label: {
                 de: 'Titel',
@@ -39,19 +39,32 @@ export const ServicesBlock: Block = {
               required: true,
             },
             {
-              name: 'icon',
-              type: 'select',
+              name: 'eyebrow',
+              type: 'text',
               admin: {
-                width: '30%',
+                width: '20%',
               },
               label: {
-                de: 'Icon',
-                en: 'Icon',
+                de: 'Eyebrow-Kürzel',
+                en: 'Eyebrow tag',
+              },
+              localized: true,
+              required: true,
+            },
+            {
+              name: 'visualization',
+              type: 'select',
+              admin: {
+                width: '20%',
+              },
+              label: {
+                de: 'Visualisierung',
+                en: 'Visualization',
               },
               options: [
-                { label: 'Mobile Phone', value: 'mobile-phone' },
-                { label: 'Laptop', value: 'laptop' },
-                { label: 'Laptop Code', value: 'laptop-code' },
+                { label: { de: 'Mobile App', en: 'Mobile App' }, value: 'mobile' },
+                { label: { de: 'Website / CMS', en: 'Website / CMS' }, value: 'web' },
+                { label: { de: 'Webanwendung', en: 'Web App' }, value: 'webapp' },
               ],
               required: true,
             },
@@ -76,6 +89,15 @@ export const ServicesBlock: Block = {
           },
           relationTo: 'pages',
           required: true,
+        },
+        {
+          name: 'isHero',
+          type: 'checkbox',
+          defaultValue: false,
+          label: {
+            de: 'Als Hero anzeigen',
+            en: 'Show as hero',
+          },
         },
       ],
     },
