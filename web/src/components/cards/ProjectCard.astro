@@ -4,68 +4,86 @@ import { normalizePath } from '../../utils/normalizePath'
 import Img from '../Img.astro'
 import ProjectDate from '../ProjectDate.astro'
 import ProjectTagsList from '../ProjectTagsList.astro'
-import Card from './Card.astro'
 
 type Props = Project & {
-  featured?: boolean
-  index?: number
+  /** Featured: image left + meta right, large image. Compact: single row, small image + title + tags. */
+  variant?: 'featured' | 'compact'
+  fetchpriority?: 'high' | 'low' | 'auto'
 }
 
-const { featured, index, ...project } = Astro.props
-
+const { variant = 'compact', fetchpriority, ...project } = Astro.props
 const { preview } = Astro.locals.globalState
+
+const href = normalizePath(project.path, preview)
 ---
 
 {
-  featured ? (
-    <div class="flex flex-col items-center gap-5 sm:odd:flex-row sm:odd:text-right sm:even:flex-row-reverse sm:even:text-left md:gap-8">
-      <div class="mb-0 w-full sm:basis-7/12">
-        <a href={normalizePath(project.path, preview)}>
-          {typeof project.image === 'object' && (
-            <Img image={project.image} size="lg" fetchpriority="high" class="my-0 rounded-xl" />
-          )}
-        </a>
+  variant === 'featured' ? (
+    <a
+      href={href}
+      class="grid h-full grid-cols-1 md:grid-cols-[1.2fr_1fr]"
+      aria-label={project.title}
+    >
+      <div class="border-hairline-strong relative overflow-hidden border-b md:border-r md:border-b-0">
+        {typeof project.image === 'object' && (
+          <Img
+            image={project.image}
+            size="lg"
+            fetchpriority={fetchpriority}
+            class="block aspect-[16/10] h-full w-full object-cover"
+          />
+        )}
       </div>
 
-      <div class="flex flex-col gap-5 sm:basis-5/12">
-        <a href={normalizePath(project.path, preview)}>
-          <h2 class="my-0 text-xl font-semibold">{project.title}</h2>
-        </a>
+      <div class="flex flex-col gap-4 p-8 md:p-10">
+        <ProjectDate startDate={project.startDate} endDate={project.endDate} />
 
-        <div class="rounded-md bg-gray-500 p-5 text-white shadow-md">{project.excerpt}</div>
+        <h3 class="text-cobalt-900 font-sans text-2xl font-semibold tracking-tight text-balance">
+          {project.title}
+        </h3>
 
-        <div
-          class:list={[
-            'flex flex-row gap-4 md:justify-end',
-            index && index % 2 === 1 && 'md:flex-row-reverse',
-          ]}
+        <p class="text-ink-700 max-w-prose font-sans text-base leading-[1.55]">{project.excerpt}</p>
+
+        <ProjectTagsList tags={project.tags} class="mt-2" />
+
+        <span
+          class="text-ink-700 ease-standard mt-auto self-end pt-4 font-mono text-base transition-colors duration-200 group-hover:text-orange-600"
+          aria-hidden="true"
         >
-          <ProjectDate startDate={project.startDate} endDate={project.endDate} />
-
-          <ProjectTagsList tags={project.tags} />
-        </div>
+          &rarr;
+        </span>
       </div>
-    </div>
+    </a>
   ) : (
-    <a href={normalizePath(project.path, preview)}>
-      <Card class="flex flex-col items-center gap-4 p-0! md:flex-row">
-        <div class="hidden w-48 flex-none md:block">
-          {typeof project.image === 'object' && (
-            <Img image={project.image} size="sm" class="my-0 rounded-l-xl" />
-          )}
-        </div>
+    <a
+      href={href}
+      class="flex h-full items-center gap-5 p-5 md:gap-8 md:p-6"
+      aria-label={project.title}
+    >
+      <div class="border-hairline-strong w-32 flex-none overflow-hidden border md:w-44">
+        {typeof project.image === 'object' && (
+          <Img
+            image={project.image}
+            size="sm"
+            class="block aspect-[16/10] h-full w-full object-cover"
+          />
+        )}
+      </div>
 
-        <div class="flex w-full flex-auto flex-row justify-between gap-8 p-4">
-          <div class="flex flex-col gap-4">
-            <h3 class="my-0 text-lg font-semibold">{project.title}</h3>
-            <div class="flex flex-row gap-5 text-base font-normal">
-              <ProjectTagsList tags={project.tags} />
+      <div class="flex min-w-0 flex-1 flex-col gap-2">
+        <h3 class="text-cobalt-900 font-sans text-base font-semibold tracking-tight md:text-lg">
+          {project.title}
+        </h3>
+        <ProjectTagsList tags={project.tags} />
+        <ProjectDate startDate={project.startDate} endDate={project.endDate} class="mt-1" />
+      </div>
 
-              <ProjectDate startDate={project.startDate} endDate={project.endDate} />
-            </div>
-          </div>
-        </div>
-      </Card>
+      <span
+        class="text-ink-700 ease-standard hidden flex-none font-mono text-base transition-colors duration-200 group-hover:text-orange-600 md:inline"
+        aria-hidden="true"
+      >
+        &rarr;
+      </span>
     </a>
   )
 }

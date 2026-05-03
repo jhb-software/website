@@ -10,10 +10,13 @@ const { tags, class: className } = Astro.props
 const { labels } = Astro.locals.globalState
 ---
 
-<div class:list={['flex flex-wrap gap-2', className]}>
+<div class:list={['flex flex-wrap items-center gap-1.5', className]}>
   {
     tags?.map((tag) => (
-      <span class="max-h-fit rounded-md bg-gray-200 px-2 py-1 text-sm font-medium text-gray-700">
+      <span class="text-cobalt-900 inline-flex items-center gap-1 rounded-xs bg-orange-100 px-2 py-0.5 font-mono text-xs">
+        <span class="text-orange-600" aria-hidden="true">
+          \
+        </span>
         {labels.projects[tag]}
       </span>
     ))

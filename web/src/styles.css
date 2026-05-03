@@ -159,13 +159,7 @@
 
 /* Soft edge vignette on customer logo marquee (mask, not box-shadow). */
 .customer-logos-marquee-fade {
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    transparent 0%,
-    #000 7%,
-    #000 93%,
-    transparent 100%
-  );
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
   mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
 }
 

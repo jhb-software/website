@@ -1,19 +1,46 @@
 ---
 import type { Article, ArticlesBlock } from 'cms/src/payload-types'
+import FrameCell from '../../layout/FrameCell.astro'
+import SectionFrame from '../../layout/SectionFrame.astro'
 import ArticleCard from '../cards/ArticleCard.astro'
 
 export type Props = ArticlesBlock
 
-const articles = Astro.props.articles as Article[]
+const articles = (Astro.props.articles as Article[]) ?? []
 
-// Sort articles by date, newest first
-articles?.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+articles.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+
+const [featured, ...rest] = articles
 ---
 
-<div class="my-16 grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-8">
+<SectionFrame>
   {
-    articles?.map((article, index) => (
-      <ArticleCard {...article} featured={index === 0} class={index === 0 ? 'md:col-span-2' : ''} />
-    ))
+    featured && (
+      <FrameCell
+        interactive
+        class:list={[rest.length > 0 && 'border-b border-b-[var(--color-hairline-strong)]']}
+      >
+        <ArticleCard {...featured} variant="featured" />
+      </FrameCell>
+    )
   }
-</div>
+
+  {
+    rest.length > 0 && (
+      <div class="grid grid-cols-1 sm:grid-cols-2">
+        {rest.map((article, idx) => (
+          <FrameCell
+            interactive
+            class:list={[
+              idx % 2 === 1 && 'sm:border-l sm:border-l-[var(--color-hairline-strong)]',
+              idx >= 2 && 'border-t border-t-[var(--color-hairline-strong)]',
+              idx === 1 && 'border-t border-t-[var(--color-hairline-strong)] sm:border-t-0',
+            ]}
+          >
+            <ArticleCard {...article} variant="compact" />
+          </FrameCell>
+        ))}
+      </div>
+    )
+  }
+</SectionFrame>

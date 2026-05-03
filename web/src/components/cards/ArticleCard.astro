@@ -6,16 +6,22 @@ import ArticleTagsList from '../ArticleTagsList.astro'
 import Img from '../Img.astro'
 
 type Props = Article & {
-  featured?: boolean
-  class?: string
+  variant?: 'featured' | 'compact'
 }
 
-const { featured, class: className, ...article } = Astro.props
+const { variant = 'compact', ...article } = Astro.props
 const { locale, preview } = Astro.locals.globalState
 
+const href = normalizePath(article.path, preview)
+const dateLabel = new Date(article.createdAt).toLocaleDateString(locale, {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+})
+
 let authors: Author[] = []
-if (featured) {
-  // TODO: populate the authors image when fetching the articles block to avoid this SDK request
+if (variant === 'featured' && article.authors?.length) {
+  // TODO: populate the authors image when fetching the articles block to avoid this SDK request.
   const result = await payloadSDK.find(
     {
       collection: 'authors',
@@ -23,11 +29,11 @@ if (featured) {
       draft: preview,
       where: {
         id: {
-          in: article.authors?.map((author) => (author as Author).id),
+          in: article.authors.map((author) => (author as Author).id),
         },
         _status: preview ? { in: ['draft', 'published'] } : { equals: 'published' },
       },
-      limit: 1,
+      limit: 3,
       pagination: false,
     },
     {
@@ -41,80 +47,107 @@ if (featured) {
 }
 ---
 
-<div
-  class:list={[
-    'flex items-center gap-4 md:gap-8',
-    featured ? 'flex-col md:flex-row' : 'flex-col',
-    className,
-  ]}
->
-  <a href={normalizePath(article.path, preview)} class={featured ? 'basis-7/12' : ''}>
-    {
-      typeof article.image === 'object' && (
-        <Img
-          image={article.image}
-          size="lg"
-          fetchpriority={featured ? 'high' : 'low'}
-          class="my-0 rounded-xl"
-        />
-      )
-    }
-  </a>
+{
+  variant === 'featured' ? (
+    <a
+      href={href}
+      class="grid h-full grid-cols-1 md:grid-cols-[1.2fr_1fr]"
+      aria-label={article.title}
+    >
+      <div class="border-hairline-strong relative overflow-hidden border-b md:border-r md:border-b-0">
+        {typeof article.image === 'object' && (
+          <Img
+            image={article.image}
+            size="lg"
+            fetchpriority="high"
+            class="block aspect-[16/10] h-full w-full object-cover"
+          />
+        )}
+      </div>
 
-  <div class:list={['flex flex-col gap-4', featured ? 'basis-5/12' : '']}>
-    <div class="flex flex-row items-center gap-2 text-sm">
-      <ArticleTagsList tags={article.tags} />
+      <div class="flex flex-col gap-4 p-8 md:p-10">
+        <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
+          <span class="text-orange-600" aria-hidden="true">
+            \
+          </span>
+          <span class="ml-1.5">{dateLabel}</span>
+        </p>
 
-      <span class="text-sm text-slate-500">
-        {
-          new Date(article.createdAt).toLocaleDateString(locale, {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          })
-        }
-      </span>
-    </div>
+        <h3 class="text-cobalt-900 font-sans text-2xl font-semibold tracking-tight text-balance">
+          {article.title}
+        </h3>
 
-    <a href={normalizePath(article.path, preview)}>
-      <h2 class="my-0 text-xl font-semibold">{article.title}</h2>
-    </a>
+        <p class="text-ink-700 max-w-prose font-sans text-base leading-[1.55]">{article.excerpt}</p>
 
-    <div class="text-sm">{article.excerpt}</div>
+        <ArticleTagsList tags={article.tags} class="mt-1" />
 
-    {
-      featured && (
-        <div class="flex items-center gap-4">
-          <div class="flex flex-shrink-0 -space-x-6">
-            {authors.map((author) => (
-              <div class="h-12 w-12 flex-shrink-0">
-                <a href={normalizePath(author.path, preview)}>
-                  {typeof author.photo === 'object' && (
+        {authors.length > 0 && (
+          <div class="border-hairline mt-auto flex items-center gap-3 border-t pt-4">
+            <div class="flex flex-shrink-0 -space-x-2">
+              {authors.map(
+                (author) =>
+                  typeof author.photo === 'object' && (
                     <Img
                       image={author.photo}
                       size="sm"
-                      class="inline-block aspect-square !h-11 !w-11 rounded-full ring-2 ring-white"
+                      class="border-paper-pure aspect-square !h-8 !w-8 rounded-full border-2 object-cover"
                     />
-                  )}
-                </a>
-              </div>
-            ))}
-          </div>
-          <div class="flex flex-col text-sm">
-            <div>
+                  ),
+              )}
+            </div>
+            <p class="text-ink-700 font-sans text-sm">
               {authors.map((author, index) => [
                 index > 0 ? ', ' : '',
-                <a href={normalizePath(author.path, preview)} class="font-medium">
-                  {author.name}
-                </a>,
+                <span class="font-medium">{author.name}</span>,
               ])}
-              <div class="text-slate-600">
-                {authors.map((author) => author.profession).join(', ')}
-              </div>
-            </div>
+            </p>
+            <span
+              class="text-ink-700 ease-standard ml-auto font-mono text-base transition-colors duration-200 group-hover:text-orange-600"
+              aria-hidden="true"
+            >
+              &rarr;
+            </span>
           </div>
+        )}
+      </div>
+    </a>
+  ) : (
+    <a href={href} class="flex h-full flex-col" aria-label={article.title}>
+      <div class="border-hairline-strong overflow-hidden border-b">
+        {typeof article.image === 'object' && (
+          <Img
+            image={article.image}
+            size="md"
+            loading="lazy"
+            class="block aspect-[16/10] h-full w-full object-cover"
+          />
+        )}
+      </div>
+
+      <div class="flex flex-1 flex-col gap-3 p-6 md:p-8">
+        <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
+          <span class="text-orange-600" aria-hidden="true">
+            \
+          </span>
+          <span class="ml-1.5">{dateLabel}</span>
+        </p>
+
+        <h3 class="text-cobalt-900 font-sans text-lg font-semibold tracking-tight text-balance">
+          {article.title}
+        </h3>
+
+        <p class="text-ink-700 line-clamp-3 font-sans text-sm leading-[1.55]">{article.excerpt}</p>
+
+        <div class="mt-auto flex items-end justify-between gap-3 pt-4">
+          <ArticleTagsList tags={article.tags} />
+          <span
+            class="text-ink-700 ease-standard font-mono text-base transition-colors duration-200 group-hover:text-orange-600"
+            aria-hidden="true"
+          >
+            &rarr;
+          </span>
         </div>
-      )
-    }
-  </div>
-</div>
+      </div>
+    </a>
+  )
+}

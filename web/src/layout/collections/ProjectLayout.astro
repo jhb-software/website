@@ -16,45 +16,83 @@ type Props = {
 }
 
 const { project: pageData, breadcrumbs } = Astro.props
+const { locale } = Astro.locals.globalState
 
 const schema = projectSchema(pageData)
 
 const testimonials =
   pageData.testimonials?.docs?.filter((testimonial) => typeof testimonial === 'object') || []
+
+// TODO(cms-content): expose `eyebrow` + testimonials section labels on the
+// Projects collection (or a global `Labels.projects` group) so editors can
+// localise. Hardcoded here per redesign §12.11 because no CMS surface exists.
+// Affects: every project detail page.
+const eyebrowLabel = locale === 'en' ? 'CASE STUDY' : 'REFERENZ'
+const testimonialsEyebrow = locale === 'en' ? 'VOICES' : 'STIMMEN'
+const testimonialsHeading =
+  locale === 'en' ? 'What clients say about this project' : 'Was Kunden zu diesem Projekt sagen'
 ---
 
-<SectionShell>
+<SectionShell class="pt-8 pb-24 md:pt-12">
   {breadcrumbs && <BreadcrumbsBlock crumbs={breadcrumbs} />}
-  <h1 class="mt-4 text-center text-4xl font-extrabold text-balance text-slate-700">
-    {pageData.title}
-  </h1>
 
-  <div class="flex flex-col items-center gap-4">
-    <ProjectDate
-      startDate={pageData.startDate}
-      endDate={pageData.endDate}
-      class="mt-4 text-center"
-    />
+  <header class="mt-8 max-w-3xl space-y-5">
+    <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
+      <span class="text-orange-600" aria-hidden="true">\</span>
+      <span class="ml-1.5">{eyebrowLabel}</span>
+    </p>
 
-    <ProjectTagsList tags={pageData.tags} />
-  </div>
+    <h1
+      class="text-cobalt-900 font-sans text-4xl font-semibold tracking-tight text-balance md:text-5xl"
+    >
+      {pageData.title}
+    </h1>
+
+    {
+      pageData.excerpt && (
+        <p class="text-ink-700 max-w-2xl font-sans text-lg leading-[1.55] text-balance">
+          {pageData.excerpt}
+        </p>
+      )
+    }
+
+    <div class="flex flex-wrap items-center gap-x-5 gap-y-3 pt-2">
+      <ProjectTagsList tags={pageData.tags} />
+      <ProjectDate startDate={pageData.startDate} endDate={pageData.endDate} />
+    </div>
+  </header>
 
   {
     typeof pageData.image === 'object' && (
-      <Img
-        image={pageData.image}
-        size="xl"
-        class="mx-auto my-8 w-full max-w-4xl rounded-xl"
-        fetchpriority="high"
-      />
+      <div class="border-hairline-strong mt-12 overflow-hidden border">
+        <Img
+          image={pageData.image}
+          size="xl"
+          class="block aspect-[16/9] h-full w-full object-cover"
+          fetchpriority="high"
+        />
+      </div>
     )
   }
 
-  <RichTextBlock text={pageData.body} />
+  <div class="prose-redesign mt-16 max-w-3xl">
+    <RichTextBlock text={pageData.body} />
+  </div>
 
   {
     testimonials.length > 0 && (
-      <section class="mt-16">
+      <section class="mt-24 space-y-8">
+        <header class="space-y-3">
+          <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
+            <span class="text-orange-600" aria-hidden="true">
+              \
+            </span>
+            <span class="ml-1.5">{testimonialsEyebrow}</span>
+          </p>
+          <h2 class="text-cobalt-900 font-sans text-2xl font-semibold tracking-tight md:text-3xl">
+            {testimonialsHeading}
+          </h2>
+        </header>
         <TestimonialsBlock blockType="testimonials" testimonials={testimonials} />
       </section>
     )

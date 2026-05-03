@@ -20,90 +20,143 @@ type Props = {
 const { article, breadcrumbs } = Astro.props
 const { locale, preview, labels } = Astro.locals.globalState
 
-// Extract headings from article content
 const headings = extractHeadings(article.content.root.children as unknown as LexicalNode[])
 
 const schema = articleSchema(article, locale)
+
+const authors = (article.authors as Author[]) ?? []
+
+const dateLabel = new Date(article.createdAt).toLocaleDateString(locale, {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+})
+
+const updatedLabel = new Date(article.updatedAt).toLocaleDateString(locale, {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+})
+
+// TODO(cms-content): expose `eyebrow` and a `published-at` label on the
+// Articles collection (or a `Labels.articles` group) so editors can localise.
+// Hardcoded here per redesign §12.11. Affects: every article detail page.
+const eyebrowLabel = locale === 'en' ? 'ARTICLE' : 'ARTIKEL'
+const publishedAtLabel = locale === 'en' ? 'Published' : 'Veröffentlicht am'
 ---
 
-<SectionShell>
+<SectionShell class="pt-8 pb-24 md:pt-12">
   {breadcrumbs && <BreadcrumbsBlock crumbs={breadcrumbs} />}
-  <h1 class="mt-4 text-center text-4xl font-extrabold text-balance text-slate-700">
-    {article.title}
-  </h1>
 
-  <ArticleTagsList tags={article.tags} class="my-4 flex flex-row items-center justify-center" />
+  <header
+    class="mt-8 grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,320px)] md:items-start md:gap-12"
+  >
+    <div class="space-y-5">
+      <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
+        <span class="text-orange-600" aria-hidden="true">\</span>
+        <span class="ml-1.5">{eyebrowLabel}</span>
+      </p>
 
-  <div class="mt-4 mb-12 flex flex-row items-center justify-center gap-4">
-    <div class="flex flex-shrink-0 -space-x-6">
+      <ArticleTagsList tags={article.tags} />
+
+      <h1
+        class="text-cobalt-900 font-sans text-3xl font-semibold tracking-tight text-balance md:text-4xl"
+      >
+        {article.title}
+      </h1>
+
       {
-        (article.authors as Author[]).map((author) => (
-          <div class="h-16 w-16 flex-shrink-0">
-            <a href={normalizePath(author.path, preview)}>
-              {typeof author.photo === 'object' && (
-                <Img
-                  image={author.photo}
-                  size="sm"
-                  class="inline-block aspect-square !h-16 !w-16 rounded-full ring-2 ring-white"
-                />
-              )}
-            </a>
-          </div>
-        ))
+        article.excerpt && (
+          <p class="text-ink-700 font-sans text-base leading-[1.55] text-balance md:text-lg">
+            {article.excerpt}
+          </p>
+        )
       }
     </div>
 
-    <div class="flex flex-col items-start gap-1 text-sm text-slate-700">
-      <p>
-        {labels.articles['written-by']}{'  '}
-        {
-          (article.authors as Author[]).map((author, index) => (
-            <>
-              {index > 0 && (index === article.authors.length - 1 ? ' & ' : ', ')}
-              <a
-                class="text-primary inline-block text-nowrap underline"
-                href={normalizePath(author.path, preview)}
-              >
-                {author.name}
-              </a>
-            </>
-          ))
-        }
-      </p>
+    {
+      typeof article.image === 'object' && (
+        <div class="border-hairline-strong overflow-hidden border md:mt-1">
+          <Img
+            image={article.image}
+            size="md"
+            class="block aspect-[4/3] h-full w-full object-cover"
+            fetchpriority="high"
+          />
+        </div>
+      )
+    }
+  </header>
 
-      <p>
-        {labels.articles['last-updated-at']}{'  '}
-        {
-          new Date(article.updatedAt).toLocaleDateString(locale, {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          })
-        }
+  <div
+    class="border-hairline mt-12 flex flex-wrap items-center gap-x-10 gap-y-5 border-t border-b py-5"
+  >
+    {
+      authors.length > 0 && (
+        <div class="flex items-center gap-3">
+          <div class="flex flex-shrink-0 -space-x-2">
+            {authors.map(
+              (author) =>
+                typeof author.photo === 'object' && (
+                  <Img
+                    image={author.photo}
+                    size="sm"
+                    class="border-paper-pure aspect-square !h-9 !w-9 rounded-full border-2 object-cover"
+                  />
+                ),
+            )}
+          </div>
+          <div class="flex flex-col gap-0.5">
+            <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
+              <span class="text-orange-600" aria-hidden="true">
+                \
+              </span>
+              <span class="ml-1.5">{labels.articles['written-by']}</span>
+            </p>
+            <p class="text-ink-950 font-sans text-sm">
+              {authors.map((author, index) => (
+                <>
+                  {index > 0 && (index === authors.length - 1 ? ' & ' : ', ')}
+                  <a
+                    class="ease-standard decoration-hairline-strong inline-block font-medium text-nowrap underline underline-offset-4 transition-colors duration-150 hover:text-orange-600 hover:decoration-orange-600"
+                    href={normalizePath(author.path, preview)}
+                  >
+                    {author.name}
+                  </a>
+                </>
+              ))}
+            </p>
+          </div>
+        </div>
+      )
+    }
+
+    <div class="flex flex-col gap-0.5">
+      <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
+        <span class="text-orange-600" aria-hidden="true">\</span>
+        <span class="ml-1.5">{publishedAtLabel}</span>
       </p>
+      <p class="text-ink-950 font-sans text-sm">{dateLabel}</p>
+    </div>
+
+    <div class="flex flex-col gap-0.5">
+      <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
+        <span class="text-orange-600" aria-hidden="true">\</span>
+        <span class="ml-1.5">{labels.articles['last-updated-at']}</span>
+      </p>
+      <p class="text-ink-950 font-sans text-sm">{updatedLabel}</p>
     </div>
   </div>
 
   {
-    typeof article.image === 'object' && (
-      <Img
-        image={article.image}
-        size="xl"
-        class="mx-auto my-8 w-full max-w-4xl rounded-xl"
-        fetchpriority="high"
-      />
-    )
-  }
-
-  {
     headings.length > 0 && (
-      <div class="xl:hidden">
+      <div class="mt-10 xl:hidden">
         <TableOfContents headings={headings} />
       </div>
     )
   }
 
-  <div class="relative flex gap-8">
+  <div class="prose-redesign relative mt-12 flex gap-12">
     <div class="min-w-0 flex-1">
       <RichTextBlock text={article.content} />
     </div>
