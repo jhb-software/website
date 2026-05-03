@@ -6,6 +6,8 @@ import Img from '@/components/Img.astro'
 import ProjectDate from '@/components/ProjectDate.astro'
 import ProjectTagsList from '@/components/ProjectTagsList.astro'
 import Eyebrow from '@/layout/Eyebrow.astro'
+import MetaField from '@/layout/MetaField.astro'
+import MetaStrip from '@/layout/MetaStrip.astro'
 import SectionShell from '@/layout/SectionShell.astro'
 import { projectSchema } from '@/schema/project'
 import { Schema } from 'astro-seo-schema'
@@ -70,13 +72,10 @@ const customer = typeof pageData.customer === 'object' ? (pageData.customer as C
     )
   }
 
-  <div
-    class="border-hairline mt-12 flex flex-wrap items-center gap-x-10 gap-y-5 border-t border-b py-5"
-  >
+  <MetaStrip class="mt-12">
     {
       customer && (
-        <div class="flex flex-col gap-0.5">
-          <Eyebrow label={customerLabel} />
+        <MetaField label={customerLabel}>
           {customer.websiteUrl ? (
             <a
               href={customer.websiteUrl}
@@ -89,28 +88,26 @@ const customer = typeof pageData.customer === 'object' ? (pageData.customer as C
           ) : (
             <p class="text-ink-950 font-sans text-sm font-medium">{customer.name}</p>
           )}
-        </div>
+        </MetaField>
       )
     }
 
-    <div class="flex flex-col gap-0.5">
-      <Eyebrow label={periodLabel} />
+    <MetaField label={periodLabel}>
       <ProjectDate
         startDate={pageData.startDate}
         endDate={pageData.endDate}
         class="!text-ink-950 !font-sans !text-sm"
       />
-    </div>
+    </MetaField>
 
     {
       pageData.tags && pageData.tags.length > 0 && (
-        <div class="ml-auto flex flex-col gap-1.5">
-          <Eyebrow label={tagsLabel} />
+        <MetaField label={tagsLabel} class="ml-auto !gap-1.5">
           <ProjectTagsList tags={pageData.tags} />
-        </div>
+        </MetaField>
       )
     }
-  </div>
+  </MetaStrip>
 
   <div class="prose-redesign mt-16 max-w-3xl">
     <RichTextBlock text={pageData.body} />

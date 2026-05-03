@@ -26,14 +26,14 @@ const numStr = index !== undefined ? String(index).padStart(2, '0') : null
   {
     numStr ? (
       <>
-        <span class="ml-1.5">{numStr}</span>
+        <span class="ml-1">{numStr}</span>
         <span class="text-ink-300 mx-1.5" aria-hidden="true">
           /
         </span>
         <span>{label}</span>
       </>
     ) : (
-      <span class="ml-1.5">{label}</span>
+      <span class="ml-1">{label}</span>
     )
   }
 </Tag>

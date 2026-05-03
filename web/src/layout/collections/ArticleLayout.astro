@@ -4,7 +4,8 @@ import RichTextBlock from '@/components/blocks/RichTextBlock/RichTextBlock.astro
 import BreadcrumbsBlock from '@/components/Breadcrumbs.astro'
 import Img from '@/components/Img.astro'
 import TableOfContents from '@/components/TableOfContents.astro'
-import Eyebrow from '@/layout/Eyebrow.astro'
+import MetaField from '@/layout/MetaField.astro'
+import MetaStrip from '@/layout/MetaStrip.astro'
 import SectionShell from '@/layout/SectionShell.astro'
 import { articleSchema } from '@/schema/article'
 import { extractHeadings } from '@/utils/extractHeadings'
@@ -82,9 +83,7 @@ const tagsLabel = locale === 'en' ? 'Tags' : 'Themen'
     }
   </header>
 
-  <div
-    class="border-hairline mt-12 flex flex-wrap items-center gap-x-10 gap-y-5 border-t border-b py-5"
-  >
+  <MetaStrip class="mt-12">
     {
       authors.length > 0 && (
         <div class="flex items-center gap-3">
@@ -100,8 +99,7 @@ const tagsLabel = locale === 'en' ? 'Tags' : 'Themen'
                 ),
             )}
           </div>
-          <div class="flex flex-col gap-0.5">
-            <Eyebrow label={labels.articles['written-by']} />
+          <MetaField label={labels.articles['written-by']}>
             <p class="text-ink-950 font-sans text-sm">
               {authors.map((author, index) => (
                 <>
@@ -115,30 +113,22 @@ const tagsLabel = locale === 'en' ? 'Tags' : 'Themen'
                 </>
               ))}
             </p>
-          </div>
+          </MetaField>
         </div>
       )
     }
 
-    <div class="flex flex-col gap-0.5">
-      <Eyebrow label={publishedAtLabel} />
-      <p class="text-ink-950 font-sans text-sm">{dateLabel}</p>
-    </div>
-
-    <div class="flex flex-col gap-0.5">
-      <Eyebrow label={labels.articles['last-updated-at']} />
-      <p class="text-ink-950 font-sans text-sm">{updatedLabel}</p>
-    </div>
+    <MetaField label={publishedAtLabel} value={dateLabel} />
+    <MetaField label={labels.articles['last-updated-at']} value={updatedLabel} />
 
     {
       article.tags && article.tags.length > 0 && (
-        <div class="ml-auto flex flex-col gap-1.5">
-          <Eyebrow label={tagsLabel} />
+        <MetaField label={tagsLabel} class="ml-auto !gap-1.5">
           <ArticleTagsList tags={article.tags} />
-        </div>
+        </MetaField>
       )
     }
-  </div>
+  </MetaStrip>
 
   {
     headings.length > 0 && (
