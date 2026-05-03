@@ -9,12 +9,11 @@ New corporate design and identity. See `design.md` for the full visual spec.
 - [x] Migrate all web components to the new design
 - [x] Write `design.md`
 - [x] Audit every page at sm/md/lg breakpoints and fix broken layouts
-- [ ] Deduplicate and extract shared abstractions in files touched by the redesign (Heading, MetaStrip, Eyebrow are precedents)
+- [x] Design new logo, then ship the SVG and replace all usages in `web/` and `cms/`
 - [ ] Address existing `TODO` comments for CMS collections and blocks
-- [ ] Restyle the CMS OG/cover image generation endpoint to the new design (template/styling only, keep current implementation)
-- [ ] Redesign static OG images for non-CMS pages (home, about, contact, etc.)
-- [ ] Design new logo, then ship the SVG and replace all usages in `web/` and `cms/`
-- [ ] Specify background pattern/texture in `design.md`, then implement across the site
+  - [ ] While doing this, deduplicate and extract shared abstractions in files touched by the redesign (Heading, MetaStrip, Eyebrow are precedents)
+- [ ] Create a system for dynamic OG images based on the pages hero frame + the company logo
+- [ ] Specify a subtle background pattern/texture for outside of the frame boxes in `design.md`, then implement across the site
 
 ## Phase 2 — Writing
 

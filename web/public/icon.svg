@@ -1,4 +1,6 @@
-<svg width="96" height="96" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="JHB Software">
-  <rect width="96" height="96" rx="6" fill="#0A2540"/>
-  <line x1="37" y1="22" x2="59" y2="74" stroke="#2dd4bf" stroke-width="10" stroke-linecap="butt"/>
+<svg width="96" height="96" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="JHB">
+  <rect width="96" height="96" fill="#0A2540"/>
+  <text x="48" y="52" text-anchor="middle" dominant-baseline="central"
+    font-family="Geist, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+    font-size="40" font-weight="800" letter-spacing="-1.5" fill="#ffffff">JHB</text>
 </svg>
