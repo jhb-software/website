@@ -1,5 +1,7 @@
 ---
 import Img from '@/components/Img.astro'
+import Eyebrow from '@/layout/Eyebrow.astro'
+import Heading from '@/layout/Heading.astro'
 import type { AboutBlock } from 'cms/src/payload-types'
 import RichTextBlock from './RichTextBlock/RichTextBlock.astro'
 
@@ -8,24 +10,22 @@ export type Props = AboutBlock
 const { title, name, text, image } = Astro.props
 ---
 
-<div class="my-16">
-  <div class="flex flex-col items-start gap-8 md:flex-row">
-    <div class="w-full md:w-1/3">
-      <div class="flex flex-col items-center gap-4">
-        {
-          typeof image === 'object' && (
-            <Img image={image} size="md" class="w-full rounded-lg shadow-lg" />
-          )
-        }
+<div class="grid grid-cols-1 gap-10 md:grid-cols-[280px_1fr] md:gap-12">
+  {
+    typeof image === 'object' && (
+      <div class="border-border-strong aspect-square overflow-hidden border">
+        <Img image={image} size="md" class="block h-full w-full object-cover" />
       </div>
-    </div>
+    )
+  }
 
-    <div class="w-full space-y-4 md:w-2/3">
-      <h3 class="flex items-center gap-2">
-        <span class="text-md text-slate-500">{title}</span>
-        <span class="text-lg font-semibold">{name}</span>
-      </h3>
+  <div class="space-y-6">
+    <header class="space-y-3">
+      {title && <Eyebrow label={title} />}
+      {name && <Heading as="h3">{name}</Heading>}
+    </header>
 
+    <div class="prose-redesign text-neutral-muted max-w-prose">
       <RichTextBlock text={text} />
     </div>
   </div>

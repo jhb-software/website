@@ -1,0 +1,26 @@
+---
+/**
+ * Code-chip tag list per redesign §8.3 — tertiary `\` prefix + mono label on a
+ * faint tertiary wash. Used by both project and article tag wrappers; pass
+ * resolved label strings.
+ */
+type Props = {
+  labels: string[]
+  class?: string
+}
+
+const { labels, class: className } = Astro.props
+---
+
+<div class:list={['flex flex-wrap items-center gap-1.5', className]}>
+  {
+    labels.map((label) => (
+      <span class="text-primary bg-tertiary-soft inline-flex items-center gap-1 rounded-xs px-2 py-0.5 font-mono text-xs">
+        <span class="text-tertiary" aria-hidden="true">
+          \
+        </span>
+        {label}
+      </span>
+    ))
+  }
+</div>

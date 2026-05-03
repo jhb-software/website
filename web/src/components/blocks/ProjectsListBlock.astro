@@ -1,5 +1,7 @@
 ---
 import type { FeaturedProjectsListBlock, Project } from 'cms/src/payload-types'
+import FrameCell from '../../layout/FrameCell.astro'
+import SectionFrame from '../../layout/SectionFrame.astro'
 import ProjectCard from '../cards/ProjectCard.astro'
 
 export type Props = FeaturedProjectsListBlock
@@ -9,6 +11,15 @@ const projects = Astro.props.projects as Project[]
 projects.sort((a, b) => new Date(b.startDate || 0).getTime() - new Date(a.startDate || 0).getTime())
 ---
 
-<div class="my-16 flex flex-col gap-4">
-  {projects?.map((project, index) => <ProjectCard {...project} index={index} />)}
-</div>
+<SectionFrame>
+  {
+    projects?.map((project, index) => (
+      <FrameCell
+        interactive
+        class:list={[index > 0 && 'border-t border-t-[var(--color-border-strong)]']}
+      >
+        <ProjectCard {...project} variant="compact" />
+      </FrameCell>
+    ))
+  }
+</SectionFrame>

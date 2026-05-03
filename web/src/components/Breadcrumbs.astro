@@ -2,7 +2,6 @@
 import { breadcrumbsSchema } from '@/schema/breadcrumbs'
 import { Schema } from 'astro-seo-schema'
 import type { Breadcrumbs } from 'cms/src/payload-types'
-import Icon from './icons/Icon.astro'
 import Link from './Link.astro'
 
 type Props = {
@@ -19,14 +18,14 @@ const schema = breadcrumbsSchema(crumbs)
 {
   displayMode === 'all' && (
     <nav aria-label="breadcrumbs">
-      <ol class:list={['flex flex-row items-center justify-center gap-2 text-sm text-slate-500']}>
+      <ol class="text-neutral-subtle tracking-eyebrow flex flex-row flex-wrap items-center gap-2 font-mono text-xs uppercase">
         {crumbs
           .map(({ label, path }, index, array) => (
             <li>
               <Link
                 path={path}
                 style="text"
-                class="!py-2 text-sm !font-medium text-slate-500 uppercase"
+                class="text-neutral-subtle ease-standard hover:text-tertiary !py-1 !font-mono !text-xs !font-normal uppercase !no-underline transition-colors duration-150"
                 aria-current={index + 1 === array.length ? 'location' : false}
               >
                 {label}
@@ -35,7 +34,7 @@ const schema = breadcrumbsSchema(crumbs)
           ))
           .reduce((prev, curr) => [
             prev,
-            <span aria-hidden class="text-secondary">
+            <span aria-hidden="true" class="text-tertiary">
               /
             </span>,
             curr,
@@ -48,16 +47,18 @@ const schema = breadcrumbsSchema(crumbs)
 {
   displayMode === 'lastOnly' && crumbs.length > 1 && (
     <nav aria-label="breadcrumbs">
-      <ol class:list={['flex flex-row justify-center gap-2 text-sm text-slate-500']}>
+      <ol class="text-neutral-subtle tracking-eyebrow flex flex-row items-center gap-2 font-mono text-xs uppercase">
         <li>
           <Link
             path={crumbs[crumbs.length - 2].path}
             style="text"
-            class="flex items-center gap-1 !py-2 text-sm !font-medium text-slate-500 uppercase"
+            class="text-neutral-subtle ease-standard hover:text-tertiary inline-flex items-center !py-1 !font-mono !text-xs !font-normal uppercase !no-underline transition-colors duration-150"
           >
-            <Icon name="chevron-left" class:list={['h-3 w-3']} />
             {crumbs[crumbs.length - 2].label}
           </Link>
+        </li>
+        <li aria-hidden="true" class="text-tertiary">
+          /
         </li>
       </ol>
     </nav>

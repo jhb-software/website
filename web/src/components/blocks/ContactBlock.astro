@@ -1,5 +1,9 @@
 ---
 import type { ContactBlock } from 'cms/src/payload-types'
+import Eyebrow from '../../layout/Eyebrow.astro'
+import FrameCell from '../../layout/FrameCell.astro'
+import Heading from '../../layout/Heading.astro'
+import SectionFrame from '../../layout/SectionFrame.astro'
 import Icon from '../icons/Icon.astro'
 import Img from '../Img.astro'
 
@@ -7,47 +11,75 @@ type Props = ContactBlock
 
 const { name, image, phone, email, socialLinks } = Astro.props
 const { labels } = Astro.locals.globalState
+
+const TEL_LABEL = 'TEL'
+const MAIL_LABEL = 'E-MAIL'
+const SOCIAL_LABEL = 'SOCIAL'
 ---
 
-<div class="flex flex-col items-center justify-center gap-10 text-center md:flex-row md:text-left">
-  <div class="">
-    <div class="flex flex-col items-center gap-4">
+<SectionFrame>
+  <div class="grid grid-cols-1 md:grid-cols-[minmax(0,360px)_1fr]">
+    <FrameCell
+      class="border-b border-b-[var(--color-border-strong)] md:border-r md:border-b-0 md:border-r-[var(--color-border-strong)]"
+    >
       {
         typeof image === 'object' && (
-          <Img image={image} size="md" class="w-64 rounded-full shadow-lg" />
+          <div class="aspect-square overflow-hidden">
+            <Img image={image} size="md" class="block h-full w-full object-cover" />
+          </div>
         )
       }
-    </div>
-  </div>
+    </FrameCell>
 
-  <div class="space-y-4">
-    <h3 class="text-2xl font-semibold">{name}</h3>
+    <FrameCell class="flex flex-col gap-8 p-8 md:p-10">
+      <Heading as="h3">{name}</Heading>
 
-    <div class="space-y-2">
-      <p class="flex items-center gap-2">
-        <a href={`tel:${phone}`} class="hover:primary">{phone}</a>
-      </p>
-      <p class="flex items-center gap-2">
-        <a href={`mailto:${email}`} class="hover:primary">{email}</a>
-      </p>
-    </div>
-
-    {
-      socialLinks && socialLinks.length > 0 && (
-        <div class="flex gap-6 pt-4">
-          {socialLinks.map((link) => (
+      <dl class="flex flex-col gap-5">
+        <div class="flex flex-col gap-1">
+          <Eyebrow as="dt" label={TEL_LABEL} />
+          <dd>
             <a
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="hover:text-primary text-gray-800"
-              aria-label={labels.social[`visit-${link.icon}` as keyof typeof labels.social]}
+              href={`tel:${phone}`}
+              class="text-neutral ease-standard decoration-border-strong hover:text-tertiary hover:decoration-tertiary font-sans text-base underline underline-offset-4 transition-colors duration-150"
             >
-              <Icon name={link.icon} class:list={['h-5 w-5']} />
+              {phone}
             </a>
-          ))}
+          </dd>
         </div>
-      )
-    }
+
+        <div class="flex flex-col gap-1">
+          <Eyebrow as="dt" label={MAIL_LABEL} />
+          <dd>
+            <a
+              href={`mailto:${email}`}
+              class="text-neutral ease-standard decoration-border-strong hover:text-tertiary hover:decoration-tertiary font-sans text-base break-words underline underline-offset-4 transition-colors duration-150"
+            >
+              {email}
+            </a>
+          </dd>
+        </div>
+
+        {
+          socialLinks && socialLinks.length > 0 && (
+            <div class="flex flex-col gap-2">
+              <Eyebrow label={SOCIAL_LABEL} />
+              <div class="flex flex-wrap gap-4">
+                {socialLinks.map((link) => (
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-neutral-muted ease-standard hover:text-tertiary inline-flex h-9 w-9 items-center justify-center transition-colors duration-150"
+                    aria-label={labels.social[`visit-${link.icon}` as keyof typeof labels.social]}
+                  >
+                    <Icon name={link.icon} class:list={['h-5 w-5']} />
+                  </a>
+                ))}
+              </div>
+            </div>
+          )
+        }
+      </dl>
+    </FrameCell>
   </div>
-</div>
+</SectionFrame>

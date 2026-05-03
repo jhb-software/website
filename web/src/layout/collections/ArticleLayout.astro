@@ -4,6 +4,8 @@ import RichTextBlock from '@/components/blocks/RichTextBlock/RichTextBlock.astro
 import BreadcrumbsBlock from '@/components/Breadcrumbs.astro'
 import Img from '@/components/Img.astro'
 import TableOfContents from '@/components/TableOfContents.astro'
+import MetaField from '@/layout/MetaField.astro'
+import MetaStrip from '@/layout/MetaStrip.astro'
 import SectionShell from '@/layout/SectionShell.astro'
 import { articleSchema } from '@/schema/article'
 import { extractHeadings } from '@/utils/extractHeadings'
@@ -20,90 +22,117 @@ type Props = {
 const { article, breadcrumbs } = Astro.props
 const { locale, preview, labels } = Astro.locals.globalState
 
-// Extract headings from article content
 const headings = extractHeadings(article.content.root.children as unknown as LexicalNode[])
 
 const schema = articleSchema(article, locale)
+
+const authors = (article.authors as Author[]) ?? []
+
+const dateLabel = new Date(article.createdAt).toLocaleDateString(locale, {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+})
+
+const updatedLabel = new Date(article.updatedAt).toLocaleDateString(locale, {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+})
 ---
 
-<SectionShell>
+<SectionShell class="pt-8 pb-24 md:pt-12">
   {breadcrumbs && <BreadcrumbsBlock crumbs={breadcrumbs} />}
-  <h1 class="mt-4 text-center text-4xl font-extrabold text-balance text-slate-700">
-    {article.title}
-  </h1>
 
-  <ArticleTagsList tags={article.tags} class="my-4 flex flex-row items-center justify-center" />
+  <header
+    class="mt-3 grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,320px)] md:items-start md:gap-12"
+  >
+    <div class="space-y-5">
+      <h1
+        class="text-primary font-sans text-2xl font-semibold tracking-tight text-balance md:text-4xl"
+      >
+        {article.title}
+      </h1>
 
-  <div class="mt-4 mb-12 flex flex-row items-center justify-center gap-4">
-    <div class="flex flex-shrink-0 -space-x-6">
       {
-        (article.authors as Author[]).map((author) => (
-          <div class="h-16 w-16 flex-shrink-0">
-            <a href={normalizePath(author.path, preview)}>
-              {typeof author.photo === 'object' && (
-                <Img
-                  image={author.photo}
-                  size="sm"
-                  class="inline-block aspect-square !h-16 !w-16 rounded-full ring-2 ring-white"
-                />
-              )}
-            </a>
-          </div>
-        ))
+        article.excerpt && (
+          <p class="text-neutral-muted font-sans text-base leading-[1.55] text-balance md:text-lg">
+            {article.excerpt}
+          </p>
+        )
       }
     </div>
 
-    <div class="flex flex-col items-start gap-1 text-sm text-slate-700">
-      <p>
-        {labels.articles['written-by']}{'  '}
-        {
-          (article.authors as Author[]).map((author, index) => (
-            <>
-              {index > 0 && (index === article.authors.length - 1 ? ' & ' : ', ')}
-              <a
-                class="text-primary inline-block text-nowrap underline"
-                href={normalizePath(author.path, preview)}
-              >
-                {author.name}
-              </a>
-            </>
-          ))
-        }
-      </p>
+    {
+      typeof article.image === 'object' && (
+        <div class="border-border-strong overflow-hidden border md:mt-1">
+          <Img
+            image={article.image}
+            size="md"
+            class="block aspect-[4/3] h-full w-full object-cover"
+            fetchpriority="high"
+          />
+        </div>
+      )
+    }
+  </header>
 
-      <p>
-        {labels.articles['last-updated-at']}{'  '}
-        {
-          new Date(article.updatedAt).toLocaleDateString(locale, {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          })
-        }
-      </p>
-    </div>
-  </div>
+  <MetaStrip class="mt-12">
+    {
+      authors.length > 0 && (
+        <div class="flex items-center gap-3">
+          <div class="flex flex-shrink-0 -space-x-2">
+            {authors.map(
+              (author) =>
+                typeof author.photo === 'object' && (
+                  <Img
+                    image={author.photo}
+                    size="sm"
+                    class="border-surface aspect-square !h-9 !w-9 rounded-full border-2 object-cover"
+                  />
+                ),
+            )}
+          </div>
+          <MetaField label={labels.articles['written-by']}>
+            <p class="text-neutral font-sans text-sm">
+              {authors.map((author, index) => (
+                <>
+                  {index > 0 && (index === authors.length - 1 ? ' & ' : ', ')}
+                  <a
+                    class="ease-standard decoration-border-strong hover:text-tertiary hover:decoration-tertiary inline-block font-medium text-nowrap underline underline-offset-4 transition-colors duration-150"
+                    href={normalizePath(author.path, preview)}
+                  >
+                    {author.name}
+                  </a>
+                </>
+              ))}
+            </p>
+          </MetaField>
+        </div>
+      )
+    }
 
-  {
-    typeof article.image === 'object' && (
-      <Img
-        image={article.image}
-        size="xl"
-        class="mx-auto my-8 w-full max-w-4xl rounded-xl"
-        fetchpriority="high"
-      />
-    )
-  }
+    <MetaField label={labels.articles['published-at']} value={dateLabel} />
+    <MetaField label={labels.articles['last-updated-at']} value={updatedLabel} />
+
+    {
+      article.tags && article.tags.length > 0 && (
+        <MetaField label={labels.articles.tags} class="!gap-1.5 md:ml-auto">
+          <ArticleTagsList tags={article.tags} />
+        </MetaField>
+      )
+    }
+  </MetaStrip>
 
   {
     headings.length > 0 && (
-      <div class="xl:hidden">
+      <div class="mt-10 xl:hidden">
         <TableOfContents headings={headings} />
       </div>
     )
   }
 
-  <div class="relative flex gap-8">
+  <div class="prose-redesign relative mt-12 flex gap-12">
     <div class="min-w-0 flex-1">
       <RichTextBlock text={article.content} />
     </div>

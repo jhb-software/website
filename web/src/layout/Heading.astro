@@ -1,0 +1,32 @@
+---
+/**
+ * Section/block heading per design.md §section-eyebrow:
+ * `sans 600, primary, tracking-tight`.
+ *
+ * `size` picks the type scale; `as` picks the HTML tag — keep them independent
+ * so semantic level (h1/h2/h3) doesn't constrain visual weight.
+ */
+type Tag = 'h1' | 'h2' | 'h3' | 'h4'
+type Size = 'hero' | 'lg' | 'md'
+
+type Props = {
+  as?: Tag
+  size?: Size
+  class?: string
+}
+
+const sizeClasses: Record<Size, string> = {
+  hero: 'text-3xl md:text-5xl',
+  lg: 'text-xl md:text-2xl',
+  md: 'text-lg',
+}
+
+const props: Props = Astro.props
+const { as: Tag = 'h2', size = 'lg', class: className } = props
+---
+
+<Tag
+  class:list={['text-primary font-sans font-semibold tracking-tight', sizeClasses[size], className]}
+>
+  <slot />
+</Tag>

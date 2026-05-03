@@ -1,0 +1,25 @@
+---
+/**
+ * Labelled metadata field — `\ LABEL` eyebrow over a value. Used inside
+ * `<MetaStrip>` on article, project, and any other detail page.
+ *
+ * Pass plain text via `value`; pass a slot for richer content (link, photo
+ * row, tag chips). Accepts a `class` so consumers can position individual
+ * fields (e.g. `class="ml-auto"`).
+ */
+import Eyebrow from './Eyebrow.astro'
+
+type Props = {
+  label: string
+  /** Plain string value. Use the default slot for richer content. */
+  value?: string
+  class?: string
+}
+
+const { label, value, class: className } = Astro.props
+---
+
+<div class:list={['flex flex-col gap-0.5', className]}>
+  <Eyebrow label={label} />
+  {value ? <p class="text-neutral font-sans text-sm">{value}</p> : <slot />}
+</div>

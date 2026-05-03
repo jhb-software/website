@@ -3,11 +3,119 @@
 
 @plugin "@tailwindcss/typography";
 
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/GeistMono-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Hoisted with @theme --animate-* so Tailwind v4 keeps keyframes in the build output.
+   Each row duplicates its logo strip; -50% == one copy width for a seamless loop. */
+@keyframes customer-logos-marquee-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes customer-logos-marquee-right {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 @theme {
-  --font-sans: 'Montserrat Variable', ui-sans-serif, system-ui, -apple-system;
-  --color-primary: #1e3a8a;
-  --color-primary-dark: #162d6e;
-  --color-neutral-150: #ededed;
+  /* Typography */
+  --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.4;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.55;
+  --text-base: 1rem;
+  --text-base--line-height: 1.55;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.55;
+  --text-xl: 1.5rem;
+  --text-xl--line-height: 1.2;
+  --text-2xl: 2rem;
+  --text-2xl--line-height: 1.1;
+  --text-3xl: 2.75rem;
+  --text-3xl--line-height: 1.05;
+  --text-4xl: 3.5rem;
+  --text-4xl--line-height: 1.05;
+  --text-5xl: 4.5rem;
+  --text-5xl--line-height: 1.05;
+
+  --tracking-tight: -0.025em;
+  --tracking-wordmark: -0.01em;
+  --tracking-eyebrow: 0.12em;
+
+  /* Token names follow design.md (role-based, not literal). Hex values may
+     change; names should not. */
+
+  /* Surfaces */
+  --color-canvas: #fafafa;
+  --color-surface: #ffffff;
+
+  /* Primary — brand anchor: H1, primary buttons, mark, footer */
+  --color-primary: #0a2540;
+  --color-primary-deep: #050e1f;
+  --color-primary-hover: #14365c;
+  --color-primary-soft: #e8eef7;
+
+  /* Tertiary — accent for interaction only: focus, link hover, corner marks, `\` */
+  --color-tertiary: #0f766e;
+  --color-tertiary-soft: #a8d4c8;
+
+  /* Original orange accent — kept for A/B testing */
+  /* --color-tertiary: #ff5c00; */
+  /* --color-tertiary-soft: #fff1e8; */
+
+  /* Neutral — text & icons on light surfaces */
+  --color-neutral: #0a0a0a;
+  --color-neutral-muted: #404040;
+  --color-neutral-subtle: #737373;
+  --color-neutral-faint: #a3a3a3;
+
+  /* Borders */
+  --color-border: #ececec;
+  --color-border-strong: #d4d4d4;
+
+  /* Container — site-wide content max width per §7.1 */
+  --container-page: 1200px;
+
+  /* Radii */
+  --radius-none: 0;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
+
+  /* Easing */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Customer logos — infinite marquee (see CustomerLogosBlock.astro). */
+  --animate-customer-logos-marquee-left: customer-logos-marquee-left 54s linear infinite;
+  --animate-customer-logos-marquee-right: customer-logos-marquee-right 68s linear infinite;
 }
 
 @layer base {
@@ -16,56 +124,16 @@
     @apply scroll-pt-26 md:scroll-pt-22;
   }
 
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-neutral);
+    font-family: var(--font-sans);
+  }
+
   h1,
   h2 {
     @apply sm:hyphenate-none hyphenate;
-  }
-}
-
-@layer components {
-  .header-solid {
-    @apply bg-white;
-  }
-
-  .header-scrolled {
-    @apply bg-white shadow-sm;
-  }
-
-  .header-transparent {
-    @apply bg-transparent;
-  }
-
-  .menu-icon {
-    @apply relative h-12 w-12 cursor-pointer;
-  }
-
-  .menu-icon div {
-    @apply absolute top-0 right-0 bottom-0 left-0 m-auto h-4 w-7;
-  }
-
-  .menu-icon span {
-    @apply absolute block h-[3px] w-full rounded-sm bg-slate-700;
-    transition: all 0.2s cubic-bezier(0.1, 0.82, 0.76, 0.965);
-  }
-
-  .menu-icon span:first-of-type {
-    @apply top-0;
-  }
-
-  .menu-icon span:last-of-type {
-    @apply bottom-0 left-[1/5] w-[4/5];
-  }
-
-  .menu-icon[data-state='open'] span:first-of-type,
-  .menu-icon.active span:first-of-type {
-    @apply top-[4px];
-    transform: rotate(45deg);
-  }
-
-  .menu-icon[data-state='open'] span:last-of-type,
-  .menu-icon.active span:last-of-type {
-    @apply bottom-[9px] left-0 w-full;
-    transform: rotate(-45deg);
+    letter-spacing: var(--tracking-tight);
   }
 }
 
@@ -89,4 +157,17 @@
 
 @utility hyphenate-none {
   hyphens: none;
+}
+
+/* Soft edge vignette on customer logo marquee (mask, not box-shadow). */
+.customer-logos-marquee-fade {
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-customer-logos-marquee-left,
+  .animate-customer-logos-marquee-right {
+    animation: none !important;
+  }
 }

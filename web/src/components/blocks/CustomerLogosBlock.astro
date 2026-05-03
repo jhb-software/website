@@ -1,49 +1,67 @@
 ---
 import Img from '@/components/Img.astro'
-import type { CustomerLogosBlock } from 'cms/src/payload-types'
+import type { CustomerLogosBlock, Image as ImageType } from 'cms/src/payload-types'
 
 export type Props = CustomerLogosBlock
 
 const { customers } = Astro.props
+
+const logos: ImageType[] = []
+for (const customer of customers ?? []) {
+  if (typeof customer === 'object' && typeof customer.logo === 'object' && customer.logo) {
+    logos.push(customer.logo)
+  }
+}
+
+const mid = Math.ceil(logos.length / 2)
+const row1 = logos.slice(0, mid)
+const row2 = logos.slice(mid)
+
+/** One continuous strip: duplicated in the same <ul> so flex gap is uniform across the loop join. */
+const marqueeListClass =
+  'flex w-max shrink-0 flex-row items-center gap-x-8 sm:gap-x-10 md:gap-x-12 [will-change:transform]'
+const logoCellClass = 'flex h-12 w-28 shrink-0 items-center justify-center sm:w-32'
+const logoImgClass =
+  'ease-standard block h-12 w-full max-h-12 max-w-full object-contain opacity-60 grayscale [filter:brightness(0)] transition-opacity duration-200 hover:opacity-100'
 ---
 
-<div class="relative -mx-4 w-[calc(100%+2rem)] overflow-hidden md:mx-0 md:w-full">
-  <div
-    class="flex animate-[scroll_20s_linear_infinite] flex-row gap-12 md:animate-none md:flex-col"
-  >
+<div class="border-border-strong border-y py-12">
+  <div class="flex flex-col gap-y-10">
     {
-      [customers?.slice(0, 5), customers?.slice(5, 9), customers?.slice(9, 12)].map(
-        (rowCustomers) => (
-          <div class="flex flex-row items-center justify-center gap-8 md:gap-12">
-            {rowCustomers?.filter(Boolean).map((customer) => {
-              const logo =
-                typeof customer === 'object' && typeof customer.logo === 'object'
-                  ? customer.logo
-                  : undefined
-
-              return logo ? (
-                <Img
-                  image={logo}
-                  size="original"
-                  width={100}
-                  class="max-w-[100px] overflow-hidden opacity-75 grayscale [filter:brightness(0)]"
-                />
-              ) : undefined
-            })}
-          </div>
-        ),
+      row1.length > 0 && (
+        <div class="customer-logos-marquee-fade overflow-x-clip px-1 sm:px-2">
+          <ul class:list={[marqueeListClass, 'animate-customer-logos-marquee-left']}>
+            {row1.map((logo) => (
+              <li class={logoCellClass}>
+                <Img image={logo} size="original" class={logoImgClass} />
+              </li>
+            ))}
+            {row1.map((logo) => (
+              <li class={logoCellClass} aria-hidden="true">
+                <Img image={logo} size="original" class={logoImgClass} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+    {
+      row2.length > 0 && (
+        <div class="customer-logos-marquee-fade overflow-x-clip px-1 sm:px-2">
+          <ul class:list={[marqueeListClass, 'animate-customer-logos-marquee-right']}>
+            {row2.map((logo) => (
+              <li class={logoCellClass}>
+                <Img image={logo} size="original" class={logoImgClass} />
+              </li>
+            ))}
+            {row2.map((logo) => (
+              <li class={logoCellClass} aria-hidden="true">
+                <Img image={logo} size="original" class={logoImgClass} />
+              </li>
+            ))}
+          </ul>
+        </div>
       )
     }
   </div>
 </div>
-
-<style>
-  @keyframes scroll {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
-  }
-</style>

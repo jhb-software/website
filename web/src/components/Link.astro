@@ -3,31 +3,37 @@ import type { Link, Page } from 'cms/src/payload-types'
 import { normalizePath } from '../utils/normalizePath'
 import Icon from './icons/Icon.astro'
 
-type Props =
-  // When the data is a Link group from the CMS:
-  | (Link & { class?: string; uppercase?: boolean })
+type CmsLinkProps = Link & { class?: string; uppercase?: boolean }
+type RawLinkProps = {
+  path: string
+  style: Link['style']
+  class?: string
+  icon?: Link['icon']
+  normalizePath?: boolean
+}
+type Props = CmsLinkProps | RawLinkProps
 
-  // When the data is a path (e.g. from a breadcrumb):
-  | {
-      path: string
-      style: Link['style']
-      class?: string
-      icon?: Link['icon']
-      normalizePath?: boolean
-    }
-
+/**
+ * Per redesign §8.1 the system has two button variants (primary, ghost) and
+ * one in-prose link style (§8.2). The CMS still exposes five legacy `style`
+ * values; map them to the redesign variants here so authors don't see breakage.
+ */
 export function buttonStyles(style: Link['style']) {
   switch (style) {
+    // Primary — filled primary-colored button (the page's main conversion CTA)
     case 'primary':
-      return 'bg-primary text-neutral-100 hover:bg-primary hover:bg-primaryDark'
-    case 'text':
-      return 'text-gray-700 hover:bg-neutral-200'
-    case 'text-primary':
-      return 'text-primary hover:bg-neutral-200'
+      return 'inline-flex items-center gap-2 bg-primary text-white hover:bg-primary-hover rounded-none px-5 py-3 font-sans text-sm font-medium ease-standard transition-colors duration-150 no-underline'
+
+    // Ghost — transparent button with hairline border
     case 'light':
-      return 'bg-neutral-200 hover:bg-neutral-300 text-gray-700'
     case 'light-primary':
-      return 'bg-neutral-200 hover:bg-neutral-300 text-primary'
+      return 'inline-flex items-center gap-2 border border-border-strong text-neutral hover:text-tertiary rounded-none px-5 py-3 font-sans text-sm font-medium ease-standard transition-colors duration-150 no-underline'
+
+    // In-prose link — underlined, hover turns tertiary
+    case 'text':
+    case 'text-primary':
+    default:
+      return 'inline-flex items-center gap-1.5 text-neutral hover:text-tertiary ease-standard underline decoration-border-strong hover:decoration-tertiary underline-offset-4 transition-colors duration-150'
   }
 }
 
@@ -45,17 +51,20 @@ if (!rawPath) {
 const { preview } = Astro.locals.globalState
 const normalizePathValue = 'normalizePath' in Astro.props ? Astro.props.normalizePath : true
 const href = normalizePathValue ? normalizePath(rawPath, preview) : rawPath
+
+const isPrimary = Astro.props.style === 'primary'
+const hasIcon = 'icon' in Astro.props && Boolean(Astro.props.icon)
 ---
 
 <a
   href={href}
   class:list={[
-    'inline-flex items-center gap-3 rounded-md px-4 py-3 text-sm font-semibold no-underline transition-all duration-200',
-    'uppercase' in Astro.props && Astro.props.uppercase && 'uppercase',
     buttonStyles(Astro.props.style),
+    'uppercase' in Astro.props && Astro.props.uppercase && 'uppercase',
     Astro.props.class,
   ]}
 >
   {'label' in Astro.props ? Astro.props.label : <slot />}
-  {'icon' in Astro.props && Astro.props.icon && <Icon name={Astro.props.icon} />}
+  {'icon' in Astro.props && Astro.props.icon && <Icon name={Astro.props.icon} class="h-4 w-4" />}
+  {isPrimary && !hasIcon && <Icon name="arrow-right" class="h-4 w-4 opacity-70" />}
 </a>

@@ -1,44 +1,59 @@
 ---
+import Icon from '@/components/icons/Icon.astro'
 import Img from '@/components/Img.astro'
-import type { AuthorsBlock } from 'cms/src/payload-types'
+import type { Author, AuthorsBlock } from 'cms/src/payload-types'
+import Eyebrow from '../../layout/Eyebrow.astro'
+import FrameCell from '../../layout/FrameCell.astro'
+import SectionFrame from '../../layout/SectionFrame.astro'
 import { normalizePath } from '../../utils/normalizePath'
-import Card from '../cards/Card.astro'
 
 export type Props = AuthorsBlock
 
-const { authors } = Astro.props
 const { preview } = Astro.locals.globalState
+
+const authors = (Astro.props.authors as Author[])?.filter((a) => typeof a === 'object') ?? []
 ---
 
-<div class="flex flex-col gap-4">
+<SectionFrame>
   {
-    authors
-      .filter((author) => typeof author === 'object')
-      .map((author) => {
-        return (
-          <Card class="!p-0">
-            <a href={normalizePath(author.path, preview)}>
-              <div class="flex flex-col items-center gap-4 md:flex-row">
-                <div class="w-48 flex-none">
-                  {author.photo && typeof author.photo === 'object' && (
-                    <Img
-                      image={author.photo}
-                      size="md"
-                      class="m-4 rounded-md md:m-0 md:rounded-r-none"
-                    />
-                  )}
-                </div>
+    authors.map((author, index) => (
+      <FrameCell
+        interactive
+        class:list={[index > 0 && 'border-t border-t-[var(--color-border-strong)]']}
+      >
+        <a
+          href={normalizePath(author.path, preview)}
+          class="flex h-full items-center gap-5 p-5 md:gap-8 md:p-6"
+          aria-label={author.name}
+        >
+          {typeof author.photo === 'object' && (
+            <div class="border-border-strong w-24 flex-none overflow-hidden border md:w-28">
+              <Img
+                image={author.photo}
+                size="sm"
+                class="block aspect-square h-full w-full object-cover"
+              />
+            </div>
+          )}
 
-                <div class="flex flex-auto flex-row justify-between gap-8 p-4">
-                  <div class="flex flex-col gap-4">
-                    <h2 class="my-0 text-lg font-semibold">{author.name}</h2>
-                    <div class="text-base font-normal">{author.excerpt}</div>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </Card>
-        )
-      })
+          <div class="flex min-w-0 flex-1 flex-col gap-2">
+            <h3 class="text-primary font-sans text-base font-semibold tracking-tight md:text-lg">
+              {author.name}
+            </h3>
+            {author.profession && <Eyebrow label={author.profession} />}
+            {author.excerpt && (
+              <p class="text-neutral-muted line-clamp-2 font-sans text-sm leading-[1.55]">
+                {author.excerpt}
+              </p>
+            )}
+          </div>
+
+          <Icon
+            name="arrow-right"
+            class="text-neutral-muted ease-standard group-hover:text-tertiary hidden h-5 w-5 flex-none transition-colors duration-200 md:inline-block"
+          />
+        </a>
+      </FrameCell>
+    ))
   }
-</div>
+</SectionFrame>

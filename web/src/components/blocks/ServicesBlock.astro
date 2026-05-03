@@ -1,32 +1,51 @@
 ---
-import type { Page, ServicesBlock } from 'cms/src/payload-types'
-import Card from '../cards/Card.astro'
-import Icon from '../icons/Icon.astro'
-import Link from '../Link.astro'
+import type { ServicesBlock } from 'cms/src/payload-types'
+import FrameCell from '../../layout/FrameCell.astro'
+import SectionFrame from '../../layout/SectionFrame.astro'
+import ServiceCard from './ServiceCard.astro'
 
 export type Props = ServicesBlock
 
 const { services } = Astro.props
-const { labels } = Astro.locals.globalState
+const { preview } = Astro.locals.globalState
+
+// The bento layout (one large hero cell + two compact cells) is used when a
+// services array contains exactly one item flagged `isHero` and at least two
+// non-hero items. Anything else falls back to a 3-up grid of compact cells.
+const heroService = services?.find((s) => s.isHero)
+const compactServices = (services ?? []).filter((s) => !s.isHero)
+const useBento = heroService && compactServices.length >= 2
 ---
 
-<div class="grid gap-5 md:grid-cols-3">
-  {
-    services?.map(({ title, description, page, icon }) => (
-      <Card class="flex flex-col items-start justify-between gap-4">
-        <div class="flex flex-row items-center gap-3">
-          <Icon name={icon} class:list={['h-6 w-6 text-black/80']} />
-          <h3 class="m-0 text-lg font-semibold">{title}</h3>
-        </div>
+{
+  useBento ? (
+    <SectionFrame class="grid md:grid-cols-[1.4fr_1fr] md:grid-rows-2">
+      <FrameCell
+        interactive
+        class="md:row-span-2 md:border-r md:border-r-[var(--color-border-strong)]"
+      >
+        <ServiceCard service={heroService} size="hero" preview={preview} />
+      </FrameCell>
 
-        <p>{description}</p>
-        <Link
-          page={{ relationTo: 'pages', value: page as Page }}
-          label={labels.global['learn-more']}
-          style="text-primary"
-          icon="chevron-right"
-        />
-      </Card>
-    ))
-  }
-</div>
+      {compactServices.slice(0, 2).map((service, idx) => (
+        <FrameCell
+          interactive
+          class:list={[idx === 1 && 'md:border-t md:border-t-[var(--color-border-strong)]']}
+        >
+          <ServiceCard service={service} size="compact" preview={preview} />
+        </FrameCell>
+      ))}
+    </SectionFrame>
+  ) : (
+    <SectionFrame class="grid md:grid-cols-3">
+      {services?.map((service, idx) => (
+        <FrameCell
+          interactive
+          class:list={[idx > 0 && 'md:border-l md:border-l-[var(--color-border-strong)]']}
+        >
+          <ServiceCard service={service} size="compact" preview={preview} />
+        </FrameCell>
+      ))}
+    </SectionFrame>
+  )
+}

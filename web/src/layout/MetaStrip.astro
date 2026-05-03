@@ -1,0 +1,22 @@
+---
+/**
+ * Horizontal metadata strip framed by hairline rules. Holds `<MetaField>`
+ * children that wrap responsively. Used below the hero on article and
+ * project detail pages — the bordered band that surfaces author, dates,
+ * tags, client, etc.
+ */
+type Props = {
+  class?: string
+}
+
+const { class: className } = Astro.props
+---
+
+<div
+  class:list={[
+    'border-border flex flex-wrap items-center gap-x-10 gap-y-5 border-t border-b py-5',
+    className,
+  ]}
+>
+  <slot />
+</div>

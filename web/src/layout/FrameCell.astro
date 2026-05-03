@@ -1,0 +1,60 @@
+---
+/**
+ * A single cell inside a <SectionFrame>. No border or radius of its own —
+ * dividers come from utility classes (`border-l`, `border-t` on the second
+ * and subsequent cells) so the frame's hairlines are shared, not stacked.
+ *
+ * Interactive cells use `group` for child `group-hover:*` accents; hover itself
+ * is a light tint plus a bottom accent bar (not a full wash).
+ */
+type Props = {
+  class?: string
+  /** If true, the cell behaves as a link target (cursor + hover wash). */
+  interactive?: boolean
+}
+
+const { class: className, interactive = false } = Astro.props
+---
+
+<div
+  class:list={[
+    'frame-cell relative',
+    interactive && 'frame-cell--interactive group cursor-pointer',
+    className,
+  ]}
+>
+  <slot />
+</div>
+
+<style>
+  .frame-cell--interactive {
+    transition: background-color 200ms var(--ease-standard);
+  }
+
+  .frame-cell--interactive::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 2px;
+    background-color: var(--color-tertiary);
+    opacity: 0;
+    transition: opacity 200ms var(--ease-standard);
+    pointer-events: none;
+  }
+
+  .frame-cell--interactive:hover {
+    background-color: color-mix(in srgb, var(--color-tertiary) 6%, transparent);
+  }
+
+  .frame-cell--interactive:hover::after {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .frame-cell--interactive,
+    .frame-cell--interactive::after {
+      transition-duration: 0.01ms;
+    }
+  }
+</style>

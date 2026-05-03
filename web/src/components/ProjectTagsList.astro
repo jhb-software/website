@@ -1,5 +1,6 @@
 ---
 import type { Project } from 'cms/src/payload-types'
+import TagsList from './TagsList.astro'
 
 type Props = {
   tags: Project['tags']
@@ -8,14 +9,8 @@ type Props = {
 
 const { tags, class: className } = Astro.props
 const { labels } = Astro.locals.globalState
+
+const resolved = (tags ?? []).map((tag) => labels.projects[tag])
 ---
 
-<div class:list={['flex flex-wrap gap-2', className]}>
-  {
-    tags?.map((tag) => (
-      <span class="max-h-fit rounded-md bg-gray-200 px-2 py-1 text-sm font-medium text-gray-700">
-        {labels.projects[tag]}
-      </span>
-    ))
-  }
-</div>
+<TagsList labels={resolved} class={className} />

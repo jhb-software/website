@@ -1,0 +1,34 @@
+---
+import CornerMark from './CornerMark.astro'
+
+/**
+ * The Vercel-pattern outer hairline frame from redesign §7.7. Use whenever 2+
+ * related cells group together (service grid, value grid, project tiles,
+ * testimonial cluster). Cells are rendered as <FrameCell> children with no
+ * borders of their own — interior dividers come from `border-l` / `border-t`
+ * on the cell wrappers, sharing the outer frame's hairlines.
+ *
+ * Renders four tertiary-colored corner crosses (§7.3) by default. Set `corners={false}`
+ * for nested or quieter contexts.
+ */
+type Props = {
+  class?: string
+  corners?: boolean
+}
+
+const { class: className, corners = true } = Astro.props
+---
+
+<div class:list={['border-border-strong relative overflow-hidden border', className]}>
+  <slot />
+  {
+    corners && (
+      <>
+        <CornerMark position="top-left" />
+        <CornerMark position="top-right" />
+        <CornerMark position="bottom-left" />
+        <CornerMark position="bottom-right" />
+      </>
+    )
+  }
+</div>

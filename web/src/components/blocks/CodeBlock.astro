@@ -1,14 +1,41 @@
 ---
+import Eyebrow from '@/layout/Eyebrow.astro'
 import { Code } from 'astro:components'
 import type { CodeBlock } from 'cms/src/payload-types'
 
 type Props = CodeBlock
 
 const { code, caption } = Astro.props
+
+// TODO(cms-content): expose `language` on the CodeBlock CMS schema (default
+// 'ts') so authors can pick the highlight language and the eyebrow reflects
+// it. Hardcoded to ts here. Affects: every code block in articles.
+const language = 'ts'
 ---
 
-<div>
-  <Code lang={'ts'} code={code} class="!my-0" />
+<figure class="not-prose code-block my-8">
+  <div class="border-border-strong overflow-hidden border bg-[var(--color-primary-deep)]">
+    <div class="border-primary-hover/40 flex items-center justify-between border-b px-4 py-2">
+      <Eyebrow as="span" label={language} class="!text-primary-soft" />
+    </div>
+    <Code lang={language} code={code} theme="github-dark" class="!my-0 !rounded-none p-4 text-sm" />
+  </div>
 
-  {caption && <p class="mt-2 text-sm text-neutral-500">{caption}</p>}
-</div>
+  {caption && <Eyebrow as="figcaption" label={caption} class="mt-2 normal-case" />}
+</figure>
+
+<style>
+  .code-block :global(pre) {
+    background-color: var(--color-primary-deep) !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 1rem !important;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    overflow-x: auto;
+  }
+
+  .code-block :global(code) {
+    font-family: var(--font-mono);
+  }
+</style>

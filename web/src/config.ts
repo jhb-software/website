@@ -5,7 +5,7 @@ type WebsiteConfig = {
   url: string
   name: string
   domain: string
-  icon: string
+  email: string
   logo: {
     path: string
     url: string
@@ -21,7 +21,7 @@ export const websiteConfig: WebsiteConfig = {
   url: SITE_URL,
   name: 'JHB Software',
   domain: 'jhb.software',
-  icon: '/icon.png',
+  email: 'info@jhb.software',
   logo: {
     path: '/logo.webp',
     url: new URL('/logo.webp', SITE_URL).toString(),

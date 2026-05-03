@@ -1,5 +1,6 @@
 ---
 import type { Article } from 'cms/src/payload-types'
+import TagsList from './TagsList.astro'
 
 type Props = {
   tags: Article['tags']
@@ -8,15 +9,7 @@ type Props = {
 
 const { tags, class: className } = Astro.props
 
-const articleTags = tags.filter((tag) => typeof tag === 'object')
+const resolved = tags.filter((tag) => typeof tag === 'object').map((tag) => tag.name)
 ---
 
-<div class:list={['flex flex-wrap gap-2', className]}>
-  {
-    articleTags?.map((tag) => (
-      <span class="max-h-fit rounded-md bg-gray-200 px-2 py-1 text-sm font-medium text-gray-700">
-        {tag.name}
-      </span>
-    ))
-  }
-</div>
+<TagsList labels={resolved} class={className} />

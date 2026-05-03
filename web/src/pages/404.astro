@@ -1,9 +1,9 @@
 ---
+import Icon from '@/components/icons/Icon.astro'
 import Link from '@/components/Link.astro'
 import { initGlobalState } from '@/globalState'
 import Layout from '@/layout/Layout.astro'
 import { VERCEL_ENV } from 'astro:env/server'
-import { House } from 'lucide-astro'
 
 await initGlobalState(Astro)
 const { labels, locale, preview } = Astro.locals.globalState
@@ -26,7 +26,7 @@ const isProductionDeployment = VERCEL_ENV === 'production'
 
     <Link path={homePagePath} style="primary" normalizePath={false}>
       {labels['not-found-page']['home-page-button']}
-      <House />
+      <Icon name="home" class="h-4 w-4" />
     </Link>
   </section>
 

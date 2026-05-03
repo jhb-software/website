@@ -1,25 +1,60 @@
 ---
 import type { Page } from 'cms/src/payload-types'
+import Eyebrow from '../layout/Eyebrow.astro'
+import Heading from '../layout/Heading.astro'
 import SectionShell from '../layout/SectionShell.astro'
 import SectionBlock from './SectionBlock.astro'
 
-export type Props = NonNullable<Page['sections']>[number] & { withoutTopSpace?: boolean }
+export type Props = NonNullable<Page['sections']>[number] & {
+  /** 1-based ordinal used to render the eyebrow number (`\ 02 / TITLE`). */
+  index?: number
+  withoutTopSpace?: boolean
+}
 
-const { title, subTitle, blocks, highlightBackground, withoutTopSpace = false } = Astro.props
+const { title, subTitle, blocks, index, withoutTopSpace = false } = Astro.props
+const { locale } = Astro.locals.globalState
+
+/**
+ * Eyebrow hint per block type — used when a section promotes its title to h2
+ * and would otherwise leave a number-only eyebrow. Falls back to no hint when
+ * a section mixes block types.
+ */
+const blockTypeHints: Partial<Record<string, { de: string; en: string }>> = {
+  testimonials: { de: 'STIMMEN', en: 'VOICES' },
+  'customer-logos': { de: 'PARTNER', en: 'PARTNERS' },
+}
+const dominantBlockType = blocks?.length === 1 ? blocks[0].blockType : undefined
+const promotedHint = dominantBlockType
+  ? blockTypeHints[dominantBlockType]?.[locale === 'en' ? 'en' : 'de']
+  : undefined
 ---
 
-<SectionShell
-  class:list={[withoutTopSpace ? 'mb-16 space-y-6 py-16' : 'my-16 space-y-6 py-16']}
-  sectionClass={highlightBackground ? 'bg-gray-200/20' : undefined}
->
+<SectionShell class:list={[withoutTopSpace ? 'mb-24 pt-8 pb-16' : 'my-24 py-16']}>
   {
     (title || subTitle) && (
-      <div class="space-y-2">
-        {title && <h2 class="text-center text-2xl font-bold">{title}</h2>}
-        {subTitle && <p class="text-center text-balance">{subTitle}</p>}
-      </div>
+      <header class="mb-12 max-w-3xl space-y-3">
+        {subTitle ? (
+          <>
+            {title && <Eyebrow label={title} index={index} />}
+            <Heading as="h2" class="leading-[1.4] text-balance">
+              {subTitle}
+            </Heading>
+          </>
+        ) : (
+          title && (
+            <>
+              <Eyebrow index={index} label={promotedHint} />
+              <Heading as="h2" class="leading-[1.4] text-balance">
+                {title}
+              </Heading>
+            </>
+          )
+        )}
+      </header>
     )
   }
 
-  {blocks?.map((block) => <SectionBlock {...block} />)}
+  <div class="space-y-16">
+    {blocks?.map((block) => <SectionBlock {...block} />)}
+  </div>
 </SectionShell>

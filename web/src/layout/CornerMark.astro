@@ -1,0 +1,47 @@
+---
+/**
+ * Technical-drawing corner registration cross. Rendered at the inner corners
+ * of major content blocks per redesign §7.3 — 14px wide, 1px stroke,
+ * tertiary. Use sparingly; one set per major block (hero, headline section,
+ * footer top edge), not sprinkled.
+ */
+type Position = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+
+type Props = {
+  position: Position
+  /** Distance from the corner edges (px). Defaults to -7 so the cross sits centred on the corner. */
+  offset?: number
+}
+
+const { position, offset = -7 } = Astro.props
+
+const positionClasses: Record<Position, string> = {
+  'top-left': 'top-0 left-0',
+  'top-right': 'top-0 right-0',
+  'bottom-left': 'bottom-0 left-0',
+  'bottom-right': 'bottom-0 right-0',
+}
+
+const inset = `${offset}px`
+---
+
+<span
+  class:list={['text-tertiary pointer-events-none absolute', positionClasses[position]]}
+  style={{
+    [position.includes('top') ? 'marginTop' : 'marginBottom']: inset,
+    [position.includes('left') ? 'marginLeft' : 'marginRight']: inset,
+  }}
+  aria-hidden="true"
+>
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 14 14"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1"
+  >
+    <line x1="7" y1="0" x2="7" y2="14"></line>
+    <line x1="0" y1="7" x2="14" y2="7"></line>
+  </svg>
+</span>

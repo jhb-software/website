@@ -15,13 +15,39 @@ const { locale } = Astro.locals.globalState
 const isRootPage = 'isRootPage' in pageData && Boolean(pageData.isRootPage)
 
 const schema = isRootPage ? organizationSchema() : pageSchema(pageData, locale)
+
+// Render-time split: a section that contains both an `about` and a `philosophy`
+// block is shown as two sections with their own eyebrow number. The philosophy
+// block's `title` is hoisted to the section subtitle so the eyebrow→heading
+// rhythm matches the rest of the page.
+const philosophySectionTitle: Record<string, string> = {
+  de: 'Philosophie',
+  en: 'Philosophy',
+}
+type SectionData = NonNullable<Page['sections']>[number]
+const sections: SectionData[] = (pageData.sections ?? []).flatMap((section) => {
+  const blocks = section.blocks ?? []
+  const hasAbout = blocks.some((b) => b.blockType === 'about')
+  const philosophy = blocks.find((b) => b.blockType === 'philosophy')
+  if (!hasAbout || !philosophy) return [section]
+  return [
+    { ...section, blocks: blocks.filter((b) => b.blockType !== 'philosophy') },
+    {
+      ...section,
+      id: section.id ? `${section.id}-philosophy` : null,
+      title: philosophySectionTitle[locale] ?? philosophySectionTitle.en,
+      subTitle: 'title' in philosophy ? (philosophy.title ?? '') : '',
+      blocks: [{ ...philosophy, title: '' }],
+    },
+  ]
+})
 ---
 
 <HeroSection {...pageData.hero} breadcrumbs={pageData.breadcrumbs} />
 
 {
-  pageData.sections?.map((section, index) => (
-    <Section {...section} withoutTopSpace={index === 0 && !pageData.isRootPage} />
+  sections.map((section, index) => (
+    <Section {...section} index={index + 2} withoutTopSpace={index === 0 && !pageData.isRootPage} />
   ))
 }
 
