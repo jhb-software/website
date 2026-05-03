@@ -5,6 +5,7 @@ import type { Page } from 'cms/src/payload-types'
 import Icon from '../components/icons/Icon.astro'
 import { normalizePath } from '../utils/normalizePath'
 import CornerMark from './CornerMark.astro'
+import Eyebrow from './Eyebrow.astro'
 
 const { locale, preview, footer, header } = Astro.locals.globalState
 
@@ -45,9 +46,7 @@ const sitePages = header.links?.filter(({ link }) => link.style !== 'primary') ?
   <div class="max-w-page relative mx-auto px-5 pt-12 pb-6 md:px-8">
     <div class="grid grid-cols-2 gap-12 md:grid-cols-3 md:gap-8">
       <div>
-        <h2 class="text-cobalt-100 tracking-eyebrow font-mono text-xs uppercase">
-          <span class="text-orange-600" aria-hidden="true">\</span> Site
-        </h2>
+        <Eyebrow as="h2" label="Site" class="!text-cobalt-100" />
         <ul class="mt-4 flex flex-col gap-3">
           {
             sitePages.map(({ link }) => (
@@ -65,9 +64,7 @@ const sitePages = header.links?.filter(({ link }) => link.style !== 'primary') ?
       </div>
 
       <div>
-        <h2 class="text-cobalt-100 tracking-eyebrow font-mono text-xs uppercase">
-          <span class="text-orange-600" aria-hidden="true">\</span> Social
-        </h2>
+        <Eyebrow as="h2" label="Social" class="!text-cobalt-100" />
         <ul class="mt-4 flex flex-wrap gap-2">
           {
             footer.socialLinks?.map(({ url, icon }) => (
@@ -92,9 +89,7 @@ const sitePages = header.links?.filter(({ link }) => link.style !== 'primary') ?
       </div>
 
       <div class="col-span-2 md:col-span-1">
-        <h2 class="text-cobalt-100 tracking-eyebrow font-mono text-xs uppercase">
-          <span class="text-orange-600" aria-hidden="true">\</span> Kontakt
-        </h2>
+        <Eyebrow as="h2" label="Kontakt" class="!text-cobalt-100" />
         <a
           href={`mailto:${websiteConfig.email}`}
           class="bg-cobalt-900/20 ease-standard group mt-4 flex items-center justify-between gap-4 border border-white/20 p-4 backdrop-blur-md transition-colors duration-150 hover:border-orange-600"

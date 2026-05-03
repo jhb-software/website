@@ -1,4 +1,5 @@
 ---
+import Eyebrow from '@/layout/Eyebrow.astro'
 import { Code } from 'astro:components'
 import type { CodeBlock } from 'cms/src/payload-types'
 
@@ -15,24 +16,12 @@ const language = 'ts'
 <figure class="not-prose code-block my-8">
   <div class="border-hairline-strong overflow-hidden border bg-[var(--color-cobalt-950)]">
     <div class="border-cobalt-800/40 flex items-center justify-between border-b px-4 py-2">
-      <span class="text-cobalt-100 tracking-eyebrow font-mono text-xs uppercase">
-        <span class="text-orange-600" aria-hidden="true">\</span>
-        <span class="ml-1.5">{language}</span>
-      </span>
+      <Eyebrow as="span" label={language} class="!text-cobalt-100" />
     </div>
     <Code lang={language} code={code} theme="github-dark" class="!my-0 !rounded-none p-4 text-sm" />
   </div>
 
-  {
-    caption && (
-      <figcaption class="text-ink-500 mt-2 font-mono text-xs">
-        <span class="text-orange-600" aria-hidden="true">
-          \
-        </span>
-        <span class="ml-1.5">{caption}</span>
-      </figcaption>
-    )
-  }
+  {caption && <Eyebrow as="figcaption" label={caption} class="mt-2 normal-case" />}
 </figure>
 
 <style>

@@ -1,5 +1,6 @@
 ---
 import type { ContactBlock } from 'cms/src/payload-types'
+import Eyebrow from '../../layout/Eyebrow.astro'
 import FrameCell from '../../layout/FrameCell.astro'
 import SectionFrame from '../../layout/SectionFrame.astro'
 import Icon from '../icons/Icon.astro'
@@ -38,10 +39,7 @@ const SOCIAL_LABEL = 'SOCIAL'
 
       <dl class="flex flex-col gap-5">
         <div class="flex flex-col gap-1">
-          <dt class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
-            <span class="text-orange-600" aria-hidden="true">\</span>
-            <span class="ml-1.5">{TEL_LABEL}</span>
-          </dt>
+          <Eyebrow as="dt" label={TEL_LABEL} />
           <dd>
             <a
               href={`tel:${phone}`}
@@ -53,10 +51,7 @@ const SOCIAL_LABEL = 'SOCIAL'
         </div>
 
         <div class="flex flex-col gap-1">
-          <dt class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
-            <span class="text-orange-600" aria-hidden="true">\</span>
-            <span class="ml-1.5">{MAIL_LABEL}</span>
-          </dt>
+          <Eyebrow as="dt" label={MAIL_LABEL} />
           <dd>
             <a
               href={`mailto:${email}`}
@@ -70,12 +65,7 @@ const SOCIAL_LABEL = 'SOCIAL'
         {
           socialLinks && socialLinks.length > 0 && (
             <div class="flex flex-col gap-2">
-              <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
-                <span class="text-orange-600" aria-hidden="true">
-                  \
-                </span>
-                <span class="ml-1.5">{SOCIAL_LABEL}</span>
-              </p>
+              <Eyebrow label={SOCIAL_LABEL} />
               <div class="flex flex-wrap gap-4">
                 {socialLinks.map((link) => (
                   <a

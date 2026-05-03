@@ -1,5 +1,6 @@
 ---
 import Img from '@/components/Img.astro'
+import Eyebrow from '@/layout/Eyebrow.astro'
 import type { AboutBlock } from 'cms/src/payload-types'
 import RichTextBlock from './RichTextBlock/RichTextBlock.astro'
 
@@ -19,16 +20,7 @@ const { title, name, text, image } = Astro.props
 
   <div class="space-y-6">
     <header class="space-y-2">
-      {
-        title && (
-          <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
-            <span class="text-orange-600" aria-hidden="true">
-              \
-            </span>
-            <span class="ml-1.5">{title}</span>
-          </p>
-        )
-      }
+      {title && <Eyebrow label={title} />}
       {
         name && (
           <h3 class="text-cobalt-900 font-sans text-2xl font-semibold tracking-tight">{name}</h3>

@@ -1,5 +1,6 @@
 ---
 import type { Page } from 'cms/src/payload-types'
+import Eyebrow from '../layout/Eyebrow.astro'
 import SectionShell from '../layout/SectionShell.astro'
 import SectionBlock from './SectionBlock.astro'
 
@@ -10,7 +11,6 @@ export type Props = NonNullable<Page['sections']>[number] & {
 }
 
 const { title, subTitle, blocks, index, withoutTopSpace = false } = Astro.props
-const eyebrowNumber = index !== undefined ? String(index).padStart(2, '0') : null
 
 /**
  * Per-section copy overrides for the redesign. The CMS subtitles were authored
@@ -32,22 +32,7 @@ const effectiveSubTitle = (title && subTitleOverrides[title]) || subTitle
   {
     (title || effectiveSubTitle) && (
       <header class="mb-12 max-w-3xl space-y-4">
-        {title && (
-          <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
-            <span class="text-orange-600" aria-hidden="true">
-              \
-            </span>
-            {eyebrowNumber && (
-              <>
-                <span class="ml-1.5">{eyebrowNumber}</span>
-                <span class="text-ink-300 mx-1.5" aria-hidden="true">
-                  /
-                </span>
-              </>
-            )}
-            <span>{title}</span>
-          </p>
-        )}
+        {title && <Eyebrow label={title} index={index} />}
         {effectiveSubTitle && (
           <h2 class="text-cobalt-900 font-sans text-xl leading-[1.4] font-medium text-balance md:text-2xl">
             {effectiveSubTitle}

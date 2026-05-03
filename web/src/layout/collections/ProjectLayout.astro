@@ -5,10 +5,11 @@ import BreadcrumbsBlock from '@/components/Breadcrumbs.astro'
 import Img from '@/components/Img.astro'
 import ProjectDate from '@/components/ProjectDate.astro'
 import ProjectTagsList from '@/components/ProjectTagsList.astro'
+import Eyebrow from '@/layout/Eyebrow.astro'
 import SectionShell from '@/layout/SectionShell.astro'
 import { projectSchema } from '@/schema/project'
 import { Schema } from 'astro-seo-schema'
-import type { Breadcrumbs, Project } from 'cms/src/payload-types'
+import type { Breadcrumbs, Customer, Project } from 'cms/src/payload-types'
 
 type Props = {
   project: Project
@@ -32,21 +33,24 @@ const testimonialsHeading =
   locale === 'en' ? 'What clients say about this project' : 'Was Kunden zu diesem Projekt sagen'
 const periodLabel = locale === 'en' ? 'Period' : 'Zeitraum'
 const tagsLabel = locale === 'en' ? 'Tags' : 'Themen'
+const customerLabel = locale === 'en' ? 'Client' : 'Kunde'
+
+const customer = typeof pageData.customer === 'object' ? (pageData.customer as Customer) : null
 ---
 
 <SectionShell class="pt-8 pb-24 md:pt-12">
   {breadcrumbs && <BreadcrumbsBlock crumbs={breadcrumbs} />}
 
-  <header class="mt-8 max-w-3xl space-y-5">
+  <header class="mt-3 space-y-5">
     <h1
-      class="text-cobalt-900 font-sans text-4xl font-semibold tracking-tight text-balance md:text-5xl"
+      class="text-cobalt-900 font-sans text-3xl font-semibold tracking-tight text-balance md:text-4xl"
     >
       {pageData.title}
     </h1>
 
     {
       pageData.excerpt && (
-        <p class="text-ink-700 max-w-2xl font-sans text-lg leading-[1.55] text-balance">
+        <p class="text-ink-700 font-sans text-base leading-[1.55] text-balance md:text-lg">
           {pageData.excerpt}
         </p>
       )
@@ -69,11 +73,28 @@ const tagsLabel = locale === 'en' ? 'Tags' : 'Themen'
   <div
     class="border-hairline mt-12 flex flex-wrap items-center gap-x-10 gap-y-5 border-t border-b py-5"
   >
+    {
+      customer && (
+        <div class="flex flex-col gap-0.5">
+          <Eyebrow label={customerLabel} />
+          {customer.websiteUrl ? (
+            <a
+              href={customer.websiteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-ink-950 ease-standard decoration-hairline-strong font-sans text-sm font-medium underline underline-offset-4 transition-colors duration-150 hover:text-orange-600 hover:decoration-orange-600"
+            >
+              {customer.name}
+            </a>
+          ) : (
+            <p class="text-ink-950 font-sans text-sm font-medium">{customer.name}</p>
+          )}
+        </div>
+      )
+    }
+
     <div class="flex flex-col gap-0.5">
-      <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
-        <span class="text-orange-600" aria-hidden="true">\</span>
-        <span class="ml-1.5">{periodLabel}</span>
-      </p>
+      <Eyebrow label={periodLabel} />
       <ProjectDate
         startDate={pageData.startDate}
         endDate={pageData.endDate}
@@ -84,12 +105,7 @@ const tagsLabel = locale === 'en' ? 'Tags' : 'Themen'
     {
       pageData.tags && pageData.tags.length > 0 && (
         <div class="ml-auto flex flex-col gap-1.5">
-          <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
-            <span class="text-orange-600" aria-hidden="true">
-              \
-            </span>
-            <span class="ml-1.5">{tagsLabel}</span>
-          </p>
+          <Eyebrow label={tagsLabel} />
           <ProjectTagsList tags={pageData.tags} />
         </div>
       )
@@ -104,12 +120,7 @@ const tagsLabel = locale === 'en' ? 'Tags' : 'Themen'
     testimonials.length > 0 && (
       <section class="mt-24 space-y-8">
         <header class="space-y-3">
-          <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
-            <span class="text-orange-600" aria-hidden="true">
-              \
-            </span>
-            <span class="ml-1.5">{testimonialsEyebrow}</span>
-          </p>
+          <Eyebrow label={testimonialsEyebrow} />
           <h2 class="text-cobalt-900 font-sans text-2xl font-semibold tracking-tight md:text-3xl">
             {testimonialsHeading}
           </h2>
