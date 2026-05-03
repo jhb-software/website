@@ -2033,6 +2033,12 @@ export interface Labels {
   testimonials: {
     'testimonials-title': string;
   };
+  footer: {
+    site: string;
+    social: string;
+    contact: string;
+    'write-us': string;
+  };
   'not-found-page': {
     title: string;
     description: string;
@@ -2130,6 +2136,14 @@ export interface LabelsSelect<T extends boolean = true> {
     | T
     | {
         'testimonials-title'?: T;
+      };
+  footer?:
+    | T
+    | {
+        site?: T;
+        social?: T;
+        contact?: T;
+        'write-us'?: T;
       };
   'not-found-page'?:
     | T

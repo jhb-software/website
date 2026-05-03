@@ -7,7 +7,7 @@ import { normalizePath } from '../utils/normalizePath'
 import CornerMark from './CornerMark.astro'
 import Eyebrow from './Eyebrow.astro'
 
-const { locale, preview, footer, header } = Astro.locals.globalState
+const { locale, preview, footer, header, labels } = Astro.locals.globalState
 
 const homePagePath = normalizePath(`/${locale ?? defaultLocale}`, preview)
 
@@ -45,7 +45,7 @@ const sitePages = header.links?.filter(({ link }) => link.style !== 'primary') ?
   <div class="max-w-page relative mx-auto px-5 pt-12 pb-6 md:px-8">
     <div class="grid grid-cols-2 gap-12 md:grid-cols-3 md:gap-8">
       <div>
-        <Eyebrow as="h2" label="Site" class="!text-primary-soft" />
+        <Eyebrow as="h2" label={labels.footer.site} class="!text-primary-soft" />
         <ul class="mt-4 flex flex-col gap-3">
           {
             sitePages.map(({ link }) => (
@@ -63,7 +63,7 @@ const sitePages = header.links?.filter(({ link }) => link.style !== 'primary') ?
       </div>
 
       <div>
-        <Eyebrow as="h2" label="Social" class="!text-primary-soft" />
+        <Eyebrow as="h2" label={labels.footer.social} class="!text-primary-soft" />
         <ul class="mt-4 flex flex-wrap gap-2">
           {
             footer.socialLinks?.map(({ url, icon }) => (
@@ -84,7 +84,7 @@ const sitePages = header.links?.filter(({ link }) => link.style !== 'primary') ?
       </div>
 
       <div class="col-span-2 md:col-span-1">
-        <Eyebrow as="h2" label="Kontakt" class="!text-primary-soft" />
+        <Eyebrow as="h2" label={labels.footer.contact} class="!text-primary-soft" />
         <a
           href={`mailto:${websiteConfig.email}`}
           class="bg-primary/20 ease-standard group hover:border-tertiary mt-4 flex items-center justify-between gap-4 border border-white/20 p-4 backdrop-blur-md transition-colors duration-150"
@@ -93,7 +93,7 @@ const sitePages = header.links?.filter(({ link }) => link.style !== 'primary') ?
             <span
               class="text-primary-soft/70 tracking-eyebrow font-mono text-[0.6875rem] uppercase"
             >
-              Schreib uns
+              {labels.footer['write-us']}
             </span>
             <span class="group-hover:text-tertiary font-mono text-sm break-all text-white">
               {websiteConfig.email}
@@ -112,10 +112,9 @@ const sitePages = header.links?.filter(({ link }) => link.style !== 'primary') ?
     >
       <a
         href={homePagePath}
-        class="ease-standard text-primary-soft hover:text-tertiary inline-flex items-center gap-3 text-xs transition-colors duration-150"
+        class="ease-standard text-primary-soft hover:text-tertiary inline-flex items-center text-xs transition-colors duration-150"
         aria-label="JHB Software"
       >
-        <img src={websiteConfig.icon} alt="" width={20} height={20} />
         <span class="tracking-eyebrow font-mono uppercase">
           © {new Date().getFullYear()} JHB Software
         </span>
