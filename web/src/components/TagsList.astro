@@ -1,0 +1,26 @@
+---
+/**
+ * Code-chip tag list per redesign §8.3 — orange `\` prefix + mono label on a
+ * faint orange wash. Used by both project and article tag wrappers; pass
+ * resolved label strings.
+ */
+type Props = {
+  labels: string[]
+  class?: string
+}
+
+const { labels, class: className } = Astro.props
+---
+
+<div class:list={['flex flex-wrap items-center gap-1.5', className]}>
+  {
+    labels.map((label) => (
+      <span class="text-cobalt-900 inline-flex items-center gap-1 rounded-xs bg-orange-100 px-2 py-0.5 font-mono text-xs">
+        <span class="text-orange-600" aria-hidden="true">
+          \
+        </span>
+        {label}
+      </span>
+    ))
+  }
+</div>

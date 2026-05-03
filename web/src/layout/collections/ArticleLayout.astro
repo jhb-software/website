@@ -38,11 +38,11 @@ const updatedLabel = new Date(article.updatedAt).toLocaleDateString(locale, {
   day: 'numeric',
 })
 
-// TODO(cms-content): expose `eyebrow` and a `published-at` label on the
-// Articles collection (or a `Labels.articles` group) so editors can localise.
-// Hardcoded here per redesign §12.11. Affects: every article detail page.
-const eyebrowLabel = locale === 'en' ? 'ARTICLE' : 'ARTIKEL'
+// TODO(cms-content): expose `published-at` and `tags` labels on the Articles
+// collection (or a `Labels.articles` group) so editors can localise. Hardcoded
+// here per redesign §12.11. Affects: every article detail page.
 const publishedAtLabel = locale === 'en' ? 'Published' : 'Veröffentlicht am'
+const tagsLabel = locale === 'en' ? 'Tags' : 'Themen'
 ---
 
 <SectionShell class="pt-8 pb-24 md:pt-12">
@@ -52,13 +52,6 @@ const publishedAtLabel = locale === 'en' ? 'Published' : 'Veröffentlicht am'
     class="mt-8 grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,320px)] md:items-start md:gap-12"
   >
     <div class="space-y-5">
-      <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
-        <span class="text-orange-600" aria-hidden="true">\</span>
-        <span class="ml-1.5">{eyebrowLabel}</span>
-      </p>
-
-      <ArticleTagsList tags={article.tags} />
-
       <h1
         class="text-cobalt-900 font-sans text-3xl font-semibold tracking-tight text-balance md:text-4xl"
       >
@@ -146,6 +139,20 @@ const publishedAtLabel = locale === 'en' ? 'Published' : 'Veröffentlicht am'
       </p>
       <p class="text-ink-950 font-sans text-sm">{updatedLabel}</p>
     </div>
+
+    {
+      article.tags && article.tags.length > 0 && (
+        <div class="ml-auto flex flex-col gap-1.5">
+          <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
+            <span class="text-orange-600" aria-hidden="true">
+              \
+            </span>
+            <span class="ml-1.5">{tagsLabel}</span>
+          </p>
+          <ArticleTagsList tags={article.tags} />
+        </div>
+      )
+    }
   </div>
 
   {

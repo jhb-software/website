@@ -23,25 +23,21 @@ const schema = projectSchema(pageData)
 const testimonials =
   pageData.testimonials?.docs?.filter((testimonial) => typeof testimonial === 'object') || []
 
-// TODO(cms-content): expose `eyebrow` + testimonials section labels on the
+// TODO(cms-content): expose testimonials + metadata-strip labels on the
 // Projects collection (or a global `Labels.projects` group) so editors can
 // localise. Hardcoded here per redesign §12.11 because no CMS surface exists.
 // Affects: every project detail page.
-const eyebrowLabel = locale === 'en' ? 'CASE STUDY' : 'REFERENZ'
 const testimonialsEyebrow = locale === 'en' ? 'VOICES' : 'STIMMEN'
 const testimonialsHeading =
   locale === 'en' ? 'What clients say about this project' : 'Was Kunden zu diesem Projekt sagen'
+const periodLabel = locale === 'en' ? 'Period' : 'Zeitraum'
+const tagsLabel = locale === 'en' ? 'Tags' : 'Themen'
 ---
 
 <SectionShell class="pt-8 pb-24 md:pt-12">
   {breadcrumbs && <BreadcrumbsBlock crumbs={breadcrumbs} />}
 
   <header class="mt-8 max-w-3xl space-y-5">
-    <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
-      <span class="text-orange-600" aria-hidden="true">\</span>
-      <span class="ml-1.5">{eyebrowLabel}</span>
-    </p>
-
     <h1
       class="text-cobalt-900 font-sans text-4xl font-semibold tracking-tight text-balance md:text-5xl"
     >
@@ -55,11 +51,6 @@ const testimonialsHeading =
         </p>
       )
     }
-
-    <div class="flex flex-wrap items-center gap-x-5 gap-y-3 pt-2">
-      <ProjectTagsList tags={pageData.tags} />
-      <ProjectDate startDate={pageData.startDate} endDate={pageData.endDate} />
-    </div>
   </header>
 
   {
@@ -74,6 +65,36 @@ const testimonialsHeading =
       </div>
     )
   }
+
+  <div
+    class="border-hairline mt-12 flex flex-wrap items-center gap-x-10 gap-y-5 border-t border-b py-5"
+  >
+    <div class="flex flex-col gap-0.5">
+      <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
+        <span class="text-orange-600" aria-hidden="true">\</span>
+        <span class="ml-1.5">{periodLabel}</span>
+      </p>
+      <ProjectDate
+        startDate={pageData.startDate}
+        endDate={pageData.endDate}
+        class="!text-ink-950 !font-sans !text-sm"
+      />
+    </div>
+
+    {
+      pageData.tags && pageData.tags.length > 0 && (
+        <div class="ml-auto flex flex-col gap-1.5">
+          <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
+            <span class="text-orange-600" aria-hidden="true">
+              \
+            </span>
+            <span class="ml-1.5">{tagsLabel}</span>
+          </p>
+          <ProjectTagsList tags={pageData.tags} />
+        </div>
+      )
+    }
+  </div>
 
   <div class="prose-redesign mt-16 max-w-3xl">
     <RichTextBlock text={pageData.body} />
