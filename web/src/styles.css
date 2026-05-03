@@ -69,34 +69,36 @@
   --tracking-wordmark: -0.01em;
   --tracking-eyebrow: 0.12em;
 
-  /* Color — cobalt anchor */
-  --color-cobalt-950: #050e1f;
-  --color-cobalt-900: #0a2540;
-  --color-cobalt-800: #14365c;
-  --color-cobalt-100: #e8eef7;
+  /* Token names follow design.md (role-based, not literal). Hex values may
+     change; names should not. */
 
-  /* Color — teal accent */
-  --color-orange-600: #0f766e;
-  /* Muted teal (SVG fills, etc.): darker + greener than cyan mint #ccfbf1 */
-  --color-orange-100: #a8d4c8;
+  /* Surfaces */
+  --color-canvas: #fafafa;
+  --color-surface: #ffffff;
+
+  /* Primary — brand anchor: H1, primary buttons, mark, footer */
+  --color-primary: #0a2540;
+  --color-primary-deep: #050e1f;
+  --color-primary-hover: #14365c;
+  --color-primary-soft: #e8eef7;
+
+  /* Tertiary — accent for interaction only: focus, link hover, corner marks, `\` */
+  --color-tertiary: #0f766e;
+  --color-tertiary-soft: #a8d4c8;
 
   /* Original orange accent — kept for A/B testing */
-  /* --color-orange-600: #ff5c00; */
-  /* --color-orange-100: #fff1e8; */
+  /* --color-tertiary: #ff5c00; */
+  /* --color-tertiary-soft: #fff1e8; */
 
-  /* Color — ink (text on light) */
-  --color-ink-950: #0a0a0a;
-  --color-ink-700: #404040;
-  --color-ink-500: #737373;
-  --color-ink-300: #a3a3a3;
+  /* Neutral — text & icons on light surfaces */
+  --color-neutral: #0a0a0a;
+  --color-neutral-muted: #404040;
+  --color-neutral-subtle: #737373;
+  --color-neutral-faint: #a3a3a3;
 
-  /* Color — surface */
-  --color-paper: #fafafa;
-  --color-paper-pure: #ffffff;
-
-  /* Color — hairlines */
-  --color-hairline: #ececec;
-  --color-hairline-strong: #d4d4d4;
+  /* Borders */
+  --color-border: #ececec;
+  --color-border-strong: #d4d4d4;
 
   /* Container — site-wide content max width per §7.1 */
   --container-page: 1200px;
@@ -123,8 +125,8 @@
   }
 
   body {
-    background-color: var(--color-paper);
-    color: var(--color-ink-950);
+    background-color: var(--color-canvas);
+    color: var(--color-neutral);
     font-family: var(--font-sans);
   }
 

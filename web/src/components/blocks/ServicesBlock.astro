@@ -42,14 +42,14 @@ const linkFor = (page: unknown): string => normalizePath((page as Page)?.path, p
     <SectionFrame class="grid md:grid-cols-[1.4fr_1fr] md:grid-rows-2">
       <FrameCell
         interactive
-        class="md:row-span-2 md:border-r md:border-r-[var(--color-hairline-strong)]"
+        class="md:row-span-2 md:border-r md:border-r-[var(--color-border-strong)]"
       >
         <a href={linkFor(heroService.page)} class="block h-full" aria-label={heroService.title}>
           <ServiceVisual kind={eyebrowFor(heroService.title)} size="hero" />
           <div class="flex flex-col gap-3 p-8">
-            <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
+            <p class="text-neutral-subtle tracking-eyebrow font-mono text-xs uppercase">
               <span
-                class="ease-standard inline-block text-orange-600 transition-transform duration-200 group-hover:translate-x-0.5"
+                class="ease-standard text-tertiary inline-block transition-transform duration-200 group-hover:translate-x-0.5"
                 aria-hidden="true"
               >
                 \
@@ -57,12 +57,12 @@ const linkFor = (page: unknown): string => normalizePath((page as Page)?.path, p
               <span class="ml-1.5">{eyebrowFor(heroService.title)}</span>
             </p>
             <Heading as="h3">{heroService.title}</Heading>
-            <p class="text-ink-700 max-w-prose font-sans leading-[1.55]">
+            <p class="text-neutral-muted max-w-prose font-sans leading-[1.55]">
               {heroService.description}
             </p>
             <Icon
               name="arrow-right"
-              class="text-ink-700 ease-standard mt-2 h-5 w-5 self-end transition-colors duration-200 group-hover:text-orange-600"
+              class="text-neutral-muted ease-standard group-hover:text-tertiary mt-2 h-5 w-5 self-end transition-colors duration-200"
             />
           </div>
         </a>
@@ -71,14 +71,14 @@ const linkFor = (page: unknown): string => normalizePath((page as Page)?.path, p
       {compactServices.map((service, idx) => (
         <FrameCell
           interactive
-          class:list={[idx === 1 && 'md:border-t md:border-t-[var(--color-hairline-strong)]']}
+          class:list={[idx === 1 && 'md:border-t md:border-t-[var(--color-border-strong)]']}
         >
           <a href={linkFor(service.page)} class="block h-full" aria-label={service.title}>
             <ServiceVisual kind={eyebrowFor(service.title)} size="compact" />
             <div class="flex flex-col gap-2 p-6">
-              <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
+              <p class="text-neutral-subtle tracking-eyebrow font-mono text-xs uppercase">
                 <span
-                  class="ease-standard inline-block text-orange-600 transition-transform duration-200 group-hover:translate-x-0.5"
+                  class="ease-standard text-tertiary inline-block transition-transform duration-200 group-hover:translate-x-0.5"
                   aria-hidden="true"
                 >
                   \
@@ -88,12 +88,12 @@ const linkFor = (page: unknown): string => normalizePath((page as Page)?.path, p
               <Heading as="h3" size="md">
                 {service.title}
               </Heading>
-              <p class="text-ink-700 line-clamp-2 font-sans text-sm leading-[1.55]">
+              <p class="text-neutral-muted line-clamp-2 font-sans text-sm leading-[1.55]">
                 {service.description}
               </p>
               <Icon
                 name="arrow-right"
-                class="text-ink-700 ease-standard mt-1 h-4 w-4 self-end transition-colors duration-200 group-hover:text-orange-600"
+                class="text-neutral-muted ease-standard group-hover:text-tertiary mt-1 h-4 w-4 self-end transition-colors duration-200"
               />
             </div>
           </a>
@@ -105,14 +105,14 @@ const linkFor = (page: unknown): string => normalizePath((page as Page)?.path, p
       {services?.map((service, idx) => (
         <FrameCell
           interactive
-          class:list={[idx > 0 && 'md:border-l md:border-l-[var(--color-hairline-strong)]']}
+          class:list={[idx > 0 && 'md:border-l md:border-l-[var(--color-border-strong)]']}
         >
           <a href={linkFor(service.page)} class="block h-full" aria-label={service.title}>
             <ServiceVisual kind={eyebrowFor(service.title)} size="compact" />
             <div class="flex flex-col gap-2 p-6">
-              <p class="text-ink-500 tracking-eyebrow font-mono text-xs uppercase">
+              <p class="text-neutral-subtle tracking-eyebrow font-mono text-xs uppercase">
                 <span
-                  class="ease-standard inline-block text-orange-600 transition-transform duration-200 group-hover:translate-x-0.5"
+                  class="ease-standard text-tertiary inline-block transition-transform duration-200 group-hover:translate-x-0.5"
                   aria-hidden="true"
                 >
                   \
@@ -122,12 +122,12 @@ const linkFor = (page: unknown): string => normalizePath((page as Page)?.path, p
               <Heading as="h3" size="md">
                 {service.title}
               </Heading>
-              <p class="text-ink-700 line-clamp-2 font-sans text-sm leading-[1.55]">
+              <p class="text-neutral-muted line-clamp-2 font-sans text-sm leading-[1.55]">
                 {service.description}
               </p>
               <Icon
                 name="arrow-right"
-                class="text-ink-700 ease-standard mt-1 h-4 w-4 self-end transition-colors duration-200 group-hover:text-orange-600"
+                class="text-neutral-muted ease-standard group-hover:text-tertiary mt-1 h-4 w-4 self-end transition-colors duration-200"
               />
             </div>
           </a>

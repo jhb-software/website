@@ -20,20 +20,20 @@ type Props = CmsLinkProps | RawLinkProps
  */
 export function buttonStyles(style: Link['style']) {
   switch (style) {
-    // Primary — filled cobalt button (the page's main conversion CTA)
+    // Primary — filled primary-colored button (the page's main conversion CTA)
     case 'primary':
-      return 'inline-flex items-center gap-2 bg-cobalt-900 text-white hover:bg-cobalt-800 rounded-none px-5 py-3 font-sans text-sm font-medium ease-standard transition-colors duration-150 no-underline'
+      return 'inline-flex items-center gap-2 bg-primary text-white hover:bg-primary-hover rounded-none px-5 py-3 font-sans text-sm font-medium ease-standard transition-colors duration-150 no-underline'
 
     // Ghost — transparent button with hairline border
     case 'light':
     case 'light-primary':
-      return 'inline-flex items-center gap-2 border border-hairline-strong text-ink-950 hover:text-orange-600 rounded-none px-5 py-3 font-sans text-sm font-medium ease-standard transition-colors duration-150 no-underline'
+      return 'inline-flex items-center gap-2 border border-border-strong text-neutral hover:text-tertiary rounded-none px-5 py-3 font-sans text-sm font-medium ease-standard transition-colors duration-150 no-underline'
 
-    // In-prose link — underlined, hover turns orange
+    // In-prose link — underlined, hover turns tertiary
     case 'text':
     case 'text-primary':
     default:
-      return 'inline-flex items-center gap-1.5 text-ink-950 hover:text-orange-600 ease-standard underline decoration-hairline-strong hover:decoration-orange-600 underline-offset-4 transition-colors duration-150'
+      return 'inline-flex items-center gap-1.5 text-neutral hover:text-tertiary ease-standard underline decoration-border-strong hover:decoration-tertiary underline-offset-4 transition-colors duration-150'
   }
 }
 

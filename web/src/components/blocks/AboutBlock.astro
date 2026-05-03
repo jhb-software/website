@@ -13,7 +13,7 @@ const { title, name, text, image } = Astro.props
 <div class="grid grid-cols-1 gap-10 md:grid-cols-[280px_1fr] md:gap-12">
   {
     typeof image === 'object' && (
-      <div class="border-hairline-strong aspect-square overflow-hidden border">
+      <div class="border-border-strong aspect-square overflow-hidden border">
         <Img image={image} size="md" class="block h-full w-full object-cover" />
       </div>
     )
@@ -25,7 +25,7 @@ const { title, name, text, image } = Astro.props
       {name && <Heading as="h3">{name}</Heading>}
     </header>
 
-    <div class="prose-redesign text-ink-700 max-w-prose">
+    <div class="prose-redesign text-neutral-muted max-w-prose">
       <RichTextBlock text={text} />
     </div>
   </div>

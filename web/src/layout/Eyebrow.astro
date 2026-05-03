@@ -2,9 +2,9 @@
 /**
  * Section eyebrow per redesign §7.4 — `\ LABEL` or `\ NN / LABEL`.
  *
- * Renders an orange backslash, an optional zero-padded ordinal, then the
- * mono uppercase label. Default color is `text-ink-500`; override via the
- * `class` prop for darker surfaces (e.g. `text-cobalt-100` in the footer).
+ * Renders a tertiary-colored backslash, an optional zero-padded ordinal, then the
+ * mono uppercase label. Default color is `text-neutral-subtle`; override via the
+ * `class` prop for darker surfaces (e.g. `text-primary-soft` in the footer).
  */
 type Tag = 'p' | 'h2' | 'h3' | 'h4' | 'dt' | 'span' | 'figcaption'
 
@@ -22,13 +22,13 @@ const { index, label, as: Tag = 'p', class: className } = Astro.props
 const numStr = index !== undefined ? String(index).padStart(2, '0') : null
 ---
 
-<Tag class:list={['text-ink-500 tracking-eyebrow font-mono text-xs uppercase', className]}>
-  <span class="text-orange-600" aria-hidden="true">\</span>
+<Tag class:list={['text-neutral-subtle tracking-eyebrow font-mono text-xs uppercase', className]}>
+  <span class="text-tertiary" aria-hidden="true">\</span>
   {
     numStr && label ? (
       <>
         <span class="ml-1">{numStr}</span>
-        <span class="text-ink-300 mx-1.5" aria-hidden="true">
+        <span class="text-neutral-faint mx-1.5" aria-hidden="true">
           /
         </span>
         <span>{label}</span>

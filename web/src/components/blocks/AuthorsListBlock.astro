@@ -19,7 +19,7 @@ const authors = (Astro.props.authors as Author[])?.filter((a) => typeof a === 'o
     authors.map((author, index) => (
       <FrameCell
         interactive
-        class:list={[index > 0 && 'border-t border-t-[var(--color-hairline-strong)]']}
+        class:list={[index > 0 && 'border-t border-t-[var(--color-border-strong)]']}
       >
         <a
           href={normalizePath(author.path, preview)}
@@ -27,7 +27,7 @@ const authors = (Astro.props.authors as Author[])?.filter((a) => typeof a === 'o
           aria-label={author.name}
         >
           {typeof author.photo === 'object' && (
-            <div class="border-hairline-strong w-24 flex-none overflow-hidden border md:w-28">
+            <div class="border-border-strong w-24 flex-none overflow-hidden border md:w-28">
               <Img
                 image={author.photo}
                 size="sm"
@@ -37,12 +37,12 @@ const authors = (Astro.props.authors as Author[])?.filter((a) => typeof a === 'o
           )}
 
           <div class="flex min-w-0 flex-1 flex-col gap-2">
-            <h3 class="text-cobalt-900 font-sans text-base font-semibold tracking-tight md:text-lg">
+            <h3 class="text-primary font-sans text-base font-semibold tracking-tight md:text-lg">
               {author.name}
             </h3>
             {author.profession && <Eyebrow label={author.profession} />}
             {author.excerpt && (
-              <p class="text-ink-700 line-clamp-2 font-sans text-sm leading-[1.55]">
+              <p class="text-neutral-muted line-clamp-2 font-sans text-sm leading-[1.55]">
                 {author.excerpt}
               </p>
             )}
@@ -50,7 +50,7 @@ const authors = (Astro.props.authors as Author[])?.filter((a) => typeof a === 'o
 
           <Icon
             name="arrow-right"
-            class="text-ink-700 ease-standard hidden h-5 w-5 flex-none transition-colors duration-200 group-hover:text-orange-600 md:inline-block"
+            class="text-neutral-muted ease-standard group-hover:text-tertiary hidden h-5 w-5 flex-none transition-colors duration-200 md:inline-block"
           />
         </a>
       </FrameCell>

@@ -37,14 +37,14 @@ const { class: className, interactive = false } = Astro.props
     inset-inline: 0;
     bottom: 0;
     height: 2px;
-    background-color: var(--color-orange-600);
+    background-color: var(--color-tertiary);
     opacity: 0;
     transition: opacity 200ms var(--ease-standard);
     pointer-events: none;
   }
 
   .frame-cell--interactive:hover {
-    background-color: color-mix(in srgb, var(--color-orange-600) 6%, transparent);
+    background-color: color-mix(in srgb, var(--color-tertiary) 6%, transparent);
   }
 
   .frame-cell--interactive:hover::after {

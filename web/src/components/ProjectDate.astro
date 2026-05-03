@@ -11,14 +11,14 @@ const { startDate, endDate, class: className } = Astro.props
 const { labels } = Astro.locals.globalState
 ---
 
-<p class:list={['text-ink-500 font-mono text-xs', className]}>
+<p class:list={['text-neutral-subtle font-mono text-xs', className]}>
   {
     endDate ? (
       <>
         <span>{dateStringToQuarter(startDate)}</span>
         {dateStringToQuarter(endDate) !== dateStringToQuarter(startDate) && (
           <>
-            <span class="text-ink-300 mx-1">–</span>
+            <span class="text-neutral-faint mx-1">–</span>
             <span>{dateStringToQuarter(endDate)}</span>
           </>
         )}

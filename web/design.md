@@ -1,158 +1,210 @@
+---
+version: alpha
+name: JHB Software
+description: >
+  Deep primary for gravitas, a single tertiary accent for every interactive
+  job, heavy mono for labels and code, hairline framing instead of cards.
+  Token names are role-based; underlying values can change without renaming.
+colors:
+  primary: "#0a2540"
+  primary-deep: "#050e1f"
+  primary-hover: "#14365c"
+  primary-soft: "#e8eef7"
+  tertiary: "#0f766e"
+  tertiary-soft: "#a8d4c8"
+  neutral: "#0a0a0a"
+  neutral-muted: "#404040"
+  neutral-subtle: "#737373"
+  neutral-faint: "#a3a3a3"
+  canvas: "#fafafa"
+  surface: "#ffffff"
+  border: "#ececec"
+  border-strong: "#d4d4d4"
+typography:
+  hero:
+    fontFamily: Geist
+    fontSize: 72px
+    fontWeight: 600
+    lineHeight: 1.05
+    letterSpacing: -0.025em
+  h1:
+    fontFamily: Geist
+    fontSize: 56px
+    fontWeight: 600
+    lineHeight: 1.05
+    letterSpacing: -0.025em
+  h2:
+    fontFamily: Geist
+    fontSize: 44px
+    fontWeight: 600
+    lineHeight: 1.05
+    letterSpacing: -0.025em
+  h3:
+    fontFamily: Geist
+    fontSize: 32px
+    fontWeight: 600
+    lineHeight: 1.1
+    letterSpacing: -0.025em
+  h4:
+    fontFamily: Geist
+    fontSize: 24px
+    fontWeight: 600
+    lineHeight: 1.2
+  body-lg:
+    fontFamily: Geist
+    fontSize: 18px
+    fontWeight: 400
+    lineHeight: 1.55
+  body-md:
+    fontFamily: Geist
+    fontSize: 16px
+    fontWeight: 400
+    lineHeight: 1.55
+  body-sm:
+    fontFamily: Geist
+    fontSize: 14px
+    fontWeight: 400
+    lineHeight: 1.55
+  eyebrow:
+    fontFamily: Geist Mono
+    fontSize: 12px
+    fontWeight: 500
+    lineHeight: 1.4
+    letterSpacing: 0.12em
+rounded:
+  none: 0
+  xs: 2px
+  sm: 4px
+  md: 6px
+  lg: 12px
+spacing:
+  page-max-width: 1200px
+components:
+  button-primary:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.surface}"
+    rounded: "{rounded.none}"
+    padding: 12px 20px
+  button-primary-hover:
+    backgroundColor: "{colors.primary-hover}"
+  button-ghost:
+    backgroundColor: transparent
+    textColor: "{colors.neutral}"
+    rounded: "{rounded.none}"
+    padding: 12px 20px
+  link-prose:
+    textColor: "{colors.neutral}"
+  link-prose-hover:
+    textColor: "{colors.tertiary}"
+  corner-mark:
+    textColor: "{colors.tertiary}"
+  eyebrow:
+    textColor: "{colors.neutral-subtle}"
+    typography: "{typography.eyebrow}"
+---
+
 # JHB Software — Design
 
-Short, load-into-context brand & visual reference for AI-driven UI work.
+Tokens above are normative. Prose below is rationale.
 
-## Vision
+## Overview
 
-Modern, technical, engineering craft. Forward-looking, clean, minimal, high
-quality. Reads as **considered engineering**, not "agency template" — deep
-cobalt for gravitas, hot orange doing every interactive job, heavy mono for
-labels and code, hairline framing instead of floating cards.
+Modern engineering craft for CEOs, CTOs, and product owners needing custom
+software. Reads as **considered engineering**, not "agency template".
 
-Audience: CEOs, CTOs, and product owners (DE + international) needing an
-experienced developer for custom software.
+## Colors
 
-Reference: [vercel.com/design/guidelines](https://vercel.com/design/guidelines)
-— for principles and accessibility patterns, not appearance.
-
-## Color
-
-```
---color-cobalt-950: #050E1F
---color-cobalt-900: #0A2540   ANCHOR — H1, primary buttons, mark, footer
---color-cobalt-800: #14365C   hover on cobalt
---color-cobalt-100: #E8EEF7
-
---color-orange-600: #FF5C00   ACCENT — focus, link hover, corner marks, `\`
---color-orange-100: #FFF1E8
-
---color-ink-950:    #0A0A0A
---color-ink-700:    #404040
---color-ink-500:    #737373
---color-ink-300:    #A3A3A3
-
---color-paper:      #FAFAFA
---color-paper-pure: #FFFFFF
-
---color-hairline:        #ECECEC
---color-hairline-strong: #D4D4D4
-```
-
-Cobalt 900 anchors — never body text or body backgrounds. Orange 600 is
-interactive only — never body text, never a fill larger than ~40px. Tokens
-live in `web/src/styles.css` under `@theme`.
+- `primary` — brand anchor: H1, primary buttons, mark, footer. Never body.
+- `tertiary` — interactive only: focus, link hover, corner marks, `\`. Never
+  body. Never a fill larger than ~40px. Currently teal; orange `#ff5c00`
+  kept commented in `styles.css` for A/B.
+- `neutral` scale — text & icons on light surfaces.
+- `canvas` (page), `surface` (raised), `border` (default), `border-strong`
+  (rules, underlines).
 
 ## Typography
 
-Geist Sans + Geist Mono, self-hosted via the `geist` npm package.
+Geist Sans + Geist Mono, self-hosted. **Mono** for eyebrows, labels, code
+chips, breadcrumb separators, file paths, stats numerals. **Sans** for
+everything else.
 
-**Mono** for: eyebrows, form labels, code chips, breadcrumb separators,
-file paths, stats numerals.
-**Sans** for: everything else.
+## Layout
 
-Headings tight (`line-height: 1.05`, `letter-spacing: -0.025em`). Body 1.55.
-Mono uppercase eyebrows tracked `0.12em`.
+Site-wide max width `1200px` (`--container-page`). Sections set their own
+internal grid. Generous vertical rhythm.
 
-## Signature patterns
+## Elevation & Depth
 
-The four patterns that make a JHB page recognizable.
+Flat color + hairlines. No shadows, no gradients. Depth comes from borders,
+frames, and corner marks.
 
-### Section framing — `<SectionFrame>` + `<FrameCell>`
+## Shapes
 
-Default container for grouped content: **one outer hairline frame with
-interior dividers** — not floating cards with gaps. Cells share borders. The
-frame *is* the depth. Components in `web/src/layout/`.
+Sharp edges. `none` is the only widely used radius. Avatars are true circles.
 
-Use for any 2+ related cells (services, values, projects, stats, FAQ). Don't
-use for prose, single CTAs, running text.
+## Components
 
-Hover a cell → cell background → `--color-orange-100`; the outer frame edge
-adjacent to the hovered cell → `--color-orange-600`. No translateY, no scale.
+### `<SectionFrame>` + `<FrameCell>`
 
-### Corner marks — `<CornerMark>`
+One outer hairline frame with shared interior dividers — not floating cards
+with gaps. Use for any 2+ related cells. Hover a cell → cell bg
+`tertiary-soft`; adjacent outer edge `tertiary`. No translate, no scale.
 
-Four `+` registration marks at the inner corners of major frames (hero, key
-sections, footer top). 14px wide, 1px stroke, orange. One pair per block.
-Component at `web/src/layout/CornerMark.astro`.
+### `<CornerMark>`
 
-### Mono eyebrows
+Four `+` registration marks (14px, 1px, `tertiary`) at the inner corners of
+hero, key sections, footer top. One pair per block.
 
-Above every major section heading:
+### Mono eyebrow
 
-```
-\ 02 / LEISTUNGEN
-Individuelle Software für Dein Unternehmen
-```
-
-Eyebrow: mono, `text-xs`, uppercase, tracking `0.12em`, `--color-ink-500`.
-Leading `\` is orange. Heading: sans 600, cobalt 900.
+`\ NN / LABEL` above every major heading. Mono, `text-xs`, uppercase,
+tracking `0.12em`, `text-neutral-subtle`. Leading `\` is `tertiary`. Heading:
+sans 600, `primary`.
 
 ### The `\` thread
 
-The backslash is a recurring system element — separator, namespace, code
-context. Always rendered in mono and orange.
+Always mono + `tertiary`. Locations: breadcrumbs, language switcher (`DE \ EN`),
+code chip prefix (`\ typescript`), eyebrows, nav-hover indicator. Never in
+body prose. Never decorative.
 
-Locations: breadcrumbs (`Home \ Articles \ Post`), language switcher
-(`DE \ EN`), code chip prefix (`\ typescript`), section eyebrows, nav-hover
-indicator. Never inside body prose. Never decorative.
+### Buttons & links
 
-## Imagery
+- **Primary button** — filled `primary`, `surface` text. Hover → `primary-hover`.
+- **Ghost button** — transparent, 1px `border-strong`, `neutral` text. Hover
+  → `tertiary` text.
+- **In-prose link** — underlined `decoration-border-strong`. Hover →
+  `tertiary` text + decoration.
+- **Tile / card** — the whole tile is the link. Affordance: Geist `arrow-right`,
+  `tertiary` on hover. No "Read more" text.
 
-**Allowed:** project screenshots (16:9, hairline frame), article covers
-(16:9, hairline frame), headshots (1:1), schematic SVG visualizations
-(strokes only, cobalt + orange), customer logos, sparing team photos on
-About / Footer (1:1, hairline frame).
+### Imagery
 
-**Forbidden:** stock photography, decorative illustrations, hero art,
-multi-color illustrations, drop shadows on images.
+16:9 with hairline frame for project screenshots and article covers; 1:1 for
+headshots; schematic SVGs are strokes-only in `primary` + `tertiary`. All via
+the `Img` component, `loading="lazy"` below the fold.
 
-All images via the `Img` component. `loading="lazy"` below the fold.
+### Iconography
 
-## Iconography
+One library: **Geist Icons**. Thin outlined strokes, `currentColor`, never
+filled, never two-tone. If a concept isn't in Geist, pick the closest glyph.
 
-**One library: Geist Icons.** Every glyph in the UI — social marks, nav,
-buttons, card affordances, error pages — is a Geist icon. No mixing with
-Lucide, Font Awesome, Heroicons, or one-off custom SVGs. If a concept isn't
-in Geist, pick the closest Geist glyph rather than introduce a second style.
+- Tile / CTA affordance → `arrow-right`
+- Disclosure → `chevron-*`
+- Contact / messaging → `messageSquare` (also WhatsApp fallback)
+- Service categories → literal Geist glyphs (`smartphone`, `monitor`, `code`)
 
-Visually: thin outlined strokes, square endcaps rounded, `currentColor` so
-icons inherit text color. Never filled, never two-tone, never colored
-outside the ink + cobalt + orange palette.
+### Motion
 
-Conventions:
+≤200ms, ease `cubic-bezier(0.4, 0, 0.2, 1)`. Respect `prefers-reduced-motion`.
+Catalog (don't add motion outside this list): `header-collapse`, `nav-hover`,
+`link-underline`, `card-border`, `cta-arrow-nudge`, `eyebrow-counter`,
+`corner-mark-draw`.
 
-- Contact / messaging affordances use the chat-bubble glyph (Geist
-  `messageSquare`). This is the icon next to "Kontakt".
-- Social marks use Geist's brand glyphs. WhatsApp has no dedicated Geist
-  mark — it falls back to the same chat bubble. Acceptable trade for a
-  single-library system.
-- Tile and CTA "go-to" affordances use the Geist `arrow-right` glyph (see
-  Anti-slop #7).
-- Disclosure controls use Geist `chevron-*`.
-- Service category icons use the closest literal Geist glyph
-  (`smartphone`, `monitor`, `code`) rather than ornamental illustrations.
+## Do's and Don'ts
 
-## Motion
-
-State changes ≤200ms. Default ease `cubic-bezier(0.4, 0, 0.2, 1)`. No bouncy
-springs, no parallax, no scroll-jacking. Respect `prefers-reduced-motion`.
-
-Named interactions (the entire catalog — don't add motion outside this list):
-`header-collapse`, `nav-hover`, `link-underline`, `card-border`,
-`cta-arrow-nudge`, `eyebrow-counter`, `corner-mark-draw`.
-
-## Anti-slop guardrails
-
-1. **No new color values, font sizes, or arbitrary Tailwind values.** If the
-   scale is missing something, the design is wrong, not the scale.
-2. **No rounded corners.** Sharp edges everywhere. No `border-radius`, no
-   `rounded-*` Tailwind classes. Only exception: true circles (avatars).
-3. **No box-shadows. Anywhere.** Borders, frames, and `<CornerMark>`s carry
-   depth.
-4. **No gradients.** The page is flat color + hairlines.
-5. **No emoji in UI. No stock photography. No hero illustrations.**
-6. **No second accent color.** Use the ink scale.
-7. **No "Read more" / "Mehr erfahren" / "Click here".** Action affordances on
-   tiles are the Geist `arrow-right` icon only — make the whole tile the link.
-8. **No icons outside Geist.** See [Iconography](#iconography). No mixing
-   libraries, no one-off inline SVG glyphs, no emoji-as-icon.
+- No new color values, font sizes, or arbitrary Tailwind values. Missing
+  scale = the design is wrong, not the scale.
+- No rounded corners (except avatar circles). No shadows. No gradients.
+- No second accent color — use the `neutral` scale.
+- No emoji, stock photography, hero illustrations, or icons outside Geist.
+- No "Read more" / "Mehr erfahren" / "Click here" — whole tile is the link.

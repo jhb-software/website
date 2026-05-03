@@ -16,7 +16,7 @@ const { title, text, items } = Astro.props
       <header class="max-w-2xl space-y-3">
         {title && <Heading as="h3">{title}</Heading>}
         {text && (
-          <div class="text-ink-700 prose-redesign">
+          <div class="text-neutral-muted prose-redesign">
             <RichTextBlock text={text} />
           </div>
         )}
@@ -30,22 +30,22 @@ const { title, text, items } = Astro.props
         <FrameCell
           class:list={[
             'philosophy-cell group p-8',
-            idx > 0 && 'border-t border-t-[var(--color-hairline-strong)]',
-            idx % 2 === 1 && 'sm:border-l sm:border-l-[var(--color-hairline-strong)]',
+            idx > 0 && 'border-t border-t-[var(--color-border-strong)]',
+            idx % 2 === 1 && 'sm:border-l sm:border-l-[var(--color-border-strong)]',
             idx === 1 && 'sm:border-t-0',
-            idx >= 2 && 'sm:border-t sm:border-t-[var(--color-hairline-strong)]',
+            idx >= 2 && 'sm:border-t sm:border-t-[var(--color-border-strong)]',
           ]}
         >
           <div class="flex items-baseline gap-5">
             <span
-              class="text-ink-300 font-mono text-2xl leading-none transition-colors duration-150 group-hover:text-orange-600"
+              class="text-neutral-faint group-hover:text-tertiary font-mono text-2xl leading-none transition-colors duration-150"
               aria-hidden="true"
             >
               {String(idx + 1).padStart(2, '0')}
             </span>
             <div>
-              <h4 class="text-cobalt-900 font-sans text-base font-semibold">{item.title}</h4>
-              <p class="text-ink-700 mt-2 font-sans text-sm leading-[1.55]">{item.text}</p>
+              <h4 class="text-primary font-sans text-base font-semibold">{item.title}</h4>
+              <p class="text-neutral-muted mt-2 font-sans text-sm leading-[1.55]">{item.text}</p>
             </div>
           </div>
         </FrameCell>

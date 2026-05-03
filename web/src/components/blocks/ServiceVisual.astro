@@ -5,7 +5,7 @@
  * Three kinds — `MOBILE`, `WEB`, `WEBAPP` — each a functional metaphor for
  * the service. Strokes only or strokes + flat fills, no gradients/shadows.
  * Size is driven by the surrounding cell; the visualization centers itself
- * inside a paper-pure surface with a masked grid background.
+ * inside a pure surface with a masked grid background.
  */
 type Props = {
   kind: string
@@ -18,7 +18,7 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
 
 <div
   class:list={[
-    'service-visual relative overflow-hidden border-b border-b-[var(--color-hairline-strong)] bg-white',
+    'service-visual relative overflow-hidden border-b border-b-[var(--color-border-strong)] bg-white',
     heightClass,
   ]}
 >
@@ -39,7 +39,7 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
             width="50"
             height="112"
             rx="6"
-            stroke="var(--color-cobalt-900)"
+            stroke="var(--color-primary)"
             stroke-width="1.5"
           />
           <line
@@ -47,7 +47,7 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
             y1="22"
             x2="117"
             y2="22"
-            stroke="var(--color-hairline-strong)"
+            stroke="var(--color-border-strong)"
             stroke-width="1"
           />
           <rect
@@ -55,7 +55,7 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
             y="36"
             width="36"
             height="10"
-            stroke="var(--color-hairline-strong)"
+            stroke="var(--color-border-strong)"
             stroke-width="1"
           />
           <rect
@@ -63,7 +63,7 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
             y="50"
             width="36"
             height="10"
-            stroke="var(--color-hairline-strong)"
+            stroke="var(--color-border-strong)"
             stroke-width="1"
           />
           <rect
@@ -71,16 +71,16 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
             y="64"
             width="36"
             height="10"
-            stroke="var(--color-orange-600)"
+            stroke="var(--color-tertiary)"
             stroke-width="1.5"
-            fill="var(--color-orange-100)"
+            fill="var(--color-tertiary-soft)"
           />
           <rect
             x="92"
             y="78"
             width="36"
             height="10"
-            stroke="var(--color-hairline-strong)"
+            stroke="var(--color-border-strong)"
             stroke-width="1"
           />
           <rect
@@ -88,10 +88,10 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
             y="92"
             width="36"
             height="10"
-            stroke="var(--color-hairline-strong)"
+            stroke="var(--color-border-strong)"
             stroke-width="1"
           />
-          <circle cx="110" cy="116" r="3" fill="var(--color-cobalt-900)" />
+          <circle cx="110" cy="116" r="3" fill="var(--color-primary)" />
         </>
       )
     }
@@ -105,7 +105,7 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
             y="20"
             width="80"
             height="44"
-            stroke="var(--color-cobalt-900)"
+            stroke="var(--color-primary)"
             stroke-width="1.5"
             fill="white"
           />
@@ -114,7 +114,7 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
             y1="32"
             x2="102"
             y2="32"
-            stroke="var(--color-hairline-strong)"
+            stroke="var(--color-border-strong)"
             stroke-width="1"
           />
           <line
@@ -122,7 +122,7 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
             y1="42"
             x2="68"
             y2="42"
-            stroke="var(--color-hairline-strong)"
+            stroke="var(--color-border-strong)"
             stroke-width="1"
           />
           <line
@@ -130,7 +130,7 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
             y1="50"
             x2="92"
             y2="50"
-            stroke="var(--color-hairline-strong)"
+            stroke="var(--color-border-strong)"
             stroke-width="1"
           />
           <line
@@ -138,14 +138,14 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
             y1="58"
             x2="76"
             y2="58"
-            stroke="var(--color-hairline-strong)"
+            stroke="var(--color-border-strong)"
             stroke-width="1"
           />
 
           {/* Connecting arrow */}
           <path
             d="M 110 70 L 110 80 M 105 75 L 110 80 L 115 75"
-            stroke="var(--color-orange-600)"
+            stroke="var(--color-tertiary)"
             stroke-width="1.5"
             stroke-linecap="round"
           />
@@ -156,17 +156,17 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
             y="76"
             width="80"
             height="44"
-            stroke="var(--color-cobalt-900)"
+            stroke="var(--color-primary)"
             stroke-width="1.5"
             fill="white"
           />
-          <rect x="124" y="82" width="20" height="12" fill="var(--color-cobalt-900)" />
+          <rect x="124" y="82" width="20" height="12" fill="var(--color-primary)" />
           <line
             x1="124"
             y1="100"
             x2="192"
             y2="100"
-            stroke="var(--color-hairline-strong)"
+            stroke="var(--color-border-strong)"
             stroke-width="1"
           />
           <line
@@ -174,7 +174,7 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
             y1="108"
             x2="172"
             y2="108"
-            stroke="var(--color-hairline-strong)"
+            stroke="var(--color-border-strong)"
             stroke-width="1"
           />
           <line
@@ -182,7 +182,7 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
             y1="116"
             x2="160"
             y2="116"
-            stroke="var(--color-hairline-strong)"
+            stroke="var(--color-border-strong)"
             stroke-width="1"
           />
         </>
@@ -193,13 +193,13 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
       kind === 'WEBAPP' && (
         <>
           {/* Bars */}
-          <rect x="14" y="84" width="14" height="36" fill="var(--color-cobalt-900)" />
-          <rect x="32" y="68" width="14" height="52" fill="var(--color-cobalt-900)" />
-          <rect x="50" y="50" width="14" height="70" fill="var(--color-orange-600)" />
-          <rect x="68" y="74" width="14" height="46" fill="var(--color-cobalt-900)" />
-          <rect x="86" y="58" width="14" height="62" fill="var(--color-cobalt-900)" />
-          <rect x="104" y="78" width="14" height="42" fill="var(--color-cobalt-900)" />
-          <rect x="122" y="64" width="14" height="56" fill="var(--color-cobalt-900)" />
+          <rect x="14" y="84" width="14" height="36" fill="var(--color-primary)" />
+          <rect x="32" y="68" width="14" height="52" fill="var(--color-primary)" />
+          <rect x="50" y="50" width="14" height="70" fill="var(--color-tertiary)" />
+          <rect x="68" y="74" width="14" height="46" fill="var(--color-primary)" />
+          <rect x="86" y="58" width="14" height="62" fill="var(--color-primary)" />
+          <rect x="104" y="78" width="14" height="42" fill="var(--color-primary)" />
+          <rect x="122" y="64" width="14" height="56" fill="var(--color-primary)" />
 
           {/* Stat cards */}
           <rect
@@ -207,7 +207,7 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
             y="20"
             width="56"
             height="22"
-            stroke="var(--color-hairline-strong)"
+            stroke="var(--color-border-strong)"
             stroke-width="1"
           />
           <text
@@ -216,7 +216,7 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
             font-family="Geist Mono, ui-monospace, monospace"
             font-size="10"
             font-weight="600"
-            fill="var(--color-cobalt-900)"
+            fill="var(--color-primary)"
           >
             2.4k
           </text>
@@ -225,7 +225,7 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
             y="48"
             width="56"
             height="22"
-            stroke="var(--color-hairline-strong)"
+            stroke="var(--color-border-strong)"
             stroke-width="1"
           />
           <text
@@ -234,7 +234,7 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
             font-family="Geist Mono, ui-monospace, monospace"
             font-size="10"
             font-weight="600"
-            fill="var(--color-cobalt-900)"
+            fill="var(--color-primary)"
           >
             98.2%
           </text>
@@ -242,7 +242,7 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
           {/* Sparkline */}
           <polyline
             points="148,100 156,96 164,103 172,90 180,86 188,93 196,88 204,96"
-            stroke="var(--color-orange-600)"
+            stroke="var(--color-tertiary)"
             stroke-width="1.5"
             fill="none"
             stroke-linejoin="round"
@@ -256,8 +256,8 @@ const heightClass = size === 'hero' ? 'h-72' : 'h-36'
 <style>
   .visual-grid {
     background-image:
-      linear-gradient(to right, var(--color-hairline-strong) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--color-hairline-strong) 1px, transparent 1px);
+      linear-gradient(to right, var(--color-border-strong) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-border-strong) 1px, transparent 1px);
     background-size: 32px 32px;
     opacity: 0.4;
   }

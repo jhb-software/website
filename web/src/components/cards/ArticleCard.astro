@@ -56,7 +56,7 @@ if (variant === 'featured' && article.authors?.length) {
       class="grid h-full grid-cols-1 md:grid-cols-[1.2fr_1fr]"
       aria-label={article.title}
     >
-      <div class="border-hairline-strong relative overflow-hidden border-b md:border-r md:border-b-0">
+      <div class="border-border-strong relative overflow-hidden border-b md:border-r md:border-b-0">
         {typeof article.image === 'object' && (
           <Img
             image={article.image}
@@ -70,16 +70,18 @@ if (variant === 'featured' && article.authors?.length) {
       <div class="flex flex-col gap-4 p-8 md:p-10">
         <Eyebrow label={dateLabel} />
 
-        <h3 class="text-cobalt-900 font-sans text-2xl font-semibold tracking-tight text-balance">
+        <h3 class="text-primary font-sans text-2xl font-semibold tracking-tight text-balance">
           {article.title}
         </h3>
 
-        <p class="text-ink-700 max-w-prose font-sans text-base leading-[1.55]">{article.excerpt}</p>
+        <p class="text-neutral-muted max-w-prose font-sans text-base leading-[1.55]">
+          {article.excerpt}
+        </p>
 
         <ArticleTagsList tags={article.tags} class="mt-1" />
 
         {authors.length > 0 && (
-          <div class="border-hairline mt-auto flex items-center gap-3 border-t pt-4">
+          <div class="border-border mt-auto flex items-center gap-3 border-t pt-4">
             <div class="flex flex-shrink-0 -space-x-2">
               {authors.map(
                 (author) =>
@@ -87,12 +89,12 @@ if (variant === 'featured' && article.authors?.length) {
                     <Img
                       image={author.photo}
                       size="sm"
-                      class="border-paper-pure aspect-square !h-8 !w-8 rounded-full border-2 object-cover"
+                      class="border-surface aspect-square !h-8 !w-8 rounded-full border-2 object-cover"
                     />
                   ),
               )}
             </div>
-            <p class="text-ink-700 font-sans text-sm">
+            <p class="text-neutral-muted font-sans text-sm">
               {authors.map((author, index) => [
                 index > 0 ? ', ' : '',
                 <span class="font-medium">{author.name}</span>,
@@ -100,7 +102,7 @@ if (variant === 'featured' && article.authors?.length) {
             </p>
             <Icon
               name="arrow-right"
-              class="text-ink-700 ease-standard ml-auto h-5 w-5 transition-colors duration-200 group-hover:text-orange-600"
+              class="text-neutral-muted ease-standard group-hover:text-tertiary ml-auto h-5 w-5 transition-colors duration-200"
             />
           </div>
         )}
@@ -108,7 +110,7 @@ if (variant === 'featured' && article.authors?.length) {
     </a>
   ) : (
     <a href={href} class="flex h-full flex-col" aria-label={article.title}>
-      <div class="border-hairline-strong overflow-hidden border-b">
+      <div class="border-border-strong overflow-hidden border-b">
         {typeof article.image === 'object' && (
           <Img
             image={article.image}
@@ -122,17 +124,19 @@ if (variant === 'featured' && article.authors?.length) {
       <div class="flex flex-1 flex-col gap-3 p-6 md:p-8">
         <Eyebrow label={dateLabel} />
 
-        <h3 class="text-cobalt-900 font-sans text-lg font-semibold tracking-tight text-balance">
+        <h3 class="text-primary font-sans text-lg font-semibold tracking-tight text-balance">
           {article.title}
         </h3>
 
-        <p class="text-ink-700 line-clamp-3 font-sans text-sm leading-[1.55]">{article.excerpt}</p>
+        <p class="text-neutral-muted line-clamp-3 font-sans text-sm leading-[1.55]">
+          {article.excerpt}
+        </p>
 
         <div class="mt-auto flex items-end justify-between gap-3 pt-4">
           <ArticleTagsList tags={article.tags} />
           <Icon
             name="arrow-right"
-            class="text-ink-700 ease-standard h-5 w-5 transition-colors duration-200 group-hover:text-orange-600"
+            class="text-neutral-muted ease-standard group-hover:text-tertiary h-5 w-5 transition-colors duration-200"
           />
         </div>
       </div>

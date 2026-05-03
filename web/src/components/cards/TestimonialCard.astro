@@ -16,7 +16,7 @@ if (!customer) {
 }
 ---
 
-<figure class="border-hairline flex flex-col gap-5 border-t bg-transparent px-1 py-6">
+<figure class="border-border flex flex-col gap-5 border-t bg-transparent px-1 py-6">
   <header class="flex items-center gap-4">
     {
       typeof author.image === 'object' && (
@@ -29,7 +29,7 @@ if (!customer) {
     }
 
     <div class="min-w-0 flex-1">
-      <div class="text-cobalt-900 truncate font-sans text-sm font-medium">
+      <div class="text-primary truncate font-sans text-sm font-medium">
         {author.name}
       </div>
       {
@@ -38,12 +38,12 @@ if (!customer) {
             href={customer.websiteUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="text-ink-500 ease-standard tracking-eyebrow inline-block truncate font-mono text-xs uppercase transition-colors duration-150 hover:text-orange-600"
+            class="text-neutral-subtle ease-standard tracking-eyebrow hover:text-tertiary inline-block truncate font-mono text-xs uppercase transition-colors duration-150"
           >
             {customer.name}
           </a>
         ) : (
-          <span class="text-ink-500 tracking-eyebrow inline-block truncate font-mono text-xs uppercase">
+          <span class="text-neutral-subtle tracking-eyebrow inline-block truncate font-mono text-xs uppercase">
             {customer.name}
           </span>
         )
@@ -51,7 +51,7 @@ if (!customer) {
     </div>
   </header>
 
-  <blockquote class="text-ink-950 max-w-prose font-sans text-base leading-[1.55]">
+  <blockquote class="text-neutral max-w-prose font-sans text-base leading-[1.55]">
     {text}
   </blockquote>
 </figure>

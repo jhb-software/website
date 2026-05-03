@@ -18,7 +18,7 @@ const [featured, ...rest] = articles
     featured && (
       <FrameCell
         interactive
-        class:list={[rest.length > 0 && 'border-b border-b-[var(--color-hairline-strong)]']}
+        class:list={[rest.length > 0 && 'border-b border-b-[var(--color-border-strong)]']}
       >
         <ArticleCard {...featured} variant="featured" />
       </FrameCell>
@@ -32,9 +32,9 @@ const [featured, ...rest] = articles
           <FrameCell
             interactive
             class:list={[
-              idx % 2 === 1 && 'sm:border-l sm:border-l-[var(--color-hairline-strong)]',
-              idx >= 2 && 'border-t border-t-[var(--color-hairline-strong)]',
-              idx === 1 && 'border-t border-t-[var(--color-hairline-strong)] sm:border-t-0',
+              idx % 2 === 1 && 'sm:border-l sm:border-l-[var(--color-border-strong)]',
+              idx >= 2 && 'border-t border-t-[var(--color-border-strong)]',
+              idx === 1 && 'border-t border-t-[var(--color-border-strong)] sm:border-t-0',
             ]}
           >
             <ArticleCard {...article} variant="compact" />

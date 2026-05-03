@@ -18,14 +18,14 @@ const schema = breadcrumbsSchema(crumbs)
 {
   displayMode === 'all' && (
     <nav aria-label="breadcrumbs">
-      <ol class="text-ink-500 tracking-eyebrow flex flex-row flex-wrap items-center gap-2 font-mono text-xs uppercase">
+      <ol class="text-neutral-subtle tracking-eyebrow flex flex-row flex-wrap items-center gap-2 font-mono text-xs uppercase">
         {crumbs
           .map(({ label, path }, index, array) => (
             <li>
               <Link
                 path={path}
                 style="text"
-                class="text-ink-500 ease-standard !py-1 !font-mono !text-xs !font-normal uppercase !no-underline transition-colors duration-150 hover:text-orange-600"
+                class="text-neutral-subtle ease-standard hover:text-tertiary !py-1 !font-mono !text-xs !font-normal uppercase !no-underline transition-colors duration-150"
                 aria-current={index + 1 === array.length ? 'location' : false}
               >
                 {label}
@@ -34,7 +34,7 @@ const schema = breadcrumbsSchema(crumbs)
           ))
           .reduce((prev, curr) => [
             prev,
-            <span aria-hidden="true" class="text-orange-600">
+            <span aria-hidden="true" class="text-tertiary">
               \
             </span>,
             curr,
@@ -47,17 +47,17 @@ const schema = breadcrumbsSchema(crumbs)
 {
   displayMode === 'lastOnly' && crumbs.length > 1 && (
     <nav aria-label="breadcrumbs">
-      <ol class="text-ink-500 tracking-eyebrow flex flex-row items-center gap-2 font-mono text-xs uppercase">
+      <ol class="text-neutral-subtle tracking-eyebrow flex flex-row items-center gap-2 font-mono text-xs uppercase">
         <li>
           <Link
             path={crumbs[crumbs.length - 2].path}
             style="text"
-            class="text-ink-500 ease-standard inline-flex items-center !py-1 !font-mono !text-xs !font-normal uppercase !no-underline transition-colors duration-150 hover:text-orange-600"
+            class="text-neutral-subtle ease-standard hover:text-tertiary inline-flex items-center !py-1 !font-mono !text-xs !font-normal uppercase !no-underline transition-colors duration-150"
           >
             {crumbs[crumbs.length - 2].label}
           </Link>
         </li>
-        <li aria-hidden="true" class="text-orange-600">
+        <li aria-hidden="true" class="text-tertiary">
           \
         </li>
       </ol>

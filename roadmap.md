@@ -8,7 +8,7 @@ New corporate design and identity. See `design.md` for the full visual spec.
 
 - [x] Migrate all web components to the new design
 - [x] Write `design.md`
-- [ ] Audit every page at sm/md/lg breakpoints and fix broken layouts
+- [x] Audit every page at sm/md/lg breakpoints and fix broken layouts
 - [ ] Deduplicate and extract shared abstractions in files touched by the redesign (Heading, MetaStrip, Eyebrow are precedents)
 - [ ] Address existing `TODO` comments for CMS collections and blocks
 - [ ] Restyle the CMS OG/cover image generation endpoint to the new design (template/styling only, keep current implementation)

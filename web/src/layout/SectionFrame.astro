@@ -8,7 +8,7 @@ import CornerMark from './CornerMark.astro'
  * borders of their own — interior dividers come from `border-l` / `border-t`
  * on the cell wrappers, sharing the outer frame's hairlines.
  *
- * Renders four orange corner crosses (§7.3) by default. Set `corners={false}`
+ * Renders four tertiary-colored corner crosses (§7.3) by default. Set `corners={false}`
  * for nested or quieter contexts.
  */
 type Props = {
@@ -19,7 +19,7 @@ type Props = {
 const { class: className, corners = true } = Astro.props
 ---
 
-<div class:list={['border-hairline-strong relative overflow-hidden border', className]}>
+<div class:list={['border-border-strong relative overflow-hidden border', className]}>
   <slot />
   {
     corners && (

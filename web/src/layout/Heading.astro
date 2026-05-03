@@ -1,7 +1,7 @@
 ---
 /**
  * Section/block heading per design.md §section-eyebrow:
- * `sans 600, cobalt 900, tracking-tight`.
+ * `sans 600, primary, tracking-tight`.
  *
  * `size` picks the type scale; `as` picks the HTML tag — keep them independent
  * so semantic level (h1/h2/h3) doesn't constrain visual weight.
@@ -26,11 +26,7 @@ const { as: Tag = 'h2', size = 'lg', class: className } = props
 ---
 
 <Tag
-  class:list={[
-    'text-cobalt-900 font-sans font-semibold tracking-tight',
-    sizeClasses[size],
-    className,
-  ]}
+  class:list={['text-primary font-sans font-semibold tracking-tight', sizeClasses[size], className]}
 >
   <slot />
 </Tag>

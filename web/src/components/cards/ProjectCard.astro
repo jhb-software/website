@@ -25,7 +25,7 @@ const href = normalizePath(project.path, preview)
       class="grid h-full grid-cols-1 md:grid-cols-[1.2fr_1fr]"
       aria-label={project.title}
     >
-      <div class="border-hairline-strong relative overflow-hidden border-b md:border-r md:border-b-0">
+      <div class="border-border-strong relative overflow-hidden border-b md:border-r md:border-b-0">
         {typeof project.image === 'object' && (
           <Img
             image={project.image}
@@ -39,17 +39,19 @@ const href = normalizePath(project.path, preview)
       <div class="flex flex-col gap-4 p-8 md:p-10">
         <ProjectDate startDate={project.startDate} endDate={project.endDate} />
 
-        <h3 class="text-cobalt-900 font-sans text-2xl font-semibold tracking-tight text-balance">
+        <h3 class="text-primary font-sans text-2xl font-semibold tracking-tight text-balance">
           {project.title}
         </h3>
 
-        <p class="text-ink-700 max-w-prose font-sans text-base leading-[1.55]">{project.excerpt}</p>
+        <p class="text-neutral-muted max-w-prose font-sans text-base leading-[1.55]">
+          {project.excerpt}
+        </p>
 
         <ProjectTagsList tags={project.tags} class="mt-2" />
 
         <Icon
           name="arrow-right"
-          class="text-ink-700 ease-standard mt-auto h-5 w-5 self-end transition-colors duration-200 group-hover:text-orange-600"
+          class="text-neutral-muted ease-standard group-hover:text-tertiary mt-auto h-5 w-5 self-end transition-colors duration-200"
         />
       </div>
     </a>
@@ -59,7 +61,7 @@ const href = normalizePath(project.path, preview)
       class="flex h-full items-center gap-5 p-5 md:gap-8 md:p-6"
       aria-label={project.title}
     >
-      <div class="border-hairline-strong w-32 flex-none overflow-hidden border md:w-44">
+      <div class="border-border-strong w-32 flex-none overflow-hidden border md:w-44">
         {typeof project.image === 'object' && (
           <Img
             image={project.image}
@@ -70,7 +72,7 @@ const href = normalizePath(project.path, preview)
       </div>
 
       <div class="flex min-w-0 flex-1 flex-col gap-2">
-        <h3 class="text-cobalt-900 font-sans text-base font-semibold tracking-tight md:text-lg">
+        <h3 class="text-primary font-sans text-base font-semibold tracking-tight md:text-lg">
           {project.title}
         </h3>
         <ProjectTagsList tags={project.tags} />
@@ -79,7 +81,7 @@ const href = normalizePath(project.path, preview)
 
       <Icon
         name="arrow-right"
-        class="text-ink-700 ease-standard hidden h-5 w-5 flex-none transition-colors duration-200 group-hover:text-orange-600 md:inline-block"
+        class="text-neutral-muted ease-standard group-hover:text-tertiary hidden h-5 w-5 flex-none transition-colors duration-200 md:inline-block"
       />
     </a>
   )

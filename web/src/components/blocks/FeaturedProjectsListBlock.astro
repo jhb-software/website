@@ -14,7 +14,7 @@ const projects = Astro.props.projects as Project[]
     projects?.map((project, index) => (
       <FrameCell
         interactive
-        class:list={[index > 0 && 'border-t border-t-[var(--color-hairline-strong)]']}
+        class:list={[index > 0 && 'border-t border-t-[var(--color-border-strong)]']}
       >
         <ProjectCard {...project} variant="featured" fetchpriority={index === 0 ? 'high' : 'low'} />
       </FrameCell>

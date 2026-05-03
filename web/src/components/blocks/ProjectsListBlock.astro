@@ -16,7 +16,7 @@ projects.sort((a, b) => new Date(b.startDate || 0).getTime() - new Date(a.startD
     projects?.map((project, index) => (
       <FrameCell
         interactive
-        class:list={[index > 0 && 'border-t border-t-[var(--color-hairline-strong)]']}
+        class:list={[index > 0 && 'border-t border-t-[var(--color-border-strong)]']}
       >
         <ProjectCard {...project} variant="compact" />
       </FrameCell>

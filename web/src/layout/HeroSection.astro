@@ -11,7 +11,7 @@ const { title, subtitle, links, breadcrumbs } = Astro.props
 ---
 
 <section class="max-w-page mx-auto px-5 pt-8 md:px-8 md:pt-12">
-  <div class="hero-block border-hairline-strong relative border bg-white">
+  <div class="hero-block border-border-strong relative border bg-white">
     <CornerMark position="top-left" />
     <CornerMark position="top-right" />
     <CornerMark position="bottom-left" />
@@ -24,7 +24,7 @@ const { title, subtitle, links, breadcrumbs } = Astro.props
       <Heading as="h1" size="hero" class="max-w-3xl text-balance">
         {title}
       </Heading>
-      <p class="text-ink-700 max-w-2xl font-sans text-lg leading-[1.55] text-balance">
+      <p class="text-neutral-muted max-w-2xl font-sans text-lg leading-[1.55] text-balance">
         {subtitle}
       </p>
       <div class="mt-2 flex flex-wrap items-center justify-center gap-3">
@@ -40,8 +40,8 @@ const { title, subtitle, links, breadcrumbs } = Astro.props
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(to right, var(--color-hairline-strong) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--color-hairline-strong) 1px, transparent 1px);
+      linear-gradient(to right, var(--color-border-strong) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-border-strong) 1px, transparent 1px);
     background-size: 56px 56px;
     opacity: 0.55;
     pointer-events: none;
