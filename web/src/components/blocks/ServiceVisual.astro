@@ -9,7 +9,7 @@ type Props = {
 }
 
 const { visualization, size = 'compact' } = Astro.props
-const heightClass = size === 'hero' ? 'h-72' : 'h-36'
+const heightClass = size === 'hero' ? 'h-36 md:h-72' : 'h-36'
 ---
 
 <div

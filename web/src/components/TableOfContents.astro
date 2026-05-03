@@ -17,26 +17,27 @@ const { labels } = Astro.locals.globalState
 <!-- Mobile TOC -->
 <nav
   id="toc-mobile"
-  class:list={['mb-8 rounded-lg border border-slate-200 bg-slate-50 xl:hidden', className]}
+  class:list={['border-border-strong mb-8 border xl:hidden', className]}
   aria-label={labels.global['table-of-contents']}
 >
   <details class="group">
     <summary
-      class="flex cursor-pointer items-center justify-between rounded-lg px-4 py-3 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-100"
+      class="text-primary ease-standard tracking-eyebrow hover:bg-canvas flex cursor-pointer list-none items-center justify-between px-4 py-3 font-mono text-xs font-medium uppercase transition-colors duration-150"
     >
       {labels.global['table-of-contents']}
       <svg
-        class="h-4 w-4 transition-transform group-open:rotate-180"
+        class="h-3 w-3 transition-transform group-open:rotate-180"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
+        aria-hidden="true"
       >
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"
         ></path>
       </svg>
     </summary>
-    <div class="px-4 pb-4">
-      <ul class="space-y-2 text-sm" aria-labelledby="toc-heading-mobile">
+    <div class="border-border border-t px-4 py-3">
+      <ul class="space-y-1 text-sm" aria-labelledby="toc-heading-mobile">
         {
           headings.map((heading) => (
             <li
@@ -49,7 +50,7 @@ const { labels } = Astro.locals.globalState
             >
               <a
                 href={`#${heading.id}`}
-                class="aria-[current]:text-primary block rounded py-1 text-slate-600 transition-colors duration-200 hover:text-slate-900 aria-[current]:font-medium"
+                class="text-neutral-muted hover:text-primary aria-[current]:text-primary ease-standard block py-1 transition-colors duration-150 aria-[current]:font-medium"
                 data-toc-link
                 data-heading-id={heading.id}
                 aria-label={`${labels.global['navigate-to-section']}: ${heading.text}`}
@@ -69,15 +70,18 @@ const { labels } = Astro.locals.globalState
   id="toc-desktop"
   class:list={[
     'sticky top-24 hidden max-h-[calc(100vh-8rem)] overflow-y-auto xl:block',
-    'border-l-2 border-slate-200 pr-6 pl-4',
+    'border-border border-l-2 pr-6 pl-4',
     className,
   ]}
   aria-label={labels.global['table-of-contents']}
 >
-  <h2 class="mb-3 text-sm font-semibold text-slate-900" id="toc-heading">
+  <h2
+    class="text-primary tracking-eyebrow mb-3 font-mono text-xs font-medium uppercase"
+    id="toc-heading"
+  >
     {labels.global['table-of-contents']}
   </h2>
-  <ul class="space-y-2 text-sm" aria-labelledby="toc-heading">
+  <ul class="space-y-1 text-sm" aria-labelledby="toc-heading">
     {
       headings.map((heading) => (
         <li
@@ -90,7 +94,7 @@ const { labels } = Astro.locals.globalState
         >
           <a
             href={`#${heading.id}`}
-            class="aria-[current]:text-primary block rounded py-1 text-slate-600 transition-colors duration-200 hover:text-slate-900 aria-[current]:font-medium"
+            class="text-neutral-muted hover:text-primary aria-[current]:text-primary ease-standard block py-1 transition-colors duration-150 aria-[current]:font-medium"
             data-toc-link
             data-heading-id={heading.id}
             aria-label={`${labels.global['navigate-to-section']}: ${heading.text}`}

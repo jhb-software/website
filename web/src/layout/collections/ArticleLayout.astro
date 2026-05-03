@@ -49,7 +49,7 @@ const updatedLabel = new Date(article.updatedAt).toLocaleDateString(locale, {
   >
     <div class="space-y-5">
       <h1
-        class="text-primary font-sans text-3xl font-semibold tracking-tight text-balance md:text-4xl"
+        class="text-primary font-sans text-2xl font-semibold tracking-tight text-balance md:text-4xl"
       >
         {article.title}
       </h1>
@@ -117,7 +117,7 @@ const updatedLabel = new Date(article.updatedAt).toLocaleDateString(locale, {
 
     {
       article.tags && article.tags.length > 0 && (
-        <MetaField label={labels.articles.tags} class="ml-auto !gap-1.5">
+        <MetaField label={labels.articles.tags} class="!gap-1.5 md:ml-auto">
           <ArticleTagsList tags={article.tags} />
         </MetaField>
       )

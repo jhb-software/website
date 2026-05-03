@@ -129,9 +129,12 @@ const isCurrentLink = (link: { page?: { value: string | Page } }) =>
   role="dialog"
   aria-modal="true"
   aria-hidden="true"
-  class="bg-canvas fixed inset-0 z-50 hidden h-screen w-screen flex-col px-5 py-6 md:hidden"
+  class="bg-canvas fixed inset-0 z-50 hidden h-[100dvh] w-screen flex-col md:hidden"
 >
-  <div class="flex items-center justify-between">
+  <div
+    class="flex w-full shrink-0 items-center justify-between px-5 md:px-8"
+    style="height: var(--header-h, 72px);"
+  >
     <a href={homePagePath} class="flex items-center gap-2" aria-label="JHB Software">
       <svg
         width="32"
@@ -176,14 +179,14 @@ const isCurrentLink = (link: { page?: { value: string | Page } }) =>
     </button>
   </div>
 
-  <ul class="mt-12 flex flex-col gap-2">
+  <ul class="flex flex-col gap-1 px-5 pt-6 md:px-8">
     {
       header.links?.map(({ link }) => (
         <li>
           <a
             href={normalizePath((link.page?.value as Page)?.path, preview)}
             data-active={isCurrentLink(link)}
-            class="text-neutral-muted hover:text-primary data-[active=true]:text-primary block py-2 font-sans text-2xl font-medium tracking-tight"
+            class="text-neutral-muted hover:text-primary data-[active=true]:text-primary block py-2 font-sans text-xl font-medium tracking-tight"
           >
             {link.label}
           </a>
@@ -193,7 +196,7 @@ const isCurrentLink = (link: { page?: { value: string | Page } }) =>
   </ul>
 
   <div
-    class="border-border mt-auto flex items-baseline gap-3 border-t pt-6 font-mono text-2xl uppercase"
+    class="border-border mx-5 mt-auto flex items-baseline gap-3 border-t pt-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] font-mono text-base uppercase md:mx-8"
   >
     {
       alternatePaths.map(({ hreflang, path }, index) => (
@@ -271,11 +274,31 @@ const isCurrentLink = (link: { page?: { value: string | Page } }) =>
 
   let state: HeaderState | null = null
 
+  let lockedScrollY = 0
+
+  function lockScroll() {
+    lockedScrollY = window.scrollY
+    document.body.style.position = 'fixed'
+    document.body.style.top = `-${lockedScrollY}px`
+    document.body.style.left = '0'
+    document.body.style.right = '0'
+    document.body.style.width = '100%'
+  }
+
+  function unlockScroll() {
+    document.body.style.position = ''
+    document.body.style.top = ''
+    document.body.style.left = ''
+    document.body.style.right = ''
+    document.body.style.width = ''
+    window.scrollTo(0, lockedScrollY)
+  }
+
   function teardown() {
     if (!state) return
     state.observer.disconnect()
     state.sentinel.remove()
-    document.body.style.overflow = ''
+    if (document.body.style.position === 'fixed') unlockScroll()
     document.getElementById('menu-toggle')?.removeEventListener('click', state.onMenuToggle)
     document.getElementById('menu-close')?.removeEventListener('click', state.onMenuClose)
     document.removeEventListener('astro:before-swap', state.onPageHide)
@@ -307,12 +330,16 @@ const isCurrentLink = (link: { page?: { value: string | Page } }) =>
     observer.observe(sentinel)
 
     function openMenu() {
+      // Match modal's top-bar height to the header's current height so the
+      // close button lands exactly where the hamburger was — no shift.
+      const headerHeight = header!.getBoundingClientRect().height
+      document.documentElement.style.setProperty('--header-h', `${headerHeight}px`)
+      lockScroll()
       modal!.classList.remove('hidden')
       modal!.classList.add('flex')
       modal!.setAttribute('aria-hidden', 'false')
       toggle!.setAttribute('aria-expanded', 'true')
       toggle!.setAttribute('aria-label', toggle!.dataset.labelClose ?? '')
-      document.body.style.overflow = 'hidden'
     }
 
     function closeMenu() {
@@ -321,7 +348,7 @@ const isCurrentLink = (link: { page?: { value: string | Page } }) =>
       modal!.setAttribute('aria-hidden', 'true')
       toggle!.setAttribute('aria-expanded', 'false')
       toggle!.setAttribute('aria-label', toggle!.dataset.labelOpen ?? '')
-      document.body.style.overflow = ''
+      unlockScroll()
     }
 
     const onMenuToggle = () => {
