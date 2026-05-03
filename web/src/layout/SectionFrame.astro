@@ -19,7 +19,7 @@ type Props = {
 const { class: className, corners = true } = Astro.props
 ---
 
-<div class:list={['border-hairline-strong relative overflow-hidden rounded-sm border', className]}>
+<div class:list={['border-hairline-strong relative overflow-hidden border', className]}>
   <slot />
   {
     corners && (

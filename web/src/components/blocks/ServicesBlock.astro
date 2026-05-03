@@ -1,6 +1,7 @@
 ---
 import type { Page, ServicesBlock } from 'cms/src/payload-types'
 import FrameCell from '../../layout/FrameCell.astro'
+import Heading from '../../layout/Heading.astro'
 import SectionFrame from '../../layout/SectionFrame.astro'
 import { normalizePath } from '../../utils/normalizePath'
 import ServiceVisual from './ServiceVisual.astro'
@@ -54,9 +55,7 @@ const linkFor = (page: unknown): string => normalizePath((page as Page)?.path, p
               </span>
               <span class="ml-1.5">{eyebrowFor(heroService.title)}</span>
             </p>
-            <h3 class="text-cobalt-900 font-sans text-2xl font-semibold tracking-tight">
-              {heroService.title}
-            </h3>
+            <Heading as="h3">{heroService.title}</Heading>
             <p class="text-ink-700 max-w-prose font-sans leading-[1.55]">
               {heroService.description}
             </p>
@@ -87,9 +86,9 @@ const linkFor = (page: unknown): string => normalizePath((page as Page)?.path, p
                 </span>
                 <span class="ml-1.5">{eyebrowFor(service.title)}</span>
               </p>
-              <h3 class="text-cobalt-900 font-sans text-lg font-semibold tracking-tight">
+              <Heading as="h3" size="md">
                 {service.title}
-              </h3>
+              </Heading>
               <p class="text-ink-700 line-clamp-2 font-sans text-sm leading-[1.55]">
                 {service.description}
               </p>
@@ -123,9 +122,9 @@ const linkFor = (page: unknown): string => normalizePath((page as Page)?.path, p
                 </span>
                 <span class="ml-1.5">{eyebrowFor(service.title)}</span>
               </p>
-              <h3 class="text-cobalt-900 font-sans text-lg font-semibold tracking-tight">
+              <Heading as="h3" size="md">
                 {service.title}
-              </h3>
+              </Heading>
               <p class="text-ink-700 line-clamp-2 font-sans text-sm leading-[1.55]">
                 {service.description}
               </p>

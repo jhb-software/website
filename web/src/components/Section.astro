@@ -1,6 +1,7 @@
 ---
 import type { Page } from 'cms/src/payload-types'
 import Eyebrow from '../layout/Eyebrow.astro'
+import Heading from '../layout/Heading.astro'
 import SectionShell from '../layout/SectionShell.astro'
 import SectionBlock from './SectionBlock.astro'
 
@@ -31,12 +32,12 @@ const effectiveSubTitle = (title && subTitleOverrides[title]) || subTitle
 <SectionShell class:list={[withoutTopSpace ? 'mb-24 pt-8 pb-16' : 'my-24 py-16']}>
   {
     (title || effectiveSubTitle) && (
-      <header class="mb-12 max-w-3xl space-y-4">
+      <header class="mb-12 max-w-3xl space-y-3">
         {title && <Eyebrow label={title} index={index} />}
         {effectiveSubTitle && (
-          <h2 class="text-cobalt-900 font-sans text-xl leading-[1.4] font-medium text-balance md:text-2xl">
+          <Heading as="h2" class="leading-[1.4] text-balance">
             {effectiveSubTitle}
-          </h2>
+          </Heading>
         )}
       </header>
     )

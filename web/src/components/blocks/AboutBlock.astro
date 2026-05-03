@@ -1,6 +1,7 @@
 ---
 import Img from '@/components/Img.astro'
 import Eyebrow from '@/layout/Eyebrow.astro'
+import Heading from '@/layout/Heading.astro'
 import type { AboutBlock } from 'cms/src/payload-types'
 import RichTextBlock from './RichTextBlock/RichTextBlock.astro'
 
@@ -12,20 +13,16 @@ const { title, name, text, image } = Astro.props
 <div class="grid grid-cols-1 gap-10 md:grid-cols-[280px_1fr] md:gap-12">
   {
     typeof image === 'object' && (
-      <div class="border-hairline-strong aspect-square overflow-hidden rounded-sm border">
+      <div class="border-hairline-strong aspect-square overflow-hidden border">
         <Img image={image} size="md" class="block h-full w-full object-cover" />
       </div>
     )
   }
 
   <div class="space-y-6">
-    <header class="space-y-2">
+    <header class="space-y-3">
       {title && <Eyebrow label={title} />}
-      {
-        name && (
-          <h3 class="text-cobalt-900 font-sans text-2xl font-semibold tracking-tight">{name}</h3>
-        )
-      }
+      {name && <Heading as="h3">{name}</Heading>}
     </header>
 
     <div class="prose-redesign text-ink-700 max-w-prose">

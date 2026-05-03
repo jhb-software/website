@@ -2,6 +2,7 @@
 import type { ContactBlock } from 'cms/src/payload-types'
 import Eyebrow from '../../layout/Eyebrow.astro'
 import FrameCell from '../../layout/FrameCell.astro'
+import Heading from '../../layout/Heading.astro'
 import SectionFrame from '../../layout/SectionFrame.astro'
 import Icon from '../icons/Icon.astro'
 import Img from '../Img.astro'
@@ -35,7 +36,7 @@ const SOCIAL_LABEL = 'SOCIAL'
     </FrameCell>
 
     <FrameCell class="flex flex-col gap-8 p-8 md:p-10">
-      <h3 class="text-cobalt-900 font-sans text-2xl font-semibold tracking-tight">{name}</h3>
+      <Heading as="h3">{name}</Heading>
 
       <dl class="flex flex-col gap-5">
         <div class="flex flex-col gap-1">

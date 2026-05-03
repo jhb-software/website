@@ -1,12 +1,21 @@
 ---
 import { payloadSDK } from '@/cms/sdk'
 import type { Testimonial, TestimonialsBlock } from 'cms/src/payload-types'
+import Eyebrow from '../../layout/Eyebrow.astro'
 import TestimonialCard from '../cards/TestimonialCard.astro'
 
-export type Props = TestimonialsBlock
+export type Props = TestimonialsBlock & {
+  /** Override the section heading. Defaults to `labels.testimonials.testimonials-title`. */
+  heading?: string
+  /** Override the eyebrow label above the heading. */
+  eyebrow?: string
+}
 
-const { testimonials } = Astro.props
+const { testimonials, heading, eyebrow } = Astro.props
 const { locale, preview, labels } = Astro.locals.globalState
+
+const sectionHeading = heading ?? labels.testimonials['testimonials-title']
+const sectionEyebrow = eyebrow ?? (locale === 'en' ? 'VOICES' : 'STIMMEN')
 
 // Fetch the testimonials with depth 3 so the customer logo (testimonial →
 // project → customer → logo) resolves to an Image object, not just an id.
@@ -39,6 +48,12 @@ const showSeeMore = docs.length > collapseThreshold
 ---
 
 <div class="testimonials-block group relative" id="testimonials-container" data-expanded="false">
+  <header class="mb-8 space-y-3 md:mb-12">
+    <Eyebrow label={sectionEyebrow} />
+    <h2 class="text-cobalt-900 font-sans text-2xl font-semibold tracking-tight md:text-3xl">
+      {sectionHeading}
+    </h2>
+  </header>
   {
     /* The crop lives on this wrapper, not on the column list — so CSS columns
       always balance against the full content height and the cards don't

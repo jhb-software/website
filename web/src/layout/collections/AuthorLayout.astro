@@ -1,7 +1,10 @@
 ---
 import RichTextBlock from '@/components/blocks/RichTextBlock/RichTextBlock.astro'
 import BreadcrumbsBlock from '@/components/Breadcrumbs.astro'
+import Icon from '@/components/icons/Icon.astro'
 import Img from '@/components/Img.astro'
+import MetaField from '@/layout/MetaField.astro'
+import MetaStrip from '@/layout/MetaStrip.astro'
 import SectionShell from '@/layout/SectionShell.astro'
 import { authorSchema } from '@/schema/author'
 import { Schema } from 'astro-seo-schema'
@@ -13,26 +16,87 @@ type Props = {
 }
 
 const { author, breadcrumbs } = Astro.props
+const { locale, labels } = Astro.locals.globalState
 
 const schema = authorSchema(author)
+
+// TODO(cms-content): expose `profession`/`social` labels under a
+// `Labels.authors` group so editors can localise. Hardcoded here per
+// redesign §12.11. Affects: every author detail page.
+const professionLabel = locale === 'en' ? 'Role' : 'Rolle'
+const socialLabel = locale === 'en' ? 'Social' : 'Social'
+
+const SUPPORTED_SOCIAL_ICONS = ['github', 'linkedin', 'whatsapp'] as const
+type SupportedSocialIcon = (typeof SUPPORTED_SOCIAL_ICONS)[number]
+const socialLinks = (author.socialLinks ?? []).filter(
+  (link): link is typeof link & { icon: SupportedSocialIcon } =>
+    SUPPORTED_SOCIAL_ICONS.includes(link.icon as SupportedSocialIcon),
+)
 ---
 
-<SectionShell>
+<SectionShell class="pt-8 pb-24 md:pt-12">
   {breadcrumbs && <BreadcrumbsBlock crumbs={breadcrumbs} />}
-  <h1 class="mt-4 text-center text-4xl font-extrabold text-balance text-slate-700">
-    {author.name}
-  </h1>
-  <p class="mb-8 text-center text-lg text-slate-700">{author.profession}</p>
 
-  <div class="flex flex-col items-center">
+  <header
+    class="mt-3 grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,260px)] md:items-start md:gap-12"
+  >
+    <div class="space-y-5">
+      <h1
+        class="text-cobalt-900 font-sans text-3xl font-semibold tracking-tight text-balance md:text-4xl"
+      >
+        {author.name}
+      </h1>
+
+      {
+        author.excerpt && (
+          <p class="text-ink-700 font-sans text-base leading-[1.55] text-balance md:text-lg">
+            {author.excerpt}
+          </p>
+        )
+      }
+    </div>
+
     {
       typeof author.photo === 'object' && (
-        <Img image={author.photo} size="md" class="!h-64 !w-64 rounded-full" />
+        <div class="border-hairline-strong overflow-hidden border md:mt-1">
+          <Img
+            image={author.photo}
+            size="md"
+            class="block aspect-square h-full w-full object-cover"
+            fetchpriority="high"
+          />
+        </div>
       )
     }
-  </div>
+  </header>
 
-  <RichTextBlock text={author.description} class="mt-8" />
+  <MetaStrip class="mt-12">
+    {author.profession && <MetaField label={professionLabel} value={author.profession} />}
+
+    {
+      socialLinks.length > 0 && (
+        <MetaField label={socialLabel} class="ml-auto !gap-1.5">
+          <div class="flex flex-wrap items-center gap-3">
+            {socialLinks.map((link) => (
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-ink-700 ease-standard inline-flex h-8 w-8 items-center justify-center transition-colors duration-150 hover:text-orange-600"
+                aria-label={labels.social[`visit-${link.icon}` as keyof typeof labels.social]}
+              >
+                <Icon name={link.icon} class="h-5 w-5" />
+              </a>
+            ))}
+          </div>
+        </MetaField>
+      )
+    }
+  </MetaStrip>
+
+  <div class="prose-redesign mt-12 max-w-3xl">
+    <RichTextBlock text={author.description} />
+  </div>
 </SectionShell>
 
 <Schema item={schema} />
