@@ -6,30 +6,13 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import sharp from 'sharp'
 
-type BackgroundPattern = 'blobs' | 'gradient'
-type BackgroundPresetName = 'blue' | 'dark' | 'purple' | 'sunset' | 'teal'
-
-type BackgroundInput = {
-  /** Custom accent colors used for the blurred gradient blobs. */
-  accents?: [string, string]
-  /** Custom gradient colors (from → to). Overrides `preset`. */
-  colors?: [string, string]
-  /** Toggle the noisy film-grain overlay. Defaults to true. */
-  noise?: boolean
-  /**
-   * Background pattern variant.
-   * - `blobs` (default): gradient + blurred colored blobs for a rich look
-   * - `gradient`: clean linear gradient, no blobs
-   */
-  pattern?: BackgroundPattern
-  /** Named preset. Defaults to `blue` (brand). */
-  preset?: BackgroundPresetName
-}
+type Theme = 'dark' | 'light'
 
 type GenerateThumbnailBody = {
   /** If provided, the new image is set as the article's thumbnail. */
   articleId?: string
-  background?: BackgroundInput
+  /** Mono eyebrow label rendered above the title. Defaults to `ARTICLE`. */
+  eyebrow?: string
   /**
    * Custom filename (without extension). Sanitized to `[a-z0-9-]` and clamped
    * to 60 chars. If omitted, the filename is derived from `title`.
@@ -38,67 +21,58 @@ type GenerateThumbnailBody = {
   /** Output format. Defaults to `webp`. */
   format?: 'png' | 'webp'
   subtitle: string
+  /**
+   * Surface theme.
+   * - `light` (default): canvas surface, primary title, neutral-muted subtitle.
+   * - `dark`: primary-deep surface, surface title, primary-soft subtitle.
+   */
+  theme?: Theme
   title: string
 }
 
-type Preset = {
-  accents: [string, string]
-  gradient: [string, string]
-  subtitleColor: string
-  textColor: string
+type ThemePalette = {
+  background: string
+  border: string
+  cornerMark: string
+  eyebrow: string
+  eyebrowBackslash: string
+  subtitle: string
+  title: string
 }
 
-const PRESETS: Record<BackgroundPresetName, Preset> = {
-  blue: {
-    accents: ['#3b82f6', '#06b6d4'],
-    gradient: ['#0a1b4a', '#193FAD'],
-    subtitleColor: '#cbd5e1',
-    textColor: '#ffffff',
-  },
+// Token names per /web/design.md — values can shift without renaming.
+const PALETTES: Record<Theme, ThemePalette> = {
   dark: {
-    accents: ['#3b82f6', '#8b5cf6'],
-    gradient: ['#0a0a0a', '#1e293b'],
-    subtitleColor: '#94a3b8',
-    textColor: '#ffffff',
+    background: '#050e1f', // primary-deep
+    border: 'rgba(255,255,255,0.20)', // hairline on dark surface (matches Footer)
+    cornerMark: '#0f766e', // tertiary
+    eyebrow: '#a8d4c8', // tertiary-soft (legible mono on primary-deep)
+    eyebrowBackslash: '#0f766e', // tertiary
+    subtitle: '#e8eef7', // primary-soft
+    title: '#ffffff', // surface
   },
-  purple: {
-    accents: ['#a855f7', '#ec4899'],
-    gradient: ['#1e1b4b', '#4c1d95'],
-    subtitleColor: '#cbd5e1',
-    textColor: '#ffffff',
-  },
-  sunset: {
-    accents: ['#fb923c', '#f472b6'],
-    gradient: ['#7c2d12', '#c2410c'],
-    subtitleColor: '#fee2e2',
-    textColor: '#ffffff',
-  },
-  teal: {
-    accents: ['#14b8a6', '#22d3ee'],
-    gradient: ['#042f2e', '#115e59'],
-    subtitleColor: '#cbd5e1',
-    textColor: '#ffffff',
+  light: {
+    background: '#ffffff', // surface
+    border: '#d4d4d4', // border-strong
+    cornerMark: '#0f766e', // tertiary
+    eyebrow: '#737373', // neutral-subtle
+    eyebrowBackslash: '#0f766e', // tertiary
+    subtitle: '#404040', // neutral-muted
+    title: '#0a2540', // primary
   },
 }
 
 const WIDTH = 1920
 const HEIGHT = 1080
-const PADDING_X = 128
+const FRAME_INSET = 64
+const CONTENT_PADDING = 80
 
-const HEX_REGEX = /^#(?:[0-9a-fA-F]{3}){1,2}$/
-
-function resolvePreset(background?: BackgroundInput): Preset {
-  const base = PRESETS[background?.preset ?? 'blue']
-  const gradient =
-    background?.colors && background.colors.every((c) => HEX_REGEX.test(c))
-      ? background.colors
-      : base.gradient
-  const accents =
-    background?.accents && background.accents.every((c) => HEX_REGEX.test(c))
-      ? background.accents
-      : base.accents
-  return { ...base, accents, gradient }
-}
+// JHB brand mark — see /web/public/icon.svg. Solid primary square with white
+// JHB lettering. Inlined so the endpoint stays self-contained.
+const LOGO_INNER = `
+  <rect width="96" height="96" fill="#0a2540"/>
+  <path transform="translate(8.14 62.2) scale(0.04 -0.04)" fill="#ffffff" d="M314.59967041015625 -16.0Q226.20001220703125 -16.0 166.00015258789062 19.899932861328125Q105.80029296875 55.79986572265625 74.90032958984375 118.19976806640625Q44.0003662109375 180.59967041015625 43.0003662109375 259.99957275390625L217.3990478515625 267.59954833984375Q219.19903564453125 193.59942626953125 244.39920043945312 159.999267578125Q269.599365234375 126.39910888671875 314.59967041015625 126.39910888671875Q359.4000244140625 126.39910888671875 384.7001953125 157.79934692382812Q410.0003662109375 189.1995849609375 410.0003662109375 257.599853515625V710.0H583.9990234375V257.599853515625Q583.9990234375 174.19989013671875 549.9991149902344 112.69992065429688Q515.9992065429688 51.199951171875 455.4993591308594 17.5999755859375Q394.99951171875 -16.0 314.59967041015625 -16.0Z M667.5003662109375 0.0V710.0H841.4990234375V376.1998291015625L766.2994995117188 428.59954833984375H1156.9003295898438L1081.7008056640625 376.1998291015625V710.0H1255.699462890625V0.0H1081.7008056640625V337.8001708984375L1156.9003295898438 286.200439453125H766.2994995117188L841.4990234375 337.8001708984375V0.0Z M1354.0003662109375 0.0V710.0H1641.19970703125Q1775.1995849609375 710.0 1847.3994445800781 663.6000061035156Q1919.5993041992188 617.2000122070312 1919.5993041992188 516.6000366210938Q1919.5993041992188 473.0 1902.3992614746094 441.199951171875Q1885.19921875 409.39990234375 1851.399169921875 390.69989013671875Q1817.59912109375 371.9998779296875 1768.9990844726562 367.199951171875L1768.799072265625 366.800048828125Q1858.1990966796875 359.60015869140625 1903.8992004394531 315.10009765625Q1949.5993041992188 270.60003662109375 1949.5993041992188 195.79998779296875Q1949.5993041992188 96.4000244140625 1877.7994384765625 48.20001220703125Q1805.9995727539062 0.0 1673.1998291015625 0.0ZM1527.9990234375 136.7991943359375H1662.7999877929688Q1711.8003540039062 136.7991943359375 1743.3004760742188 156.79934692382812Q1774.8005981445312 176.79949951171875 1774.8005981445312 218.39971923828125Q1774.8005981445312 259.99993896484375 1743.7004699707031 280.7001037597656Q1712.600341796875 301.4002685546875 1662.7999877929688 301.4002685546875H1527.9990234375ZM1527.9990234375 420.5997314453125H1634.7998046875Q1684.000244140625 420.5997314453125 1714.4004211425781 439.69989013671875Q1744.8005981445312 458.800048828125 1744.8005981445312 496.60028076171875Q1744.8005981445312 536.6005249023438 1715.1004333496094 554.9006652832031Q1685.4002685546875 573.2008056640625 1634.7998046875 573.2008056640625H1527.9990234375Z"/>
+`
 
 function escapeXml(str: string): string {
   return str
@@ -145,42 +119,18 @@ function wrapText(text: string, maxCharsPerLine: number, maxLines: number): stri
   return result
 }
 
-// Scaled-down inline of /web/public/icon.svg — the brand mark.
-const LOGO_SVG_CONTENT = `
-  <path d="M0 18C0 8.06 8.06 0 18 0H24.73V24.73H0V18Z" fill="#193FAD"/>
-  <rect y="24.73" width="24.73" height="23.27" fill="#214098"/>
-  <rect y="48" width="24.73" height="24.73" fill="#1D3782"/>
-  <path d="M0 72.73H24.73V96H18C8.06 96 0 87.94 0 78V72.73Z" fill="#182E6D"/>
-  <rect x="24.73" y="72.73" width="23.27" height="23.27" fill="#1D3782"/>
-  <rect x="48" y="72.73" width="24.73" height="23.27" fill="#214098"/>
-  <path d="M72.73 72.73H96V78C96 87.94 87.94 96 78 96H72.73V72.73Z" fill="#193FAD"/>
-  <rect x="72.73" y="48" width="23.27" height="24.73" fill="#2047D7"/>
-  <rect x="72.73" y="24.73" width="23.27" height="23.27" fill="#2A54D9"/>
-  <rect x="48" y="24.73" width="24.73" height="23.27" fill="#2047D7"/>
-  <rect x="24.73" y="24.73" width="23.27" height="23.27" fill="#193FAD"/>
-  <rect x="24.73" y="48" width="23.27" height="24.73" fill="#214098"/>
-  <rect x="48" y="48" width="24.73" height="24.73" fill="#193FAD"/>
-  <rect x="24.73" width="23.27" height="24.73" fill="#2047D7"/>
-  <rect x="48" width="24.73" height="24.73" fill="#2A54D9"/>
-  <path d="M72.73 0H78C87.94 0 96 8.06 96 18V24.73H72.73V0Z" fill="#305CE9"/>
-  <path d="M63.47 68.9V28.17H73.65C78.77 28.17 82.61 29.14 85.17 31.08C87.77 33.02 89.07 35.58 89.07 38.76C89.07 40.89 88.55 42.75 87.5 44.34C86.45 45.89 85.02 47.1 83.19 47.95C81.37 48.8 79.27 49.23 76.91 49.23L78.01 46.84C80.57 46.84 82.84 47.27 84.82 48.12C86.8 48.94 88.33 50.16 89.42 51.79C90.54 53.42 91.11 55.42 91.11 57.78C91.11 61.27 89.73 64.01 86.97 65.99C84.22 67.93 80.17 68.9 74.81 68.9H63.47ZM63.47 61.8H74.12C76.56 61.8 78.4 61.41 79.64 60.63C80.92 59.82 81.56 58.54 81.56 56.79C81.56 55.09 80.92 53.83 79.64 53.01C78.4 52.16 76.56 51.73 74.12 51.73H63.47V44.87H72.49C74.78 44.87 76.52 44.48 77.72 43.7C78.96 42.89 79.59 41.67 79.59 40.04C79.59 38.45 78.96 37.26 77.72 36.49C76.52 35.67 74.78 35.27 72.49 35.27H63.47V61.8Z" fill="white"/>
-  <path d="M51.67 28.17H61.09V68.9H51.67V28.17ZM52.36 52.2H34.18V44.17L52.36 44.23V52.2Z" fill="white"/>
-  <path d="M17.23 69.59C14.48 69.59 11.94 69.09 9.61 68.08C7.62 67.22 5.54 64.62 5.54 64.62L10.15 58.62C11.54 60 11.54 60 12.75 60.75C13.99 61.49 15.33 61.86 16.76 61.86C20.6 61.86 22.52 59.61 22.52 55.11V35.73H8.21V28.17H31.89V54.58C31.89 59.62 30.65 63.39 28.17 65.87C25.69 68.35 22.04 69.59 17.23 69.59Z" fill="white"/>
-`
-
-// Google Fonts serves single-weight Montserrat TTFs from its static CDN. resvg
-// only understands static TTFs (not woff2 or variable axes in v2.6), and we
-// only need regular + bold, so we fetch them on demand and cache them in /tmp
-// — on Vercel /tmp persists across invocations within the same function
-// instance, so this cost is paid once per cold start.
+// Geist Sans 400/600 + Geist Mono 500 from Google Fonts. resvg only loads
+// static TTFs (not woff2 / variable fonts), so we fetch them on demand and
+// cache them in /tmp — on Vercel /tmp persists across invocations within the
+// same function instance, so this cost is paid once per cold start.
 //
 // To refresh the URLs (Google re-versions the CSS API periodically):
-//   curl -sA 'Mozilla/4.0' 'https://fonts.googleapis.com/css?family=Montserrat:400,700'
-const MONTSERRAT_TTF_URLS: Record<'400' | '700', string> = {
-  '400':
-    'https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw5aX8.ttf',
-  '700':
-    'https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM73w5aX8.ttf',
+//   curl -sA 'Mozilla/4.0' 'https://fonts.googleapis.com/css?family=Geist:400,600|Geist+Mono:500'
+const FONT_URLS: Record<string, string> = {
+  'geist-400': 'https://fonts.gstatic.com/s/geist/v4/gyBhhwUxId8gMGYQMKR3pzfaWI_RnOMImpnf.ttf',
+  'geist-600': 'https://fonts.gstatic.com/s/geist/v4/gyBhhwUxId8gMGYQMKR3pzfaWI_RQuQImpnf.ttf',
+  'geistmono-500':
+    'https://fonts.gstatic.com/s/geistmono/v4/or3yQ6H-1_WfwkMZI_qYPLs1a-t7PU0AbeEPKK5U5Cw.ttf',
 }
 
 const FONT_CACHE_DIR = join(tmpdir(), 'jhb-thumbnail-fonts')
@@ -191,11 +141,11 @@ async function ensureFonts(): Promise<string[]> {
   fontPathsPromise = (async () => {
     if (!existsSync(FONT_CACHE_DIR)) mkdirSync(FONT_CACHE_DIR, { recursive: true })
     const paths: string[] = []
-    for (const [weight, url] of Object.entries(MONTSERRAT_TTF_URLS)) {
-      const p = join(FONT_CACHE_DIR, `montserrat-${weight}.ttf`)
+    for (const [name, url] of Object.entries(FONT_URLS)) {
+      const p = join(FONT_CACHE_DIR, `${name}.ttf`)
       if (!existsSync(p)) {
         const res = await fetch(url, { signal: AbortSignal.timeout(10_000) })
-        if (!res.ok) throw new Error(`Montserrat ${weight} fetch failed: ${res.status}`)
+        if (!res.ok) throw new Error(`Font ${name} fetch failed: ${res.status}`)
         writeFileSync(p, Buffer.from(await res.arrayBuffer()))
       }
       paths.push(p)
@@ -209,38 +159,14 @@ async function ensureFonts(): Promise<string[]> {
   return fontPathsPromise
 }
 
-// Pre-generate a 256×256 tileable noise PNG once; sharp composites it over the
-// rendered thumbnail with `tile: true` to reproduce the feTurbulence look that
-// resvg doesn't implement.
-let noiseTilePromise: null | Promise<Buffer> = null
-
-function getNoiseTile(): Promise<Buffer> {
-  if (noiseTilePromise) return noiseTilePromise
-  noiseTilePromise = (async () => {
-    const size = 256
-    const pixels = Buffer.alloc(size * size * 4)
-    for (let i = 0; i < pixels.length; i += 4) {
-      const keep = Math.random() < 0.2
-      pixels[i] = 255
-      pixels[i + 1] = 255
-      pixels[i + 2] = 255
-      pixels[i + 3] = keep ? Math.floor(Math.random() * 24) + 8 : 0
-    }
-    return sharp(pixels, { raw: { channels: 4, height: size, width: size } })
-      .png()
-      .toBuffer()
-  })()
-  return noiseTilePromise
-}
-
 function buildThumbnailSvg({
-  pattern,
-  preset,
+  eyebrow,
+  palette,
   subtitle,
   title,
 }: {
-  pattern: BackgroundPattern
-  preset: Preset
+  eyebrow: string
+  palette: ThemePalette
   subtitle: string
   title: string
 }): string {
@@ -248,72 +174,83 @@ function buildThumbnailSvg({
   const subtitleLines = wrapText(subtitle, 72, 2)
 
   const titleFontSize = titleLines.length > 2 ? 96 : 116
-  const titleLineHeight = Math.round(titleFontSize * 1.15)
-  const subtitleFontSize = 46
-  const subtitleLineHeight = Math.round(subtitleFontSize * 1.3)
+  const titleLineHeight = Math.round(titleFontSize * 1.05)
+  const subtitleFontSize = 44
+  const subtitleLineHeight = Math.round(subtitleFontSize * 1.4)
+  const eyebrowFontSize = 28
 
-  // Anchor text from the bottom: keep a generous gap between the subtitle and
-  // the logo regardless of how many lines the subtitle/title wrap to.
-  const logoSize = 112
-  const logoBottomMargin = 88
-  const logoY = HEIGHT - logoSize - logoBottomMargin
-  const subtitleToLogoGap = 148
-  const titleToSubtitleGap = 56
+  // Hairline frame inset from the image edges, with corner registration marks
+  // at each frame corner — mirrors <SectionFrame> + <CornerMark> on the site.
+  const frameX = FRAME_INSET
+  const frameY = FRAME_INSET
+  const frameW = WIDTH - FRAME_INSET * 2
+  const frameH = HEIGHT - FRAME_INSET * 2
+  const contentX = frameX + CONTENT_PADDING
 
-  const subtitleFirstBaseline =
-    logoY - subtitleToLogoGap - (subtitleLines.length - 1) * subtitleLineHeight
-  const titleLastBaseline = subtitleFirstBaseline - subtitleFontSize - titleToSubtitleGap
-  const titleFirstBaseline = titleLastBaseline - (titleLines.length - 1) * titleLineHeight
+  // Eyebrow sits at the top of the content area; logo anchors the bottom; the
+  // title/subtitle stack hangs from the eyebrow with generous breathing room.
+  const eyebrowBaseline = frameY + CONTENT_PADDING + eyebrowFontSize * 0.85
+  const titleFirstBaseline = eyebrowBaseline + eyebrowFontSize * 1.6 + titleFontSize * 0.85
+  const titleLastBaseline = titleFirstBaseline + (titleLines.length - 1) * titleLineHeight
+  const subtitleFirstBaseline = titleLastBaseline + subtitleFontSize * 0.6 + titleFontSize * 0.4
+
+  const logoSize = 96
+  const logoY = frameY + frameH - CONTENT_PADDING - logoSize
+  const logoX = contentX
+  const logoScale = logoSize / 96
 
   const titleTspans = titleLines
     .map(
       (line, i) =>
-        `<tspan x="${PADDING_X}" dy="${i === 0 ? 0 : titleLineHeight}">${escapeXml(line)}</tspan>`,
+        `<tspan x="${contentX}" dy="${i === 0 ? 0 : titleLineHeight}">${escapeXml(line)}</tspan>`,
     )
     .join('')
 
   const subtitleTspans = subtitleLines
     .map(
       (line, i) =>
-        `<tspan x="${PADDING_X}" dy="${i === 0 ? 0 : subtitleLineHeight}">${escapeXml(line)}</tspan>`,
+        `<tspan x="${contentX}" dy="${i === 0 ? 0 : subtitleLineHeight}">${escapeXml(line)}</tspan>`,
     )
     .join('')
 
-  const blobsLayer =
-    pattern === 'blobs'
-      ? `<g filter="url(#softBlur)">
-    <circle cx="290" cy="240" r="420" fill="${preset.accents[0]}" opacity="0.75"/>
-    <circle cx="1650" cy="820" r="520" fill="${preset.accents[1]}" opacity="0.65"/>
-    <circle cx="1150" cy="140" r="290" fill="${preset.accents[0]}" opacity="0.45"/>
-    <circle cx="830" cy="960" r="360" fill="${preset.accents[1]}" opacity="0.35"/>
-  </g>`
-      : ''
+  const eyebrowGap = Math.round(eyebrowFontSize * 0.55)
 
-  const logoX = PADDING_X - 4
-  const logoScale = logoSize / 96
+  // The `\` thread (design.md §the-`\`-thread): leading backslash always
+  // tertiary + mono, label in neutral-subtle / primary-soft mono uppercase.
+  const eyebrowSvg = `<text x="${contentX}" y="${eyebrowBaseline}" font-family="Geist Mono" font-weight="500" font-size="${eyebrowFontSize}" letter-spacing="0.12em"><tspan fill="${palette.eyebrowBackslash}">\\</tspan><tspan fill="${palette.eyebrow}" dx="${eyebrowGap}">${escapeXml(eyebrow.toUpperCase())}</tspan></text>`
+
+  const cornerMarkSize = 32
+  const cornerMarkStroke = 1.5
+  const cornerCoords: [number, number][] = [
+    [frameX, frameY],
+    [frameX + frameW, frameY],
+    [frameX, frameY + frameH],
+    [frameX + frameW, frameY + frameH],
+  ]
+  const cornerMarks = cornerCoords
+    .map(
+      ([cx, cy]) =>
+        `<g stroke="${palette.cornerMark}" stroke-width="${cornerMarkStroke}"><line x1="${cx - cornerMarkSize / 2}" y1="${cy}" x2="${cx + cornerMarkSize / 2}" y2="${cy}"/><line x1="${cx}" y1="${cy - cornerMarkSize / 2}" x2="${cx}" y2="${cy + cornerMarkSize / 2}"/></g>`,
+    )
+    .join('')
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}">
-  <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="${preset.gradient[0]}"/>
-      <stop offset="100%" stop-color="${preset.gradient[1]}"/>
-    </linearGradient>
-    <filter id="softBlur" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="225"/>
-    </filter>
-  </defs>
-  <rect width="${WIDTH}" height="${HEIGHT}" fill="url(#bg)"/>
-  ${blobsLayer}
-  <text font-family="Montserrat" font-size="${titleFontSize}" font-weight="700" fill="${preset.textColor}" y="${titleFirstBaseline}">${titleTspans}</text>
-  <text font-family="Montserrat" font-size="${subtitleFontSize}" font-weight="400" fill="${preset.subtitleColor}" y="${subtitleFirstBaseline}">${subtitleTspans}</text>
-  <g transform="translate(${logoX} ${logoY}) scale(${logoScale})">${LOGO_SVG_CONTENT}</g>
+  <rect width="${WIDTH}" height="${HEIGHT}" fill="${palette.background}"/>
+  <rect x="${frameX}" y="${frameY}" width="${frameW}" height="${frameH}" fill="none" stroke="${palette.border}" stroke-width="1"/>
+  ${cornerMarks}
+  ${eyebrowSvg}
+  <text font-family="Geist" font-size="${titleFontSize}" font-weight="600" fill="${palette.title}" y="${titleFirstBaseline}" letter-spacing="-0.025em">${titleTspans}</text>
+  <text font-family="Geist" font-size="${subtitleFontSize}" font-weight="400" fill="${palette.subtitle}" y="${subtitleFirstBaseline}">${subtitleTspans}</text>
+  <g transform="translate(${logoX} ${logoY}) scale(${logoScale})">${LOGO_INNER}</g>
 </svg>`
 }
 
 /**
- * Generates a branded article thumbnail (1920×1080 16:9 HD), uploads it to the
- * `images` collection, and optionally sets it as the `image` of an article.
+ * Generates a branded article thumbnail (1920×1080 16:9 HD) in the JHB
+ * corporate design — hairline frame, tertiary corner marks, mono `\ EYEBROW`,
+ * Geist title/subtitle, JHB mark anchored bottom-left. Uploads to the `images`
+ * collection and optionally sets it as the `image` of an article.
  *
  * Intended to be invoked by the content agent to speed up article creation.
  */
@@ -335,9 +272,10 @@ export async function generateThumbnail(req: PayloadRequest) {
   if (!subtitle) return new Response('`subtitle` is required', { status: 400 })
 
   const format: 'png' | 'webp' = body.format === 'png' ? 'png' : 'webp'
-  const useNoise = body.background?.noise !== false
-  const pattern: BackgroundPattern = body.background?.pattern === 'gradient' ? 'gradient' : 'blobs'
-  const preset = resolvePreset(body.background)
+  const theme: Theme = body.theme === 'dark' ? 'dark' : 'light'
+  const palette = PALETTES[theme]
+  const eyebrow =
+    typeof body.eyebrow === 'string' && body.eyebrow.trim() ? body.eyebrow.trim() : 'ARTICLE'
 
   // Resolve the target article before rendering so bad IDs fail fast with 404
   // and don't leave an orphan thumbnail behind. `_status` drives the draft-aware
@@ -364,25 +302,21 @@ export async function generateThumbnail(req: PayloadRequest) {
     }
   }
 
-  const svg = buildThumbnailSvg({ pattern, preset, subtitle, title })
+  const svg = buildThumbnailSvg({ eyebrow, palette, subtitle, title })
 
   let buffer: Buffer
   try {
-    const [fontPaths, noiseTile] = await Promise.all([
-      ensureFonts(),
-      useNoise ? getNoiseTile() : Promise.resolve(null),
-    ])
+    const fontPaths = await ensureFonts()
     const basePng = new Resvg(svg, {
       font: {
-        defaultFontFamily: 'Montserrat',
+        defaultFontFamily: 'Geist',
         fontFiles: fontPaths,
         loadSystemFonts: false,
       },
     })
       .render()
       .asPng()
-    let pipeline = sharp(basePng)
-    if (noiseTile) pipeline = pipeline.composite([{ blend: 'over', input: noiseTile, tile: true }])
+    const pipeline = sharp(basePng)
     buffer =
       format === 'png'
         ? await pipeline.png({ compressionLevel: 9 }).toBuffer()
