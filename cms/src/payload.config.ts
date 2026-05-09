@@ -206,28 +206,15 @@ export default buildConfig({
     {
       custom: {
         description:
-          'Generate a branded 1920x1080 article thumbnail (Montserrat typeface, matching the website) with title, subtitle and the JHB logo in the bottom-left. Backgrounds come as either `blobs` (gradient with blurred accent colors) or `gradient` (plain linear gradient), with an optional film-grain noise overlay. The image is uploaded to the `images` collection and (if `articleId` is provided) set as the article`s `image`.',
+          'Generate a branded 1920x1080 article thumbnail in the JHB corporate design (Geist typeface, hairline frame, tertiary corner marks, mono `\\ EYEBROW`, JHB mark in the bottom-left). `theme` picks the surface: `light` (default) renders white-on-primary; `dark` renders surface-on-primary-deep. The image is uploaded to the `images` collection and (if `articleId` is provided) set as the article`s `image`.',
         schema: {
           body: {
             articleId: { required: false, type: 'string' },
-            background: {
-              properties: {
-                accents: { items: { type: 'string' }, required: false, type: 'array' },
-                colors: { items: { type: 'string' }, required: false, type: 'array' },
-                noise: { required: false, type: 'boolean' },
-                pattern: { enum: ['blobs', 'gradient'], required: false, type: 'string' },
-                preset: {
-                  enum: ['blue', 'purple', 'dark', 'teal', 'sunset'],
-                  required: false,
-                  type: 'string',
-                },
-              },
-              required: false,
-              type: 'object',
-            },
+            eyebrow: { required: false, type: 'string' },
             filename: { required: false, type: 'string' },
             format: { enum: ['webp', 'png'], required: false, type: 'string' },
             subtitle: { required: true, type: 'string' },
+            theme: { enum: ['light', 'dark'], required: false, type: 'string' },
             title: { required: true, type: 'string' },
           },
           response: {
