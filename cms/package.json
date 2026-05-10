@@ -22,7 +22,7 @@
     "@ai-sdk/openai": "^3.0.63",
     "@jhb.software/payload-admin-search": "^0.3.0",
     "@jhb.software/payload-alt-text-plugin": "^0.6.0",
-    "@jhb.software/payload-chat-agent": "0.1.0-beta.5",
+    "@jhb.software/payload-chat-agent": "0.1.0-beta.6",
     "@jhb.software/payload-content-translator-plugin": "^0.2.0",
     "@jhb.software/payload-pages-plugin": "^0.8.0",
     "@jhb.software/payload-vercel-deployments": "^0.3.0",
