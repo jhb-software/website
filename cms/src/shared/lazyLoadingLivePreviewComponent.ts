@@ -5,7 +5,7 @@ export const lazyLoadingLivePreviewComponent: CollectionConfig['admin'] = {
     views: {
       edit: {
         livePreview: {
-          Component: 'src/components/LazyLoadingLivePreview.tsx',
+          Component: '@/components/LazyLoadingLivePreview.tsx',
         },
       },
     },

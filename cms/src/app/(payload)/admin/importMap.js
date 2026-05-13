@@ -34,7 +34,7 @@ import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea
 import { MetaImageComponent as MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { CustomButtonWithTranslator as CustomButtonWithTranslator_9c055d96e8729a52a1783cd1a2e94e43 } from '@jhb.software/payload-content-translator-plugin/client'
-import { default as default_5e4c3a66c7a12c89ca9d2edef6fcff8e } from 'src/components/LazyLoadingLivePreview.tsx'
+import { default as default_bfe19f1ca154c2772d271a163c48d622 } from '@/components/LazyLoadingLivePreview.tsx'
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { default as default_1b8d860059dbed4b3a90b2af97375475 } from '../../../fields/components/CopyAuthorNameToTitleField'
 import { AltTextField as AltTextField_0a0a871430f540863f89f94882312cf1 } from '@jhb.software/payload-alt-text-plugin/client'
@@ -96,7 +96,7 @@ export const importMap = {
   "@payloadcms/plugin-seo/client#MetaImageComponent": MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@jhb.software/payload-content-translator-plugin/client#CustomButtonWithTranslator": CustomButtonWithTranslator_9c055d96e8729a52a1783cd1a2e94e43,
-  "src/components/LazyLoadingLivePreview.tsx#default": default_5e4c3a66c7a12c89ca9d2edef6fcff8e,
+  "@/components/LazyLoadingLivePreview.tsx#default": default_bfe19f1ca154c2772d271a163c48d622,
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "/fields/components/CopyAuthorNameToTitleField#default": default_1b8d860059dbed4b3a90b2af97375475,
   "@jhb.software/payload-alt-text-plugin/client#AltTextField": AltTextField_0a0a871430f540863f89f94882312cf1,

@@ -33,6 +33,7 @@ export async function getRedirects(): Promise<Record<string, RedirectConfig>> {
   })
 
   const redirects = redirectsCms.docs.reduce<Record<string, RedirectConfig>>((acc, doc) => {
+    if (!doc.sourcePath || !doc.destinationPath) return acc
     acc[doc.sourcePath] = {
       destination: doc.destinationPath,
       status: doc.type === 'permanent' ? 301 : 302,

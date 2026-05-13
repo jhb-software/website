@@ -1,6 +1,5 @@
 import { PageCollectionConfig } from '@jhb.software/payload-pages-plugin'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import { BlocksFeature } from 'node_modules/@payloadcms/richtext-lexical/dist/features/blocks/server'
+import { BlocksFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 
 import CodeBlock from '@/blocks/CodeBlock'
 import { authenticated } from '@/shared/access/authenticated'

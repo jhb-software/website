@@ -41,12 +41,12 @@ const eslintConfig = defineConfig([
       'perfectionist/sort-objects': [
         'error',
         {
-          customGroups: {
-            // For the config itself: slug, dbName at the top, fields at the bottom
-            // For the fields: name and type at the top, everything else at the bottom
-            bottom: ['fields'],
-            top: ['slug', 'typescript', 'name', 'type'],
-          },
+          // For the config itself: slug, dbName at the top, fields at the bottom
+          // For the fields: name and type at the top, everything else at the bottom
+          customGroups: [
+            { elementNamePattern: '^(slug|typescript|name|type)$', groupName: 'top' },
+            { elementNamePattern: '^fields$', groupName: 'bottom' },
+          ],
           groups: ['top', 'unknown', 'bottom'],
           order: 'asc',
           partitionByNewLine: true,
@@ -64,12 +64,9 @@ const eslintConfig = defineConfig([
       'perfectionist/sort-objects': [
         'error',
         {
-          customGroups: {
-            // plugins at the bottom
-            bottom: ['plugins'],
-            top: [],
-          },
-          groups: ['top', 'unknown', 'bottom'],
+          // plugins at the bottom
+          customGroups: [{ elementNamePattern: '^plugins$', groupName: 'bottom' }],
+          groups: ['unknown', 'bottom'],
           order: 'asc',
           partitionByNewLine: true,
           type: 'natural',

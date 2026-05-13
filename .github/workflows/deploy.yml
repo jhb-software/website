@@ -65,7 +65,7 @@ jobs:
       skip_web: ${{ steps.skip.outputs.skip_web }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 2
 
@@ -117,7 +117,7 @@ jobs:
       deployment_url: ${{ steps.deploy.outputs.deployment_url }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install Vercel CLI
         run: npm install -g vercel
@@ -152,7 +152,7 @@ jobs:
       deployment_url: ${{ steps.deploy.outputs.deployment_url }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install Vercel CLI
         run: npm install -g vercel
@@ -197,7 +197,7 @@ jobs:
     if: ${{ github.event_name == 'pull_request' && needs.deploy-web.result == 'success' }}
     steps:
       - name: Find existing comment
-        uses: peter-evans/find-comment@v3
+        uses: peter-evans/find-comment@v4
         id: find-comment
         with:
           issue-number: ${{ github.event.pull_request.number }}
@@ -205,7 +205,7 @@ jobs:
           body-includes: '## Preview Deployment'
 
       - name: Create or update comment
-        uses: peter-evans/create-or-update-comment@v4
+        uses: peter-evans/create-or-update-comment@v5
         with:
           comment-id: ${{ steps.find-comment.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
