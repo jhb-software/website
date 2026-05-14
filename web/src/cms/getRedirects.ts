@@ -26,11 +26,18 @@ export async function getRedirects(): Promise<Record<string, RedirectConfig>> {
     fetch: (input, init) => fetch(input, addBypassHeader(init, bypassSecret)),
   })
 
-  const redirectsCms = await payloadSDK.find({
-    collection: 'redirects',
-    limit: 0, // query all
-    pagination: false,
-  })
+  let redirectsCms
+  try {
+    redirectsCms = await payloadSDK.find({
+      collection: 'redirects',
+      limit: 0, // query all
+      pagination: false,
+    })
+  } catch (error) {
+    // Don't break `astro check` / `astro build` when the CMS isn't reachable.
+    console.warn('[getRedirects] failed to fetch redirects, continuing without:', error)
+    return {}
+  }
 
   const redirects = redirectsCms.docs.reduce<Record<string, RedirectConfig>>((acc, doc) => {
     if (!doc.sourcePath || !doc.destinationPath) return acc
