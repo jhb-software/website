@@ -13,13 +13,13 @@
     "format:check": "prettier --check src"
   },
   "dependencies": {
-    "@astrojs/vercel": "^10.0.6",
+    "@astrojs/vercel": "^10.0.7",
     "@geist-ui/icons": "^1.0.2",
     "@jhb.software/astro-payload-richtext-lexical": "0.3.2",
     "@payloadcms/live-preview": "3.84.1",
     "@payloadcms/sdk": "3.84.1",
     "@vercel/functions": "^3.5.1",
-    "astro": "^6.3.1",
+    "astro": "^6.3.3",
     "astro-seo-schema": "^6.0.0",
     "cms": "workspace:*",
     "geist": "^1.7.0",
