@@ -18,6 +18,10 @@ Use Astro's type-safe env, never `import.meta.env` directly.
 1. Declare in `astro.config.mjs` under `env.schema`
 2. Import from `astro:env/client` or `astro:env/server`
 
+## Icon imports
+
+Always import `lucide-astro` icons via the per-icon subpath (`import CalendarDays from 'lucide-astro/CalendarDays'`) — never the barrel `from 'lucide-astro'`, which drastically slows dev reloads.
+
 ## View transitions
 
 The site uses `<ClientRouter />`, so client `<script>` tags must run on every navigation, not just initial load.
