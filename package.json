@@ -11,5 +11,14 @@
   "lint-staged": {
     "cms/src/**/*.{ts,tsx,js,jsx,json}": "pnpm --filter cms exec prettier --write",
     "web/src/**/*.{ts,tsx,js,jsx,json,astro}": "pnpm --filter web exec prettier --write"
+  },
+  "pnpm": {
+    "overrides": {
+      "path-to-regexp@<6.3.0": "^6.3.0",
+      "mongoose@<8.22.1": ">=8.22.1",
+      "yaml@<2.8.3": ">=2.8.3",
+      "postcss@<8.5.10": ">=8.5.10",
+      "uuid@<11.1.1": ">=11.1.1"
+    }
   }
 }
