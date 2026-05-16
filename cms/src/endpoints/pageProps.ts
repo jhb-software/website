@@ -77,7 +77,7 @@ export async function getPagePropsByPath(req: PayloadRequest) {
         }
 
         const jsonString = JSON.stringify(pageProps)
-        const etag = createHash('md5').update(jsonString).digest('hex')
+        const etag = createHash('sha256').update(jsonString).digest('hex')
 
         // Check if the client has a matching etag
         const ifNoneMatch = req.headers.get('if-none-match')
