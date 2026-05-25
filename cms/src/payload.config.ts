@@ -44,7 +44,7 @@ import Articles from './collections/Articles'
 import ArticleTags from './collections/ArticleTags'
 import Authors from './collections/Authors'
 import Customers from './collections/Customers'
-import { Images } from './collections/Images'
+import { generateFileURL, Images } from './collections/Images'
 import Pages from './collections/Pages'
 import Projects from './collections/Projects'
 import { Redirects } from './collections/Redirects'
@@ -303,8 +303,10 @@ export default buildConfig({
       clientUploads: true,
       collections: {
         images: {
-          // serve files directly from hetzner object storage to improve performance
+          // serve files directly from S3 object storage to improve performance.
+          // The frontend proxies these via /media/* with cache-control headers (see web/vercel.json).
           disablePayloadAccessControl: true,
+          generateFileURL,
         },
       },
       config: {
@@ -314,9 +316,6 @@ export default buildConfig({
         },
         endpoint: 'https://nbg1.your-objectstorage.com',
         region: 'nbg1',
-        // TODO: setting cache control is not (yet) supported by the s3 plugin
-        // see: https://github.com/payloadcms/payload/pull/14412
-        // cacheControl: 'public, max-age=2592000', // max age 30 days
       },
     }),
     searchPlugin({

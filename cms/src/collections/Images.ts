@@ -31,18 +31,6 @@ export const Images: CollectionConfig = {
     // Specifying a function as adminThumbnail is the only way to fall back to different sizes.
     adminThumbnail: ({ doc }) => {
       const image = doc as unknown as Image
-
-      // Workaround for Bug https://github.com/payloadcms/payload/issues/15450
-      // TODO: remove once the bug is fixed (also ensure the DB entries are updated)
-      if (image.sizes) {
-        for (const key of Object.keys(image.sizes) as (keyof typeof image.sizes)[]) {
-          const size = image.sizes[key]
-          if (size?.url?.startsWith('/api')) {
-            delete image.sizes[key]
-          }
-        }
-      }
-
       return image.sizes?.sm?.url || image.sizes?.md?.url || image.sizes?.lg?.url || image.url!
     },
     hideRemoveFile: true, // disable this feature as it is not intuitive for the user what implications it has
@@ -80,3 +68,10 @@ export const Images: CollectionConfig = {
     // the alt text and keywords fields are added by the plugin
   ],
 }
+
+/**
+ * Generates the public URL for a media file, overriding the raw S3 URL stored in the database
+ * with the URL that the frontend should use to serve the file.
+ */
+export const generateFileURL = ({ filename }: { filename: string }): string =>
+  `${process.env.NEXT_PUBLIC_FRONTEND_URL!}/media/${filename}`
