@@ -8,7 +8,7 @@ import sharp from 'sharp'
 
 type Theme = 'dark' | 'light'
 
-type GenerateThumbnailBody = {
+export type GenerateThumbnailInput = {
   /** If provided, the new image is set as the article's thumbnail. */
   articleId?: string
   /** Mono eyebrow label rendered above the title. Defaults to `ARTICLE`. */
@@ -29,6 +29,15 @@ type GenerateThumbnailBody = {
   theme?: Theme
   title: string
 }
+
+export type GenerateThumbnailResult = {
+  filename: string
+  id: string
+  linkedToArticle: string | null
+  url: string
+}
+
+type GenerateThumbnailBody = GenerateThumbnailInput
 
 type ThemePalette = {
   background: string
@@ -247,12 +256,125 @@ function buildThumbnailSvg({
 }
 
 /**
- * Generates a branded article thumbnail (1920×1080 16:9 HD) in the JHB
- * corporate design — hairline frame, tertiary corner marks, mono `\ EYEBROW`,
- * Geist title/subtitle, JHB mark anchored bottom-left. Uploads to the `images`
- * collection and optionally sets it as the `image` of an article.
+ * Core thumbnail generation logic — shared by the REST endpoint and MCP tool.
  *
- * Intended to be invoked by the content agent to speed up article creation.
+ * Throws on rendering failure. Returns `{ error, status }` for domain errors
+ * (missing article, link failure) so callers can map to their transport.
+ */
+export async function generateThumbnailCore(
+  input: GenerateThumbnailInput,
+  req: PayloadRequest,
+): Promise<
+  | GenerateThumbnailResult
+  | { error: string; image?: { filename: string; id: string; url: string }; status: number }
+> {
+  const format: 'png' | 'webp' = input.format === 'png' ? 'png' : 'webp'
+  const theme: Theme = input.theme === 'dark' ? 'dark' : 'light'
+  const palette = PALETTES[theme]
+  const eyebrow =
+    typeof input.eyebrow === 'string' && input.eyebrow.trim() ? input.eyebrow.trim() : 'ARTICLE'
+
+  // Resolve the target article before rendering so bad IDs fail fast with 404
+  // and don't leave an orphan thumbnail behind. `_status` drives the draft-aware
+  // update further down.
+  let articleStatus: 'draft' | 'published' | undefined
+  if (input.articleId) {
+    try {
+      const existing = await req.payload.findByID({
+        collection: 'articles',
+        depth: 0,
+        draft: true,
+        id: input.articleId,
+        req,
+        select: { _status: true },
+      })
+      articleStatus = existing._status ?? 'published'
+    } catch (error) {
+      req.payload.logger.warn({
+        articleId: input.articleId,
+        err: error,
+        msg: 'Article lookup failed — treating as not found',
+      })
+      return { error: `Article ${input.articleId} not found`, status: 404 }
+    }
+  }
+
+  const svg = buildThumbnailSvg({ eyebrow, palette, subtitle: input.subtitle, title: input.title })
+
+  const fontPaths = await ensureFonts()
+  const basePng = new Resvg(svg, {
+    font: {
+      defaultFontFamily: 'Geist',
+      fontFiles: fontPaths,
+      loadSystemFonts: false,
+    },
+  })
+    .render()
+    .asPng()
+  const pipeline = sharp(basePng)
+  const buffer =
+    format === 'png'
+      ? await pipeline.png({ compressionLevel: 9 }).toBuffer()
+      : await pipeline.webp({ quality: 95 }).toBuffer()
+
+  const slugify = (value: string) =>
+    value
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 60)
+  const customName = typeof input.filename === 'string' ? slugify(input.filename) : ''
+  const nameStem = customName || slugify(input.title) || 'article'
+  const filename = `${nameStem}.${format}`
+
+  const image = await req.payload.create({
+    collection: 'images',
+    data: { alt: `${input.title} — ${input.subtitle}` },
+    file: {
+      data: buffer,
+      mimetype: format === 'png' ? 'image/png' : 'image/webp',
+      name: filename,
+      size: buffer.length,
+    },
+    req,
+  })
+
+  if (input.articleId) {
+    try {
+      // Match the article's current draft/published state (resolved above)
+      // so we don't accidentally publish a pending draft.
+      await req.payload.update({
+        collection: 'articles',
+        data: { image: image.id },
+        draft: articleStatus === 'draft',
+        id: input.articleId,
+        req,
+      })
+    } catch (error) {
+      req.payload.logger.error({
+        articleId: input.articleId,
+        err: error,
+        msg: 'Thumbnail was created but linking it to the article failed',
+      })
+      return {
+        error: 'Thumbnail was created but could not be linked to the article',
+        image: { filename: image.filename!, id: String(image.id), url: image.url! },
+        status: 502,
+      }
+    }
+  }
+
+  return {
+    filename: image.filename!,
+    id: String(image.id),
+    linkedToArticle: input.articleId ?? null,
+    url: image.url!,
+  }
+}
+
+/**
+ * REST endpoint: generates a branded article thumbnail (1920×1080 16:9 HD) in
+ * the JHB corporate design. Uploads to `images` and optionally links to an article.
  */
 export async function generateThumbnail(req: PayloadRequest) {
   if (!req.user) {
@@ -271,117 +393,23 @@ export async function generateThumbnail(req: PayloadRequest) {
   if (!title) return new Response('`title` is required', { status: 400 })
   if (!subtitle) return new Response('`subtitle` is required', { status: 400 })
 
-  const format: 'png' | 'webp' = body.format === 'png' ? 'png' : 'webp'
-  const theme: Theme = body.theme === 'dark' ? 'dark' : 'light'
-  const palette = PALETTES[theme]
-  const eyebrow =
-    typeof body.eyebrow === 'string' && body.eyebrow.trim() ? body.eyebrow.trim() : 'ARTICLE'
-
-  // Resolve the target article before rendering so bad IDs fail fast with 404
-  // and don't leave an orphan thumbnail behind. `_status` drives the draft-aware
-  // update further down.
-  let articleStatus: 'draft' | 'published' | undefined
-  if (body.articleId) {
-    try {
-      const existing = await req.payload.findByID({
-        collection: 'articles',
-        depth: 0,
-        draft: true,
-        id: body.articleId,
-        req,
-        select: { _status: true },
-      })
-      articleStatus = existing._status ?? 'published'
-    } catch (error) {
-      req.payload.logger.warn({
-        articleId: body.articleId,
-        err: error,
-        msg: 'Article lookup failed — treating as not found',
-      })
-      return new Response(`Article ${body.articleId} not found`, { status: 404 })
-    }
-  }
-
-  const svg = buildThumbnailSvg({ eyebrow, palette, subtitle, title })
-
-  let buffer: Buffer
+  let result: Awaited<ReturnType<typeof generateThumbnailCore>>
   try {
-    const fontPaths = await ensureFonts()
-    const basePng = new Resvg(svg, {
-      font: {
-        defaultFontFamily: 'Geist',
-        fontFiles: fontPaths,
-        loadSystemFonts: false,
-      },
-    })
-      .render()
-      .asPng()
-    const pipeline = sharp(basePng)
-    buffer =
-      format === 'png'
-        ? await pipeline.png({ compressionLevel: 9 }).toBuffer()
-        : await pipeline.webp({ quality: 95 }).toBuffer()
+    result = await generateThumbnailCore({ ...body, subtitle, title }, req)
   } catch (error) {
     req.payload.logger.error({ err: error, msg: 'Failed to render thumbnail SVG' })
     return new Response('Failed to render thumbnail', { status: 500 })
   }
 
-  const slugify = (value: string) =>
-    value
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '')
-      .slice(0, 60)
-  const customName = typeof body.filename === 'string' ? slugify(body.filename) : ''
-  const nameStem = customName || slugify(title) || 'article'
-  const filename = `${nameStem}.${format}`
-
-  const image = await req.payload.create({
-    collection: 'images',
-    data: { alt: `${title} — ${subtitle}` },
-    file: {
-      data: buffer,
-      mimetype: format === 'png' ? 'image/png' : 'image/webp',
-      name: filename,
-      size: buffer.length,
-    },
-    req,
-  })
-
-  if (body.articleId) {
-    try {
-      // Match the article's current draft/published state (resolved above)
-      // so we don't accidentally publish a pending draft.
-      await req.payload.update({
-        collection: 'articles',
-        data: { image: image.id },
-        draft: articleStatus === 'draft',
-        id: body.articleId,
-        req,
-      })
-    } catch (error) {
-      req.payload.logger.error({
-        articleId: body.articleId,
-        err: error,
-        msg: 'Thumbnail was created but linking it to the article failed',
-      })
-      return new Response(
-        JSON.stringify({
-          error: 'Thumbnail was created but could not be linked to the article',
-          image: { filename: image.filename, id: image.id, url: image.url },
-        }),
-        { headers: { 'Content-Type': 'application/json' }, status: 502 },
-      )
-    }
+  if ('error' in result) {
+    return new Response(
+      JSON.stringify('image' in result ? { error: result.error, image: result.image } : result.error),
+      { headers: { 'Content-Type': 'application/json' }, status: result.status },
+    )
   }
 
-  return new Response(
-    JSON.stringify({
-      filename: image.filename,
-      id: image.id,
-      linkedToArticle: body.articleId ?? null,
-      url: image.url,
-    }),
-    { headers: { 'Content-Type': 'application/json' }, status: 201 },
-  )
+  return new Response(JSON.stringify(result), {
+    headers: { 'Content-Type': 'application/json' },
+    status: 201,
+  })
 }

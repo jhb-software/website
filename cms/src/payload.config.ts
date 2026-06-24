@@ -14,7 +14,7 @@ import { alternatePathsField, payloadPagesPlugin } from '@jhb.software/payload-p
 import { vercelDeploymentsPlugin } from '@jhb.software/payload-vercel-deployments'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
-import { mcpPlugin } from '@payloadcms/plugin-mcp'
+import { defineTool, mcpPlugin } from '@payloadcms/plugin-mcp'
 import { searchPlugin } from '@payloadcms/plugin-search'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { FixedToolbarFeature, lexicalEditor, LinkFeature } from '@payloadcms/richtext-lexical'
@@ -50,7 +50,7 @@ import Projects from './collections/Projects'
 import { Redirects } from './collections/Redirects'
 import Testimonials from './collections/Testimonials'
 import { Users } from './collections/Users'
-import { generateThumbnail } from './endpoints/generateThumbnail'
+import { generateThumbnail, generateThumbnailCore } from './endpoints/generateThumbnail'
 import { getGlobalData } from './endpoints/globalData'
 import { getPagePropsByPath } from './endpoints/pageProps'
 import { getSitemap } from './endpoints/sitemap'
@@ -267,6 +267,79 @@ export default buildConfig({
         footer: { enabled: true },
         header: { enabled: true },
         labels: { enabled: true },
+      },
+      tools: {
+        generateThumbnail: defineTool({
+          description:
+            'Generate a branded 1920×1080 article thumbnail in the JHB corporate design (Geist typeface, hairline frame, tertiary corner marks, mono `\\ EYEBROW`, JHB mark bottom-left). Uploads to the `images` collection and — when `articleId` is provided — sets it as the article\'s `image`. Theme `light` (default): white surface, primary title. Theme `dark`: primary-deep surface, surface title.',
+          input: {
+            properties: {
+              articleId: {
+                description: 'ID of the article to link the generated thumbnail to.',
+                type: 'string',
+              },
+              eyebrow: {
+                description: 'Mono label above the title. Defaults to "ARTICLE".',
+                type: 'string',
+              },
+              filename: {
+                description:
+                  'Custom filename stem (without extension). Sanitized to [a-z0-9-], max 60 chars. Derived from title if omitted.',
+                type: 'string',
+              },
+              format: {
+                description: 'Output format. Defaults to "webp".',
+                enum: ['webp', 'png'],
+                type: 'string',
+              },
+              subtitle: {
+                description: 'Subtitle text rendered below the title (max ~2 lines).',
+                type: 'string',
+              },
+              theme: {
+                description: 'Surface theme. Defaults to "light".',
+                enum: ['light', 'dark'],
+                type: 'string',
+              },
+              title: {
+                description: 'Main title text (max ~3 lines at large font size).',
+                type: 'string',
+              },
+            },
+            required: ['title', 'subtitle'],
+            type: 'object',
+          },
+        }).handler(async ({ input, req }) => {
+          let result: Awaited<ReturnType<typeof generateThumbnailCore>>
+          try {
+            result = await generateThumbnailCore(
+              {
+                articleId: input.articleId as string | undefined,
+                eyebrow: input.eyebrow as string | undefined,
+                filename: input.filename as string | undefined,
+                format: input.format as 'png' | 'webp' | undefined,
+                subtitle: input.subtitle as string,
+                theme: input.theme as 'dark' | 'light' | undefined,
+                title: input.title as string,
+              },
+              req,
+            )
+          } catch (error) {
+            req.payload.logger.error({ err: error, msg: 'MCP generateThumbnail: render failed' })
+            return { content: [{ text: 'Failed to render thumbnail.', type: 'text' as const }], isError: true }
+          }
+
+          if ('error' in result) {
+            return {
+              content: [{ text: result.error, type: 'text' as const }],
+              isError: true,
+            }
+          }
+
+          return {
+            content: [{ text: JSON.stringify(result), type: 'text' as const }],
+          }
+        }),
       },
     }),
     vercelDeploymentsPlugin({
