@@ -402,10 +402,11 @@ export async function generateThumbnail(req: PayloadRequest) {
   }
 
   if ('error' in result) {
-    return new Response(
-      JSON.stringify('image' in result ? { error: result.error, image: result.image } : result.error),
-      { headers: { 'Content-Type': 'application/json' }, status: result.status },
-    )
+    const body = 'image' in result ? { error: result.error, image: result.image } : result.error
+    return new Response(JSON.stringify(body), {
+      headers: { 'Content-Type': 'application/json' },
+      status: result.status,
+    })
   }
 
   return new Response(JSON.stringify(result), {
