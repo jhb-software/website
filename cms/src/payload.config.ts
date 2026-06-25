@@ -14,7 +14,7 @@ import { alternatePathsField, payloadPagesPlugin } from '@jhb.software/payload-p
 import { vercelDeploymentsPlugin } from '@jhb.software/payload-vercel-deployments'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
-import { mcpPlugin } from '@payloadcms/plugin-mcp'
+import { mcpPlugin, type MCPPluginConfig } from '@payloadcms/plugin-mcp'
 import { searchPlugin } from '@payloadcms/plugin-search'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { FixedToolbarFeature, lexicalEditor, LinkFeature } from '@payloadcms/richtext-lexical'
@@ -121,6 +121,92 @@ const generatePageURL = ({
   return path && process.env.NEXT_PUBLIC_FRONTEND_URL
     ? `${process.env.NEXT_PUBLIC_FRONTEND_URL}${preview ? '/preview' : ''}${path === '/' ? '' : path}`
     : null
+}
+
+// The plugin types tool `parameters` against zod v3 — its bundled MCP SDK peers
+// zod 3.x — while this project uses zod v4. The two zod copies are structurally
+// identical but declared in separate files, so assigning a v4 shape to the v3
+// `ZodRawShape` field makes TypeScript deep-compare the recursive `ZodType` and
+// bail with TS2589 ("excessively deep"). We build the shape with the project's
+// zod v4 (the MCP SDK runtime accepts both v3 and v4 schemas) and bridge the
+// type at the single plugin boundary below via `MCPToolParameters`.
+type MCPToolParameters = NonNullable<
+  NonNullable<MCPPluginConfig['mcp']>['tools']
+>[number]['parameters']
+
+const generateThumbnailParameters = {
+  articleId: z.string().optional().describe('ID of the article to link the thumbnail to.'),
+  eyebrow: z.string().optional().describe('Mono label above the title. Defaults to "ARTICLE".'),
+  filename: z
+    .string()
+    .optional()
+    .describe(
+      'Custom filename stem (without extension). Sanitized to [a-z0-9-], max 60 chars. Derived from title if omitted.',
+    ),
+  format: z.enum(['webp', 'png']).optional().describe('Output format. Defaults to "webp".'),
+  subtitle: z
+    .string()
+    .trim()
+    .min(1)
+    .describe('Subtitle text rendered below the title (max ~2 lines).'),
+  theme: z.enum(['light', 'dark']).optional().describe('Surface theme. Defaults to "light".'),
+  title: z.string().trim().min(1).describe('Main title text (max ~3 lines at large font size).'),
+} satisfies z.ZodRawShape
+
+// Lifted out of the `buildConfig` literal and annotated with the concrete
+// `MCPPluginConfig` type so the tool definition is type-checked directly against
+// the plugin's contract and keeps the `buildConfig` call readable.
+const mcpPluginConfig: MCPPluginConfig = {
+  collections: {
+    'article-tags': { enabled: true },
+    articles: { enabled: true },
+    authors: { enabled: true },
+    customers: { enabled: true },
+    images: { enabled: true },
+    pages: { enabled: true },
+    projects: { enabled: true },
+    testimonials: { enabled: true },
+  },
+  globals: {
+    footer: { enabled: true },
+    header: { enabled: true },
+    labels: { enabled: true },
+  },
+  mcp: {
+    tools: [
+      {
+        description:
+          "Generate a branded 1920×1080 article thumbnail in the JHB corporate design (Geist typeface, hairline frame, tertiary corner marks, mono `\\ EYEBROW`, JHB mark bottom-left). Uploads to the `images` collection and — when `articleId` is provided — sets it as the article's `image`. Theme `light` (default): white surface, primary title. Theme `dark`: primary-deep surface, surface title.",
+        handler: async (args, req) => {
+          const input = args as GenerateThumbnailInput
+          const text = (t: string) => ({ content: [{ text: t, type: 'text' as const }] })
+          let result: Awaited<ReturnType<typeof generateThumbnailCore>>
+          try {
+            result = await generateThumbnailCore(input, req)
+          } catch (error) {
+            req.payload.logger.error({
+              err: error,
+              msg: 'MCP generateThumbnail: render failed',
+            })
+            return text('Failed to render thumbnail.')
+          }
+          if ('error' in result) {
+            // On a partial failure (image uploaded but article linking failed)
+            // `result.image` carries the orphaned image's metadata so the agent
+            // can retrieve or re-link it. Preserve it instead of dropping it.
+            const payload =
+              'image' in result
+                ? { error: result.error, image: result.image }
+                : { error: result.error }
+            return text(JSON.stringify(payload))
+          }
+          return text(JSON.stringify(result))
+        },
+        name: 'generateThumbnail',
+        parameters: generateThumbnailParameters as unknown as MCPToolParameters,
+      },
+    ],
+  },
 }
 
 export default buildConfig({
@@ -257,78 +343,7 @@ export default buildConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   plugins: [
-    mcpPlugin({
-      collections: {
-        'article-tags': { enabled: true },
-        articles: { enabled: true },
-        authors: { enabled: true },
-        customers: { enabled: true },
-        images: { enabled: true },
-        pages: { enabled: true },
-        projects: { enabled: true },
-        testimonials: { enabled: true },
-      },
-      globals: {
-        footer: { enabled: true },
-        header: { enabled: true },
-        labels: { enabled: true },
-      },
-      mcp: {
-        tools: [
-          {
-            description:
-              "Generate a branded 1920×1080 article thumbnail in the JHB corporate design (Geist typeface, hairline frame, tertiary corner marks, mono `\\ EYEBROW`, JHB mark bottom-left). Uploads to the `images` collection and — when `articleId` is provided — sets it as the article's `image`. Theme `light` (default): white surface, primary title. Theme `dark`: primary-deep surface, surface title.",
-            handler: async (args, req) => {
-              const input = args as GenerateThumbnailInput
-              const text = (t: string) => ({ content: [{ text: t, type: 'text' as const }] })
-              let result: Awaited<ReturnType<typeof generateThumbnailCore>>
-              try {
-                result = await generateThumbnailCore(input, req)
-              } catch (error) {
-                req.payload.logger.error({
-                  err: error,
-                  msg: 'MCP generateThumbnail: render failed',
-                })
-                return text('Failed to render thumbnail.')
-              }
-              if ('error' in result) {
-                return text(result.error)
-              }
-              return text(JSON.stringify(result))
-            },
-            name: 'generateThumbnail',
-            parameters: {
-              articleId: z
-                .string()
-                .optional()
-                .describe('ID of the article to link the thumbnail to.'),
-              eyebrow: z
-                .string()
-                .optional()
-                .describe('Mono label above the title. Defaults to "ARTICLE".'),
-              filename: z
-                .string()
-                .optional()
-                .describe(
-                  'Custom filename stem (without extension). Sanitized to [a-z0-9-], max 60 chars. Derived from title if omitted.',
-                ),
-              format: z
-                .enum(['webp', 'png'])
-                .optional()
-                .describe('Output format. Defaults to "webp".'),
-              subtitle: z
-                .string()
-                .describe('Subtitle text rendered below the title (max ~2 lines).'),
-              theme: z
-                .enum(['light', 'dark'])
-                .optional()
-                .describe('Surface theme. Defaults to "light".'),
-              title: z.string().describe('Main title text (max ~3 lines at large font size).'),
-            },
-          },
-        ],
-      },
-    }),
+    mcpPlugin(mcpPluginConfig),
     vercelDeploymentsPlugin({
       vercel: {
         apiToken: process.env.VERCEL_API_TOKEN!,

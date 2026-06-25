@@ -37,8 +37,6 @@ export type GenerateThumbnailResult = {
   url: string
 }
 
-type GenerateThumbnailBody = GenerateThumbnailInput
-
 type ThemePalette = {
   background: string
   border: string
@@ -381,9 +379,9 @@ export async function generateThumbnail(req: PayloadRequest) {
     return new Response('Unauthorized', { status: 401 })
   }
 
-  let body: GenerateThumbnailBody
+  let body: GenerateThumbnailInput
   try {
-    body = (await req.json?.()) as GenerateThumbnailBody
+    body = (await req.json?.()) as GenerateThumbnailInput
   } catch {
     return new Response('Invalid JSON body', { status: 400 })
   }
@@ -397,12 +395,13 @@ export async function generateThumbnail(req: PayloadRequest) {
   try {
     result = await generateThumbnailCore({ ...body, subtitle, title }, req)
   } catch (error) {
-    req.payload.logger.error({ err: error, msg: 'Failed to render thumbnail SVG' })
+    req.payload.logger.error({ err: error, msg: 'generateThumbnail failed' })
     return new Response('Failed to render thumbnail', { status: 500 })
   }
 
   if ('error' in result) {
-    const body = 'image' in result ? { error: result.error, image: result.image } : result.error
+    const body =
+      'image' in result ? { error: result.error, image: result.image } : { error: result.error }
     return new Response(JSON.stringify(body), {
       headers: { 'Content-Type': 'application/json' },
       status: result.status,
