@@ -153,6 +153,18 @@ const generateThumbnailParameters = {
   title: z.string().trim().min(1).describe('Main title text (max ~3 lines at large font size).'),
 } satisfies z.ZodRawShape
 
+const getPageUrlParameters = {
+  collection: z
+    .string()
+    .describe('The page collection slug (e.g. pages, projects, articles, authors).'),
+  id: z.union([z.string(), z.number()]).describe('The document ID.'),
+  preview: z
+    .boolean()
+    .optional()
+    .default(true)
+    .describe('Whether to generate a preview URL with a token. Defaults to true.'),
+} satisfies z.ZodRawShape
+
 // Lifted out of the `buildConfig` literal and annotated with the concrete
 // `MCPPluginConfig` type so the tool definition is type-checked directly against
 // the plugin's contract and keeps the `buildConfig` call readable.
@@ -204,6 +216,60 @@ const mcpPluginConfig: MCPPluginConfig = {
         },
         name: 'generateThumbnail',
         parameters: generateThumbnailParameters as unknown as MCPToolParameters,
+      },
+      {
+        description:
+          'Resolves the frontend URL for a page document by its collection and ID. Works for both published and draft (unpublished) pages. Returns a preview URL with a token by default; set preview=false for the canonical public URL.',
+        handler: async (args, req) => {
+          const text = (t: string) => ({ content: [{ text: t, type: 'text' as const }] })
+          try {
+            const { collection, id, preview } = z.object(getPageUrlParameters).parse(args)
+
+            if (!pageCollectionsSlugs.includes(collection as PageCollectionSlugs)) {
+              return text(
+                JSON.stringify({
+                  error: `Collection "${collection}" is not a page collection. Valid: ${pageCollectionsSlugs.join(', ')}`,
+                }),
+              )
+            }
+
+            const doc = await req.payload
+              .findByID({
+                collection: collection as PageCollectionSlugs,
+                depth: 0,
+                draft: true,
+                id,
+                overrideAccess: false,
+                req,
+                select: { path: true },
+              })
+              .catch(() => null)
+
+            if (!doc) {
+              return text(JSON.stringify({ error: `No ${collection} document with id "${id}"` }))
+            }
+
+            const url = generatePageURL({
+              path: (doc as Record<string, unknown>).path as string | null,
+              preview,
+            })
+
+            if (!url) {
+              return text(JSON.stringify({ error: 'Failed to generate URL for document' }))
+            }
+
+            return text(JSON.stringify({ url }))
+          } catch (err) {
+            return text(
+              JSON.stringify({
+                details: err instanceof Error ? err.message : String(err),
+                error: 'Failed to resolve page URL',
+              }),
+            )
+          }
+        },
+        name: 'getPageUrl',
+        parameters: getPageUrlParameters as unknown as MCPToolParameters,
       },
     ],
   },
