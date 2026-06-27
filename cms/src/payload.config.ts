@@ -162,7 +162,7 @@ const getPageUrlParameters = {
     .boolean()
     .optional()
     .default(true)
-    .describe('Whether to generate a preview URL with a token. Defaults to true.'),
+    .describe('Whether to generate a preview URL. Defaults to true.'),
 } satisfies z.ZodRawShape
 
 // Lifted out of the `buildConfig` literal and annotated with the concrete
@@ -219,7 +219,7 @@ const mcpPluginConfig: MCPPluginConfig = {
       },
       {
         description:
-          'Resolves the frontend URL for a page document by its collection and ID. Works for both published and draft (unpublished) pages. Returns a preview URL with a token by default; set preview=false for the canonical public URL.',
+          'Get the frontend page URL for a page document by its collection and ID. Works for both published and draft (unpublished) pages. Returns a preview URL by default; set preview=false for the canonical public URL.',
         handler: async (args, req) => {
           const text = (t: string) => ({ content: [{ text: t, type: 'text' as const }] })
           try {
