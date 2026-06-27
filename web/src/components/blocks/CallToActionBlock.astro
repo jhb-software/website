@@ -1,0 +1,43 @@
+---
+import Heading from '@/layout/Heading.astro'
+import type { CallToActionBlock } from 'cms/src/payload-types'
+import Icon from '../icons/Icon.astro'
+import { buttonStyles } from '../Link.astro'
+
+export type Props = CallToActionBlock
+
+const { title, description, links } = Astro.props
+---
+
+<div class="max-w-prose space-y-6">
+  {
+    (title || description) && (
+      <header class="space-y-3">
+        {title && <Heading as="h3">{title}</Heading>}
+        {description && (
+          <p class="text-neutral-muted font-sans text-base leading-relaxed text-pretty">
+            {description}
+          </p>
+        )}
+      </header>
+    )
+  }
+
+  <ul class="flex flex-wrap gap-3">
+    {
+      links.map((link) => (
+        <li>
+          <a
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class:list={[buttonStyles(link.style ?? 'light')]}
+          >
+            {link.icon && <Icon name={link.icon} class="h-4 w-4" />}
+            {link.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>

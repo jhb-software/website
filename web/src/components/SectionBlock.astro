@@ -3,6 +3,7 @@ import type {
   AboutBlock as AboutBlockType,
   ArticlesBlock as ArticlesBlockType,
   AuthorsBlock as AuthorsBlockType,
+  CallToActionBlock as CallToActionBlockType,
   ContactBlock as ContactBlockType,
   CustomerLogosBlock as CustomerLogosBlockType,
   FeaturedProjectsListBlock as FeaturedProjectsListBlockType,
@@ -16,6 +17,7 @@ import type {
 import AboutBlock from './blocks/AboutBlock.astro'
 import ArticlesBlock from './blocks/ArticlesBlock.astro'
 import AuthorsListBlock from './blocks/AuthorsListBlock.astro'
+import CallToActionBlock from './blocks/CallToActionBlock.astro'
 import ContactBlock from './blocks/ContactBlock.astro'
 import CustomerLogosBlock from './blocks/CustomerLogosBlock.astro'
 import FeaturedProjectsListBlock from './blocks/FeaturedProjectsListBlock.astro'
@@ -50,6 +52,8 @@ const { blockType, ...props } = Astro.props
         return <AboutBlock {...(props as AboutBlockType)} />
       case 'philosophy':
         return <PhilosophyBlock {...(props as PhilosophyBlockType)} />
+      case 'call-to-action':
+        return <CallToActionBlock {...(props as CallToActionBlockType)} />
       case 'authors':
         return <AuthorsListBlock {...(props as AuthorsBlockType)} />
       case 'contact':

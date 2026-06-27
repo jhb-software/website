@@ -1,4 +1,5 @@
 ---
+import ApplePodcasts from './apple-podcasts.svg'
 import ArrowRight from './arrow-right.svg'
 import BarsStaggered from './bars-staggered.svg'
 import Building from './building.svg'
@@ -8,6 +9,7 @@ import ChevronRight from './chevron-right.svg'
 import Comments from './comments.svg'
 import Facebook from './facebook.svg'
 import Github from './github.svg'
+import Globe from './globe.svg'
 import Home from './home.svg'
 import Instagram from './instagram.svg'
 import LaptopCode from './laptop-code.svg'
@@ -15,6 +17,7 @@ import Laptop from './laptop.svg'
 import Linkedin from './linkedin.svg'
 import MobilePhone from './mobile-phone.svg'
 import RefreshCw from './refresh-cw.svg'
+import Spotify from './spotify.svg'
 import WhatsApp from './whatsapp.svg'
 import X from './x.svg'
 import Youtube from './youtube.svg'
@@ -33,6 +36,9 @@ type Props = {
     | 'instagram'
     | 'facebook'
     | 'youtube'
+    | 'spotify'
+    | 'apple-podcasts'
+    | 'globe'
     | 'x'
     | 'chevron-right'
     | 'chevron-down'
@@ -76,6 +82,12 @@ const { name, class: classNames = 'h-4 w-4' } = Astro.props
         return <Facebook class:list={classNames} />
       case 'youtube':
         return <Youtube class:list={classNames} />
+      case 'spotify':
+        return <Spotify class:list={classNames} />
+      case 'apple-podcasts':
+        return <ApplePodcasts class:list={classNames} />
+      case 'globe':
+        return <Globe class:list={classNames} />
       case 'x':
         return <X class:list={classNames} />
       case 'chevron-right':
