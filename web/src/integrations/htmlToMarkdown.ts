@@ -49,6 +49,37 @@ export async function convertHtmlToMarkdown(staticDir: string) {
   // Remove non-content elements that pollute the Markdown output
   td.remove(['script', 'style', 'nav', 'aside', 'header', 'footer'])
 
+  // Card components (services, projects, articles) wrap block-level content
+  // (heading + description) in a single <a>. Turndown's default link rule only
+  // handles inline content, so it emits a stray "[" before the block and a
+  // dangling "](href)" after it. Instead, link the card's first heading and
+  // keep the remaining content as normal blocks.
+  td.addRule('blockLink', {
+    filter: (node) =>
+      node.nodeName === 'A' &&
+      !!node.getAttribute('href') &&
+      // Only block-wrapping anchors — plain inline links fall through to the
+      // default rule.
+      !!node.querySelector?.('h1, h2, h3, h4, h5, h6, p, div, ul, ol, blockquote'),
+    replacement: (content, node) => {
+      const href = (node as HTMLElement).getAttribute('href') ?? ''
+      const trimmed = content.trim()
+      if (!trimmed) return ''
+
+      const headingRe = /^(#{1,6} +)(.+)$/m
+      if (headingRe.test(trimmed)) {
+        return (
+          '\n\n' +
+          trimmed.replace(headingRe, (_, hashes, text) => `${hashes}[${text.trim()}](${href})`) +
+          '\n\n'
+        )
+      }
+
+      // No heading inside the card — link the collapsed text as a fallback.
+      return `\n\n[${trimmed.replace(/\s+/g, ' ')}](${href})\n\n`
+    },
+  })
+
   if (!existsSync(staticDir)) {
     console.warn(`[html-to-markdown] Output directory not found: ${staticDir}`)
     return
@@ -65,6 +96,16 @@ export async function convertHtmlToMarkdown(staticDir: string) {
     if (!main) {
       console.log(`[html-to-markdown] Skipping ${relative(staticDir, htmlPath)} (no <main>)`)
       continue
+    }
+
+    // Strip elements that should never appear in the Markdown representation:
+    // - `.md-exclude`: explicit opt-out for UI-only affordances (e.g. the
+    //   testimonials "show more" button).
+    // - `[aria-hidden="true"]`: decorative/duplicate content already hidden
+    //   from assistive tech — marquee logo duplicates, schematic SVG visuals,
+    //   icons and eyebrow glyphs. The same reasoning applies to Markdown.
+    for (const el of main.querySelectorAll('.md-exclude, [aria-hidden="true"]')) {
+      el.remove()
     }
 
     const title = root.querySelector('title')?.text?.trim() ?? ''
