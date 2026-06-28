@@ -240,7 +240,9 @@ const mcpPluginConfig: MCPPluginConfig = {
               )
             }
 
-            const statusFilter = draft ? ['draft', 'published'] : ['published']
+            const where = draft
+              ? { id: { equals: id } }
+              : { and: [{ id: { equals: id } }, { _status: { equals: 'published' } }] }
             const result = await req.payload
               .find({
                 collection: collection as PageCollectionSlugs,
@@ -249,9 +251,7 @@ const mcpPluginConfig: MCPPluginConfig = {
                 overrideAccess: false,
                 req,
                 select: { path: true },
-                where: {
-                  and: [{ id: { equals: id } }, { _status: { in: statusFilter } }],
-                },
+                where,
               })
               .catch(() => null)
             const doc = result?.docs?.[0] ?? null
