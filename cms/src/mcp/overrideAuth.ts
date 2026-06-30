@@ -1,13 +1,8 @@
-import crypto from 'crypto'
-
 import type { MCPAccessSettings } from '@payloadcms/plugin-mcp'
+
+import crypto from 'crypto'
 import { type PayloadRequest, type TypedUser, UnauthorizedError } from 'payload'
 
-/**
- * Replicates the MCP plugin's default API-key authentication and additionally
- * sets req.user so that custom MCP tool handlers can call payload.find() with
- * overrideAccess: false and still pass collection access control checks.
- */
 export async function mcpOverrideAuth(
   req: PayloadRequest,
   getDefaultMcpAccessSettings: () => Promise<MCPAccessSettings>,

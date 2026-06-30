@@ -177,7 +177,6 @@ const getPageUrlParameters = {
 // `MCPPluginConfig` type so the tool definition is type-checked directly against
 // the plugin's contract and keeps the `buildConfig` call readable.
 const mcpPluginConfig: MCPPluginConfig = {
-  overrideAuth: (req, getDefault) => mcpOverrideAuth(req, getDefault),
   collections: {
     'article-tags': { enabled: true },
     articles: { enabled: true },
@@ -286,6 +285,7 @@ const mcpPluginConfig: MCPPluginConfig = {
       },
     ],
   },
+  overrideAuth: (req, getDefault) => mcpOverrideAuth(req, getDefault),
 }
 
 export default buildConfig({
