@@ -2,6 +2,7 @@
 import ArticleTagsList from '@/components/ArticleTagsList.astro'
 import RichTextBlock from '@/components/blocks/RichTextBlock/RichTextBlock.astro'
 import BreadcrumbsBlock from '@/components/Breadcrumbs.astro'
+import Img from '@/components/Img.astro'
 import TableOfContents from '@/components/TableOfContents.astro'
 import MetaField from '@/layout/MetaField.astro'
 import MetaStrip from '@/layout/MetaStrip.astro'
@@ -63,14 +64,14 @@ const updatedLabel = new Date(article.updatedAt).toLocaleDateString(locale, {
     {
       authors.length > 0 && (
         <div class="flex items-center gap-3">
-          <div class="flex flex-shrink-0 -space-x-2">
+          <div class="flex shrink-0 -space-x-2">
             {authors.map(
               (author) =>
                 typeof author.photo === 'object' && (
                   <Img
                     image={author.photo}
                     size="sm"
-                    class="border-surface aspect-square !h-9 !w-9 rounded-full border-2 object-cover"
+                    class="border-surface aspect-square h-9! w-9! rounded-full border-2 object-cover"
                   />
                 ),
             )}
@@ -99,7 +100,7 @@ const updatedLabel = new Date(article.updatedAt).toLocaleDateString(locale, {
 
     {
       article.tags && article.tags.length > 0 && (
-        <MetaField label={labels.articles.tags} class="!gap-1.5 md:ml-auto">
+        <MetaField label={labels.articles.tags} class="gap-1.5! md:ml-auto">
           <ArticleTagsList tags={article.tags} />
         </MetaField>
       )
@@ -121,7 +122,7 @@ const updatedLabel = new Date(article.updatedAt).toLocaleDateString(locale, {
 
     {
       headings.length > 0 && (
-        <aside class="hidden w-64 flex-shrink-0 xl:block">
+        <aside class="hidden w-64 shrink-0 xl:block">
           <TableOfContents headings={headings} />
         </aside>
       )
