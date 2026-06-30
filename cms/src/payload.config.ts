@@ -63,6 +63,7 @@ import { getStaticPagesProps } from './endpoints/staticPages'
 import Footer from './globals/Footer'
 import Header from './globals/Header'
 import Labels from './globals/Labels'
+import { mcpOverrideAuth } from './mcp/overrideAuth'
 import { authenticated } from './shared/access/authenticated'
 import { CollectionGroups } from './shared/CollectionGroups'
 import { customTranslations } from './shared/customTranslations'
@@ -157,6 +158,13 @@ const getPageUrlParameters = {
   collection: z
     .string()
     .describe('The page collection slug (e.g. pages, projects, articles, authors).'),
+  draft: z
+    .boolean()
+    .optional()
+    .default(true)
+    .describe(
+      'Whether to query the draft version of the document. Set to false to query only published documents. Defaults to true.',
+    ),
   id: z.union([z.string(), z.number()]).describe('The document ID.'),
   preview: z
     .boolean()
@@ -169,6 +177,7 @@ const getPageUrlParameters = {
 // `MCPPluginConfig` type so the tool definition is type-checked directly against
 // the plugin's contract and keeps the `buildConfig` call readable.
 const mcpPluginConfig: MCPPluginConfig = {
+  overrideAuth: (req, getDefault) => mcpOverrideAuth(req, getDefault),
   collections: {
     'article-tags': { enabled: true },
     articles: { enabled: true },
@@ -219,11 +228,11 @@ const mcpPluginConfig: MCPPluginConfig = {
       },
       {
         description:
-          'Get the frontend page URL for a page document by its collection and ID. Works for both published and draft (unpublished) pages. Returns a preview URL by default; set preview=false for the canonical public URL.',
+          'Get the frontend page URL for a page document by its collection and ID. Works for both published and draft (unpublished) pages. Returns a preview URL by default; set preview=false for the canonical public URL. Set draft=false to query only published documents.',
         handler: async (args, req) => {
           const text = (t: string) => ({ content: [{ text: t, type: 'text' as const }] })
           try {
-            const { collection, id, preview } = z.object(getPageUrlParameters).parse(args)
+            const { collection, draft, id, preview } = z.object(getPageUrlParameters).parse(args)
 
             if (!pageCollectionsSlugs.includes(collection as PageCollectionSlugs)) {
               return text(
@@ -233,17 +242,21 @@ const mcpPluginConfig: MCPPluginConfig = {
               )
             }
 
-            const doc = await req.payload
-              .findByID({
+            const statusFilter = draft ? ['draft', 'published'] : ['published']
+            const result = await req.payload
+              .find({
                 collection: collection as PageCollectionSlugs,
                 depth: 0,
-                draft: true,
-                id,
+                draft,
                 overrideAccess: false,
                 req,
                 select: { path: true },
+                where: {
+                  and: [{ id: { equals: id } }, { _status: { in: statusFilter } }],
+                },
               })
               .catch(() => null)
+            const doc = result?.docs?.[0] ?? null
 
             if (!doc) {
               return text(JSON.stringify({ error: `No ${collection} document with id "${id}"` }))
