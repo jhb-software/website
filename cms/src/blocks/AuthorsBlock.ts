@@ -25,17 +25,20 @@ export const AuthorsBlock: Block = {
       hasMany: true,
       hooks: {
         afterRead: [
-          async ({ req: { payload } }) => {
-            const authors = await payload.find({
+          async ({ draft, req }) => {
+            const statusFilter = draft ? ['draft', 'published'] : ['published']
+            const authors = await req.payload.find({
               collection: 'authors',
+              draft,
               limit: 100,
+              req,
               select: {
                 // only select the id
               },
               sort: 'createdAt',
               where: {
                 _status: {
-                  equals: 'published',
+                  in: statusFilter,
                 },
               },
             })

@@ -25,16 +25,19 @@ export const ProjectsListBlock: Block = {
       hasMany: true,
       hooks: {
         afterRead: [
-          async ({ req: { payload } }) => {
-            const projects = await payload.find({
+          async ({ draft, req }) => {
+            const statusFilter = draft ? ['draft', 'published'] : ['published']
+            const projects = await req.payload.find({
               collection: 'projects',
+              draft,
               limit: 100,
+              req,
               select: {
                 // only select the id
               },
               where: {
                 _status: {
-                  equals: 'published',
+                  in: statusFilter,
                 },
                 featured: {
                   not_equals: true,
