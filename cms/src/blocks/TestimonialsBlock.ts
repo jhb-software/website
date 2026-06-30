@@ -26,7 +26,6 @@ export const TestimonialsBlock: Block = {
       hooks: {
         afterRead: [
           async ({ draft, req }) => {
-            const statusFilter = draft ? ['draft', 'published'] : ['published']
             const testimonials = await req.payload.find({
               collection: 'testimonials',
               draft,
@@ -38,7 +37,7 @@ export const TestimonialsBlock: Block = {
               sort: '_order',
               where: {
                 _status: {
-                  in: statusFilter,
+                  in: draft ? ['draft', 'published'] : ['published'],
                 },
               },
             })

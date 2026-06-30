@@ -26,7 +26,6 @@ export const ProjectsListBlock: Block = {
       hooks: {
         afterRead: [
           async ({ draft, req }) => {
-            const statusFilter = draft ? ['draft', 'published'] : ['published']
             const projects = await req.payload.find({
               collection: 'projects',
               draft,
@@ -37,7 +36,7 @@ export const ProjectsListBlock: Block = {
               },
               where: {
                 _status: {
-                  in: statusFilter,
+                  in: draft ? ['draft', 'published'] : ['published'],
                 },
                 featured: {
                   not_equals: true,

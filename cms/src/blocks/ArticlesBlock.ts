@@ -26,7 +26,6 @@ export const ArticlesBlock: Block = {
       hooks: {
         afterRead: [
           async ({ draft, req }) => {
-            const statusFilter = draft ? ['draft', 'published'] : ['published']
             const articles = await req.payload.find({
               collection: 'articles',
               draft,
@@ -38,7 +37,7 @@ export const ArticlesBlock: Block = {
               sort: 'createdAt',
               where: {
                 _status: {
-                  in: statusFilter,
+                  in: draft ? ['draft', 'published'] : ['published'],
                 },
               },
             })
