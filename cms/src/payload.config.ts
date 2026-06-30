@@ -64,6 +64,7 @@ import Footer from './globals/Footer'
 import Header from './globals/Header'
 import Labels from './globals/Labels'
 import { mcpOverrideAuth } from './mcp/overrideAuth'
+import { listResources, readResource } from './mcp/resources'
 import { authenticated } from './shared/access/authenticated'
 import { CollectionGroups } from './shared/CollectionGroups'
 import { customTranslations } from './shared/customTranslations'
@@ -171,6 +172,15 @@ const getPageUrlParameters = {
     .optional()
     .default(true)
     .describe('Whether to generate a preview URL. Defaults to true.'),
+} satisfies z.ZodRawShape
+
+const getResourcesParameters = {
+  slug: z
+    .string()
+    .optional()
+    .describe(
+      'Slug of a single resource (the markdown filename without its `.md` extension). Omit to list all available resources.',
+    ),
 } satisfies z.ZodRawShape
 
 // Lifted out of the `buildConfig` literal and annotated with the concrete
@@ -282,6 +292,47 @@ const mcpPluginConfig: MCPPluginConfig = {
         },
         name: 'getPageUrl',
         parameters: getPageUrlParameters as unknown as MCPToolParameters,
+      },
+      // The MCP spec has a native "resources" primitive, and this plugin's server
+      // exposes it — but claude.ai (a primary client here) only supports MCP *tools*,
+      // not resources. So we surface our markdown resources through this custom tool
+      // instead. The files live in `cms/resources/` (see `./mcp/resources.ts`), which
+      // keeps them available in Git and over MCP from a single source.
+      {
+        description:
+          'Read project resources stored as markdown (e.g. the writing style & tonality guide). Without a `slug`, returns the list of available resources as JSON (`{ slug, title, description }`). With a `slug`, returns the full markdown content of that resource.',
+        handler: async (args) => {
+          const text = (t: string) => ({ content: [{ text: t, type: 'text' as const }] })
+          try {
+            const { slug } = z.object(getResourcesParameters).parse(args)
+
+            if (slug === undefined) {
+              return text(JSON.stringify(await listResources()))
+            }
+
+            const resource = await readResource(slug)
+            if (!resource) {
+              const available = await listResources()
+              return text(
+                JSON.stringify({
+                  availableSlugs: available.map((r) => r.slug),
+                  error: `No resource with slug "${slug}".`,
+                }),
+              )
+            }
+
+            return text(resource.content)
+          } catch (err) {
+            return text(
+              JSON.stringify({
+                details: err instanceof Error ? err.message : String(err),
+                error: 'Failed to read resource',
+              }),
+            )
+          }
+        },
+        name: 'getResources',
+        parameters: getResourcesParameters as unknown as MCPToolParameters,
       },
     ],
   },
