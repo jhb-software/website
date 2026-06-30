@@ -2,7 +2,6 @@
 import ArticleTagsList from '@/components/ArticleTagsList.astro'
 import RichTextBlock from '@/components/blocks/RichTextBlock/RichTextBlock.astro'
 import BreadcrumbsBlock from '@/components/Breadcrumbs.astro'
-import Img from '@/components/Img.astro'
 import TableOfContents from '@/components/TableOfContents.astro'
 import MetaField from '@/layout/MetaField.astro'
 import MetaStrip from '@/layout/MetaStrip.astro'
@@ -44,35 +43,18 @@ const updatedLabel = new Date(article.updatedAt).toLocaleDateString(locale, {
 <SectionShell class="pt-8 pb-24 md:pt-12">
   {breadcrumbs && <BreadcrumbsBlock crumbs={breadcrumbs} />}
 
-  <header
-    class="mt-3 grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,320px)] md:items-start md:gap-12"
-  >
-    <div class="space-y-5">
-      <h1
-        class="text-primary font-sans text-2xl font-semibold tracking-tight text-balance md:text-4xl"
-      >
-        {article.title}
-      </h1>
-
-      {
-        article.excerpt && (
-          <p class="text-neutral-muted font-sans text-base leading-[1.55] text-balance md:text-lg">
-            {article.excerpt}
-          </p>
-        )
-      }
-    </div>
+  <header class="mt-3 space-y-5">
+    <h1
+      class="text-primary font-sans text-2xl font-semibold tracking-tight text-balance md:text-4xl"
+    >
+      {article.title}
+    </h1>
 
     {
-      typeof article.image === 'object' && (
-        <div class="border-border-strong overflow-hidden border md:mt-1">
-          <Img
-            image={article.image}
-            size="md"
-            class="block aspect-[4/3] h-full w-full object-cover"
-            fetchpriority="high"
-          />
-        </div>
+      article.excerpt && (
+        <p class="text-neutral-muted font-sans text-base leading-[1.55] text-balance md:text-lg">
+          {article.excerpt}
+        </p>
       )
     }
   </header>
