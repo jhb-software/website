@@ -1,5 +1,4 @@
 ---
-import { getPageData } from '@/cms/getPageData'
 import type { Locale } from '@/cms/types'
 import LivePreviewRefreshPageScript from '@/components/LivePreviewRefreshPageScript.astro'
 import PreviewAdminToolbar from '@/components/PreviewAdminToolbar.astro'
@@ -13,19 +12,20 @@ import ProjectLayout from './ProjectLayout.astro'
 
 type Props = {
   pageProps: PageProps
+  // The page data is fetched in the page route's frontmatter (not here) so that a CMS error is
+  // thrown before the SSR response starts streaming. Otherwise Astro can no longer switch to the
+  // custom 500 page and the visitor gets a blank page with HTTP 200.
+  pageData: Page | Project | Article | Author
   locale: Locale
   preview?: boolean
 }
 
 const {
-  pageProps: { collection, id },
+  pageProps: { collection },
+  pageData,
   locale,
   preview,
 } = Astro.props
-
-const pageData = await getPageData<Page | Project | Article | Author>(collection, id, locale, {
-  preview,
-})
 ---
 
 <Layout lang={locale!} meta={pageData.meta}>

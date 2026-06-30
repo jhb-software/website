@@ -1,5 +1,7 @@
 ---
+import { getPageData } from '@/cms/getPageData'
 import CollectionLayout from '@/layout/collections/CollectionLayout.astro'
+import type { Article, Author, Page, Project } from 'cms/src/payload-types'
 import { getStaticPaths as getStaticPathsCms } from '../../cms/getStaticPaths'
 import { locales } from '../../cms/locales'
 import type { Locale } from '../../cms/types'
@@ -15,6 +17,13 @@ if (!locales.includes(lang!)) {
   return Astro.redirect(Astro.url.pathname, 404)
 }
 const locale = lang as Locale
+
+const pageData = await getPageData<Page | Project | Article | Author>(
+  props.collection,
+  props.id,
+  locale,
+  { preview: false },
+)
 ---
 
-<CollectionLayout pageProps={props} preview={false} locale={locale} />
+<CollectionLayout pageProps={props} pageData={pageData} preview={false} locale={locale} />
