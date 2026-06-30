@@ -1,3 +1,8 @@
+---
+title: Writing Style & Tonality Guide
+description: Voice, structure, formatting, linking and SEO rules for JHB Software articles (en/de).
+---
+
 # Writing Style & Tonality Guide — JHB Software Articles
 
 For articles in the `articles` collection, in both `en` and `de`.
