@@ -17,7 +17,7 @@ import { resendAdapter } from '@payloadcms/email-resend'
 import { mcpPlugin, type MCPPluginConfig } from '@payloadcms/plugin-mcp'
 import { searchPlugin } from '@payloadcms/plugin-search'
 import { seoPlugin } from '@payloadcms/plugin-seo'
-import { FixedToolbarFeature, lexicalEditor, LinkFeature } from '@payloadcms/richtext-lexical'
+import { FixedToolbarFeature, LinkFeature } from '@payloadcms/richtext-lexical'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { de } from '@payloadcms/translations/languages/de'
 import { en } from '@payloadcms/translations/languages/en'
@@ -63,9 +63,14 @@ import { getStaticPagesProps } from './endpoints/staticPages'
 import Footer from './globals/Footer'
 import Header from './globals/Header'
 import Labels from './globals/Labels'
+import { mcpOverrideAuth } from './mcp/overrideAuth'
+import { listResources, readResource } from './mcp/resources'
+import { updateRichTextTool } from './mcp/tools/updateRichText'
 import { authenticated } from './shared/access/authenticated'
 import { CollectionGroups } from './shared/CollectionGroups'
 import { customTranslations } from './shared/customTranslations'
+import { DIFF_COMPONENT_PATH } from './shared/lexical/diffComponentPath'
+import { lexicalEditorWithBlockDiff } from './shared/lexical/plugin'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -157,12 +162,28 @@ const getPageUrlParameters = {
   collection: z
     .string()
     .describe('The page collection slug (e.g. pages, projects, articles, authors).'),
+  draft: z
+    .boolean()
+    .optional()
+    .default(true)
+    .describe(
+      'Whether to query the draft version of the document. Set to false to query only published documents. Defaults to true.',
+    ),
   id: z.union([z.string(), z.number()]).describe('The document ID.'),
   preview: z
     .boolean()
     .optional()
     .default(true)
     .describe('Whether to generate a preview URL. Defaults to true.'),
+} satisfies z.ZodRawShape
+
+const getResourcesParameters = {
+  slug: z
+    .string()
+    .optional()
+    .describe(
+      'Slug of a single resource (the markdown filename without its `.md` extension). Omit to list all available resources.',
+    ),
 } satisfies z.ZodRawShape
 
 // Lifted out of the `buildConfig` literal and annotated with the concrete
@@ -219,11 +240,11 @@ const mcpPluginConfig: MCPPluginConfig = {
       },
       {
         description:
-          'Get the frontend page URL for a page document by its collection and ID. Works for both published and draft (unpublished) pages. Returns a preview URL by default; set preview=false for the canonical public URL.',
+          'Get the frontend page URL for a page document by its collection and ID. Works for both published and draft (unpublished) pages. Returns a preview URL by default; set preview=false for the canonical public URL. Set draft=false to query only published documents.',
         handler: async (args, req) => {
           const text = (t: string) => ({ content: [{ text: t, type: 'text' as const }] })
           try {
-            const { collection, id, preview } = z.object(getPageUrlParameters).parse(args)
+            const { collection, draft, id, preview } = z.object(getPageUrlParameters).parse(args)
 
             if (!pageCollectionsSlugs.includes(collection as PageCollectionSlugs)) {
               return text(
@@ -233,17 +254,21 @@ const mcpPluginConfig: MCPPluginConfig = {
               )
             }
 
-            const doc = await req.payload
-              .findByID({
+            const statusFilter = draft ? ['draft', 'published'] : ['published']
+            const result = await req.payload
+              .find({
                 collection: collection as PageCollectionSlugs,
                 depth: 0,
-                draft: true,
-                id,
+                draft,
                 overrideAccess: false,
                 req,
                 select: { path: true },
+                where: {
+                  and: [{ id: { equals: id } }, { _status: { in: statusFilter } }],
+                },
               })
               .catch(() => null)
+            const doc = result?.docs?.[0] ?? null
 
             if (!doc) {
               return text(JSON.stringify({ error: `No ${collection} document with id "${id}"` }))
@@ -271,8 +296,54 @@ const mcpPluginConfig: MCPPluginConfig = {
         name: 'getPageUrl',
         parameters: getPageUrlParameters as unknown as MCPToolParameters,
       },
+      // The MCP spec has a native "resources" primitive, and this plugin's server
+      // exposes it — but claude.ai (a primary client here) only supports MCP *tools*,
+      // not resources. So we surface our markdown resources through this custom tool
+      // instead. The files live in `cms/resources/` (see `./mcp/resources.ts`), which
+      // keeps them available in Git and over MCP from a single source.
+      {
+        description:
+          'Read project resources stored as markdown (e.g. the writing style & tonality guide). Without a `slug`, returns the list of available resources as JSON (`{ slug, title, description }`). With a `slug`, returns the full markdown content of that resource.',
+        handler: async (args) => {
+          const text = (t: string) => ({ content: [{ text: t, type: 'text' as const }] })
+          try {
+            const { slug } = z.object(getResourcesParameters).parse(args)
+
+            if (slug === undefined) {
+              return text(JSON.stringify(await listResources()))
+            }
+
+            const resource = await readResource(slug)
+            if (!resource) {
+              const available = await listResources()
+              return text(
+                JSON.stringify({
+                  availableSlugs: available.map((r) => r.slug),
+                  error: `No resource with slug "${slug}".`,
+                }),
+              )
+            }
+
+            return text(resource.content)
+          } catch (err) {
+            return text(
+              JSON.stringify({
+                details: err instanceof Error ? err.message : String(err),
+                error: 'Failed to read resource',
+              }),
+            )
+          }
+        },
+        name: 'getResources',
+        parameters: getResourcesParameters as unknown as MCPToolParameters,
+      },
+      {
+        ...updateRichTextTool,
+        parameters: updateRichTextTool.parameters as unknown as MCPToolParameters,
+      },
     ],
   },
+  overrideAuth: (req, getDefault) => mcpOverrideAuth(req, getDefault),
 }
 
 export default buildConfig({
@@ -327,13 +398,16 @@ export default buildConfig({
     allowIDOnCreate: true,
     url: process.env.MONGODB_URI!,
   }),
-  editor: lexicalEditor({
-    features: ({ defaultFeatures }) => [
-      ...defaultFeatures.filter((feature) => feature.key !== 'relationship'),
-      FixedToolbarFeature(),
-      LinkFeature({ enabledCollections: pageCollectionsSlugs }),
-    ],
-  }),
+  editor: lexicalEditorWithBlockDiff(
+    {
+      features: ({ defaultFeatures }) => [
+        ...defaultFeatures.filter((feature) => feature.key !== 'relationship'),
+        FixedToolbarFeature(),
+        LinkFeature({ enabledCollections: pageCollectionsSlugs }),
+      ],
+    },
+    { diffComponentPath: DIFF_COMPONENT_PATH },
+  ),
   email: resendAdapter({
     apiKey: process.env.RESEND_API_KEY!,
     defaultFromAddress: 'cms@jhb.software',

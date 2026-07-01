@@ -44,35 +44,18 @@ const updatedLabel = new Date(article.updatedAt).toLocaleDateString(locale, {
 <SectionShell class="pt-8 pb-24 md:pt-12">
   {breadcrumbs && <BreadcrumbsBlock crumbs={breadcrumbs} />}
 
-  <header
-    class="mt-3 grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,320px)] md:items-start md:gap-12"
-  >
-    <div class="space-y-5">
-      <h1
-        class="text-primary font-sans text-2xl font-semibold tracking-tight text-balance md:text-4xl"
-      >
-        {article.title}
-      </h1>
-
-      {
-        article.excerpt && (
-          <p class="text-neutral-muted font-sans text-base leading-[1.55] text-balance md:text-lg">
-            {article.excerpt}
-          </p>
-        )
-      }
-    </div>
+  <header class="mt-3 space-y-5">
+    <h1
+      class="text-primary font-sans text-2xl font-semibold tracking-tight text-balance md:text-4xl"
+    >
+      {article.title}
+    </h1>
 
     {
-      typeof article.image === 'object' && (
-        <div class="border-border-strong overflow-hidden border md:mt-1">
-          <Img
-            image={article.image}
-            size="md"
-            class="block aspect-[4/3] h-full w-full object-cover"
-            fetchpriority="high"
-          />
-        </div>
+      article.excerpt && (
+        <p class="text-neutral-muted font-sans text-base leading-[1.55] text-balance md:text-lg">
+          {article.excerpt}
+        </p>
       )
     }
   </header>
@@ -81,14 +64,14 @@ const updatedLabel = new Date(article.updatedAt).toLocaleDateString(locale, {
     {
       authors.length > 0 && (
         <div class="flex items-center gap-3">
-          <div class="flex flex-shrink-0 -space-x-2">
+          <div class="flex shrink-0 -space-x-2">
             {authors.map(
               (author) =>
                 typeof author.photo === 'object' && (
                   <Img
                     image={author.photo}
                     size="sm"
-                    class="border-surface aspect-square !h-9 !w-9 rounded-full border-2 object-cover"
+                    class="border-surface aspect-square h-9! w-9! rounded-full border-2 object-cover"
                   />
                 ),
             )}
@@ -117,7 +100,7 @@ const updatedLabel = new Date(article.updatedAt).toLocaleDateString(locale, {
 
     {
       article.tags && article.tags.length > 0 && (
-        <MetaField label={labels.articles.tags} class="!gap-1.5 md:ml-auto">
+        <MetaField label={labels.articles.tags} class="gap-1.5! md:ml-auto">
           <ArticleTagsList tags={article.tags} />
         </MetaField>
       )
@@ -139,7 +122,7 @@ const updatedLabel = new Date(article.updatedAt).toLocaleDateString(locale, {
 
     {
       headings.length > 0 && (
-        <aside class="hidden w-64 flex-shrink-0 xl:block">
+        <aside class="hidden w-64 shrink-0 xl:block">
           <TableOfContents headings={headings} />
         </aside>
       )

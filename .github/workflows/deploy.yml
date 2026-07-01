@@ -74,8 +74,9 @@ jobs:
 
       - name: Check for skip tags
         id: skip
+        env:
+          COMMIT_MSG: ${{ github.event.head_commit.message || github.event.pull_request.title || '' }}
         run: |
-          COMMIT_MSG="${{ github.event.head_commit.message || github.event.pull_request.title || '' }}"
           echo "skip_cms=$([[ "$COMMIT_MSG" == *"[skip-cms]"* ]] && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
           echo "skip_web=$([[ "$COMMIT_MSG" == *"[skip-web]"* ]] && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
 

@@ -10,6 +10,9 @@ overrides:
   postcss@<8.5.10: '>=8.5.10'
   qs@<6.15.2: '>=6.15.2'
 
+patchedDependencies:
+  '@payloadcms/plugin-mcp@3.85.0': 4b1ff73515e2010a36f624ecd307c336f364aa949bbd33f8014c16ff8e96ac35
+
 importers:
 
   .:
@@ -61,7 +64,7 @@ importers:
         version: 3.85.0(@types/react@19.2.14)(monaco-editor@0.52.2)(next@16.2.6(@babel/core@7.29.0)(@opentelemetry/api@1.9.1)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(sass@1.77.4))(payload@3.85.0(graphql@16.14.0)(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)
       '@payloadcms/plugin-mcp':
         specifier: 3.85.0
-        version: 3.85.0(next@16.2.6(@babel/core@7.29.0)(@opentelemetry/api@1.9.1)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(sass@1.77.4))(payload@3.85.0(graphql@16.14.0)(typescript@6.0.3))
+        version: 3.85.0(patch_hash=4b1ff73515e2010a36f624ecd307c336f364aa949bbd33f8014c16ff8e96ac35)(next@16.2.6(@babel/core@7.29.0)(@opentelemetry/api@1.9.1)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(sass@1.77.4))(payload@3.85.0(graphql@16.14.0)(typescript@6.0.3))
       '@payloadcms/plugin-search':
         specifier: 3.85.0
         version: 3.85.0(@types/react@19.2.14)(graphql@16.14.0)(monaco-editor@0.52.2)(next@16.2.6(@babel/core@7.29.0)(@opentelemetry/api@1.9.1)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(sass@1.77.4))(payload@3.85.0(graphql@16.14.0)(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)
@@ -7736,7 +7739,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@payloadcms/plugin-mcp@3.85.0(next@16.2.6(@babel/core@7.29.0)(@opentelemetry/api@1.9.1)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(sass@1.77.4))(payload@3.85.0(graphql@16.14.0)(typescript@6.0.3))':
+  '@payloadcms/plugin-mcp@3.85.0(patch_hash=4b1ff73515e2010a36f624ecd307c336f364aa949bbd33f8014c16ff8e96ac35)(next@16.2.6(@babel/core@7.29.0)(@opentelemetry/api@1.9.1)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(sass@1.77.4))(payload@3.85.0(graphql@16.14.0)(typescript@6.0.3))':
     dependencies:
       '@modelcontextprotocol/sdk': 1.27.1(zod@3.25.76)
       '@types/json-schema': 7.0.15

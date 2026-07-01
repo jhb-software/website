@@ -1,11 +1,13 @@
 import { PageCollectionConfig } from '@jhb.software/payload-pages-plugin'
-import { BlocksFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
+import { BlocksFeature } from '@payloadcms/richtext-lexical'
 
 import CodeBlock from '@/blocks/CodeBlock'
 import { authenticated } from '@/shared/access/authenticated'
 import { CollectionGroups } from '@/shared/CollectionGroups'
 import { restrictMcpToDraft } from '@/shared/hooks/restrictMcpToDraft'
 import { lazyLoadingLivePreviewComponent } from '@/shared/lazyLoadingLivePreviewComponent'
+import { DIFF_COMPONENT_PATH } from '@/shared/lexical/diffComponentPath'
+import { lexicalEditorWithBlockDiff } from '@/shared/lexical/plugin'
 
 const Articles: PageCollectionConfig = {
   slug: 'articles',
@@ -113,14 +115,17 @@ const Articles: PageCollectionConfig = {
     {
       name: 'content',
       type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => [
-          ...rootFeatures,
-          BlocksFeature({
-            blocks: [CodeBlock],
-          }),
-        ],
-      }),
+      editor: lexicalEditorWithBlockDiff(
+        {
+          features: ({ rootFeatures }) => [
+            ...rootFeatures,
+            BlocksFeature({
+              blocks: [CodeBlock],
+            }),
+          ],
+        },
+        { diffComponentPath: DIFF_COMPONENT_PATH },
+      ),
       label: {
         de: 'Inhalt',
         en: 'Content',

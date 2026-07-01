@@ -25,18 +25,19 @@ export const TestimonialsBlock: Block = {
       hasMany: true,
       hooks: {
         afterRead: [
-          async ({ req: { payload } }) => {
-            const testimonials = await payload.find({
+          async ({ draft, req }) => {
+            const testimonials = await req.payload.find({
               collection: 'testimonials',
-              draft: false,
+              draft,
               limit: 100,
+              req,
               select: {
                 // only select the id
               },
               sort: '_order',
               where: {
                 _status: {
-                  equals: 'published',
+                  in: draft ? ['draft', 'published'] : ['published'],
                 },
               },
             })

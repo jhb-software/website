@@ -12,3 +12,6 @@ allowBuilds:
   esbuild: true
   sharp: true
   unrs-resolver: true
+
+patchedDependencies:
+  '@payloadcms/plugin-mcp@3.85.0': patches/@payloadcms__plugin-mcp@3.85.0.patch
