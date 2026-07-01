@@ -3,6 +3,7 @@ import { PageCollectionConfig } from '@jhb.software/payload-pages-plugin'
 import { AboutBlock } from '@/blocks/AboutBlock'
 import { ArticlesBlock } from '@/blocks/ArticlesBlock'
 import { AuthorsBlock } from '@/blocks/AuthorsBlock'
+import { CallToActionBlock } from '@/blocks/CallToActionBlock'
 import { ContactBlock } from '@/blocks/ContactBlock'
 import { CustomerLogosBlock } from '@/blocks/CustomerLogosBlock'
 import { FeaturedProjectsListBlock } from '@/blocks/FeaturedProjectsList'
@@ -131,6 +132,7 @@ const Pages: PageCollectionConfig = {
             AboutBlock,
             PhilosophyBlock,
             ContactBlock,
+            CallToActionBlock,
           ],
           label: {
             de: 'Blöcke',

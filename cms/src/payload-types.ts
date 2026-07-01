@@ -260,6 +260,7 @@ export interface Page {
               | AboutBlock
               | PhilosophyBlock
               | ContactBlock
+              | CallToActionBlock
             )[]
           | null;
         id?: string | null;
@@ -729,6 +730,38 @@ export interface ContactBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CallToActionBlock".
+ */
+export interface CallToActionBlock {
+  title?: string | null;
+  description?: string | null;
+  links: {
+    label: string;
+    url: string;
+    icon?:
+      | (
+          | 'globe'
+          | 'spotify'
+          | 'youtube'
+          | 'apple-podcasts'
+          | 'github'
+          | 'linkedin'
+          | 'instagram'
+          | 'facebook'
+          | 'whatsapp'
+          | 'x'
+          | 'arrow-right'
+        )
+      | null;
+    style?: ('primary' | 'light' | 'text') | null;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'call-to-action';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1076,6 +1109,16 @@ export interface PayloadMcpApiKey {
      */
     update?: boolean | null;
   };
+  'payload-mcp-tool'?: {
+    /**
+     * Generate a branded 1920×1080 article thumbnail in the JHB corporate design (Geist typeface, hairline frame, tertiary corner marks, mono `\ EYEBROW`, JHB mark bottom-left). Uploads to the `images` collection and — when `articleId` is provided — sets it as the article's `image`. Theme `light` (default): white surface, primary title. Theme `dark`: primary-deep surface, surface title.
+     */
+    generateThumbnail?: boolean | null;
+    /**
+     * Get the frontend page URL for a page document by its collection and ID. Works for both published and draft (unpublished) pages. Returns a preview URL by default; set preview=false for the canonical public URL.
+     */
+    getPageUrl?: boolean | null;
+  };
   updatedAt: string;
   createdAt: string;
   enableAPIKey?: boolean | null;
@@ -1308,6 +1351,7 @@ export interface PagesSelect<T extends boolean = true> {
               about?: T | AboutBlockSelect<T>;
               philosophy?: T | PhilosophyBlockSelect<T>;
               contact?: T | ContactBlockSelect<T>;
+              'call-to-action'?: T | CallToActionBlockSelect<T>;
             };
         id?: T;
       };
@@ -1475,6 +1519,25 @@ export interface ContactBlockSelect<T extends boolean = true> {
     | {
         url?: T;
         icon?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CallToActionBlock_select".
+ */
+export interface CallToActionBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  links?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+        icon?: T;
+        style?: T;
         id?: T;
       };
   id?: T;
@@ -1870,6 +1933,12 @@ export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
     | {
         find?: T;
         update?: T;
+      };
+  'payload-mcp-tool'?:
+    | T
+    | {
+        generateThumbnail?: T;
+        getPageUrl?: T;
       };
   updatedAt?: T;
   createdAt?: T;
