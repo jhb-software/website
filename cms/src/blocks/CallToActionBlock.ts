@@ -84,8 +84,12 @@ export const CallToActionBlock: Block = {
               },
               label: 'URL',
               required: true,
-              validate: (value: unknown) =>
-                typeof value === 'string' && isValidURL(value) ? true : 'Invalid URL',
+              validate: (value: unknown, { required }: { required?: boolean }) => {
+                if (typeof value !== 'string' || value.length === 0) {
+                  return required ? 'URL is required' : true
+                }
+                return isValidURL(value) ? true : 'Invalid URL'
+              },
             },
           ],
         },
