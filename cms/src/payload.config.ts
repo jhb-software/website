@@ -65,6 +65,7 @@ import Header from './globals/Header'
 import Labels from './globals/Labels'
 import { mcpOverrideAuth } from './mcp/overrideAuth'
 import { listResources, readResource } from './mcp/resources'
+import { updateRichTextTool } from './mcp/tools/updateRichText'
 import { authenticated } from './shared/access/authenticated'
 import { CollectionGroups } from './shared/CollectionGroups'
 import { customTranslations } from './shared/customTranslations'
@@ -333,6 +334,10 @@ const mcpPluginConfig: MCPPluginConfig = {
         },
         name: 'getResources',
         parameters: getResourcesParameters as unknown as MCPToolParameters,
+      },
+      {
+        ...updateRichTextTool,
+        parameters: updateRichTextTool.parameters as unknown as MCPToolParameters,
       },
     ],
   },
