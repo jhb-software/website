@@ -1,5 +1,7 @@
 import { Block } from 'payload'
 
+import { isValidURL } from '@/utils/isValidURL'
+
 /**
  * Generic "heading + text + link buttons" section block. Use it for any promo
  * that points the visitor somewhere (podcast, newsletter, external profiles,
@@ -82,6 +84,8 @@ export const CallToActionBlock: Block = {
               },
               label: 'URL',
               required: true,
+              validate: (value: unknown) =>
+                typeof value === 'string' && isValidURL(value) ? true : 'Invalid URL',
             },
           ],
         },
