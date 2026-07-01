@@ -57,6 +57,7 @@ import { ChatViewServer as ChatViewServer_48b989653b39a67494f0d80b0f9fbeb0 } fro
 import { VercelDeploymentWidget as VercelDeploymentWidget_7f7b3eb7b26a673ca6c8271b81a390dc } from '@jhb.software/payload-vercel-deployments/client'
 import { AltTextHealthWidget as AltTextHealthWidget_a35949d21b38efe8500764b5b0b3638b } from '@jhb.software/payload-alt-text-plugin/server'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
+import { LexicalBlocksDiffComponent as LexicalBlocksDiffComponent_0c482b1b12baf3773720e95b2283a45d } from '../../../shared/lexical/LexicalBlocksDiffComponent'
 
 /** @type import('payload').ImportMap */
 export const importMap = {
@@ -118,5 +119,6 @@ export const importMap = {
   "@jhb.software/payload-chat-agent/server#ChatViewServer": ChatViewServer_48b989653b39a67494f0d80b0f9fbeb0,
   "@jhb.software/payload-vercel-deployments/client#VercelDeploymentWidget": VercelDeploymentWidget_7f7b3eb7b26a673ca6c8271b81a390dc,
   "@jhb.software/payload-alt-text-plugin/server#AltTextHealthWidget": AltTextHealthWidget_a35949d21b38efe8500764b5b0b3638b,
-  "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
+  "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1,
+  "/shared/lexical/LexicalBlocksDiffComponent#LexicalBlocksDiffComponent": LexicalBlocksDiffComponent_0c482b1b12baf3773720e95b2283a45d
 }
