@@ -334,6 +334,10 @@ export async function generateThumbnailCore(
       name: filename,
       size: buffer.length,
     },
+    // Enforce the `images` collection's access control against the request
+    // user (guaranteed present: REST returns 401 without one, MCP resolves it
+    // from the API key) instead of bypassing it with the default overrideAccess.
+    overrideAccess: false,
     req,
   })
 
@@ -346,6 +350,9 @@ export async function generateThumbnailCore(
         data: { image: image.id },
         draft: articleStatus === 'draft',
         id: input.articleId,
+        // Enforce the `articles` collection's access control against the
+        // request user rather than bypassing it with the default overrideAccess.
+        overrideAccess: false,
         req,
       })
     } catch (error) {
