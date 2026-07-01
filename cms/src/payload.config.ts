@@ -17,7 +17,7 @@ import { resendAdapter } from '@payloadcms/email-resend'
 import { mcpPlugin, type MCPPluginConfig } from '@payloadcms/plugin-mcp'
 import { searchPlugin } from '@payloadcms/plugin-search'
 import { seoPlugin } from '@payloadcms/plugin-seo'
-import { FixedToolbarFeature, lexicalEditor, LinkFeature } from '@payloadcms/richtext-lexical'
+import { FixedToolbarFeature, LinkFeature } from '@payloadcms/richtext-lexical'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { de } from '@payloadcms/translations/languages/de'
 import { en } from '@payloadcms/translations/languages/en'
@@ -68,6 +68,8 @@ import { listResources, readResource } from './mcp/resources'
 import { authenticated } from './shared/access/authenticated'
 import { CollectionGroups } from './shared/CollectionGroups'
 import { customTranslations } from './shared/customTranslations'
+import { DIFF_COMPONENT_PATH } from './shared/lexical/diffComponentPath'
+import { lexicalEditorWithBlockDiff } from './shared/lexical/plugin'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -391,13 +393,16 @@ export default buildConfig({
     allowIDOnCreate: true,
     url: process.env.MONGODB_URI!,
   }),
-  editor: lexicalEditor({
-    features: ({ defaultFeatures }) => [
-      ...defaultFeatures.filter((feature) => feature.key !== 'relationship'),
-      FixedToolbarFeature(),
-      LinkFeature({ enabledCollections: pageCollectionsSlugs }),
-    ],
-  }),
+  editor: lexicalEditorWithBlockDiff(
+    {
+      features: ({ defaultFeatures }) => [
+        ...defaultFeatures.filter((feature) => feature.key !== 'relationship'),
+        FixedToolbarFeature(),
+        LinkFeature({ enabledCollections: pageCollectionsSlugs }),
+      ],
+    },
+    { diffComponentPath: DIFF_COMPONENT_PATH },
+  ),
   email: resendAdapter({
     apiKey: process.env.RESEND_API_KEY!,
     defaultFromAddress: 'cms@jhb.software',
