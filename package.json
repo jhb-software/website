@@ -13,6 +13,9 @@
     "web/src/**/*.{ts,tsx,js,jsx,json,astro}": "pnpm --filter web exec prettier --write"
   },
   "pnpm": {
+    "patchedDependencies": {
+      "@payloadcms/plugin-mcp@3.85.0": "patches/@payloadcms__plugin-mcp@3.85.0.patch"
+    },
     "overrides": {
       "path-to-regexp@<6.3.0": "^6.3.0",
       "yaml@<2.8.3": ">=2.8.3",
